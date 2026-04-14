@@ -80,52 +80,117 @@ Collection of React hooks built on `@tanstack/react-query` for consuming public 
 ## Phase 2 — @api-hooks/gh
 
 > Depends on: `gh-api-client` + `@tanstack/react-query ^5`
+> `GitHubClient` requiere `token` — decidir estrategia de auth antes de implementar hooks.
 
-### 2.1 Confirm gh-api-client version
+### 2.1 Auth
 
-- [ ] Verify exact version of `gh-api-client` and pin it in `package.json`
-- [ ] Review available methods and map them to hooks
+- [ ] Decidir estrategia: token por context provider vs prop por hook
+- [ ] `src/context/GhClientProvider.tsx` — provee instancia de `GitHubClient` al árbol
 
 ### 2.2 Query key factory
 
-- [ ] `src/keys/ghQueryKeys.ts` — structured key factory
-  ```
-  ghKeys.user(login)
-  ghKeys.repo(owner, repo)
-  ghKeys.repos(owner, options)
-  ghKeys.issues(owner, repo, options)
-  ghKeys.pullRequests(owner, repo, options)
-  ghKeys.releases(owner, repo)
-  ghKeys.release(owner, repo, tag)
-  ```
+- [ ] `src/keys/ghQueryKeys.ts` — structured key factory para todos los recursos
 
-### 2.3 Hooks
+### 2.3 Hooks — queries
 
-- [ ] `src/hooks/useGhUser.ts` — GitHub user profile
-- [ ] `src/hooks/useGhRepo.ts` — single repository metadata
-- [ ] `src/hooks/useGhRepos.ts` — list repos for a user/org
-- [ ] `src/hooks/useGhIssues.ts` — list issues with filters
-- [ ] `src/hooks/useGhPullRequests.ts` — list pull requests with filters
-- [ ] `src/hooks/useGhReleases.ts` — list releases
-- [ ] `src/hooks/useGhRelease.ts` — single release by tag
+#### `gh.currentUser()` / `gh.user(login)` / `gh.org(name)`
 
-### 2.4 Auth support
+| Método del cliente | Retorna | Hook |
+|---|---|---|
+| `gh.currentUser()` | `GitHubUser` | `useGhCurrentUser()` |
+| `gh.user(login)` | `GitHubUser` | `useGhUser(login)` |
+| `gh.user(login).repos(params?)` | `Paged<GitHubRepository>` | `useGhUserRepos(login, params?)` |
+| `gh.user(login).following(params?)` | `Paged<GitHubUser>` | `useGhUserFollowing(login, params?)` |
+| `gh.user(login).followers(params?)` | `Paged<GitHubUser>` | `useGhUserFollowers(login, params?)` |
+| `gh.org(name)` | `GitHubOrganization` | `useGhOrg(name)` |
+| `gh.org(name).repos(params?)` | `Paged<GitHubRepository>` | `useGhOrgRepos(name, params?)` |
+| `gh.org(name).members(params?)` | `Paged<GitHubUser>` | `useGhOrgMembers(name, params?)` |
 
-- [ ] Decide auth strategy: token passed via hook options vs context provider
-- [ ] If context: `src/context/GhAuthProvider.tsx`
+#### `gh.repo(owner, name)` — repositorio
+
+| Método del cliente | Retorna | Hook |
+|---|---|---|
+| `gh.repo(owner, name)` | `GitHubRepository` | `useGhRepo(owner, name)` |
+| `gh.repo(owner, name).branches(params?)` | `Paged<GitHubBranch>` | `useGhBranches(owner, name, params?)` |
+| `gh.repo(owner, name).branch(branch)` | `GitHubBranch` | `useGhBranch(owner, name, branch)` |
+| `gh.repo(owner, name).tags(params?)` | `Paged<GitHubTag>` | `useGhTags(owner, name, params?)` |
+| `gh.repo(owner, name).topics()` | `string[]` | `useGhTopics(owner, name)` |
+| `gh.repo(owner, name).contributors(params?)` | `Paged<Contributor>` | `useGhContributors(owner, name, params?)` |
+| `gh.repo(owner, name).forks(params?)` | `Paged<GitHubRepository>` | `useGhForks(owner, name, params?)` |
+| `gh.repo(owner, name).contents(path?, params?)` | `GitHubContent \| GitHubContent[]` | `useGhContents(owner, name, path?, params?)` |
+| `gh.repo(owner, name).raw(filePath, params?)` | `string` | `useGhRaw(owner, name, filePath, params?)` |
+| `gh.repo(owner, name).webhooks(params?)` | `Paged<GitHubWebhook>` | `useGhWebhooks(owner, name, params?)` |
+
+#### `gh.repo(owner, name)` — releases
+
+| Método del cliente | Retorna | Hook |
+|---|---|---|
+| `gh.repo(owner, name).releases(params?)` | `Paged<GitHubRelease>` | `useGhReleases(owner, name, params?)` |
+| `gh.repo(owner, name).latestRelease()` | `GitHubRelease` | `useGhLatestRelease(owner, name)` |
+
+#### `gh.repo(owner, name)` — issues
+
+| Método del cliente | Retorna | Hook |
+|---|---|---|
+| `gh.repo(owner, name).issues(params?)` | `Paged<GitHubIssue>` | `useGhIssues(owner, name, params?)` |
+| `gh.repo(owner, name).issue(number)` | `GitHubIssue` | `useGhIssue(owner, name, number)` |
+| `gh.repo(owner, name).issue(number).comments(params?)` | `Paged<GitHubIssueComment>` | `useGhIssueComments(owner, name, number, params?)` |
+
+#### `gh.repo(owner, name)` — pull requests
+
+| Método del cliente | Retorna | Hook |
+|---|---|---|
+| `gh.repo(owner, name).pullRequests(params?)` | `Paged<GitHubPullRequest>` | `useGhPullRequests(owner, name, params?)` |
+| `gh.repo(owner, name).pullRequest(number)` | `GitHubPullRequest` | `useGhPullRequest(owner, name, number)` |
+| `gh.repo(owner, name).pullRequest(number).commits(params?)` | `Paged<GitHubCommit>` | `useGhPullRequestCommits(owner, name, number, params?)` |
+| `gh.repo(owner, name).pullRequest(number).files(params?)` | `Paged<GitHubPullRequestFile>` | `useGhPullRequestFiles(owner, name, number, params?)` |
+| `gh.repo(owner, name).pullRequest(number).reviews(params?)` | `Paged<GitHubReview>` | `useGhPullRequestReviews(owner, name, number, params?)` |
+| `gh.repo(owner, name).pullRequest(number).reviewComments(params?)` | `Paged<GitHubReviewComment>` | `useGhPullRequestReviewComments(owner, name, number, params?)` |
+| `gh.repo(owner, name).pullRequest(number).isMerged()` | `boolean` | `useGhPullRequestIsMerged(owner, name, number)` |
+
+#### `gh.repo(owner, name)` — commits
+
+| Método del cliente | Retorna | Hook |
+|---|---|---|
+| `gh.repo(owner, name).commits(params?)` | `Paged<GitHubCommit>` | `useGhCommits(owner, name, params?)` |
+| `gh.repo(owner, name).commit(ref)` | `GitHubCommit` | `useGhCommit(owner, name, ref)` |
+| `gh.repo(owner, name).commit(ref).statuses(params?)` | `Paged<GitHubCommitStatus>` | `useGhCommitStatuses(owner, name, ref, params?)` |
+| `gh.repo(owner, name).commit(ref).combinedStatus()` | `GitHubCombinedStatus` | `useGhCommitCombinedStatus(owner, name, ref)` |
+| `gh.repo(owner, name).commit(ref).checkRuns(params?)` | `Paged<GitHubCheckRun>` | `useGhCommitCheckRuns(owner, name, ref, params?)` |
+
+#### Search
+
+| Método del cliente | Retorna | Hook |
+|---|---|---|
+| `gh.searchRepos(params)` | `Paged<GitHubRepository>` | `useGhSearchRepos(params)` |
+
+### 2.4 Hooks — mutations (`useMutation`)
+
+| Método del cliente | Hook |
+|---|---|
+| `gh.org(name).createRepo(data)` | `useGhCreateOrgRepo(name)` |
+| `gh.repo(owner, name).createFork(data?)` | `useGhCreateFork(owner, name)` |
+| `gh.repo(owner, name).createIssue(data)` | `useGhCreateIssue(owner, name)` |
+| `gh.repo(owner, name).createWebhook(data)` | `useGhCreateWebhook(owner, name)` |
+| `gh.repo(owner, name).updateWebhook(hookId, data)` | `useGhUpdateWebhook(owner, name)` |
+| `gh.repo(owner, name).deleteWebhook(hookId)` | `useGhDeleteWebhook(owner, name)` |
+
+- [ ] Implementar cada hook de queries (uno por archivo en `src/hooks/`)
+- [ ] Implementar cada hook de mutations
 
 ### 2.5 Types
 
-- [ ] `src/types.ts` — hook-specific option types
+- [ ] `src/types.ts` — hook-specific option types (re-export desde `gh-api-client`)
 
 ### 2.6 Tests
 
-- [ ] Unit tests for each hook, mock `gh-api-client`
+- [ ] Unit tests para cada hook, mock `gh-api-client`
 - [ ] Coverage ≥ 80%
 
 ### 2.7 Build
 
-- [ ] Same dual ESM/CJS output as `@api-hooks/npm`
+- [ ] `vite build` — ESM con `preserveModules`, un archivo por hook
+- [ ] `npm run typecheck` sin errores
 
 ---
 
