@@ -1,0 +1,42 @@
+{
+  "name": "@api-hooks/gh",
+  "version": "0.0.1",
+  "description": "React hooks for the GitHub API, built on @tanstack/react-query",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": ["dist"],
+  "sideEffects": false,
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite build --watch",
+    "test": "jest --passWithNoTests",
+    "test:coverage": "jest --coverage --passWithNoTests",
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "@tanstack/react-query": "^5.0.0",
+    "react": ">=18.0.0"
+  },
+  "devDependencies": {
+    "@tanstack/react-query": "^5.0.0",
+    "@testing-library/react": "^16.0.0",
+    "gh-api-client": "latest",
+    "jest": "^30.0.0",
+    "jest-environment-jsdom": "^30.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "vite": "^8.0.8"
+  },
+  "dependencies": {
+    "gh-api-client": "latest"
+  }
+}
