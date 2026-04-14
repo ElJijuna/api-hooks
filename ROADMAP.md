@@ -21,8 +21,8 @@ Collection of React hooks built on `@tanstack/react-query` for consuming public 
 - [x] `.github/workflows/release.yml` (publish on `v*` tag)
 - [x] `packages/npm` skeleton (package.json / tsconfig / vite.config / jest.config / src stubs)
 - [x] `packages/gh` skeleton (package.json / tsconfig / vite.config / jest.config / src stubs)
-- [ ] `npm install` — verify workspace links resolve correctly
-- [ ] Confirm `npmjs-api-client@1.2.0` and `gh-api-client@1.2.0` types are available
+- [x] `npm install` — workspace links resueltos correctamente
+- [x] Versiones confirmadas: `npmjs-api-client@1.2.0` / `gh-api-client@1.2.0`
 - [ ] Commit initial structure
 
 ---
@@ -71,7 +71,7 @@ Collection of React hooks built on `@tanstack/react-query` for consuming public 
 
 ### 1.5 Build
 
-- [ ] `vite build` produces `dist/index.js` (ESM) + `dist/index.cjs` (CJS)
+- [ ] `vite build` — ESM con `preserveModules`, un archivo por hook (tree-shakeable)
 - [ ] `dist/index.d.ts` declaration file present
 - [ ] `npm run typecheck` passes with zero errors
 
@@ -84,8 +84,10 @@ Collection of React hooks built on `@tanstack/react-query` for consuming public 
 
 ### 2.1 Auth
 
-- [ ] Decidir estrategia: token por context provider vs prop por hook
-- [ ] `src/context/GhClientProvider.tsx` — provee instancia de `GitHubClient` al árbol
+- [ ] **DECISIÓN:** estrategia de auth — token por context provider vs prop por hook
+  - Opción A — context provider: `src/context/GhClientProvider.tsx` provee instancia de `GitHubClient`
+  - Opción B — prop por hook: cada hook recibe `{ token }` y crea su propio cliente
+- [ ] Implementar según decisión anterior
 
 ### 2.2 Query key factory
 
