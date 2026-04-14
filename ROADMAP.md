@@ -44,21 +44,21 @@ Collection of React hooks built on `@tanstack/react-query` for consuming public 
 
 ### 1.2 Hooks
 
-- [ ] `src/hooks/useNpmPackage.ts`
-  - Wraps `npmjs-api-client` package lookup
-  - Returns full package metadata
-  - Accepts standard `UseQueryOptions` overrides
+| Método del cliente | Retorna | Hook |
+|---|---|---|
+| `npm.package(name)` | `NpmPackument` | `useNpmPackage(name)` |
+| `npm.package(name).version(ver)` | `NpmPackageVersion` | `useNpmPackageVersion(name, version)` |
+| `npm.package(name).latest()` | `NpmPackageVersion` | `useNpmPackageLatest(name)` |
+| `npm.package(name).versions()` | `NpmPackageVersion[]` | `useNpmPackageVersions(name)` |
+| `npm.package(name).maintainers()` | `NpmPerson[]` | `useNpmPackageMaintainers(name)` |
+| `npm.package(name).distTags()` | `NpmDistTags` | `useNpmDistTags(name)` |
+| `npm.package(name).downloads(period?)` | `NpmDownloadPoint` | `useNpmDownloads(name, period?)` |
+| `npm.package(name).downloadRange(period?)` | `NpmDownloadRange` | `useNpmDownloadRange(name, period?)` |
+| `npm.search(params)` | `NpmSearchResult` | `useNpmSearch(params)` |
+| `npm.maintainer(username).info()` | `NpmUser` | `useNpmMaintainer(username)` |
+| `npm.maintainer(username).packages(params?)` | `NpmSearchResult` | `useNpmMaintainerPackages(username, params?)` |
 
-- [ ] `src/hooks/useNpmPackageVersions.ts`
-  - Returns all published versions and `dist-tags`
-
-- [ ] `src/hooks/useNpmSearch.ts`
-  - Accepts `query`, `size`, `from`
-  - Returns search result list + total
-
-- [ ] `src/hooks/useNpmDownloads.ts`
-  - Accepts `packageName`, `period: NpmDownloadPeriod`
-  - Periods: `last-day | last-week | last-month | last-year`
+- [ ] Implementar cada hook de la tabla (uno por archivo en `src/hooks/`)
 
 ### 1.3 Types
 

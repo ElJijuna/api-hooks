@@ -1,22 +1,23 @@
 import { defineConfig } from 'vite';
-import { resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { generateEntries } from 'vite-magic-tree-shaking';
+
+const __dirname = fileURLToPath(new URL('.', import.meta.url));
+
+const external = ['react', 'react/jsx-runtime', '@tanstack/react-query', 'gh-api-client'];
 
 export default defineConfig({
   build: {
     lib: {
-      entry: resolve(__dirname, 'src/index.ts'),
-      name: 'ApiHooksGh',
-      fileName: 'index',
-      formats: ['es', 'cjs'],
+      entry: generateEntries(__dirname),
+      formats: ['es'],
+      fileName: (_, entryName) => `${entryName}.js`,
     },
     rollupOptions: {
-      external: ['react', 'react/jsx-runtime', '@tanstack/react-query', 'gh-api-client'],
+      external,
       output: {
-        globals: {
-          react: 'React',
-          '@tanstack/react-query': 'ReactQuery',
-          'gh-api-client': 'GhApiClient',
-        },
+        preserveModules: true,
+        preserveModulesRoot: 'src',
       },
     },
     sourcemap: true,
