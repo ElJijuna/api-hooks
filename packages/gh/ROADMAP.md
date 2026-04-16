@@ -8,7 +8,7 @@ Hooks built on [`gh-api-client`](https://www.npmjs.com/package/gh-api-client) + 
 
 | Hook | Client method | Returns |
 | ---- | ------------- | ------- |
-| [`useGhUser(login)`](https://github.com/ElJijuna/api-hooks/issues/19) | `gh.user(login).get()` | `GitHubUser` |
+| ✅ [`useGhUser(login)`](https://github.com/ElJijuna/api-hooks/issues/19) | `gh.user(login).get()` | `GitHubUser` |
 | [`useGhUserRepos(login, params?)`](https://github.com/ElJijuna/api-hooks/issues/18) | `gh.user(login).repos(params)` | `GitHubPagedResponse<GitHubRepository>` |
 
 ## Repository hooks
