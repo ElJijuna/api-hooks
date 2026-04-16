@@ -1,3 +1,9 @@
+## [1.1.0](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/gh@1.0.0...@api-hooks/gh@1.1.0) (2026-04-16)
+
+### Features
+
+* implement useNpmMaintainer ([#9](https://github.com/ElJijuna/api-hooks/issues/9)) ([14cf2f4](https://github.com/ElJijuna/api-hooks/commit/14cf2f4412022312c181591d880f05ac016397b8))
+
 ## 1.0.0 (2026-04-16)
 
 ### Features
