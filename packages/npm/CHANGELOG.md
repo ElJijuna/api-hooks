@@ -1,3 +1,14 @@
+## [1.2.0](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/npm@1.1.0...@api-hooks/npm@1.2.0) (2026-04-16)
+
+### Features
+
+* implement useNpmMaintainerPackages ([#10](https://github.com/ElJijuna/api-hooks/issues/10)) ([721005d](https://github.com/ElJijuna/api-hooks/commit/721005d10f32831430c9558fcfbf57e0b6044990))
+* implement useNpmSearch — completes @api-hooks/npm ([#11](https://github.com/ElJijuna/api-hooks/issues/11)) ([019709e](https://github.com/ElJijuna/api-hooks/commit/019709e16775d5539e5e24df113c4b1c8e401871))
+
+### Documentation
+
+* add REAME. ([1a1bc01](https://github.com/ElJijuna/api-hooks/commit/1a1bc01b74cef019c3bdf9fcf050a89b9a056e19))
+
 ## [1.1.0](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/npm@1.0.0...@api-hooks/npm@1.1.0) (2026-04-16)
 
 ### Features
