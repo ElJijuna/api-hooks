@@ -3,9 +3,15 @@
 // - npmjs-api-client (https://www.npmjs.com/package/npmjs-api-client)
 // - @tanstack/react-query
 
-// TODO: export hooks once implemented
-// export * from './hooks/useNpmPackage';
+export * from './hooks/useNpmPackage.js';
+// export * from './hooks/useNpmPackageVersion';
+// export * from './hooks/useNpmPackageLatest';
 // export * from './hooks/useNpmPackageVersions';
+// export * from './hooks/useNpmPackageDistTags';
+// export * from './hooks/useNpmPackageMaintainers';
+// export * from './hooks/useNpmPackageDownloads';
+// export * from './hooks/useNpmPackageDownloadRange';
+// export * from './hooks/useNpmMaintainer';
+// export * from './hooks/useNpmMaintainerPackages';
 // export * from './hooks/useNpmSearch';
-// export * from './hooks/useNpmDownloads';
-// export * from './keys/npmQueryKeys';
+export * from './keys/npmQueryKeys.js';
