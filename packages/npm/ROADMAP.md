@@ -28,4 +28,4 @@ Hooks built on [`npmjs-api-client`](https://www.npmjs.com/package/npmjs-api-clie
 
 | Hook | Client method | Returns |
 | ---- | ------------- | ------- |
-| `useNpmSearch(params)` | `npm.search(params)` | `NpmSearchResult` |
+| ✅ [`useNpmSearch(text, options?)`](https://github.com/ElJijuna/api-hooks/issues/11) | `npm.search(params)` | `NpmSearchResult` |

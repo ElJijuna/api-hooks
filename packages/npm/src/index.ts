@@ -13,5 +13,5 @@ export * from './hooks/useNpmPackageDownloads.js';
 export * from './hooks/useNpmPackageDownloadRange.js';
 export * from './hooks/useNpmMaintainer.js';
 export * from './hooks/useNpmMaintainerPackages.js';
-// export * from './hooks/useNpmSearch';
+export * from './hooks/useNpmSearch.js';
 export * from './keys/npmQueryKeys.js';

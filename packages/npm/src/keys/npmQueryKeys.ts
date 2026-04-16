@@ -16,4 +16,6 @@ export const npmQueryKeys = {
     ['npm', 'maintainer', username] as const,
   maintainerPackages: (username: string, params?: object) =>
     ['npm', 'maintainer', username, 'packages', params] as const,
+  search: (params: object) =>
+    ['npm', 'search', params] as const,
 } as const;
