@@ -9,7 +9,7 @@ export * from './hooks/useNpmPackageLatest.js';
 export * from './hooks/useNpmPackageVersions.js';
 export * from './hooks/useNpmPackageDistTags.js';
 export * from './hooks/useNpmPackageMaintainers.js';
-// export * from './hooks/useNpmPackageDownloads';
+export * from './hooks/useNpmPackageDownloads.js';
 // export * from './hooks/useNpmPackageDownloadRange';
 // export * from './hooks/useNpmMaintainer';
 // export * from './hooks/useNpmMaintainerPackages';
