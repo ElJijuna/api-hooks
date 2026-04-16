@@ -1,8 +1,15 @@
 {
   "name": "@api-hooks/gh",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "React hooks for the GitHub API, built on @tanstack/react-query",
-  "keywords": ["react", "hooks", "github", "api", "react-query", "tanstack"],
+  "keywords": [
+    "react",
+    "hooks",
+    "github",
+    "api",
+    "react-query",
+    "tanstack"
+  ],
   "license": "MIT",
   "homepage": "https://github.com/ElJijuna/api-hooks#readme",
   "repository": {
