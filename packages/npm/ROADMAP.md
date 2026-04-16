@@ -22,7 +22,7 @@ Hooks built on [`npmjs-api-client`](https://www.npmjs.com/package/npmjs-api-clie
 | Hook | Client method | Returns |
 | ---- | ------------- | ------- |
 | ✅ [`useNpmMaintainer(username)`](https://github.com/ElJijuna/api-hooks/issues/9) | `npm.maintainer(username).info()` | `NpmUser` |
-| `useNpmMaintainerPackages(username, params?)` | `npm.maintainer(username).packages(params)` | `NpmSearchResult` |
+| ✅ [`useNpmMaintainerPackages(username, params?)`](https://github.com/ElJijuna/api-hooks/issues/10) | `npm.maintainer(username).packages(params)` | `NpmSearchResult` |
 
 ## Search hooks
 
