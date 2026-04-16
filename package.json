@@ -21,6 +21,7 @@
     "@swc/jest": "^0.2.37",
     "@types/node": "^22.0.0",
     "@types/react": "^19.0.0",
+    "ts-node": "^10.9.2",
     "typescript": "^5.7.0"
   },
   "engines": {
