@@ -4,7 +4,7 @@
 // - @tanstack/react-query
 
 export * from './hooks/useNpmPackage.js';
-// export * from './hooks/useNpmPackageVersion';
+export * from './hooks/useNpmPackageVersion.js';
 // export * from './hooks/useNpmPackageLatest';
 // export * from './hooks/useNpmPackageVersions';
 // export * from './hooks/useNpmPackageDistTags';

@@ -9,7 +9,7 @@ Hooks built on [`npmjs-api-client`](https://www.npmjs.com/package/npmjs-api-clie
 | Hook | Client method | Returns |
 |------|--------------|---------|
 | ✅ [`useNpmPackage(name)`](https://github.com/ElJijuna/api-hooks/issues/1) | `npm.package(name).get()` | `NpmPackument` |
-| `useNpmPackageVersion(name, version)` | `npm.package(name).version(ver).get()` | `NpmPackageVersion` |
+| ✅ [`useNpmPackageVersion(name, version)`](https://github.com/ElJijuna/api-hooks/issues/2) | `npm.package(name).version(ver).get()` | `NpmPackageVersion` |
 | `useNpmPackageLatest(name)` | `npm.package(name).latest().get()` | `NpmPackageVersion` |
 | `useNpmPackageVersions(name)` | `npm.package(name).versions()` | `NpmPackageVersion[]` |
 | `useNpmPackageDistTags(name)` | `npm.package(name).distTags()` | `NpmDistTags` |
