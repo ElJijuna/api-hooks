@@ -1,3 +1,9 @@
+## [1.3.0](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/gh@1.2.0...@api-hooks/gh@1.3.0) (2026-04-16)
+
+### Features
+
+* implement useGhUser with signal support ([#19](https://github.com/ElJijuna/api-hooks/issues/19)) ([3f82d7a](https://github.com/ElJijuna/api-hooks/commit/3f82d7a9a5e1a167d17a89b7bf4140411f9d2a22))
+
 ## [1.2.0](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/gh@1.1.0...@api-hooks/gh@1.2.0) (2026-04-16)
 
 ### Features
