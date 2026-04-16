@@ -15,7 +15,7 @@ Hooks built on [`npmjs-api-client`](https://www.npmjs.com/package/npmjs-api-clie
 | ✅ [`useNpmPackageDistTags(name)`](https://github.com/ElJijuna/api-hooks/issues/5) | `npm.package(name).distTags()` | `NpmDistTags` |
 | ✅ [`useNpmPackageMaintainers(name)`](https://github.com/ElJijuna/api-hooks/issues/6) | `npm.package(name).maintainers()` | `NpmPerson[]` |
 | ✅ [`useNpmPackageDownloads(name, period?)`](https://github.com/ElJijuna/api-hooks/issues/7) | `npm.package(name).downloads(period)` | `NpmDownloadPoint` |
-| `useNpmPackageDownloadRange(name, period?)` | `npm.package(name).downloadRange(period)` | `NpmDownloadRange` |
+| ✅ [`useNpmPackageDownloadRange(name, period?)`](https://github.com/ElJijuna/api-hooks/issues/8) | `npm.package(name).downloadRange(period)` | `NpmDownloadRange` |
 
 ## Maintainer / user hooks
 
