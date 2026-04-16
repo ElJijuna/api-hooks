@@ -5,7 +5,7 @@
 
 export * from './hooks/useNpmPackage.js';
 export * from './hooks/useNpmPackageVersion.js';
-// export * from './hooks/useNpmPackageLatest';
+export * from './hooks/useNpmPackageLatest.js';
 // export * from './hooks/useNpmPackageVersions';
 // export * from './hooks/useNpmPackageDistTags';
 // export * from './hooks/useNpmPackageMaintainers';
