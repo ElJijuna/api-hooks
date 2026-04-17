@@ -1,3 +1,16 @@
+## [1.6.0](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/npm@1.5.0...@api-hooks/npm@1.6.0) (2026-04-17)
+
+### Features
+
+* **@api-hooks/gh:** add useGhCreateGist mutation hook (closes [#62](https://github.com/ElJijuna/api-hooks/issues/62)) ([16b61b2](https://github.com/ElJijuna/api-hooks/commit/16b61b23572696348d767f9ac1b395734b6afa40))
+* **@api-hooks/gh:** add useGhDeleteGist mutation hook (closes [#64](https://github.com/ElJijuna/api-hooks/issues/64)) ([51462ef](https://github.com/ElJijuna/api-hooks/commit/51462ef3d7d36381a30faa7699b1e6f394fadc1d))
+* **@api-hooks/gh:** add useGhGist hook (closes [#57](https://github.com/ElJijuna/api-hooks/issues/57)) ([34c0421](https://github.com/ElJijuna/api-hooks/commit/34c042124c6ad9e1fb5703e72422ff6d6ce55f6f))
+* **@api-hooks/gh:** add useGhUpdateGist mutation hook closes [#63](https://github.com/ElJijuna/api-hooks/issues/63) ([4f22e79](https://github.com/ElJijuna/api-hooks/commit/4f22e79edf021c99a7bb4e74bcfba19b377291e4))
+
+### Documentation
+
+* update README and ROADMAP. ([5e443a9](https://github.com/ElJijuna/api-hooks/commit/5e443a9d5b637b85a2070cd7dc74e4c2a94f0796))
+
 ## [1.5.0](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/npm@1.4.0...@api-hooks/npm@1.5.0) (2026-04-17)
 
 ### Features
