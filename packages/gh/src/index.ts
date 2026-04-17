@@ -6,6 +6,7 @@
 export * from './hooks/useGhUser.js';
 export * from './hooks/useGhGist.js';
 export * from './hooks/useGhCreateGist.js';
+export * from './hooks/useGhUpdateGist.js';
 // export * from './hooks/useGhUserRepos';
 // export * from './hooks/useGhRepo';
 // export * from './hooks/useGhRepoCommits';
