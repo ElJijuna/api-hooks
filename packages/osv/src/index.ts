@@ -7,3 +7,4 @@ export * from './hooks/useOsvVuln.js';
 export * from './hooks/useOsvQuery.js';
 export * from './hooks/useOsvQueryBatch.js';
 export * from './keys/osvQueryKeys.js';
+export * from './types.js';
