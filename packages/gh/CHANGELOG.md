@@ -1,3 +1,12 @@
+## [1.4.0](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/gh@1.3.0...@api-hooks/gh@1.4.0) (2026-04-17)
+
+### Features
+
+* **bp:** implement useBpPackageHistory ([#50](https://github.com/ElJijuna/api-hooks/issues/50)) ([7b3ea2c](https://github.com/ElJijuna/api-hooks/commit/7b3ea2cd083b32fa40c0509652bdbacb39bc5cfa))
+* **bp:** implement useBpPackageSimilar ([#51](https://github.com/ElJijuna/api-hooks/issues/51)) ([33ea4ba](https://github.com/ElJijuna/api-hooks/commit/33ea4ba4dff96d79a0053ddac90b20fa9bdfcd25))
+* **bp:** scaffold @api-hooks/bp package and implement useBpPackageSize ([#48](https://github.com/ElJijuna/api-hooks/issues/48)) ([048bf75](https://github.com/ElJijuna/api-hooks/commit/048bf75044a6ddc5bc0f86fa45af338e749dea9b))
+* implement useBpPackageVersionSize ([#49](https://github.com/ElJijuna/api-hooks/issues/49)) ([9b56796](https://github.com/ElJijuna/api-hooks/commit/9b56796d793e9441dccf2932517a3c95a519ee93))
+
 ## [1.3.0](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/gh@1.2.0...@api-hooks/gh@1.3.0) (2026-04-16)
 
 ### Features
