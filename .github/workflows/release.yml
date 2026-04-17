@@ -42,6 +42,7 @@ jobs:
             packages/npm/dist/
             packages/gh/dist/
             packages/bp/dist/
+            packages/osv/dist/
 
   # ── 2a. Release @api-hooks/npm ────────────────────────────────────────────
   release-npm:
@@ -133,6 +134,38 @@ jobs:
 
       - name: Release
         working-directory: packages/bp
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npx semantic-release
+
+  # ── 2d. Release @api-hooks/osv ────────────────────────────────────────────
+  release-osv:
+    name: Release @api-hooks/osv
+    needs: release-bp
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+          ref: main
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: .
+
+      - name: Release
+        working-directory: packages/osv
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
