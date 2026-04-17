@@ -67,3 +67,28 @@ Hooks built on [`gh-api-client`](https://www.npmjs.com/package/gh-api-client) + 
 | Hook | Client method | Returns |
 | ---- | ------------- | ------- |
 | [`useGhSearchRepos(q, params?)`](https://github.com/ElJijuna/api-hooks/issues/46) | `gh.searchRepos({ q, ...params })` | `GitHubPagedResponse<GitHubRepository>` |
+
+## Gist hooks — queries
+
+| Hook | Client method | Returns |
+| ---- | ------------- | ------- |
+| [`useGhGists(params?)`](https://github.com/ElJijuna/api-hooks/issues/56) | `client.listGists(params?)` | `GitHubPagedResponse<GitHubGist>` |
+| [`useGhGist(gistId)`](https://github.com/ElJijuna/api-hooks/issues/57) | `client.gist(gistId).get()` | `GitHubGist` |
+| [`useGhGistCommits(gistId, params?)`](https://github.com/ElJijuna/api-hooks/issues/58) | `client.gist(gistId).commits(params?)` | `GitHubPagedResponse<GistCommit>` |
+| [`useGhGistForks(gistId, params?)`](https://github.com/ElJijuna/api-hooks/issues/59) | `client.gist(gistId).forks(params?)` | `GitHubPagedResponse<GistFork>` |
+| [`useGhGistComments(gistId, params?)`](https://github.com/ElJijuna/api-hooks/issues/60) | `client.gist(gistId).comments(params?)` | `GitHubPagedResponse<GistComment>` |
+| [`useGhGistIsStarred(gistId)`](https://github.com/ElJijuna/api-hooks/issues/61) | `client.gist(gistId).isStarred()` | `boolean` |
+
+## Gist hooks — mutations
+
+| Hook | Client method | Returns |
+| ---- | ------------- | ------- |
+| [`useGhCreateGist()`](https://github.com/ElJijuna/api-hooks/issues/62) | `client.createGist(data)` | `GitHubGist` |
+| [`useGhUpdateGist(gistId)`](https://github.com/ElJijuna/api-hooks/issues/63) | `client.gist(gistId).update(data)` | `GitHubGist` |
+| [`useGhDeleteGist(gistId)`](https://github.com/ElJijuna/api-hooks/issues/64) | `client.gist(gistId).delete()` | `void` |
+| [`useGhForkGist(gistId)`](https://github.com/ElJijuna/api-hooks/issues/65) | `client.gist(gistId).fork()` | `GitHubGist` |
+| [`useGhStarGist(gistId)`](https://github.com/ElJijuna/api-hooks/issues/66) | `client.gist(gistId).star()` | `void` |
+| [`useGhUnstarGist(gistId)`](https://github.com/ElJijuna/api-hooks/issues/66) | `client.gist(gistId).unstar()` | `void` |
+| [`useGhAddGistComment(gistId)`](https://github.com/ElJijuna/api-hooks/issues/67) | `client.gist(gistId).addComment(data)` | `GistComment` |
+| [`useGhUpdateGistComment(gistId)`](https://github.com/ElJijuna/api-hooks/issues/67) | `client.gist(gistId).updateComment(commentId, data)` | `GistComment` |
+| [`useGhDeleteGistComment(gistId)`](https://github.com/ElJijuna/api-hooks/issues/67) | `client.gist(gistId).deleteComment(commentId)` | `void` |

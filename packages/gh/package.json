@@ -58,13 +58,13 @@
   "devDependencies": {
     "@tanstack/react-query": "^5.0.0",
     "@testing-library/react": "^16.0.0",
-    "gh-api-client": "^1.4.0",
+    "gh-api-client": "^1.5.1",
     "jest": "^30.0.0",
     "jest-environment-jsdom": "^30.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "vite": "^8.0.8",
     "typedoc": "^0.28.0",
+    "vite": "^8.0.8",
     "vite-magic-tree-shaking": "^1.0.0"
   }
 }
