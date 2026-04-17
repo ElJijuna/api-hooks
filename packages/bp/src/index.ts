@@ -5,6 +5,6 @@
 
 export * from './hooks/useBpPackageSize.js';
 export * from './hooks/useBpPackageVersionSize.js';
-// export * from './hooks/useBpPackageHistory';
+export * from './hooks/useBpPackageHistory.js';
 // export * from './hooks/useBpPackageSimilar';
 export * from './keys/bpQueryKeys.js';
