@@ -107,6 +107,33 @@ All hooks return a [`UseQueryResult`](https://tanstack.com/query/latest/docs/fra
 | ---- | ----------- | ------- |
 | [`useGhSearchRepos(q, params?)`](#useghsearchreposq-params) | Search repositories | `GitHubPagedResponse<GitHubRepository>` |
 
+### Gist hooks — queries
+
+| Hook | Description | Returns |
+| ---- | ----------- | ------- |
+| [`useGhGists(params?)`](#useghgistsparams) | List authenticated user's gists | `GitHubPagedResponse<GitHubGist>` |
+| [`useGhGist(gistId)`](#useghgistgistid) | Single gist by ID | `GitHubGist` |
+| [`useGhGistCommits(gistId, params?)`](#useghgistcommitsgistid-params) | Commit history of a gist | `GitHubPagedResponse<GistCommit>` |
+| [`useGhGistForks(gistId, params?)`](#useghgistforksgistid-params) | Forks of a gist | `GitHubPagedResponse<GistFork>` |
+| [`useGhGistComments(gistId, params?)`](#useghgistcommentsgistid-params) | Comments on a gist | `GitHubPagedResponse<GistComment>` |
+| [`useGhGistIsStarred(gistId)`](#useghgistisstarredgistid) | Whether the authenticated user starred a gist | `boolean` |
+
+### Gist hooks — mutations
+
+All mutation hooks return a [`UseMutationResult`](https://tanstack.com/query/latest/docs/framework/react/reference/useMutation).
+
+| Hook | Description | Returns |
+| ---- | ----------- | ------- |
+| [`useGhCreateGist()`](#useghcreategist) | Create a new gist | `GitHubGist` |
+| [`useGhUpdateGist(gistId)`](#useghupgategistgistid) | Update an existing gist | `GitHubGist` |
+| [`useGhDeleteGist(gistId)`](#useghdeletegistgistid) | Delete a gist | `void` |
+| [`useGhForkGist(gistId)`](#useghforkgistgistid) | Fork a gist | `GitHubGist` |
+| [`useGhStarGist(gistId)`](#useghstargistgistid) | Star a gist | `void` |
+| [`useGhUnstarGist(gistId)`](#useghunstargistgistid) | Unstar a gist | `void` |
+| [`useGhAddGistComment(gistId)`](#useghaddgistcommentgistid) | Add a comment to a gist | `GistComment` |
+| [`useGhUpdateGistComment(gistId)`](#useghupgategistcommentgistid) | Update a gist comment | `GistComment` |
+| [`useGhDeleteGistComment(gistId)`](#useghdeletegistcommentgistid) | Delete a gist comment | `void` |
+
 ---
 
 ## API Reference
@@ -305,6 +332,169 @@ function UserCard({ login }: { login: string }) {
 ### `useGhSearchRepos(q, params?)`
 
 > Coming soon — tracked in [#46](https://github.com/ElJijuna/api-hooks/issues/46)
+
+---
+
+### `useGhGists(params?)`
+
+> Coming soon — tracked in [#56](https://github.com/ElJijuna/api-hooks/issues/56)
+
+---
+
+### `useGhGist(gistId)`
+
+Fetches a single gist by ID.
+
+```tsx
+import { useGhGist } from '@api-hooks/gh';
+
+function GistViewer({ gistId }: { gistId: string }) {
+  const { data, isLoading, isError } = useGhGist(gistId);
+
+  if (isLoading) return <p>Loading…</p>;
+  if (isError) return <p>Gist not found.</p>;
+
+  return (
+    <div>
+      <h2>{data.description ?? gistId}</h2>
+      <a href={data.html_url}>View on GitHub</a>
+    </div>
+  );
+}
+```
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query (also disabled when `gistId` is empty) |
+
+---
+
+### `useGhGistCommits(gistId, params?)`
+
+> Coming soon — tracked in [#58](https://github.com/ElJijuna/api-hooks/issues/58)
+
+---
+
+### `useGhGistForks(gistId, params?)`
+
+> Coming soon — tracked in [#59](https://github.com/ElJijuna/api-hooks/issues/59)
+
+---
+
+### `useGhGistComments(gistId, params?)`
+
+> Coming soon — tracked in [#60](https://github.com/ElJijuna/api-hooks/issues/60)
+
+---
+
+### `useGhGistIsStarred(gistId)`
+
+> Coming soon — tracked in [#61](https://github.com/ElJijuna/api-hooks/issues/61)
+
+---
+
+### `useGhCreateGist()`
+
+Creates a new gist.
+
+```tsx
+import { useGhCreateGist } from '@api-hooks/gh';
+
+function NewGistForm() {
+  const { mutate, isPending, isSuccess, data } = useGhCreateGist();
+
+  const handleSubmit = () => {
+    mutate({
+      files: { 'hello.txt': { content: 'Hello, world!' } },
+      description: 'My gist',
+      public: true,
+    });
+  };
+
+  if (isSuccess) return <a href={data.html_url}>Gist created</a>;
+
+  return <button onClick={handleSubmit} disabled={isPending}>Create</button>;
+}
+```
+
+---
+
+### `useGhUpdateGist(gistId)`
+
+Updates an existing gist.
+
+```tsx
+import { useGhUpdateGist } from '@api-hooks/gh';
+
+function EditGist({ gistId }: { gistId: string }) {
+  const { mutate, isPending } = useGhUpdateGist(gistId);
+
+  return (
+    <button
+      onClick={() => mutate({ description: 'Updated description' })}
+      disabled={isPending}
+    >
+      Save
+    </button>
+  );
+}
+```
+
+---
+
+### `useGhDeleteGist(gistId)`
+
+Deletes a gist.
+
+```tsx
+import { useGhDeleteGist } from '@api-hooks/gh';
+
+function DeleteButton({ gistId }: { gistId: string }) {
+  const { mutate, isPending } = useGhDeleteGist(gistId);
+
+  return (
+    <button onClick={() => mutate()} disabled={isPending}>
+      Delete
+    </button>
+  );
+}
+```
+
+---
+
+### `useGhForkGist(gistId)`
+
+> Coming soon — tracked in [#65](https://github.com/ElJijuna/api-hooks/issues/65)
+
+---
+
+### `useGhStarGist(gistId)`
+
+> Coming soon — tracked in [#66](https://github.com/ElJijuna/api-hooks/issues/66)
+
+---
+
+### `useGhUnstarGist(gistId)`
+
+> Coming soon — tracked in [#66](https://github.com/ElJijuna/api-hooks/issues/66)
+
+---
+
+### `useGhAddGistComment(gistId)`
+
+> Coming soon — tracked in [#67](https://github.com/ElJijuna/api-hooks/issues/67)
+
+---
+
+### `useGhUpdateGistComment(gistId)`
+
+> Coming soon — tracked in [#67](https://github.com/ElJijuna/api-hooks/issues/67)
+
+---
+
+### `useGhDeleteGistComment(gistId)`
+
+> Coming soon — tracked in [#67](https://github.com/ElJijuna/api-hooks/issues/67)
 
 ---
 
