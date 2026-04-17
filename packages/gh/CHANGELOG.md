@@ -1,3 +1,13 @@
+## [1.5.0](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/gh@1.4.0...@api-hooks/gh@1.5.0) (2026-04-17)
+
+### Features
+
+* add typedoc, update .gitignore and add .npmignore per package ([#55](https://github.com/ElJijuna/api-hooks/issues/55)) ([8b65d57](https://github.com/ElJijuna/api-hooks/commit/8b65d577d7afdf8a99079088c0f7347d5662e18e))
+
+### Documentation
+
+* add README ([8cd657c](https://github.com/ElJijuna/api-hooks/commit/8cd657c4f1c09361e3b8ae7755eac716455c5740))
+
 ## [1.4.0](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/gh@1.3.0...@api-hooks/gh@1.4.0) (2026-04-17)
 
 ### Features
