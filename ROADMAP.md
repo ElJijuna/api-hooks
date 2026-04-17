@@ -7,6 +7,7 @@ Collection of React hooks built on `@tanstack/react-query` for consuming public 
 |---|---|---|
 | `@api-hooks/npm` | `npmjs-api-client@^1.2.0` | skeleton |
 | `@api-hooks/gh` | `gh-api-client` | skeleton |
+| `@api-hooks/osv` | `osv-api-client@^1.0.0` | planned |
 
 ---
 
@@ -215,6 +216,48 @@ Collection of React hooks built on `@tanstack/react-query` for consuming public 
 - [ ] Configure `NPM_TOKEN` secret in GitHub repo settings
 - [ ] Tag `v0.1.0` and verify release workflow publishes both packages
 - [ ] Add npm badges to README
+
+---
+
+## Phase 5 — @api-hooks/osv
+
+> Depends on: `osv-api-client@^1.0.0` + `@tanstack/react-query ^5`
+> Wraps the [OSV (Open Source Vulnerabilities)](https://osv.dev) REST API.
+
+### 5.1 Package skeleton (#69)
+
+- [ ] `packages/osv` skeleton (package.json / tsconfig / vite.config / jest.config / src stubs)
+
+### 5.2 Query key factory (#70)
+
+- [ ] `src/keys/osvQueryKeys.ts` — structured key factory
+  ```
+  osvKeys.vuln(id)
+  osvKeys.query(params)
+  osvKeys.queryBatch(queries)
+  ```
+
+### 5.3 Hooks (#71, #72, #73)
+
+| Client method | Returns | Hook |
+|---|---|---|
+| `osv.vuln(id)` | `OsvVulnerability` | `useOsvVuln(id)` |
+| `osv.query(params)` | `OsvQueryResult` | `useOsvQuery(params)` |
+| `osv.queryBatch(queries)` | `OsvBatchQueryResult` | `useOsvQueryBatch(queries)` |
+
+### 5.4 Types (#74)
+
+- [ ] `src/types.ts` — hook-specific option types (re-export from `osv-api-client`)
+
+### 5.5 Tests (#75)
+
+- [ ] Unit tests for each hook, mock `osv-api-client`
+- [ ] Coverage ≥ 80%
+
+### 5.6 Build (#76)
+
+- [ ] `vite build` — ESM con `preserveModules`, un archivo por hook
+- [ ] `npm run typecheck` sin errores
 
 ---
 
