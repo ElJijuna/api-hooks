@@ -1,3 +1,14 @@
+## [1.7.0](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/npm@1.6.0...@api-hooks/npm@1.7.0) (2026-04-17)
+
+### Features
+
+* **@api-hooks/osv:** add osvQueryKeys factory (closes [#70](https://github.com/ElJijuna/api-hooks/issues/70)) ([0d7595f](https://github.com/ElJijuna/api-hooks/commit/0d7595fa349b534b7773896dc1ff55a3b8efa809))
+* **@api-hooks/osv:** add package skeleton (closes [#69](https://github.com/ElJijuna/api-hooks/issues/69)) ([8d52bca](https://github.com/ElJijuna/api-hooks/commit/8d52bca9fa679f80e5cca18a7cdc073db1cd84c6))
+* **@api-hooks/osv:** add types re-exports (closes [#74](https://github.com/ElJijuna/api-hooks/issues/74)) ([76f116b](https://github.com/ElJijuna/api-hooks/commit/76f116b4ef1cdd8c388d37556e6726a9be9484ac))
+* **@api-hooks/osv:** add useOsvQuery hook (closes [#72](https://github.com/ElJijuna/api-hooks/issues/72)) ([534a2c2](https://github.com/ElJijuna/api-hooks/commit/534a2c20c20fcf934e3f8d09e13a61593c8c5ab3))
+* **@api-hooks/osv:** add useOsvQueryBatch hook (closes [#73](https://github.com/ElJijuna/api-hooks/issues/73)) ([4849b88](https://github.com/ElJijuna/api-hooks/commit/4849b88f2e610a98593acc58a42b1d579f5354d5))
+* **@api-hooks/osv:** add useOsvVuln hook (closes [#71](https://github.com/ElJijuna/api-hooks/issues/71)) ([b55393b](https://github.com/ElJijuna/api-hooks/commit/b55393b0959d451d077bf6b925e48f74a878e01d))
+
 ## [1.6.0](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/npm@1.5.0...@api-hooks/npm@1.6.0) (2026-04-17)
 
 ### Features
