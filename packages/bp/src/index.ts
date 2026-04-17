@@ -4,7 +4,7 @@
 // - @tanstack/react-query
 
 export * from './hooks/useBpPackageSize.js';
-// export * from './hooks/useBpPackageVersionSize';
+export * from './hooks/useBpPackageVersionSize.js';
 // export * from './hooks/useBpPackageHistory';
 // export * from './hooks/useBpPackageSimilar';
 export * from './keys/bpQueryKeys.js';
