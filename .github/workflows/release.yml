@@ -41,6 +41,7 @@ jobs:
           path: |
             packages/npm/dist/
             packages/gh/dist/
+            packages/bp/dist/
 
   # ── 2a. Release @api-hooks/npm ────────────────────────────────────────────
   release-npm:
@@ -100,6 +101,38 @@ jobs:
 
       - name: Release
         working-directory: packages/gh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npx semantic-release
+
+  # ── 2c. Release @api-hooks/bp ─────────────────────────────────────────────
+  release-bp:
+    name: Release @api-hooks/bp
+    needs: release-gh
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+          ref: main
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: .
+
+      - name: Release
+        working-directory: packages/bp
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

@@ -1,0 +1,13 @@
+src/
+docs/
+coverage/
+*.test.ts
+*.test.tsx
+*.spec.ts
+*.spec.tsx
+jest.config.ts
+vite.config.ts
+typedoc.json
+tsconfig.json
+ROADMAP.md
+.releaserc.json
