@@ -33,10 +33,11 @@ jobs:
 
       - name: Assemble site
         run: |
-          mkdir -p _site/npm _site/gh _site/bp
+          mkdir -p _site/npm _site/gh _site/bp _site/osv
           cp -r packages/npm/docs/. _site/npm/
           cp -r packages/gh/docs/.  _site/gh/
           cp -r packages/bp/docs/.  _site/bp/
+          cp -r packages/osv/docs/. _site/osv/
 
       - uses: actions/upload-pages-artifact@v3
         with:
