@@ -4,6 +4,7 @@
 // - @tanstack/react-query
 
 export * from './hooks/useGhUser.js';
+export * from './hooks/useGhGist.js';
 // export * from './hooks/useGhUserRepos';
 // export * from './hooks/useGhRepo';
 // export * from './hooks/useGhRepoCommits';
