@@ -1,3 +1,9 @@
+## [1.2.1](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/bp@1.2.0...@api-hooks/bp@1.2.1) (2026-04-18)
+
+### Bug Fixes
+
+* update main and exports in packages jsons from all packages. ([e7c3dc7](https://github.com/ElJijuna/api-hooks/commit/e7c3dc77cc979e958a6798c6216bf6ae8a36833a))
+
 ## [1.2.0](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/bp@1.1.0...@api-hooks/bp@1.2.0) (2026-04-17)
 
 ### Features

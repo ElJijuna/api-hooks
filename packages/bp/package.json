@@ -1,6 +1,6 @@
 {
   "name": "@api-hooks/bp",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "React hooks for the Bundlephobia API, built on @tanstack/react-query",
   "keywords": [
     "react",
