@@ -5,14 +5,15 @@ import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
 export interface UseGhGistOptions {
   enabled?: boolean;
+  token?: string;
 }
 
 export function useGhGist(
   gistId: string,
   options: UseGhGistOptions = {}
 ): UseQueryResult<GitHubGist, Error> {
-  const { enabled = true } = options;
-  const client = useMemo(() => new GitHubClient(), []);
+  const { enabled = true, token } = options;
+  const client = useMemo(() => new GitHubClient(token ? { token } : {}), [token]);
 
   return useQuery<GitHubGist, Error>({
     queryKey: ghQueryKeys.gist(gistId),
