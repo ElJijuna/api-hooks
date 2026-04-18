@@ -1,3 +1,9 @@
+## [1.7.4](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/npm@1.7.3...@api-hooks/npm@1.7.4) (2026-04-18)
+
+### Bug Fixes
+
+* move gh-api-client to dependencies. ([ba072a3](https://github.com/ElJijuna/api-hooks/commit/ba072a314f004c6325bbcd8cceb17d9bcc883ec4))
+
 ## [1.7.3](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/npm@1.7.2...@api-hooks/npm@1.7.3) (2026-04-18)
 
 ### Bug Fixes
