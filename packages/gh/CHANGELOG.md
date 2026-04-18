@@ -1,3 +1,9 @@
+## [1.7.2](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/gh@1.7.1...@api-hooks/gh@1.7.2) (2026-04-18)
+
+### Bug Fixes
+
+* update workflow to publish api-hooks ([755ad65](https://github.com/ElJijuna/api-hooks/commit/755ad659bb80b7f811738e987a8ecbef6a659dd8))
+
 ## [1.7.1](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/gh@1.7.0...@api-hooks/gh@1.7.1) (2026-04-18)
 
 ### Bug Fixes
