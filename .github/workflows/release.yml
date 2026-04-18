@@ -34,15 +34,29 @@ jobs:
 
       - run: npm run build
 
-      - name: Upload build artifacts
+      - name: Upload npm dist
         uses: actions/upload-artifact@v4
         with:
-          name: dist
-          path: |
-            packages/npm/dist/
-            packages/gh/dist/
-            packages/bp/dist/
-            packages/osv/dist/
+          name: dist-npm
+          path: packages/npm/dist/
+
+      - name: Upload gh dist
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-gh
+          path: packages/gh/dist/
+
+      - name: Upload bp dist
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-bp
+          path: packages/bp/dist/
+
+      - name: Upload osv dist
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-osv
+          path: packages/osv/dist/
 
   # ── 2a. Release @api-hooks/npm ────────────────────────────────────────────
   release-npm:
@@ -62,11 +76,11 @@ jobs:
 
       - run: npm ci
 
-      - name: Download build artifacts
+      - name: Download npm dist
         uses: actions/download-artifact@v4
         with:
-          name: dist
-          path: .
+          name: dist-npm
+          path: packages/npm/dist/
 
       - name: Release
         working-directory: packages/npm
@@ -94,11 +108,11 @@ jobs:
 
       - run: npm ci
 
-      - name: Download build artifacts
+      - name: Download gh dist
         uses: actions/download-artifact@v4
         with:
-          name: dist
-          path: .
+          name: dist-gh
+          path: packages/gh/dist/
 
       - name: Release
         working-directory: packages/gh
@@ -126,11 +140,11 @@ jobs:
 
       - run: npm ci
 
-      - name: Download build artifacts
+      - name: Download bp dist
         uses: actions/download-artifact@v4
         with:
-          name: dist
-          path: .
+          name: dist-bp
+          path: packages/bp/dist/
 
       - name: Release
         working-directory: packages/bp
@@ -158,11 +172,11 @@ jobs:
 
       - run: npm ci
 
-      - name: Download build artifacts
+      - name: Download osv dist
         uses: actions/download-artifact@v4
         with:
-          name: dist
-          path: .
+          name: dist-osv
+          path: packages/osv/dist/
 
       - name: Release
         working-directory: packages/osv
