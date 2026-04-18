@@ -1,3 +1,9 @@
+## [1.8.0](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/npm@1.7.4...@api-hooks/npm@1.8.0) (2026-04-18)
+
+### Features
+
+* add useGhGists in @api-hooks/gh (closes [#56](https://github.com/ElJijuna/api-hooks/issues/56)) ([4d84035](https://github.com/ElJijuna/api-hooks/commit/4d84035098260a0e88b816766fae0d808611bbca))
+
 ## [1.7.4](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/npm@1.7.3...@api-hooks/npm@1.7.4) (2026-04-18)
 
 ### Bug Fixes
