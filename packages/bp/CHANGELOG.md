@@ -1,3 +1,9 @@
+## [1.2.4](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/bp@1.2.3...@api-hooks/bp@1.2.4) (2026-04-18)
+
+### Bug Fixes
+
+* move gh-api-client to dependencies. ([ba072a3](https://github.com/ElJijuna/api-hooks/commit/ba072a314f004c6325bbcd8cceb17d9bcc883ec4))
+
 ## [1.2.3](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/bp@1.2.2...@api-hooks/bp@1.2.3) (2026-04-18)
 
 ### Bug Fixes
