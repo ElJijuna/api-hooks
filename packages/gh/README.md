@@ -335,12 +335,6 @@ function UserCard({ login }: { login: string }) {
 
 ---
 
-### `useGhGists(params?)`
-
-> Coming soon — tracked in [#56](https://github.com/ElJijuna/api-hooks/issues/56)
-
----
-
 ### `useGhGist(gistId)`
 
 Fetches a single gist by ID.

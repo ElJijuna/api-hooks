@@ -72,7 +72,7 @@ Hooks built on [`gh-api-client`](https://www.npmjs.com/package/gh-api-client) + 
 
 | Hook | Client method | Returns |
 | ---- | ------------- | ------- |
-| [`useGhGists(params?)`](https://github.com/ElJijuna/api-hooks/issues/56) | `client.listGists(params?)` | `GitHubPagedResponse<GitHubGist>` |
+| ✅ [`useGhGists(params?)`](https://github.com/ElJijuna/api-hooks/issues/56) | `client.listGists(params?)` | `GitHubPagedResponse<GitHubGist>` |
 | ✅ [`useGhGist(gistId)`](https://github.com/ElJijuna/api-hooks/issues/57) | `client.gist(gistId).get()` | `GitHubGist` |
 | [`useGhGistCommits(gistId, params?)`](https://github.com/ElJijuna/api-hooks/issues/58) | `client.gist(gistId).commits(params?)` | `GitHubPagedResponse<GistCommit>` |
 | [`useGhGistForks(gistId, params?)`](https://github.com/ElJijuna/api-hooks/issues/59) | `client.gist(gistId).forks(params?)` | `GitHubPagedResponse<GistFork>` |
