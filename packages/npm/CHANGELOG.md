@@ -1,3 +1,9 @@
+## [1.7.1](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/npm@1.7.0...@api-hooks/npm@1.7.1) (2026-04-18)
+
+### Bug Fixes
+
+* update main and exports in packages jsons from all packages. ([e7c3dc7](https://github.com/ElJijuna/api-hooks/commit/e7c3dc77cc979e958a6798c6216bf6ae8a36833a))
+
 ## [1.7.0](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/npm@1.6.0...@api-hooks/npm@1.7.0) (2026-04-17)
 
 ### Features
