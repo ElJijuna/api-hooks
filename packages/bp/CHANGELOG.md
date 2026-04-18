@@ -1,3 +1,9 @@
+## [1.2.3](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/bp@1.2.2...@api-hooks/bp@1.2.3) (2026-04-18)
+
+### Bug Fixes
+
+* add token prop in Gist hooks to use in application, pending others hooks. ([faa2f67](https://github.com/ElJijuna/api-hooks/commit/faa2f67e4e338736950bbd72e1b6ec97221defd9))
+
 ## [1.2.2](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/bp@1.2.1...@api-hooks/bp@1.2.2) (2026-04-18)
 
 ### Bug Fixes
