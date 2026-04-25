@@ -1,7 +1,8 @@
-import { useMemo } from 'react';
+
 import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { NpmClient, type NpmSearchResult, type MaintainerPackagesParams } from 'npmjs-api-client';
+import { type NpmSearchResult, type MaintainerPackagesParams } from 'npmjs-api-client';
 import { npmQueryKeys } from '../keys/npmQueryKeys.js';
+import { useNpmClient } from '../NpmClientContext.js';
 
 export interface UseNpmMaintainerPackagesOptions extends MaintainerPackagesParams {
   enabled?: boolean;
@@ -12,7 +13,7 @@ export function useNpmMaintainerPackages(
   options: UseNpmMaintainerPackagesOptions = {}
 ): UseQueryResult<NpmSearchResult, Error> {
   const { enabled = true, ...params } = options;
-  const client = useMemo(() => new NpmClient(), []);
+  const client = useNpmClient();
 
   const queryParams = Object.keys(params).length > 0 ? params : undefined;
 

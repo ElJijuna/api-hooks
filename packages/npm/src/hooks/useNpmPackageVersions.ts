@@ -1,7 +1,8 @@
-import { useMemo } from 'react';
+
 import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { NpmClient, type NpmPackageVersion } from 'npmjs-api-client';
+import { type NpmPackageVersion } from 'npmjs-api-client';
 import { npmQueryKeys } from '../keys/npmQueryKeys.js';
+import { useNpmClient } from '../NpmClientContext.js';
 
 export interface UseNpmPackageVersionsOptions {
   enabled?: boolean;
@@ -12,7 +13,7 @@ export function useNpmPackageVersions(
   options: UseNpmPackageVersionsOptions = {}
 ): UseQueryResult<NpmPackageVersion[], Error> {
   const { enabled = true } = options;
-  const client = useMemo(() => new NpmClient(), []);
+  const client = useNpmClient();
 
   return useQuery<NpmPackageVersion[], Error>({
     queryKey: npmQueryKeys.packageVersions(name),

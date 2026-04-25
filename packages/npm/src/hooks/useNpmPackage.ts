@@ -1,6 +1,6 @@
-import { useMemo } from 'react';
 import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { NpmClient, type NpmPackument } from 'npmjs-api-client';
+import { type NpmPackument } from 'npmjs-api-client';
+import { useNpmClient } from '../NpmClientContext.js';
 import { npmQueryKeys } from '../keys/npmQueryKeys.js';
 
 export interface UseNpmPackageOptions {
@@ -12,7 +12,7 @@ export function useNpmPackage(
   options: UseNpmPackageOptions = {}
 ): UseQueryResult<NpmPackument, Error> {
   const { enabled = true } = options;
-  const client = useMemo(() => new NpmClient(), []);
+  const client = useNpmClient();
 
   return useQuery<NpmPackument, Error>({
     queryKey: npmQueryKeys.package(name),
