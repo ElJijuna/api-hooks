@@ -3,6 +3,7 @@
 // - npmjs-api-client (https://www.npmjs.com/package/npmjs-api-client)
 // - @tanstack/react-query
 
+export * from './NpmClientContext.js';
 export * from './hooks/useNpmPackage.js';
 export * from './hooks/useNpmPackageVersion.js';
 export * from './hooks/useNpmPackageLatest.js';

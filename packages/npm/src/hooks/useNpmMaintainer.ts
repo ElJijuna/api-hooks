@@ -1,7 +1,8 @@
-import { useMemo } from 'react';
+
 import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { NpmClient, type NpmUser } from 'npmjs-api-client';
+import { type NpmUser } from 'npmjs-api-client';
 import { npmQueryKeys } from '../keys/npmQueryKeys.js';
+import { useNpmClient } from '../NpmClientContext.js';
 
 export interface UseNpmMaintainerOptions {
   enabled?: boolean;
@@ -12,7 +13,7 @@ export function useNpmMaintainer(
   options: UseNpmMaintainerOptions = {}
 ): UseQueryResult<NpmUser, Error> {
   const { enabled = true } = options;
-  const client = useMemo(() => new NpmClient(), []);
+  const client = useNpmClient();
 
   return useQuery<NpmUser, Error>({
     queryKey: npmQueryKeys.maintainer(username),

@@ -1,7 +1,8 @@
-import { useMemo } from 'react';
+
 import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { NpmClient, type NpmDownloadRange, type NpmDownloadPeriod } from 'npmjs-api-client';
+import { type NpmDownloadRange, type NpmDownloadPeriod } from 'npmjs-api-client';
 import { npmQueryKeys } from '../keys/npmQueryKeys.js';
+import { useNpmClient } from '../NpmClientContext.js';
 
 export interface UseNpmPackageDownloadRangeOptions {
   period?: NpmDownloadPeriod;
@@ -13,7 +14,7 @@ export function useNpmPackageDownloadRange(
   options: UseNpmPackageDownloadRangeOptions = {}
 ): UseQueryResult<NpmDownloadRange, Error> {
   const { period = 'last-month', enabled = true } = options;
-  const client = useMemo(() => new NpmClient(), []);
+  const client = useNpmClient();
 
   return useQuery<NpmDownloadRange, Error>({
     queryKey: npmQueryKeys.packageDownloadRange(name, period),
