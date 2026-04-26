@@ -1,3 +1,9 @@
+## [1.4.0](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/bp@1.3.0...@api-hooks/bp@1.4.0) (2026-04-26)
+
+### Features
+
+* **npm:** extract NpmClient to shared React context ([f4cfe21](https://github.com/ElJijuna/api-hooks/commit/f4cfe216fad64b1150ea38d3ead70ce8a3eebeb9)), closes [#79](https://github.com/ElJijuna/api-hooks/issues/79)
+
 ## [1.3.0](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/bp@1.2.4...@api-hooks/bp@1.3.0) (2026-04-18)
 
 ### Features
