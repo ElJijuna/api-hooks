@@ -1,6 +1,6 @@
 {
   "name": "@api-hooks/npm",
-  "version": "1.8.0",
+  "version": "1.9.0",
   "description": "React hooks for the npm registry API, built on @tanstack/react-query",
   "keywords": [
     "react",
