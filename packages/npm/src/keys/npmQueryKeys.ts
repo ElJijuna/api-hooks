@@ -10,6 +10,8 @@ export const npmQueryKeys = {
     ['npm', 'package', name, 'maintainers'] as const,
   packageDownloads: (name: string, period: string) =>
     ['npm', 'package', name, 'downloads', period] as const,
+  packageVersionDownloads: (name: string, version: string, period: string) =>
+    ['npm', 'package', name, 'version', version, 'downloads', period] as const,
   packageDownloadRange: (name: string, period: string) =>
     ['npm', 'package', name, 'download-range', period] as const,
   maintainer: (username: string) =>

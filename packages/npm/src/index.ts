@@ -11,6 +11,7 @@ export * from './hooks/useNpmPackageVersions.js';
 export * from './hooks/useNpmPackageDistTags.js';
 export * from './hooks/useNpmPackageMaintainers.js';
 export * from './hooks/useNpmPackageDownloads.js';
+export * from './hooks/useNpmPackageVersionDownloads.js';
 export * from './hooks/useNpmPackageDownloadRange.js';
 export * from './hooks/useNpmMaintainer.js';
 export * from './hooks/useNpmMaintainerPackages.js';

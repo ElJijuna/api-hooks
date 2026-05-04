@@ -54,6 +54,7 @@ All hooks return a [`UseQueryResult`](https://tanstack.com/query/latest/docs/fra
 | [`useNpmPackageDistTags(name)`](#usenpmpackagedisttagsname) | Dist-tags map (`latest`, `next`, …) | `NpmDistTags` |
 | [`useNpmPackageMaintainers(name)`](#usenpmpackagemaintainersname) | Current maintainers of the package | `NpmPerson[]` |
 | [`useNpmPackageDownloads(name, options?)`](#usenpmpackagedownloadsname-options) | Total download count for a period | `NpmDownloadPoint` |
+| [`useNpmPackageVersionDownloads(name, version, options?)`](#usenpmpackageversiondownloadsname-version-options) | Download count for a specific version | `NpmVersionDownloadPoint` |
 | [`useNpmPackageDownloadRange(name, options?)`](#usenpmpackagedownloadrangename-options) | Per-day download breakdown | `NpmDownloadRange` |
 
 ### Maintainer hooks
@@ -178,6 +179,23 @@ console.log(data?.downloads); // e.g. 12345678
 | ------ | ---- | ------- | ----------- |
 | `period` | `NpmDownloadPeriod` | `'last-month'` | `'last-day'`, `'last-week'`, `'last-month'`, `'last-year'`, or `'YYYY-MM-DD:YYYY-MM-DD'` |
 | `enabled` | `boolean` | `true` | Disabled when `name` is empty |
+
+---
+
+### `useNpmPackageVersionDownloads(name, version, options?)`
+
+Fetches the download count for a specific package version over the previous 7 days.
+
+```tsx
+const { data } = useNpmPackageVersionDownloads('react', '18.2.0');
+
+console.log(data?.downloads); // e.g. 123456
+```
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `period` | `NpmVersionDownloadPeriod` | `'last-week'` | npm currently supports only `'last-week'` for version downloads |
+| `enabled` | `boolean` | `true` | Disabled when `name` or `version` is empty |
 
 ---
 
