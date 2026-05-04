@@ -1,3 +1,9 @@
+## [1.10.0](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/gh@1.9.0...@api-hooks/gh@1.10.0) (2026-05-04)
+
+### Features
+
+* **npm:** add package version downloads hook (closes [#81](https://github.com/ElJijuna/api-hooks/issues/81)) ([a60b2a2](https://github.com/ElJijuna/api-hooks/commit/a60b2a2f0587d59b7ceca8e8ed9320ec1c15cdd2))
+
 ## [1.9.0](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/gh@1.8.0...@api-hooks/gh@1.9.0) (2026-04-26)
 
 ### Features
