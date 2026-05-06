@@ -1,3 +1,9 @@
+## [1.6.0](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/bp@1.5.0...@api-hooks/bp@1.6.0) (2026-05-06)
+
+### Features
+
+* **npm:** implement hooks for new npmjs-api-client@1.6.0 APIs ([7e4e0f4](https://github.com/ElJijuna/api-hooks/commit/7e4e0f4f21f87765119fb136ac4640f9d9b60802))
+
 ## [1.5.0](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/bp@1.4.0...@api-hooks/bp@1.5.0) (2026-05-04)
 
 ### Features
