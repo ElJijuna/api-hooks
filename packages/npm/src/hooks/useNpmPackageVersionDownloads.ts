@@ -5,10 +5,22 @@ import { npmQueryKeys } from '../keys/npmQueryKeys.js';
 import { useNpmClient } from '../NpmClientContext.js';
 
 export interface UseNpmPackageVersionDownloadsOptions {
+  /** Period to fetch downloads for. npm only supports `'last-week'`. */
   period?: NpmVersionDownloadPeriod;
+  /** Disable the query. Also disabled when `name` or `version` is empty. */
   enabled?: boolean;
 }
 
+/**
+ * Fetches the download count for a specific version of a package over the previous 7 days.
+ *
+ * npm only exposes version-level download counts for `'last-week'`.
+ *
+ * @param name - Package name (e.g. `'react'`)
+ * @param version - Version string (e.g. `'18.2.0'`)
+ * @param options - Query options
+ * @returns TanStack Query result with {@link NpmVersionDownloadPoint}
+ */
 export function useNpmPackageVersionDownloads(
   name: string,
   version: string,

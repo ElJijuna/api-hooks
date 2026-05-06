@@ -17,7 +17,7 @@ beforeEach(() => {
 });
 
 const mockData: NpmVersionDownloadPoint = {
-  downloads: 123456,
+  downloads: 500000,
   package: 'react',
   version: '18.2.0',
   period: 'last-week',
@@ -42,19 +42,6 @@ describe('useNpmPackageVersionDownloads', () => {
     expect(result.current.isError).toBe(false);
     expect(result.current.error).toBeNull();
     expect(mockVersion).toHaveBeenCalledWith('18.2.0');
-    expect(mockDownloads).toHaveBeenCalledWith('last-week', expect.anything());
-  });
-
-  it('passes custom period to the client', async () => {
-    mockDownloads.mockResolvedValue(mockData);
-
-    const { result } = renderHook(
-      () => useNpmPackageVersionDownloads('react', '18.2.0', { period: 'last-week' }),
-      { wrapper }
-    );
-
-    await waitFor(() => expect(result.current.isLoading).toBe(false));
-
     expect(mockDownloads).toHaveBeenCalledWith('last-week', expect.anything());
   });
 
