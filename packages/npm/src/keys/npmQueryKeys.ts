@@ -20,8 +20,6 @@ export const npmQueryKeys = {
     ['npm', 'package', name, 'size'] as const,
   packageCdnStats: (name: string, groupBy: string, period: string) =>
     ['npm', 'package', name, 'cdn-stats', groupBy, period] as const,
-  packageVersionDownloads: (name: string, version: string, period: string) =>
-    ['npm', 'package', name, 'version', version, 'downloads', period] as const,
   packageVersionSize: (name: string, version: string) =>
     ['npm', 'package', name, 'version', version, 'size'] as const,
   packageVersionFiles: (name: string, version: string) =>

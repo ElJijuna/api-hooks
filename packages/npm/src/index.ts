@@ -16,7 +16,6 @@ export * from './hooks/useNpmPackageDownloadRange.js';
 export * from './hooks/useNpmPackageScore.js';
 export * from './hooks/useNpmPackageSize.js';
 export * from './hooks/useNpmPackageCdnStats.js';
-export * from './hooks/useNpmPackageVersionDownloads.js';
 export * from './hooks/useNpmPackageVersionSize.js';
 export * from './hooks/useNpmPackageVersionFiles.js';
 export * from './hooks/useNpmPackageVersionCdnStats.js';
