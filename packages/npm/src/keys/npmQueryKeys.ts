@@ -34,6 +34,28 @@ export const npmQueryKeys = {
     ['npm', 'maintainer', username] as const,
   maintainerPackages: (username: string, params?: object) =>
     ['npm', 'maintainer', username, 'packages', params] as const,
+  maintainerAvatar: (username: string) =>
+    ['npm', 'maintainer', username, 'avatar'] as const,
   search: (params: object) =>
     ['npm', 'search', params] as const,
+  topPackages: (n: number) =>
+    ['npm', 'top-packages', n] as const,
+  topByPopularity: (n: number) =>
+    ['npm', 'top-by-popularity', n] as const,
+  topByQuality: (n: number) =>
+    ['npm', 'top-by-quality', n] as const,
+  topByMaintenance: (n: number) =>
+    ['npm', 'top-by-maintenance', n] as const,
+  topByKeyword: (keyword: string, n: number) =>
+    ['npm', 'top-by-keyword', keyword, n] as const,
+  topByScope: (scope: string, n: number) =>
+    ['npm', 'top-by-scope', scope, n] as const,
+  orgPackages: (org: string) =>
+    ['npm', 'org', org, 'packages'] as const,
+  orgTeams: (org: string) =>
+    ['npm', 'org', org, 'teams'] as const,
+  orgMembers: (org: string) =>
+    ['npm', 'org', org, 'members'] as const,
+  orgTeamMembers: (org: string, team: string) =>
+    ['npm', 'org', org, 'team', team, 'members'] as const,
 } as const;

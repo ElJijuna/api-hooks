@@ -44,10 +44,32 @@ Hooks built on [`npmjs-api-client`](https://www.npmjs.com/package/npmjs-api-clie
 | ---- | ------------- | ------- |
 | ✅ `useNpmMaintainer(username)` | `npm.maintainer(username).info()` | `NpmUser` |
 | ✅ `useNpmMaintainerPackages(username, options?)` | `npm.maintainer(username).packages(params)` | `NpmSearchResult` |
-| ✅ `useNpmMaintainerAvatar(username)` | `npm.maintainer(username).avatar()` | `string` |
+| ✅ `useNpmMaintainerAvatar(username)` | `npm.maintainer(username).avatar()` | `string \| undefined` |
 
 ## Search hooks
 
 | Hook | Client method | Returns |
 | ---- | ------------- | ------- |
 | ✅ `useNpmSearch(text, options?)` | `npm.search(params)` | `NpmSearchResult` |
+
+## Top / ranking hooks
+
+| Hook | Client method | Returns |
+| ---- | ------------- | ------- |
+| ✅ `useNpmTopPackages(options?)` | `npm.topPackages(n)` | `NpmSearchResult` |
+| ✅ `useNpmTopByPopularity(options?)` | `npm.topByPopularity(n)` | `NpmSearchResult` |
+| ✅ `useNpmTopByQuality(options?)` | `npm.topByQuality(n)` | `NpmSearchResult` |
+| ✅ `useNpmTopByMaintenance(options?)` | `npm.topByMaintenance(n)` | `NpmSearchResult` |
+| ✅ `useNpmTopByKeyword(keyword, options?)` | `npm.topByKeyword(keyword, n)` | `NpmSearchResult` |
+| ✅ `useNpmTopByScope(scope, options?)` | `npm.topByScope(scope, n)` | `NpmSearchResult` |
+
+## Organization hooks
+
+These endpoints require a registry token with org access. Pass an authenticated `NpmClient` or `options={{ token }}` to `NpmClientProvider`.
+
+| Hook | Client method | Returns |
+| ---- | ------------- | ------- |
+| ✅ `useNpmOrgPackages(org, options?)` | `npm.org(org).packages()` | `NpmOrgPackages` |
+| ✅ `useNpmOrgTeams(org, options?)` | `npm.org(org).teams()` | `string[]` |
+| ✅ `useNpmOrgMembers(org, options?)` | `npm.org(org).members()` | `NpmOrgMembers` |
+| ✅ `useNpmOrgTeamMembers(org, team, options?)` | `npm.org(org).teamMembers(team)` | `string[]` |

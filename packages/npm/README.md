@@ -27,16 +27,29 @@ Wrap your application with a `QueryClientProvider` once at the root:
 
 ```tsx
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { NpmClientProvider } from '@api-hooks/npm';
 
 const queryClient = new QueryClient();
 
 export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <YourApp />
+      <NpmClientProvider>
+        <YourApp />
+      </NpmClientProvider>
     </QueryClientProvider>
   );
 }
+```
+
+For authenticated registry endpoints, such as org hooks, pass a token through `NpmClientProvider`:
+
+```tsx
+const token = 'npm_...';
+
+<NpmClientProvider options={{ token }}>
+  <YourApp />
+</NpmClientProvider>
 ```
 
 ## Hooks
@@ -86,13 +99,35 @@ Audit hooks (`useNpmAudit`, `useNpmAuditQuick`) return a [`UseMutationResult`](h
 | ---- | ----------- | ------- |
 | [`useNpmMaintainer(username)`](#usenpmmaintainerusername) | Public profile of an npm user | `NpmUser` |
 | [`useNpmMaintainerPackages(username, options?)`](#usenpmmaintainerpackagesusername-options) | Packages published by a user | `NpmSearchResult` |
-| [`useNpmMaintainerAvatar(username)`](#usenpmmaintaineravatarusername) | Avatar URL (no network call) | `string` |
+| [`useNpmMaintainerAvatar(username)`](#usenpmmaintaineravatarusername) | Gravatar URL when a public email is available | `string \| undefined` |
 
 ### Search hooks
 
 | Hook | Description | Returns |
 | ---- | ----------- | ------- |
 | [`useNpmSearch(text, options?)`](#usenpmsearchtext-options) | Full-text search across the registry | `NpmSearchResult` |
+
+### Top / ranking hooks
+
+| Hook | Description | Returns |
+| ---- | ----------- | ------- |
+| [`useNpmTopPackages(options?)`](#usenpmtoppackagesoptions) | Top packages by npm's default ranking | `NpmSearchResult` |
+| [`useNpmTopByPopularity(options?)`](#usenpmtopbypopularityoptions) | Top packages weighted by popularity | `NpmSearchResult` |
+| [`useNpmTopByQuality(options?)`](#usenpmtopbyqualityoptions) | Top packages weighted by quality | `NpmSearchResult` |
+| [`useNpmTopByMaintenance(options?)`](#usenpmtopbymaintenanceoptions) | Top packages weighted by maintenance | `NpmSearchResult` |
+| [`useNpmTopByKeyword(keyword, options?)`](#usenpmtopbykeywordkeyword-options) | Top packages for a keyword | `NpmSearchResult` |
+| [`useNpmTopByScope(scope, options?)`](#usenpmtopbyscopescope-options) | Top packages for a scope | `NpmSearchResult` |
+
+### Organization hooks
+
+Organization hooks require a registry token with org access.
+
+| Hook | Description | Returns |
+| ---- | ----------- | ------- |
+| [`useNpmOrgPackages(org, options?)`](#usenpmorgpackagesorg-options) | Packages an org can access | `NpmOrgPackages` |
+| [`useNpmOrgTeams(org, options?)`](#usenpmorgteamsorg-options) | Teams in an org | `string[]` |
+| [`useNpmOrgMembers(org, options?)`](#usenpmorgmembersorg-options) | Members and roles in an org | `NpmOrgMembers` |
+| [`useNpmOrgTeamMembers(org, team, options?)`](#usenpmorgteammembersorg-team-options) | Members in an org team | `string[]` |
 
 ---
 
@@ -440,14 +475,17 @@ if ((high ?? 0) + (critical ?? 0) > 0) {
 
 ### `useNpmMaintainerAvatar(username)`
 
-Returns the public avatar URL for an npm user. No API call is made — the URL is derived from the username.
+Returns the public Gravatar URL for an npm user when a public email is available.
 
 ```tsx
-const avatarUrl = useNpmMaintainerAvatar('sindresorhus');
-// 'https://www.npmjs.com/npm-avatar/sindresorhus'
+const { data: avatarUrl } = useNpmMaintainerAvatar('sindresorhus');
 
-return <img src={avatarUrl} alt="sindresorhus" />;
+return avatarUrl ? <img src={avatarUrl} alt="sindresorhus" /> : null;
 ```
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disabled when `username` is empty |
 
 ---
 
@@ -511,6 +549,154 @@ data?.objects.forEach(o => {
 | `popularity` | `number` | — | Scoring weight 0–1 |
 | `maintenance` | `number` | — | Scoring weight 0–1 |
 | `enabled` | `boolean` | `true` | Disabled when `text` is empty |
+
+---
+
+### `useNpmTopPackages(options?)`
+
+Returns top packages according to npm search's default ranking.
+
+```tsx
+const { data } = useNpmTopPackages({ n: 10 });
+
+data?.objects.forEach(o => console.log(o.package.name, o.score.final));
+```
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `n` | `number` | `20` | Number of packages to return (max 250) |
+| `enabled` | `boolean` | `true` | Disable the query |
+
+---
+
+### `useNpmTopByPopularity(options?)`
+
+Returns top packages weighted by popularity.
+
+```tsx
+const { data } = useNpmTopByPopularity({ n: 10 });
+```
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `n` | `number` | `20` | Number of packages to return (max 250) |
+| `enabled` | `boolean` | `true` | Disable the query |
+
+---
+
+### `useNpmTopByQuality(options?)`
+
+Returns top packages weighted by quality.
+
+```tsx
+const { data } = useNpmTopByQuality({ n: 10 });
+```
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `n` | `number` | `20` | Number of packages to return (max 250) |
+| `enabled` | `boolean` | `true` | Disable the query |
+
+---
+
+### `useNpmTopByMaintenance(options?)`
+
+Returns top packages weighted by maintenance.
+
+```tsx
+const { data } = useNpmTopByMaintenance({ n: 10 });
+```
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `n` | `number` | `20` | Number of packages to return (max 250) |
+| `enabled` | `boolean` | `true` | Disable the query |
+
+---
+
+### `useNpmTopByKeyword(keyword, options?)`
+
+Returns top packages for a keyword.
+
+```tsx
+const { data } = useNpmTopByKeyword('react', { n: 10 });
+```
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `n` | `number` | `20` | Number of packages to return (max 250) |
+| `enabled` | `boolean` | `true` | Disabled when `keyword` is empty |
+
+---
+
+### `useNpmTopByScope(scope, options?)`
+
+Returns top packages for a scope. The scope may include or omit the leading `@`.
+
+```tsx
+const { data } = useNpmTopByScope('@types', { n: 10 });
+```
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `n` | `number` | `20` | Number of packages to return (max 250) |
+| `enabled` | `boolean` | `true` | Disabled when `scope` is empty |
+
+---
+
+### `useNpmOrgPackages(org, options?)`
+
+Returns all packages an org has access to, keyed by package name. Requires a registry token with org access.
+
+```tsx
+const { data } = useNpmOrgPackages('npmcli');
+```
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disabled when `org` is empty |
+
+---
+
+### `useNpmOrgTeams(org, options?)`
+
+Returns all teams in an org. Requires a registry token with org access.
+
+```tsx
+const { data } = useNpmOrgTeams('npmcli');
+```
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disabled when `org` is empty |
+
+---
+
+### `useNpmOrgMembers(org, options?)`
+
+Returns all members in an org, keyed by username. Requires a registry token with org access.
+
+```tsx
+const { data } = useNpmOrgMembers('npmcli');
+```
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disabled when `org` is empty |
+
+---
+
+### `useNpmOrgTeamMembers(org, team, options?)`
+
+Returns all usernames in an org team. Requires a registry token with org access.
+
+```tsx
+const { data } = useNpmOrgTeamMembers('npmcli', 'cli');
+```
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disabled when `org` or `team` is empty |
 
 ---
 
