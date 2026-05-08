@@ -1,3 +1,9 @@
+## [1.12.0](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/npm@1.11.0...@api-hooks/npm@1.12.0) (2026-05-08)
+
+### Features
+
+* **npm:** expose npmjs-api-client v1.7 hooks. ([22b9d43](https://github.com/ElJijuna/api-hooks/commit/22b9d431cba6e16c7d3c97a7aa80cc4cf364864d))
+
 ## [1.11.0](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/npm@1.10.0...@api-hooks/npm@1.11.0) (2026-05-06)
 
 ### Features
