@@ -66,5 +66,6 @@
   },
   "dependencies": {
     "gh-api-client": "^1.11.0"
-  }
+  },
+  "author": "pilmee <pilmee@gmail.com> (https://github.com/ElJijuna)"
 }
