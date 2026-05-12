@@ -55,6 +55,12 @@ export const ghQueryKeys = {
   searchRepos: (params: object) => ['gh', 'search', 'repos', params] as const,
   searchReposInfinite: (params: object) => ['gh', 'search', 'repos', 'infinite', params] as const,
 
+  // Advisory
+  advisories: (params?: object) => ['gh', 'advisories', params] as const,
+  advisoriesInfinite: (params?: object) => ['gh', 'advisories', 'infinite', params] as const,
+  advisory: (ghsaId: string) => ['gh', 'advisory', ghsaId] as const,
+  advisoryByCve: (cveId: string) => ['gh', 'advisory', 'cve', cveId] as const,
+
   // Gist
   gist: (gistId: string) => ['gh', 'gist', gistId] as const,
   gists: (params?: object) => ['gh', 'gists', params] as const,

@@ -67,4 +67,10 @@ export * from './hooks/useGhOrgMembersInfinite.js';
 export * from './hooks/useGhSearchRepos.js';
 export * from './hooks/useGhSearchReposInfinite.js';
 
+// Advisory
+export * from './hooks/useGhAdvisories.js';
+export * from './hooks/useGhAdvisoriesInfinite.js';
+export * from './hooks/useGhAdvisory.js';
+export * from './hooks/useGhAdvisoryByCve.js';
+
 export * from './keys/ghQueryKeys.js';

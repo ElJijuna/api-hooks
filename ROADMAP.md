@@ -168,6 +168,14 @@ Collection of React hooks built on `@tanstack/react-query` for consuming public 
 |---|---|---|
 | `gh.searchRepos(params)` | `Paged<GitHubRepository>` | `useGhSearchRepos(params)` |
 
+#### Global advisories
+
+| Método del cliente | Retorna | Hook |
+|---|---|---|
+| `gh.advisories(params?)` | `Paged<GitHubAdvisory>` | `useGhAdvisories(params?)` |
+| `gh.advisory(ghsaId)` | `GitHubAdvisory` | `useGhAdvisory(ghsaId)` |
+| `gh.advisoryByCve(cveId)` | `GitHubAdvisory?` | `useGhAdvisoryByCve(cveId)` |
+
 ### 2.4 Hooks — mutations (`useMutation`)
 
 | Método del cliente | Hook |

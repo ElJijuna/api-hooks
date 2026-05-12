@@ -122,6 +122,15 @@ Hooks ending in `Infinite` return a [`UseInfiniteQueryResult`](https://tanstack.
 | [`useGhSearchRepos(params)`](#useghsearchreposparams) | Search repositories | `GitHubPagedResponse<GitHubRepository>` |
 | [`useGhSearchReposInfinite(params)`](#useghsearchreposinfiniteparams) | Infinite-scroll variant | `InfiniteData<GitHubPagedResponse<GitHubRepository>>` |
 
+### Advisory hooks
+
+| Hook | Description | Returns |
+| ---- | ----------- | ------- |
+| [`useGhAdvisories(params?)`](#useghadvisoriesparams) | List global security advisories | `GitHubPagedResponse<GitHubAdvisory>` |
+| [`useGhAdvisoriesInfinite(params?)`](#useghadvisoriesinfiniteparams) | Infinite-scroll variant | `InfiniteData<GitHubPagedResponse<GitHubAdvisory>>` |
+| [`useGhAdvisory(ghsaId)`](#useghadvisoryghsaid) | Single advisory by GHSA ID | `GitHubAdvisory` |
+| [`useGhAdvisoryByCve(cveId)`](#useghadvisorybycvecveid) | Advisory by CVE ID | `GitHubAdvisory \| null` |
+
 ### Gist hooks — queries
 
 | Hook | Description | Returns |
@@ -930,6 +939,105 @@ function DeleteButton({ gistId }: { gistId: string }) {
   );
 }
 ```
+
+---
+
+### `useGhAdvisories(params?)`
+
+Lists global security advisories from the [GitHub Advisory Database](https://github.com/advisories). Filter by `severity`, `ecosystem`, `cve_id`, `ghsa_id`, `cwe_id`, and more.
+
+```tsx
+import { useGhAdvisories } from '@api-hooks/gh';
+
+function CriticalAdvisories() {
+  const { data } = useGhAdvisories({ severity: 'critical', per_page: 10 });
+
+  return (
+    <ul>
+      {data?.values.map(a => (
+        <li key={a.ghsa_id}>{a.ghsa_id} — {a.summary}</li>
+      ))}
+    </ul>
+  );
+}
+```
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query |
+| `token` | `string` | — | GitHub personal access token |
+
+---
+
+### `useGhAdvisoriesInfinite(params?)`
+
+Infinite-scroll variant of `useGhAdvisories`.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query |
+| `token` | `string` | — | GitHub personal access token |
+
+---
+
+### `useGhAdvisory(ghsaId)`
+
+Fetches a single global security advisory by its GHSA ID.
+
+```tsx
+import { useGhAdvisory } from '@api-hooks/gh';
+
+function AdvisoryDetail({ ghsaId }: { ghsaId: string }) {
+  const { data, isLoading } = useGhAdvisory(ghsaId);
+
+  if (isLoading) return <p>Loading…</p>;
+
+  return (
+    <div>
+      <h2>{data?.ghsa_id}</h2>
+      <p>CVE: {data?.cve_id ?? '—'}</p>
+      <p>Severity: {data?.severity}</p>
+      <p>{data?.summary}</p>
+    </div>
+  );
+}
+```
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query (also disabled when `ghsaId` is empty) |
+| `token` | `string` | — | GitHub personal access token |
+
+---
+
+### `useGhAdvisoryByCve(cveId)`
+
+Fetches a global security advisory by its CVE ID. Returns `null` when no advisory exists for the given CVE.
+
+```tsx
+import { useGhAdvisoryByCve } from '@api-hooks/gh';
+
+function CveDetail({ cveId }: { cveId: string }) {
+  const { data, isLoading } = useGhAdvisoryByCve(cveId);
+
+  if (isLoading) return <p>Loading…</p>;
+  if (!data) return <p>No advisory found for {cveId}.</p>;
+
+  return (
+    <div>
+      <h2>{cveId}</h2>
+      <p>GHSA: {data.ghsa_id}</p>
+      <p>Severity: {data.severity}</p>
+      <p>{data.summary}</p>
+    </div>
+  );
+}
+```
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query (also disabled when `cveId` is empty) |
+| `token` | `string` | — | GitHub personal access token |
 
 ---
 
