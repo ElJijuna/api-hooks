@@ -5,9 +5,10 @@ Collection of React hooks built on `@tanstack/react-query` for consuming public 
 **Packages**
 | Package | Source client | Status |
 |---|---|---|
-| `@api-hooks/npm` | `npmjs-api-client@^1.2.0` | skeleton |
-| `@api-hooks/gh` | `gh-api-client` | skeleton |
-| `@api-hooks/osv` | `osv-api-client@^1.0.0` | planned |
+| `@api-hooks/npm` | `npmjs-api-client` | stable |
+| `@api-hooks/gh` | `gh-api-client` | stable |
+| `@api-hooks/bp` | `bundlephobia-api-client` | stable |
+| `@api-hooks/osv` | `osv-api-client` | stable |
 
 ---
 
@@ -92,7 +93,7 @@ Collection of React hooks built on `@tanstack/react-query` for consuming public 
 
 ### 2.2 Query key factory
 
-- [ ] `src/keys/ghQueryKeys.ts` — structured key factory para todos los recursos
+- [x] `src/keys/ghQueryKeys.ts` — structured key factory para todos los recursos
 
 ### 2.3 Hooks — queries
 
@@ -178,7 +179,7 @@ Collection of React hooks built on `@tanstack/react-query` for consuming public 
 | `gh.repo(owner, name).updateWebhook(hookId, data)` | `useGhUpdateWebhook(owner, name)` |
 | `gh.repo(owner, name).deleteWebhook(hookId)` | `useGhDeleteWebhook(owner, name)` |
 
-- [ ] Implementar cada hook de queries (uno por archivo en `src/hooks/`)
+- [x] Implementar cada hook de queries (uno por archivo en `src/hooks/`)
 - [ ] Implementar cada hook de mutations
 
 ### 2.5 Types
@@ -187,8 +188,8 @@ Collection of React hooks built on `@tanstack/react-query` for consuming public 
 
 ### 2.6 Tests
 
-- [ ] Unit tests para cada hook, mock `gh-api-client`
-- [ ] Coverage ≥ 80%
+- [x] Unit tests para cada hook, mock `gh-api-client`
+- [x] Coverage ≥ 80%
 
 ### 2.7 Build
 
@@ -258,6 +259,33 @@ Collection of React hooks built on `@tanstack/react-query` for consuming public 
 
 - [ ] `vite build` — ESM con `preserveModules`, un archivo por hook
 - [ ] `npm run typecheck` sin errores
+
+---
+
+## Phase 6 — Infinite query hooks
+
+> `useInfiniteQuery` variants for hooks that back paginated APIs.
+
+### Done
+
+| Hook | Package | Pagination |
+|---|---|---|
+| `useNpmSearchInfinite` | `@api-hooks/npm` | offset (`from` + `size`) |
+| `useNpmMaintainerPackagesInfinite` | `@api-hooks/npm` | offset (`from` + `size`) |
+| `useGhGistsInfinite` | `@api-hooks/gh` | page-based (`page`, driven by `hasNextPage`/`nextPage`) |
+| `useGhUserReposInfinite` | `@api-hooks/gh` | page-based |
+| `useGhRepoCommitsInfinite` | `@api-hooks/gh` | page-based |
+| `useGhRepoBranchesInfinite` | `@api-hooks/gh` | page-based |
+| `useGhRepoTagsInfinite` | `@api-hooks/gh` | page-based |
+| `useGhRepoReleasesInfinite` | `@api-hooks/gh` | page-based |
+| `useGhRepoForksInfinite` | `@api-hooks/gh` | page-based |
+| `useGhRepoContributorsInfinite` | `@api-hooks/gh` | page-based |
+| `useGhRepoIssuesInfinite` | `@api-hooks/gh` | page-based |
+| `useGhRepoPullRequestsInfinite` | `@api-hooks/gh` | page-based |
+| `useGhIssueCommentsInfinite` | `@api-hooks/gh` | page-based |
+| `useGhOrgReposInfinite` | `@api-hooks/gh` | page-based |
+| `useGhOrgMembersInfinite` | `@api-hooks/gh` | page-based |
+| `useGhSearchReposInfinite` | `@api-hooks/gh` | page-based |
 
 ---
 

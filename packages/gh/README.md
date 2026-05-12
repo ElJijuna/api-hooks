@@ -41,7 +41,9 @@ export default function App() {
 
 ## Hooks
 
-All hooks return a [`UseQueryResult`](https://tanstack.com/query/latest/docs/framework/react/reference/useQuery) — you get the full TanStack Query API: `data`, `isLoading`, `isFetching`, `isError`, `error`, `refetch`, and more.
+All query hooks return a [`UseQueryResult`](https://tanstack.com/query/latest/docs/framework/react/reference/useQuery) — you get `data`, `isLoading`, `isFetching`, `isError`, `error`, `refetch`, and more.
+
+Hooks ending in `Infinite` return a [`UseInfiniteQueryResult`](https://tanstack.com/query/latest/docs/framework/react/reference/useInfiniteQuery) — use `data.pages`, `hasNextPage`, and `fetchNextPage()` to build infinite-scroll UIs.
 
 ### User hooks
 
@@ -49,6 +51,7 @@ All hooks return a [`UseQueryResult`](https://tanstack.com/query/latest/docs/fra
 | ---- | ----------- | ------- |
 | [`useGhUser(login)`](#useghuserloin) | Public profile for a GitHub user | `GitHubUser` |
 | [`useGhUserRepos(login, params?)`](#useghuserreposlogin-params) | Public repositories of a user | `GitHubPagedResponse<GitHubRepository>` |
+| [`useGhUserReposInfinite(login, params?)`](#useghuserreposinfinitelogin-params) | Infinite-scroll variant | `InfiniteData<GitHubPagedResponse<GitHubRepository>>` |
 
 ### Repository hooks
 
@@ -56,16 +59,24 @@ All hooks return a [`UseQueryResult`](https://tanstack.com/query/latest/docs/fra
 | ---- | ----------- | ------- |
 | [`useGhRepo(owner, name)`](#useghreoowner-name) | Repository metadata | `GitHubRepository` |
 | [`useGhRepoCommits(owner, name, params?)`](#useghrepocommitsowner-name-params) | Commit list | `GitHubPagedResponse<GitHubCommit>` |
-| [`useGhRepoBranches(owner, name, params?)`](#useghrepobrancho-owner-name-params) | Branch list | `GitHubPagedResponse<GitHubBranch>` |
+| [`useGhRepoCommitsInfinite(owner, name, params?)`](#useghrepocommitsinfiniteowner-name-params) | Infinite-scroll variant | `InfiniteData<GitHubPagedResponse<GitHubCommit>>` |
+| [`useGhRepoBranches(owner, name, params?)`](#useghrepobranchesowner-name-params) | Branch list | `GitHubPagedResponse<GitHubBranch>` |
+| [`useGhRepoBranchesInfinite(owner, name, params?)`](#useghrepobranchesinfiniteowner-name-params) | Infinite-scroll variant | `InfiniteData<GitHubPagedResponse<GitHubBranch>>` |
 | [`useGhRepoBranch(owner, name, branch)`](#useghrepobranchowner-name-branch) | Single branch | `GitHubBranch` |
 | [`useGhRepoTags(owner, name, params?)`](#useghrepotagsowner-name-params) | Tag list | `GitHubPagedResponse<GitHubTag>` |
+| [`useGhRepoTagsInfinite(owner, name, params?)`](#useghrepotagsinfiniteowner-name-params) | Infinite-scroll variant | `InfiniteData<GitHubPagedResponse<GitHubTag>>` |
 | [`useGhRepoReleases(owner, name, params?)`](#useghreporeleasesowner-name-params) | Release list | `GitHubPagedResponse<GitHubRelease>` |
+| [`useGhRepoReleasesInfinite(owner, name, params?)`](#useghreporeleasesinfiniteowner-name-params) | Infinite-scroll variant | `InfiniteData<GitHubPagedResponse<GitHubRelease>>` |
 | [`useGhRepoForks(owner, name, params?)`](#useghrepoforksowner-name-params) | Fork list | `GitHubPagedResponse<GitHubRepository>` |
+| [`useGhRepoForksInfinite(owner, name, params?)`](#useghrepoforksinfiniteowner-name-params) | Infinite-scroll variant | `InfiniteData<GitHubPagedResponse<GitHubRepository>>` |
 | [`useGhRepoContents(owner, name, path?, params?)`](#useghrepocontentsowner-name-path-params) | File or directory contents | `GitHubContent \| GitHubContent[]` |
 | [`useGhRepoTopics(owner, name)`](#useghrepotopicsowner-name) | Repository topic tags | `string[]` |
-| [`useGhRepoContributors(owner, name, params?)`](#useghrepocontributorsowner-name-params) | Contributor list | `GitHubPagedResponse<GitHubUser>` |
+| [`useGhRepoContributors(owner, name, params?)`](#useghrepocontributorsowner-name-params) | Contributor list | `GitHubPagedResponse<GitHubContributor>` |
+| [`useGhRepoContributorsInfinite(owner, name, params?)`](#useghrepocontributorsinfiniteowner-name-params) | Infinite-scroll variant | `InfiniteData<GitHubPagedResponse<GitHubContributor>>` |
 | [`useGhRepoIssues(owner, name, params?)`](#useghrepoissuesowner-name-params) | Issue list | `GitHubPagedResponse<GitHubIssue>` |
+| [`useGhRepoIssuesInfinite(owner, name, params?)`](#useghrepoissuesinfiniteowner-name-params) | Infinite-scroll variant | `InfiniteData<GitHubPagedResponse<GitHubIssue>>` |
 | [`useGhRepoPullRequests(owner, name, params?)`](#useghrepopullrequestsowner-name-params) | Pull request list | `GitHubPagedResponse<GitHubPullRequest>` |
+| [`useGhRepoPullRequestsInfinite(owner, name, params?)`](#useghrepopullrequestsinfiniteowner-name-params) | Infinite-scroll variant | `InfiniteData<GitHubPagedResponse<GitHubPullRequest>>` |
 
 ### Issue hooks
 
@@ -73,6 +84,7 @@ All hooks return a [`UseQueryResult`](https://tanstack.com/query/latest/docs/fra
 | ---- | ----------- | ------- |
 | [`useGhIssue(owner, name, number)`](#useghissueowner-name-number) | Single issue | `GitHubIssue` |
 | [`useGhIssueComments(owner, name, number, params?)`](#useghissuecommentsowner-name-number-params) | Comments on an issue | `GitHubPagedResponse<GitHubIssueComment>` |
+| [`useGhIssueCommentsInfinite(owner, name, number, params?)`](#useghissuecommentsinfiniteowner-name-number-params) | Infinite-scroll variant | `InfiniteData<GitHubPagedResponse<GitHubIssueComment>>` |
 
 ### Pull Request hooks
 
@@ -99,25 +111,24 @@ All hooks return a [`UseQueryResult`](https://tanstack.com/query/latest/docs/fra
 | ---- | ----------- | ------- |
 | [`useGhOrg(name)`](#useghorgname) | Organization profile | `GitHubOrganization` |
 | [`useGhOrgRepos(name, params?)`](#useghorgreposname-params) | Repositories in an organization | `GitHubPagedResponse<GitHubRepository>` |
+| [`useGhOrgReposInfinite(name, params?)`](#useghorgreposinfinitename-params) | Infinite-scroll variant | `InfiniteData<GitHubPagedResponse<GitHubRepository>>` |
 | [`useGhOrgMembers(name, params?)`](#useghorgmembersname-params) | Members of an organization | `GitHubPagedResponse<GitHubUser>` |
+| [`useGhOrgMembersInfinite(name, params?)`](#useghorgmembersinfinitename-params) | Infinite-scroll variant | `InfiniteData<GitHubPagedResponse<GitHubUser>>` |
 
 ### Search hooks
 
 | Hook | Description | Returns |
 | ---- | ----------- | ------- |
-| [`useGhSearchRepos(q, params?)`](#useghsearchreposq-params) | Search repositories | `GitHubPagedResponse<GitHubRepository>` |
+| [`useGhSearchRepos(params)`](#useghsearchreposparams) | Search repositories | `GitHubPagedResponse<GitHubRepository>` |
+| [`useGhSearchReposInfinite(params)`](#useghsearchreposinfiniteparams) | Infinite-scroll variant | `InfiniteData<GitHubPagedResponse<GitHubRepository>>` |
 
 ### Gist hooks — queries
 
 | Hook | Description | Returns |
 | ---- | ----------- | ------- |
 | [`useGhGists(params?)`](#useghgistsparams) | List gists (one page) | `GitHubPagedResponse<GitHubGist>` |
-| `useGhGistsInfinite(params?, options?)` | Infinite-scroll variant of `useGhGists` | `InfiniteData<GitHubPagedResponse<GitHubGist>>` |
+| [`useGhGistsInfinite(params?)`](#useghgistsinfiniteparams) | Infinite-scroll variant of `useGhGists` | `InfiniteData<GitHubPagedResponse<GitHubGist>>` |
 | [`useGhGist(gistId)`](#useghgistgistid) | Single gist by ID | `GitHubGist` |
-| [`useGhGistCommits(gistId, params?)`](#useghgistcommitsgistid-params) | Commit history of a gist | `GitHubPagedResponse<GistCommit>` |
-| [`useGhGistForks(gistId, params?)`](#useghgistforksgistid-params) | Forks of a gist | `GitHubPagedResponse<GistFork>` |
-| [`useGhGistComments(gistId, params?)`](#useghgistcommentsgistid-params) | Comments on a gist | `GitHubPagedResponse<GistComment>` |
-| [`useGhGistIsStarred(gistId)`](#useghgistisstarredgistid) | Whether the authenticated user starred a gist | `boolean` |
 
 ### Gist hooks — mutations
 
@@ -126,14 +137,8 @@ All mutation hooks return a [`UseMutationResult`](https://tanstack.com/query/lat
 | Hook | Description | Returns |
 | ---- | ----------- | ------- |
 | [`useGhCreateGist()`](#useghcreategist) | Create a new gist | `GitHubGist` |
-| [`useGhUpdateGist(gistId)`](#useghupgategistgistid) | Update an existing gist | `GitHubGist` |
+| [`useGhUpdateGist(gistId)`](#useghupdategistgistid) | Update an existing gist | `GitHubGist` |
 | [`useGhDeleteGist(gistId)`](#useghdeletegistgistid) | Delete a gist | `void` |
-| [`useGhForkGist(gistId)`](#useghforkgistgistid) | Fork a gist | `GitHubGist` |
-| [`useGhStarGist(gistId)`](#useghstargistgistid) | Star a gist | `void` |
-| [`useGhUnstarGist(gistId)`](#useghunstargistgistid) | Unstar a gist | `void` |
-| [`useGhAddGistComment(gistId)`](#useghaddgistcommentgistid) | Add a comment to a gist | `GistComment` |
-| [`useGhUpdateGistComment(gistId)`](#useghupgategistcommentgistid) | Update a gist comment | `GistComment` |
-| [`useGhDeleteGistComment(gistId)`](#useghdeletegistcommentgistid) | Delete a gist comment | `void` |
 
 ---
 
@@ -170,169 +175,664 @@ function UserCard({ login }: { login: string }) {
 
 ### `useGhUserRepos(login, params?)`
 
-> Coming soon — tracked in [#18](https://github.com/ElJijuna/api-hooks/issues/18)
+Fetches the public repositories of a GitHub user.
+
+```tsx
+import { useGhUserRepos } from '@api-hooks/gh';
+
+function UserRepoList({ login }: { login: string }) {
+  const { data } = useGhUserRepos(login, { sort: 'updated', per_page: 20 });
+
+  return (
+    <ul>
+      {data?.values.map(r => <li key={r.id}>{r.full_name}</li>)}
+    </ul>
+  );
+}
+```
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query (also disabled when `login` is empty) |
+| `token` | `string` | — | GitHub personal access token |
+
+---
+
+### `useGhUserReposInfinite(login, params?)`
+
+Infinite-scroll variant of `useGhUserRepos`.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query (also disabled when `login` is empty) |
+| `token` | `string` | — | GitHub personal access token |
 
 ---
 
 ### `useGhRepo(owner, name)`
 
-> Coming soon — tracked in [#20](https://github.com/ElJijuna/api-hooks/issues/20)
+Fetches a repository's metadata.
+
+```tsx
+import { useGhRepo } from '@api-hooks/gh';
+
+function RepoCard({ owner, name }: { owner: string; name: string }) {
+  const { data } = useGhRepo(owner, name);
+
+  return <p>{data?.description}</p>;
+}
+```
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query (also disabled when `owner` or `name` is empty) |
+| `token` | `string` | — | GitHub personal access token — required for private repositories |
 
 ---
 
 ### `useGhRepoCommits(owner, name, params?)`
 
-> Coming soon — tracked in [#22](https://github.com/ElJijuna/api-hooks/issues/22)
+Fetches the commit list for a repository.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query |
+| `token` | `string` | — | GitHub personal access token |
+
+---
+
+### `useGhRepoCommitsInfinite(owner, name, params?)`
+
+Infinite-scroll variant of `useGhRepoCommits`.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query |
+| `token` | `string` | — | GitHub personal access token |
 
 ---
 
 ### `useGhRepoBranches(owner, name, params?)`
 
-> Coming soon — tracked in [#23](https://github.com/ElJijuna/api-hooks/issues/23)
+Fetches the branches of a repository.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query |
+| `token` | `string` | — | GitHub personal access token |
+
+---
+
+### `useGhRepoBranchesInfinite(owner, name, params?)`
+
+Infinite-scroll variant of `useGhRepoBranches`.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query |
+| `token` | `string` | — | GitHub personal access token |
 
 ---
 
 ### `useGhRepoBranch(owner, name, branch)`
 
-> Coming soon — tracked in [#21](https://github.com/ElJijuna/api-hooks/issues/21)
+Fetches a single branch by name.
+
+```tsx
+import { useGhRepoBranch } from '@api-hooks/gh';
+
+function BranchInfo({ owner, repo }: { owner: string; repo: string }) {
+  const { data } = useGhRepoBranch(owner, repo, 'main');
+
+  return <p>Latest SHA: {data?.commit.sha}</p>;
+}
+```
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query (also disabled when `branch` is empty) |
+| `token` | `string` | — | GitHub personal access token |
 
 ---
 
 ### `useGhRepoTags(owner, name, params?)`
 
-> Coming soon — tracked in [#27](https://github.com/ElJijuna/api-hooks/issues/27)
+Fetches the tags of a repository.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query |
+| `token` | `string` | — | GitHub personal access token |
+
+---
+
+### `useGhRepoTagsInfinite(owner, name, params?)`
+
+Infinite-scroll variant of `useGhRepoTags`.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query |
+| `token` | `string` | — | GitHub personal access token |
 
 ---
 
 ### `useGhRepoReleases(owner, name, params?)`
 
-> Coming soon — tracked in [#24](https://github.com/ElJijuna/api-hooks/issues/24)
+Fetches the releases of a repository.
+
+```tsx
+import { useGhRepoReleases } from '@api-hooks/gh';
+
+function ReleaseList({ owner, repo }: { owner: string; repo: string }) {
+  const { data } = useGhRepoReleases(owner, repo, { per_page: 5 });
+
+  return (
+    <ul>
+      {data?.values.map(r => (
+        <li key={r.id}>
+          <a href={r.html_url}>{r.tag_name}</a>
+        </li>
+      ))}
+    </ul>
+  );
+}
+```
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query |
+| `token` | `string` | — | GitHub personal access token |
+
+---
+
+### `useGhRepoReleasesInfinite(owner, name, params?)`
+
+Infinite-scroll variant of `useGhRepoReleases`.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query |
+| `token` | `string` | — | GitHub personal access token |
 
 ---
 
 ### `useGhRepoForks(owner, name, params?)`
 
-> Coming soon — tracked in [#26](https://github.com/ElJijuna/api-hooks/issues/26)
+Fetches the forks of a repository.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query |
+| `token` | `string` | — | GitHub personal access token |
+
+---
+
+### `useGhRepoForksInfinite(owner, name, params?)`
+
+Infinite-scroll variant of `useGhRepoForks`.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query |
+| `token` | `string` | — | GitHub personal access token |
 
 ---
 
 ### `useGhRepoContents(owner, name, path?, params?)`
 
-> Coming soon — tracked in [#25](https://github.com/ElJijuna/api-hooks/issues/25)
+Fetches the contents of a file or directory. Returns a single `GitHubContent` for files, or an array for directories. Pass a `ref` in `params` to fetch from a specific branch, tag, or commit SHA.
+
+```tsx
+import { useGhRepoContents } from '@api-hooks/gh';
+
+function FileViewer({ owner, repo }: { owner: string; repo: string }) {
+  const { data } = useGhRepoContents(owner, repo, 'README.md');
+  const file = Array.isArray(data) ? null : data;
+
+  return file ? <pre>{atob(file.content ?? '')}</pre> : null;
+}
+```
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query |
+| `token` | `string` | — | GitHub personal access token |
 
 ---
 
 ### `useGhRepoTopics(owner, name)`
 
-> Coming soon — tracked in [#29](https://github.com/ElJijuna/api-hooks/issues/29)
+Fetches the topic tags for a repository.
+
+```tsx
+import { useGhRepoTopics } from '@api-hooks/gh';
+
+function TopicBadges({ owner, repo }: { owner: string; repo: string }) {
+  const { data } = useGhRepoTopics(owner, repo);
+
+  return (
+    <div>
+      {data?.map(t => <span key={t}>{t}</span>)}
+    </div>
+  );
+}
+```
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query |
+| `token` | `string` | — | GitHub personal access token |
 
 ---
 
 ### `useGhRepoContributors(owner, name, params?)`
 
-> Coming soon — tracked in [#30](https://github.com/ElJijuna/api-hooks/issues/30)
+Fetches the contributors of a repository. Each item includes `login`, `id`, `contributions`, `avatar_url`, and `html_url`. The `GitHubContributor` type is exported from `@api-hooks/gh`.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query |
+| `token` | `string` | — | GitHub personal access token |
+
+---
+
+### `useGhRepoContributorsInfinite(owner, name, params?)`
+
+Infinite-scroll variant of `useGhRepoContributors`.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query |
+| `token` | `string` | — | GitHub personal access token |
 
 ---
 
 ### `useGhRepoIssues(owner, name, params?)`
 
-> Coming soon — tracked in [#28](https://github.com/ElJijuna/api-hooks/issues/28)
+Fetches the issues of a repository. Note: GitHub includes pull requests in this endpoint — filter them by checking for the absence of `pull_request` on each item.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query |
+| `token` | `string` | — | GitHub personal access token |
+
+---
+
+### `useGhRepoIssuesInfinite(owner, name, params?)`
+
+Infinite-scroll variant of `useGhRepoIssues`.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query |
+| `token` | `string` | — | GitHub personal access token |
 
 ---
 
 ### `useGhRepoPullRequests(owner, name, params?)`
 
-> Coming soon — tracked in [#31](https://github.com/ElJijuna/api-hooks/issues/31)
+Fetches the pull requests of a repository.
+
+```tsx
+import { useGhRepoPullRequests } from '@api-hooks/gh';
+
+function OpenPRs({ owner, repo }: { owner: string; repo: string }) {
+  const { data } = useGhRepoPullRequests(owner, repo, { state: 'open' });
+
+  return (
+    <ul>
+      {data?.values.map(pr => (
+        <li key={pr.id}>#{pr.number} {pr.title}</li>
+      ))}
+    </ul>
+  );
+}
+```
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query |
+| `token` | `string` | — | GitHub personal access token |
+
+---
+
+### `useGhRepoPullRequestsInfinite(owner, name, params?)`
+
+Infinite-scroll variant of `useGhRepoPullRequests`.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query |
+| `token` | `string` | — | GitHub personal access token |
 
 ---
 
 ### `useGhIssue(owner, name, number)`
 
-> Coming soon — tracked in [#33](https://github.com/ElJijuna/api-hooks/issues/33)
+Fetches a single issue by number.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query (also disabled when `number` is `0`) |
+| `token` | `string` | — | GitHub personal access token |
 
 ---
 
 ### `useGhIssueComments(owner, name, number, params?)`
 
-> Coming soon — tracked in [#32](https://github.com/ElJijuna/api-hooks/issues/32)
+Fetches the comments on an issue.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query |
+| `token` | `string` | — | GitHub personal access token |
+
+---
+
+### `useGhIssueCommentsInfinite(owner, name, number, params?)`
+
+Infinite-scroll variant of `useGhIssueComments`.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query |
+| `token` | `string` | — | GitHub personal access token |
 
 ---
 
 ### `useGhPullRequest(owner, name, number)`
 
-> Coming soon — tracked in [#34](https://github.com/ElJijuna/api-hooks/issues/34)
+Fetches a single pull request by number.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query (also disabled when `number` is `0`) |
+| `token` | `string` | — | GitHub personal access token |
 
 ---
 
 ### `useGhPullRequestCommits(owner, name, number, params?)`
 
-> Coming soon — tracked in [#35](https://github.com/ElJijuna/api-hooks/issues/35)
+Fetches the commits included in a pull request.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query |
+| `token` | `string` | — | GitHub personal access token |
 
 ---
 
 ### `useGhPullRequestFiles(owner, name, number, params?)`
 
-> Coming soon — tracked in [#38](https://github.com/ElJijuna/api-hooks/issues/38)
+Fetches the files changed by a pull request.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query |
+| `token` | `string` | — | GitHub personal access token |
 
 ---
 
 ### `useGhPullRequestReviews(owner, name, number, params?)`
 
-> Coming soon — tracked in [#39](https://github.com/ElJijuna/api-hooks/issues/39)
+Fetches the reviews submitted on a pull request.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query |
+| `token` | `string` | — | GitHub personal access token |
 
 ---
 
 ### `useGhPullRequestReviewComments(owner, name, number, params?)`
 
-> Coming soon — tracked in [#37](https://github.com/ElJijuna/api-hooks/issues/37)
+Fetches the inline diff comments on a pull request.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query |
+| `token` | `string` | — | GitHub personal access token |
 
 ---
 
 ### `useGhCommit(owner, name, ref)`
 
-> Coming soon — tracked in [#36](https://github.com/ElJijuna/api-hooks/issues/36)
+Fetches a single commit. `ref` can be a commit SHA, branch name, or tag name.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query (also disabled when `ref` is empty) |
+| `token` | `string` | — | GitHub personal access token |
 
 ---
 
 ### `useGhCommitStatuses(owner, name, ref, params?)`
 
-> Coming soon — tracked in [#41](https://github.com/ElJijuna/api-hooks/issues/41)
+Fetches the individual CI/CD statuses for a commit (Statuses API).
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query |
+| `token` | `string` | — | GitHub personal access token |
 
 ---
 
 ### `useGhCommitCombinedStatus(owner, name, ref)`
 
-> Coming soon — tracked in [#43](https://github.com/ElJijuna/api-hooks/issues/43)
+Fetches the combined (aggregated) status for a commit.
+
+```tsx
+import { useGhCommitCombinedStatus } from '@api-hooks/gh';
+
+function CommitStatus({ owner, repo, sha }: { owner: string; repo: string; sha: string }) {
+  const { data } = useGhCommitCombinedStatus(owner, repo, sha);
+
+  return <span>{data?.state}</span>;
+}
+```
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query |
+| `token` | `string` | — | GitHub personal access token |
 
 ---
 
 ### `useGhCommitCheckRuns(owner, name, ref, params?)`
 
-> Coming soon — tracked in [#42](https://github.com/ElJijuna/api-hooks/issues/42)
+Fetches the GitHub Actions check runs for a commit.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query |
+| `token` | `string` | — | GitHub personal access token |
 
 ---
 
 ### `useGhOrg(name)`
 
-> Coming soon — tracked in [#40](https://github.com/ElJijuna/api-hooks/issues/40)
+Fetches an organization's public profile.
+
+```tsx
+import { useGhOrg } from '@api-hooks/gh';
+
+function OrgCard({ org }: { org: string }) {
+  const { data } = useGhOrg(org);
+
+  return <p>{data?.description}</p>;
+}
+```
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query (also disabled when `name` is empty) |
+| `token` | `string` | — | GitHub personal access token |
 
 ---
 
 ### `useGhOrgRepos(name, params?)`
 
-> Coming soon — tracked in [#44](https://github.com/ElJijuna/api-hooks/issues/44)
+Fetches the repositories belonging to an organization.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query |
+| `token` | `string` | — | GitHub personal access token — required for private repositories |
+
+---
+
+### `useGhOrgReposInfinite(name, params?)`
+
+Infinite-scroll variant of `useGhOrgRepos`.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query |
+| `token` | `string` | — | GitHub personal access token |
 
 ---
 
 ### `useGhOrgMembers(name, params?)`
 
-> Coming soon — tracked in [#45](https://github.com/ElJijuna/api-hooks/issues/45)
+Fetches the members of an organization.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query |
+| `token` | `string` | — | GitHub personal access token |
 
 ---
 
-### `useGhSearchRepos(q, params?)`
+### `useGhOrgMembersInfinite(name, params?)`
 
-> Coming soon — tracked in [#46](https://github.com/ElJijuna/api-hooks/issues/46)
+Infinite-scroll variant of `useGhOrgMembers`.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query |
+| `token` | `string` | — | GitHub personal access token |
+
+---
+
+### `useGhSearchRepos(params)`
+
+Searches for repositories using [GitHub's search syntax](https://docs.github.com/en/search-github/searching-on-github/searching-for-repositories). `params.q` is required. The response includes a `totalCount` field.
+
+```tsx
+import { useGhSearchRepos } from '@api-hooks/gh';
+
+function RepoSearch({ query }: { query: string }) {
+  const { data } = useGhSearchRepos({ q: query, sort: 'stars', per_page: 10 });
+
+  return (
+    <>
+      <p>{data?.totalCount} results</p>
+      <ul>
+        {data?.values.map(r => <li key={r.id}>{r.full_name}</li>)}
+      </ul>
+    </>
+  );
+}
+```
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query (also disabled when `params.q` is empty) |
+| `token` | `string` | — | GitHub personal access token |
+
+---
+
+### `useGhSearchReposInfinite(params)`
+
+Infinite-scroll variant of `useGhSearchRepos`.
+
+```tsx
+import { useGhSearchReposInfinite } from '@api-hooks/gh';
+
+function InfiniteRepoSearch({ query }: { query: string }) {
+  const { data, hasNextPage, fetchNextPage } =
+    useGhSearchReposInfinite({ q: query, sort: 'stars' });
+
+  const repos = data?.pages.flatMap(p => p.values) ?? [];
+
+  return (
+    <>
+      <ul>{repos.map(r => <li key={r.id}>{r.full_name}</li>)}</ul>
+      {hasNextPage && <button onClick={() => fetchNextPage()}>Load more</button>}
+    </>
+  );
+}
+```
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query (also disabled when `params.q` is empty) |
+| `token` | `string` | — | GitHub personal access token |
+
+---
+
+### `useGhGists(params?, options?)`
+
+Lists public gists, or all gists for the authenticated user when a `token` is provided. Returns one page.
+
+```tsx
+import { useGhGists } from '@api-hooks/gh';
+
+function GistList() {
+  const { data } = useGhGists({ per_page: 10 });
+
+  return (
+    <ul>
+      {data?.values.map(g => (
+        <li key={g.id}>{g.description ?? g.id}</li>
+      ))}
+    </ul>
+  );
+}
+```
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query |
+| `token` | `string` | — | GitHub personal access token — required to list secret gists |
+
+---
+
+### `useGhGistsInfinite(params?, options?)`
+
+Infinite-scroll variant of `useGhGists`. Each call to `fetchNextPage()` fetches the next page using `nextPage` from the previous response. Results accumulate in `data.pages`.
+
+```tsx
+import { useGhGistsInfinite } from '@api-hooks/gh';
+
+function InfiniteGistList() {
+  const { data, hasNextPage, fetchNextPage, isFetchingNextPage } =
+    useGhGistsInfinite({ per_page: 10 }, { token: 'ghp_...' });
+
+  const allGists = data?.pages.flatMap(p => p.values) ?? [];
+
+  return (
+    <>
+      <ul>
+        {allGists.map(g => (
+          <li key={g.id}>{g.description ?? g.id}</li>
+        ))}
+      </ul>
+      {hasNextPage && (
+        <button onClick={() => fetchNextPage()} disabled={isFetchingNextPage}>
+          Load more
+        </button>
+      )}
+    </>
+  );
+}
+```
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query |
+| `token` | `string` | — | GitHub personal access token — required to list secret gists |
 
 ---
 
@@ -361,30 +861,6 @@ function GistViewer({ gistId }: { gistId: string }) {
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query (also disabled when `gistId` is empty) |
-
----
-
-### `useGhGistCommits(gistId, params?)`
-
-> Coming soon — tracked in [#58](https://github.com/ElJijuna/api-hooks/issues/58)
-
----
-
-### `useGhGistForks(gistId, params?)`
-
-> Coming soon — tracked in [#59](https://github.com/ElJijuna/api-hooks/issues/59)
-
----
-
-### `useGhGistComments(gistId, params?)`
-
-> Coming soon — tracked in [#60](https://github.com/ElJijuna/api-hooks/issues/60)
-
----
-
-### `useGhGistIsStarred(gistId)`
-
-> Coming soon — tracked in [#61](https://github.com/ElJijuna/api-hooks/issues/61)
 
 ---
 
@@ -454,42 +930,6 @@ function DeleteButton({ gistId }: { gistId: string }) {
   );
 }
 ```
-
----
-
-### `useGhForkGist(gistId)`
-
-> Coming soon — tracked in [#65](https://github.com/ElJijuna/api-hooks/issues/65)
-
----
-
-### `useGhStarGist(gistId)`
-
-> Coming soon — tracked in [#66](https://github.com/ElJijuna/api-hooks/issues/66)
-
----
-
-### `useGhUnstarGist(gistId)`
-
-> Coming soon — tracked in [#66](https://github.com/ElJijuna/api-hooks/issues/66)
-
----
-
-### `useGhAddGistComment(gistId)`
-
-> Coming soon — tracked in [#67](https://github.com/ElJijuna/api-hooks/issues/67)
-
----
-
-### `useGhUpdateGistComment(gistId)`
-
-> Coming soon — tracked in [#67](https://github.com/ElJijuna/api-hooks/issues/67)
-
----
-
-### `useGhDeleteGistComment(gistId)`
-
-> Coming soon — tracked in [#67](https://github.com/ElJijuna/api-hooks/issues/67)
 
 ---
 
