@@ -3,9 +3,19 @@ import { npmQueryKeys } from '../keys/npmQueryKeys.js';
 import { useNpmClient } from '../NpmClientContext.js';
 
 export interface UseNpmOrgTeamsOptions {
+  /** Disable the query. Also disabled when `org` is empty. */
   enabled?: boolean;
 }
 
+/**
+ * Returns all teams in an org.
+ *
+ * Requires a registry token with org access passed to `NpmClientProvider`.
+ *
+ * @param org - Org name (e.g. `'npmcli'`)
+ * @param options - Query options
+ * @returns TanStack Query result with `string[]` (team names)
+ */
 export function useNpmOrgTeams(
   org: string,
   options: UseNpmOrgTeamsOptions = {}

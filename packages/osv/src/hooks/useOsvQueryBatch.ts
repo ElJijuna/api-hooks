@@ -4,9 +4,19 @@ import { OsvClient, type OsvBatchQuery, type OsvBatchQueryResult } from 'osv-api
 import { osvQueryKeys } from '../keys/osvQueryKeys.js';
 
 export interface UseOsvQueryBatchOptions {
+  /** Disable the query. Also disabled when `queries` is empty. */
   enabled?: boolean;
 }
 
+/**
+ * Batch-queries the OSV database for multiple packages in a single request.
+ *
+ * More efficient than calling `useOsvQuery` individually for each package.
+ *
+ * @param queries - Array of `OsvBatchQuery` objects from `osv-api-client`
+ * @param options - Query options
+ * @returns TanStack Query result with {@link OsvBatchQueryResult}
+ */
 export function useOsvQueryBatch(
   queries: OsvBatchQuery[],
   options: UseOsvQueryBatchOptions = {}

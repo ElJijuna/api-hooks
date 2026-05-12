@@ -4,9 +4,19 @@ import { npmQueryKeys } from '../keys/npmQueryKeys.js';
 import { useNpmClient } from '../NpmClientContext.js';
 
 export interface UseNpmOrgMembersOptions {
+  /** Disable the query. Also disabled when `org` is empty. */
   enabled?: boolean;
 }
 
+/**
+ * Returns all members in an org, keyed by username, with their roles.
+ *
+ * Requires a registry token with org access passed to `NpmClientProvider`.
+ *
+ * @param org - Org name (e.g. `'npmcli'`)
+ * @param options - Query options
+ * @returns TanStack Query result with {@link NpmOrgMembers}
+ */
 export function useNpmOrgMembers(
   org: string,
   options: UseNpmOrgMembersOptions = {}

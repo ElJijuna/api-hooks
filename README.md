@@ -88,6 +88,21 @@ React hooks for the [Bundlephobia API](https://bundlephobia.com).
 
 ---
 
+### [`@api-hooks/osv`](packages/osv#readme)
+
+React hooks for the [OSV (Open Source Vulnerabilities) API](https://osv.dev).
+
+[![npm](https://img.shields.io/npm/v/@api-hooks/osv)](https://www.npmjs.com/package/@api-hooks/osv)
+[![npm downloads](https://img.shields.io/npm/dm/@api-hooks/osv)](https://www.npmjs.com/package/@api-hooks/osv)
+
+| Hook | Returns |
+| ---- | ------- |
+| `useOsvVuln(id, options?)` | `OsvVulnerability` |
+| `useOsvQuery(params, options?)` | `OsvQueryResult` |
+| `useOsvQueryBatch(queries, options?)` | `OsvBatchQueryResult` |
+
+---
+
 ## Requirements
 
 All packages require the following peer dependencies:

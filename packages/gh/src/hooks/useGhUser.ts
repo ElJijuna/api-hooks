@@ -4,9 +4,17 @@ import { GitHubClient, type GitHubUser } from 'gh-api-client';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
 export interface UseGhUserOptions {
+  /** Disable the query. Also disabled when `login` is empty. */
   enabled?: boolean;
 }
 
+/**
+ * Fetches a GitHub user's public profile.
+ *
+ * @param login - GitHub username (e.g. `'torvalds'`)
+ * @param options - Query options
+ * @returns TanStack Query result with {@link GitHubUser}
+ */
 export function useGhUser(
   login: string,
   options: UseGhUserOptions = {}

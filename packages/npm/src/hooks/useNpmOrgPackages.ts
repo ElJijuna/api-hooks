@@ -4,9 +4,19 @@ import { npmQueryKeys } from '../keys/npmQueryKeys.js';
 import { useNpmClient } from '../NpmClientContext.js';
 
 export interface UseNpmOrgPackagesOptions {
+  /** Disable the query. Also disabled when `org` is empty. */
   enabled?: boolean;
 }
 
+/**
+ * Returns all packages an org has access to, keyed by package name.
+ *
+ * Requires a registry token with org access passed to `NpmClientProvider`.
+ *
+ * @param org - Org name (e.g. `'npmcli'`)
+ * @param options - Query options
+ * @returns TanStack Query result with {@link NpmOrgPackages}
+ */
 export function useNpmOrgPackages(
   org: string,
   options: UseNpmOrgPackagesOptions = {}

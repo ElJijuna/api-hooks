@@ -5,9 +5,17 @@ import { npmQueryKeys } from '../keys/npmQueryKeys.js';
 import { useNpmClient } from '../NpmClientContext.js';
 
 export interface UseNpmSearchOptions extends Omit<NpmSearchParams, 'text'> {
+  /** Disable the query. Also disabled when `text` is empty. */
   enabled?: boolean;
 }
 
+/**
+ * Full-text search across the npm registry.
+ *
+ * @param text - Search query (e.g. `'react state management'`)
+ * @param options - Pagination and scoring weights (`size`, `from`, `quality`, `popularity`, `maintenance`)
+ * @returns TanStack Query result with {@link NpmSearchResult}
+ */
 export function useNpmSearch(
   text: string,
   options: UseNpmSearchOptions = {}

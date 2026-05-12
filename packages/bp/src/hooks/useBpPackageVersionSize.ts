@@ -4,9 +4,18 @@ import { BundlephobiaClient, type BundleSize } from 'bundlephobia-api-client';
 import { bpQueryKeys } from '../keys/bpQueryKeys.js';
 
 export interface UseBpPackageVersionSizeOptions {
+  /** Disable the query. Also disabled when `name` or `version` is empty. */
   enabled?: boolean;
 }
 
+/**
+ * Fetches the minified + gzipped bundle size for a specific package version from Bundlephobia.
+ *
+ * @param name - Package name (e.g. `'lodash'`)
+ * @param version - Exact version string (e.g. `'4.17.21'`)
+ * @param options - Query options
+ * @returns TanStack Query result with {@link BundleSize}
+ */
 export function useBpPackageVersionSize(
   name: string,
   version: string,

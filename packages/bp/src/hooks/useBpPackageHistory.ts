@@ -4,9 +4,19 @@ import { BundlephobiaClient, type PackageHistory } from 'bundlephobia-api-client
 import { bpQueryKeys } from '../keys/bpQueryKeys.js';
 
 export interface UseBpPackageHistoryOptions {
+  /** Disable the query. Also disabled when `name` is empty. */
   enabled?: boolean;
 }
 
+/**
+ * Fetches the bundle size history across all published versions of a package from Bundlephobia.
+ *
+ * Useful for rendering a size-over-time chart.
+ *
+ * @param name - Package name (e.g. `'lodash'`)
+ * @param options - Query options
+ * @returns TanStack Query result with {@link PackageHistory}
+ */
 export function useBpPackageHistory(
   name: string,
   options: UseBpPackageHistoryOptions = {}
