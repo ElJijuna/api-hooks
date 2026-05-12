@@ -1,3 +1,17 @@
+## [1.8.0](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/bp@1.7.0...@api-hooks/bp@1.8.0) (2026-05-12)
+
+### Features
+
+* **@api-hooks/gh:** add global advisory hooks (advisories, advisory, advisoryByCve) ([9277173](https://github.com/ElJijuna/api-hooks/commit/9277173f75b5b325a0a391c1a0b0a57959054b1b))
+* **@api-hooks/gh:** add repo, issue, PR, commit, org and search hooks ([39e1774](https://github.com/ElJijuna/api-hooks/commit/39e1774c9bb9ef8cd8d4b1af79fb9ab8568d97ad))
+* **@api-hooks/gh:** add useGhGistsInfinite hook ([41072f2](https://github.com/ElJijuna/api-hooks/commit/41072f2a6092b27faa34a15eedb15a54997e4544))
+* **@api-hooks/npm:** add useNpmSearchInfinite and useNpmMaintainerPackagesInfinite hooks ([864bdf4](https://github.com/ElJijuna/api-hooks/commit/864bdf4315c9119edc5acc2140b106164964c1f9))
+
+### Documentation
+
+* add documentation in hooks. ([deb3aa5](https://github.com/ElJijuna/api-hooks/commit/deb3aa5e9c5471207d48a839cba45f6619b6ed0e))
+* update READMEs ([e258e4e](https://github.com/ElJijuna/api-hooks/commit/e258e4e8d81ad883f092e66709fcebeda8ee950f))
+
 ## [1.7.0](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/bp@1.6.0...@api-hooks/bp@1.7.0) (2026-05-08)
 
 ### Features
