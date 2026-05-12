@@ -27,7 +27,9 @@ React hooks for the [npm registry API](https://github.com/npm/registry/blob/main
 | `useNpmPackageDownloadRange(name, options?)` | `NpmDownloadRange` |
 | `useNpmMaintainer(username)` | `NpmUser` |
 | `useNpmMaintainerPackages(username, options?)` | `NpmSearchResult` |
+| `useNpmMaintainerPackagesInfinite(username, options?)` | `InfiniteData<NpmSearchResult>` |
 | `useNpmSearch(text, options?)` | `NpmSearchResult` |
+| `useNpmSearchInfinite(text, options?)` | `InfiniteData<NpmSearchResult>` |
 
 ---
 
@@ -69,6 +71,12 @@ React hooks for the [GitHub REST API](https://docs.github.com/en/rest).
 | `useGhOrgRepos(name, params?)` | `GitHubPagedResponse<GitHubRepository>` |
 | `useGhOrgMembers(name, params?)` | `GitHubPagedResponse<GitHubUser>` |
 | `useGhSearchRepos(q, params?)` | `GitHubPagedResponse<GitHubRepository>` |
+| `useGhGist(gistId, options?)` | `GitHubGist` |
+| `useGhGists(params?, options?)` | `GitHubPagedResponse<GitHubGist>` |
+| `useGhGistsInfinite(params?, options?)` | `InfiniteData<GitHubPagedResponse<GitHubGist>>` |
+| `useGhCreateGist(options?)` | `GitHubGist` |
+| `useGhUpdateGist(gistId, options?)` | `GitHubGist` |
+| `useGhDeleteGist(gistId)` | `void` |
 
 ---
 

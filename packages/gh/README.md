@@ -111,7 +111,8 @@ All hooks return a [`UseQueryResult`](https://tanstack.com/query/latest/docs/fra
 
 | Hook | Description | Returns |
 | ---- | ----------- | ------- |
-| [`useGhGists(params?)`](#useghgistsparams) | List authenticated user's gists | `GitHubPagedResponse<GitHubGist>` |
+| [`useGhGists(params?)`](#useghgistsparams) | List gists (one page) | `GitHubPagedResponse<GitHubGist>` |
+| `useGhGistsInfinite(params?, options?)` | Infinite-scroll variant of `useGhGists` | `InfiniteData<GitHubPagedResponse<GitHubGist>>` |
 | [`useGhGist(gistId)`](#useghgistgistid) | Single gist by ID | `GitHubGist` |
 | [`useGhGistCommits(gistId, params?)`](#useghgistcommitsgistid-params) | Commit history of a gist | `GitHubPagedResponse<GistCommit>` |
 | [`useGhGistForks(gistId, params?)`](#useghgistforksgistid-params) | Forks of a gist | `GitHubPagedResponse<GistFork>` |

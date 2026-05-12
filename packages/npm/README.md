@@ -99,6 +99,7 @@ Audit hooks (`useNpmAudit`, `useNpmAuditQuick`) return a [`UseMutationResult`](h
 | ---- | ----------- | ------- |
 | [`useNpmMaintainer(username)`](#usenpmmaintainerusername) | Public profile of an npm user | `NpmUser` |
 | [`useNpmMaintainerPackages(username, options?)`](#usenpmmaintainerpackagesusername-options) | Packages published by a user | `NpmSearchResult` |
+| `useNpmMaintainerPackagesInfinite(username, options?)` | Infinite-scroll variant of `useNpmMaintainerPackages` | `InfiniteData<NpmSearchResult>` |
 | [`useNpmMaintainerAvatar(username)`](#usenpmmaintaineravatarusername) | Gravatar URL when a public email is available | `string \| undefined` |
 
 ### Search hooks
@@ -106,6 +107,7 @@ Audit hooks (`useNpmAudit`, `useNpmAuditQuick`) return a [`UseMutationResult`](h
 | Hook | Description | Returns |
 | ---- | ----------- | ------- |
 | [`useNpmSearch(text, options?)`](#usenpmsearchtext-options) | Full-text search across the registry | `NpmSearchResult` |
+| `useNpmSearchInfinite(text, options?)` | Infinite-scroll variant of `useNpmSearch` | `InfiniteData<NpmSearchResult>` |
 
 ### Top / ranking hooks
 
@@ -529,6 +531,46 @@ data?.objects.forEach(o => console.log(o.package.name, o.package.version));
 
 ---
 
+### `useNpmMaintainerPackagesInfinite(username, options?)`
+
+Infinite-scroll variant of `useNpmMaintainerPackages`. Each call to `fetchNextPage()` advances the `from` offset by `size`. Results accumulate in `data.pages`.
+
+```tsx
+import { useNpmMaintainerPackagesInfinite } from '@api-hooks/npm';
+
+function MaintainerPackageList({ username }: { username: string }) {
+  const { data, hasNextPage, fetchNextPage, isFetchingNextPage } =
+    useNpmMaintainerPackagesInfinite(username, { size: 10 });
+
+  const allPackages = data?.pages.flatMap(p => p.objects) ?? [];
+
+  return (
+    <>
+      <ul>
+        {allPackages.map(o => (
+          <li key={o.package.name}>{o.package.name}</li>
+        ))}
+      </ul>
+      {hasNextPage && (
+        <button onClick={() => fetchNextPage()} disabled={isFetchingNextPage}>
+          Load more
+        </button>
+      )}
+    </>
+  );
+}
+```
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `size` | `number` | `20` | Results per page (max 250) |
+| `quality` | `number` | — | Scoring weight 0–1 |
+| `popularity` | `number` | — | Scoring weight 0–1 |
+| `maintenance` | `number` | — | Scoring weight 0–1 |
+| `enabled` | `boolean` | `true` | Disabled when `username` is empty |
+
+---
+
 ### `useNpmSearch(text, options?)`
 
 Full-text search across the npm registry.
@@ -545,6 +587,46 @@ data?.objects.forEach(o => {
 | ------ | ---- | ------- | ----------- |
 | `size` | `number` | `20` | Results per page (max 250) |
 | `from` | `number` | `0` | Pagination offset |
+| `quality` | `number` | — | Scoring weight 0–1 |
+| `popularity` | `number` | — | Scoring weight 0–1 |
+| `maintenance` | `number` | — | Scoring weight 0–1 |
+| `enabled` | `boolean` | `true` | Disabled when `text` is empty |
+
+---
+
+### `useNpmSearchInfinite(text, options?)`
+
+Infinite-scroll variant of `useNpmSearch`. Each call to `fetchNextPage()` advances the `from` offset by `size`. Results accumulate in `data.pages`.
+
+```tsx
+import { useNpmSearchInfinite } from '@api-hooks/npm';
+
+function InfiniteSearch() {
+  const { data, hasNextPage, fetchNextPage, isFetchingNextPage } =
+    useNpmSearchInfinite('react', { size: 10 });
+
+  const allPackages = data?.pages.flatMap(p => p.objects) ?? [];
+
+  return (
+    <>
+      <ul>
+        {allPackages.map(o => (
+          <li key={o.package.name}>{o.package.name}</li>
+        ))}
+      </ul>
+      {hasNextPage && (
+        <button onClick={() => fetchNextPage()} disabled={isFetchingNextPage}>
+          Load more
+        </button>
+      )}
+    </>
+  );
+}
+```
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `size` | `number` | `20` | Results per page (max 250) |
 | `quality` | `number` | — | Scoring weight 0–1 |
 | `popularity` | `number` | — | Scoring weight 0–1 |
 | `maintenance` | `number` | — | Scoring weight 0–1 |
