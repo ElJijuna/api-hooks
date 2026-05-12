@@ -34,10 +34,14 @@ export const npmQueryKeys = {
     ['npm', 'maintainer', username] as const,
   maintainerPackages: (username: string, params?: object) =>
     ['npm', 'maintainer', username, 'packages', params] as const,
+  maintainerPackagesInfinite: (username: string, params?: object) =>
+    ['npm', 'maintainer', username, 'packages', 'infinite', params] as const,
   maintainerAvatar: (username: string) =>
     ['npm', 'maintainer', username, 'avatar'] as const,
   search: (params: object) =>
     ['npm', 'search', params] as const,
+  searchInfinite: (params: object) =>
+    ['npm', 'search', 'infinite', params] as const,
   topPackages: (n: number) =>
     ['npm', 'top-packages', n] as const,
   topByPopularity: (n: number) =>
