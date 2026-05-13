@@ -65,4 +65,38 @@ export const ghQueryKeys = {
   gist: (gistId: string) => ['gh', 'gist', gistId] as const,
   gists: (params?: object) => ['gh', 'gists', params] as const,
   gistsInfinite: (params?: object) => ['gh', 'gists', 'infinite', params] as const,
+  gistCommits: (gistId: string, params?: object) => ['gh', 'gist', gistId, 'commits', params] as const,
+  gistCommitsInfinite: (gistId: string, params?: object) => ['gh', 'gist', gistId, 'commits', 'infinite', params] as const,
+  gistForks: (gistId: string, params?: object) => ['gh', 'gist', gistId, 'forks', params] as const,
+  gistForksInfinite: (gistId: string, params?: object) => ['gh', 'gist', gistId, 'forks', 'infinite', params] as const,
+  gistComments: (gistId: string, params?: object) => ['gh', 'gist', gistId, 'comments', params] as const,
+  gistCommentsInfinite: (gistId: string, params?: object) => ['gh', 'gist', gistId, 'comments', 'infinite', params] as const,
+  gistIsStarred: (gistId: string) => ['gh', 'gist', gistId, 'starred'] as const,
+
+  // Current user
+  currentUser: () => ['gh', 'current-user'] as const,
+
+  // User extended
+  userFollowers: (login: string, params?: object) => ['gh', 'user', login, 'followers', params] as const,
+  userFollowersInfinite: (login: string, params?: object) => ['gh', 'user', login, 'followers', 'infinite', params] as const,
+  userFollowing: (login: string, params?: object) => ['gh', 'user', login, 'following', params] as const,
+  userFollowingInfinite: (login: string, params?: object) => ['gh', 'user', login, 'following', 'infinite', params] as const,
+  userPublicEvents: (login: string, params?: object) => ['gh', 'user', login, 'events', params] as const,
+  userContributionMap: (login: string, params?: object) => ['gh', 'user', login, 'contributions', params] as const,
+
+  // Repo extended
+  repoLatestRelease: (owner: string, repo: string) => ['gh', 'repo', owner, repo, 'releases', 'latest'] as const,
+  repoWebhooks: (owner: string, repo: string, params?: object) => ['gh', 'repo', owner, repo, 'webhooks', params] as const,
+  repoWebhooksInfinite: (owner: string, repo: string, params?: object) => ['gh', 'repo', owner, repo, 'webhooks', 'infinite', params] as const,
+  repoRaw: (owner: string, repo: string, filePath: string, params?: object) => ['gh', 'repo', owner, repo, 'raw', filePath, params] as const,
+  repoAdvisories: (owner: string, repo: string, params?: object) => ['gh', 'repo', owner, repo, 'advisories', params] as const,
+  repoAdvisoriesInfinite: (owner: string, repo: string, params?: object) => ['gh', 'repo', owner, repo, 'advisories', 'infinite', params] as const,
+  repoAdvisory: (owner: string, repo: string, ghsaId: string) => ['gh', 'repo', owner, repo, 'advisory', ghsaId] as const,
+
+  // Pull Request extended
+  pullRequestIsMerged: (owner: string, repo: string, pullNumber: number) => ['gh', 'repo', owner, repo, 'pull', pullNumber, 'merged'] as const,
+
+  // Commit extended
+  commitComments: (owner: string, repo: string, ref: string, params?: object) => ['gh', 'repo', owner, repo, 'commit', ref, 'comments', params] as const,
+  commitCommentsInfinite: (owner: string, repo: string, ref: string, params?: object) => ['gh', 'repo', owner, repo, 'commit', ref, 'comments', 'infinite', params] as const,
 } as const;

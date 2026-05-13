@@ -1,0 +1,57 @@
+import { describe, it, expect, beforeEach, jest } from '@jest/globals';
+import { renderHook, waitFor, act } from '@testing-library/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { GitHubClient, GitHubApiError } from 'gh-api-client';
+import { useGhStarGist } from './useGhStarGist.js';
+
+const mockStar = jest.fn<(signal?: AbortSignal) => Promise<void>>();
+
+beforeEach(() => {
+  jest.clearAllMocks();
+  jest
+    .spyOn(GitHubClient.prototype, 'gist')
+    .mockReturnValue({
+      star: mockStar,
+    } as unknown as ReturnType<GitHubClient['gist']>);
+});
+
+function wrapper({ children }: { children: React.ReactNode }) {
+  const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
+  return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
+}
+
+describe('useGhStarGist', () => {
+  it('succeeds on star', async () => {
+    mockStar.mockResolvedValue(undefined);
+
+    const { result } = renderHook(() => useGhStarGist('abc123'), { wrapper });
+
+    act(() => {
+      result.current.mutate();
+    });
+
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+
+    expect(mockStar).toHaveBeenCalled();
+  });
+
+  it('returns error on failure', async () => {
+    mockStar.mockRejectedValue(new GitHubApiError(401, 'Unauthorized'));
+
+    const { result } = renderHook(() => useGhStarGist('abc123'), { wrapper });
+
+    act(() => {
+      result.current.mutate();
+    });
+
+    await waitFor(() => expect(result.current.isError).toBe(true));
+
+    expect(result.current.error).toBeInstanceOf(GitHubApiError);
+  });
+
+  it('is idle before mutate is called', () => {
+    const { result } = renderHook(() => useGhStarGist('abc123'), { wrapper });
+
+    expect(result.current.isIdle).toBe(true);
+  });
+});

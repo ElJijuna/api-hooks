@@ -7,6 +7,13 @@
 export * from './hooks/useGhUser.js';
 export * from './hooks/useGhUserRepos.js';
 export * from './hooks/useGhUserReposInfinite.js';
+export * from './hooks/useGhCurrentUser.js';
+export * from './hooks/useGhUserFollowers.js';
+export * from './hooks/useGhUserFollowersInfinite.js';
+export * from './hooks/useGhUserFollowing.js';
+export * from './hooks/useGhUserFollowingInfinite.js';
+export * from './hooks/useGhUserPublicEvents.js';
+export * from './hooks/useGhUserContributionMap.js';
 
 // Gist
 export * from './hooks/useGhGist.js';
@@ -15,6 +22,19 @@ export * from './hooks/useGhUpdateGist.js';
 export * from './hooks/useGhDeleteGist.js';
 export * from './hooks/useGhGists.js';
 export * from './hooks/useGhGistsInfinite.js';
+export * from './hooks/useGhGistCommits.js';
+export * from './hooks/useGhGistCommitsInfinite.js';
+export * from './hooks/useGhGistForks.js';
+export * from './hooks/useGhGistForksInfinite.js';
+export * from './hooks/useGhGistComments.js';
+export * from './hooks/useGhGistCommentsInfinite.js';
+export * from './hooks/useGhGistIsStarred.js';
+export * from './hooks/useGhForkGist.js';
+export * from './hooks/useGhStarGist.js';
+export * from './hooks/useGhUnstarGist.js';
+export * from './hooks/useGhAddGistComment.js';
+export * from './hooks/useGhUpdateGistComment.js';
+export * from './hooks/useGhDeleteGistComment.js';
 
 // Repo
 export * from './hooks/useGhRepo.js';
@@ -37,6 +57,15 @@ export * from './hooks/useGhRepoIssues.js';
 export * from './hooks/useGhRepoIssuesInfinite.js';
 export * from './hooks/useGhRepoPullRequests.js';
 export * from './hooks/useGhRepoPullRequestsInfinite.js';
+export * from './hooks/useGhRepoLatestRelease.js';
+export * from './hooks/useGhRepoWebhooks.js';
+export * from './hooks/useGhRepoWebhooksInfinite.js';
+export * from './hooks/useGhRepoRaw.js';
+export * from './hooks/useGhRepoAdvisories.js';
+export * from './hooks/useGhRepoAdvisoriesInfinite.js';
+export * from './hooks/useGhRepoAdvisory.js';
+export * from './hooks/useGhCreateFork.js';
+export * from './hooks/useGhCreateIssue.js';
 
 // Issue
 export * from './hooks/useGhIssue.js';
@@ -49,12 +78,22 @@ export * from './hooks/useGhPullRequestCommits.js';
 export * from './hooks/useGhPullRequestFiles.js';
 export * from './hooks/useGhPullRequestReviews.js';
 export * from './hooks/useGhPullRequestReviewComments.js';
+export * from './hooks/useGhPullRequestIsMerged.js';
+export * from './hooks/useGhMergePullRequest.js';
+export * from './hooks/useGhCreatePullRequestReview.js';
+export * from './hooks/useGhRequestReviewers.js';
+export * from './hooks/useGhUpdatePullRequest.js';
+export * from './hooks/useGhAddPullRequestComment.js';
 
 // Commit
 export * from './hooks/useGhCommit.js';
 export * from './hooks/useGhCommitStatuses.js';
 export * from './hooks/useGhCommitCombinedStatus.js';
 export * from './hooks/useGhCommitCheckRuns.js';
+export * from './hooks/useGhCommitComments.js';
+export * from './hooks/useGhCommitCommentsInfinite.js';
+export * from './hooks/useGhCreateCommitStatus.js';
+export * from './hooks/useGhAddCommitComment.js';
 
 // Org
 export * from './hooks/useGhOrg.js';
