@@ -102,6 +102,13 @@ Audit hooks (`useNpmAudit`, `useNpmAuditQuick`) return a [`UseMutationResult`](h
 | `useNpmMaintainerPackagesInfinite(username, options?)` | Infinite-scroll variant of `useNpmMaintainerPackages` | `InfiniteData<NpmSearchResult>` |
 | [`useNpmMaintainerAvatar(username)`](#usenpmmaintaineravatarusername) | Gravatar URL when a public email is available | `string \| undefined` |
 
+### User hooks
+
+| Hook | Description | Returns |
+| ---- | ----------- | ------- |
+| `useNpmUser(username)` | Authenticated user profile | `NpmAuthenticatedUser` |
+| `useNpmUserPackages(username, params?)` | Packages published by a user | `string[]` |
+
 ### Search hooks
 
 | Hook | Description | Returns |
@@ -779,6 +786,38 @@ const { data } = useNpmOrgTeamMembers('npmcli', 'cli');
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disabled when `org` or `team` is empty |
+
+---
+
+### `useNpmUser(username)`
+
+Fetches the authenticated profile of an npm user via the registry's user endpoint. Returns richer data than `useNpmMaintainer` — includes `tfa`, `email`, `created`, and `updated` fields.
+
+```tsx
+const { data } = useNpmUser('sindresorhus');
+
+console.log(data?.name, data?.email);
+```
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disabled when `username` is empty |
+
+---
+
+### `useNpmUserPackages(username, params?)`
+
+Fetches the list of package names published by an npm user. Returns a `string[]`.
+
+```tsx
+const { data: packages } = useNpmUserPackages('sindresorhus');
+
+packages?.forEach(name => console.log(name));
+```
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disabled when `username` is empty |
 
 ---
 

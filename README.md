@@ -30,6 +30,8 @@ React hooks for the [npm registry API](https://github.com/npm/registry/blob/main
 | `useNpmMaintainerPackagesInfinite(username, options?)` | `InfiniteData<NpmSearchResult>` |
 | `useNpmSearch(text, options?)` | `NpmSearchResult` |
 | `useNpmSearchInfinite(text, options?)` | `InfiniteData<NpmSearchResult>` |
+| `useNpmUser(username)` | `NpmAuthenticatedUser` |
+| `useNpmUserPackages(username, params?)` | `NpmUserPackages` |
 
 ---
 
@@ -44,18 +46,30 @@ React hooks for the [GitHub REST API](https://docs.github.com/en/rest).
 | ---- | ------- |
 | `useGhUser(login)` | `GitHubUser` |
 | `useGhUserRepos(login, params?)` | `GitHubPagedResponse<GitHubRepository>` |
+| `useGhCurrentUser()` | `GitHubUser` |
+| `useGhUserFollowers(login, params?)` | `GitHubPagedResponse<GitHubUser>` |
+| `useGhUserFollowing(login, params?)` | `GitHubPagedResponse<GitHubUser>` |
+| `useGhUserPublicEvents(login, params?)` | `GitHubPagedResponse<GitHubEvent>` |
+| `useGhUserContributionMap(login, params?)` | `ContributionCalendar` |
 | `useGhRepo(owner, name)` | `GitHubRepository` |
 | `useGhRepoCommits(owner, name, params?)` | `GitHubPagedResponse<GitHubCommit>` |
 | `useGhRepoBranches(owner, name, params?)` | `GitHubPagedResponse<GitHubBranch>` |
 | `useGhRepoBranch(owner, name, branch)` | `GitHubBranch` |
 | `useGhRepoTags(owner, name, params?)` | `GitHubPagedResponse<GitHubTag>` |
 | `useGhRepoReleases(owner, name, params?)` | `GitHubPagedResponse<GitHubRelease>` |
+| `useGhRepoLatestRelease(owner, name)` | `GitHubRelease` |
 | `useGhRepoForks(owner, name, params?)` | `GitHubPagedResponse<GitHubRepository>` |
 | `useGhRepoContents(owner, name, path?, params?)` | `GitHubContent \| GitHubContent[]` |
+| `useGhRepoRaw(owner, name, path, params?)` | `string` |
 | `useGhRepoTopics(owner, name)` | `string[]` |
 | `useGhRepoContributors(owner, name, params?)` | `GitHubPagedResponse<GitHubUser>` |
 | `useGhRepoIssues(owner, name, params?)` | `GitHubPagedResponse<GitHubIssue>` |
 | `useGhRepoPullRequests(owner, name, params?)` | `GitHubPagedResponse<GitHubPullRequest>` |
+| `useGhRepoWebhooks(owner, name, params?)` | `GitHubPagedResponse<GitHubWebhook>` |
+| `useGhRepoAdvisories(owner, name, params?)` | `GitHubPagedResponse<GitHubRepositoryAdvisory>` |
+| `useGhRepoAdvisory(owner, name, ghsaId)` | `GitHubRepositoryAdvisory` |
+| `useGhCreateFork(owner, name)` | `GitHubRepository` |
+| `useGhCreateIssue(owner, name)` | `GitHubIssue` |
 | `useGhIssue(owner, name, number)` | `GitHubIssue` |
 | `useGhIssueComments(owner, name, number, params?)` | `GitHubPagedResponse<GitHubIssueComment>` |
 | `useGhPullRequest(owner, name, number)` | `GitHubPullRequest` |
@@ -63,20 +77,42 @@ React hooks for the [GitHub REST API](https://docs.github.com/en/rest).
 | `useGhPullRequestFiles(owner, name, number, params?)` | `GitHubPagedResponse<GitHubPullRequestFile>` |
 | `useGhPullRequestReviews(owner, name, number, params?)` | `GitHubPagedResponse<GitHubReview>` |
 | `useGhPullRequestReviewComments(owner, name, number, params?)` | `GitHubPagedResponse<GitHubReviewComment>` |
+| `useGhPullRequestIsMerged(owner, name, number)` | `boolean` |
+| `useGhMergePullRequest(owner, name, number)` | `MergeResult` |
+| `useGhCreatePullRequestReview(owner, name, number)` | `GitHubReview` |
+| `useGhRequestReviewers(owner, name, number)` | `GitHubPullRequest` |
+| `useGhUpdatePullRequest(owner, name, number)` | `GitHubPullRequest` |
+| `useGhAddPullRequestComment(owner, name, number)` | `GitHubReviewComment` |
 | `useGhCommit(owner, name, ref)` | `GitHubCommit` |
 | `useGhCommitStatuses(owner, name, ref, params?)` | `GitHubPagedResponse<GitHubCommitStatus>` |
 | `useGhCommitCombinedStatus(owner, name, ref)` | `GitHubCombinedStatus` |
 | `useGhCommitCheckRuns(owner, name, ref, params?)` | `GitHubPagedResponse<GitHubCheckRun>` |
+| `useGhCommitComments(owner, name, ref, params?)` | `GitHubPagedResponse<GitHubCommitComment>` |
+| `useGhCreateCommitStatus(owner, name, ref)` | `GitHubCommitStatus` |
+| `useGhAddCommitComment(owner, name, ref)` | `GitHubCommitComment` |
 | `useGhOrg(name)` | `GitHubOrganization` |
 | `useGhOrgRepos(name, params?)` | `GitHubPagedResponse<GitHubRepository>` |
 | `useGhOrgMembers(name, params?)` | `GitHubPagedResponse<GitHubUser>` |
 | `useGhSearchRepos(q, params?)` | `GitHubPagedResponse<GitHubRepository>` |
+| `useGhAdvisories(params?)` | `GitHubPagedResponse<GitHubAdvisory>` |
+| `useGhAdvisory(ghsaId)` | `GitHubAdvisory` |
+| `useGhAdvisoryByCve(cveId)` | `GitHubAdvisory \| null` |
 | `useGhGist(gistId, options?)` | `GitHubGist` |
 | `useGhGists(params?, options?)` | `GitHubPagedResponse<GitHubGist>` |
 | `useGhGistsInfinite(params?, options?)` | `InfiniteData<GitHubPagedResponse<GitHubGist>>` |
-| `useGhCreateGist(options?)` | `GitHubGist` |
-| `useGhUpdateGist(gistId, options?)` | `GitHubGist` |
+| `useGhGistCommits(gistId, params?)` | `GitHubPagedResponse<GistCommit>` |
+| `useGhGistForks(gistId, params?)` | `GitHubPagedResponse<GistFork>` |
+| `useGhGistComments(gistId, params?)` | `GitHubPagedResponse<GistComment>` |
+| `useGhGistIsStarred(gistId)` | `boolean` |
+| `useGhCreateGist()` | `GitHubGist` |
+| `useGhUpdateGist(gistId)` | `GitHubGist` |
 | `useGhDeleteGist(gistId)` | `void` |
+| `useGhForkGist(gistId)` | `GitHubGist` |
+| `useGhStarGist(gistId)` | `void` |
+| `useGhUnstarGist(gistId)` | `void` |
+| `useGhAddGistComment(gistId)` | `GistComment` |
+| `useGhUpdateGistComment(gistId)` | `GistComment` |
+| `useGhDeleteGistComment(gistId)` | `void` |
 
 ---
 

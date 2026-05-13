@@ -52,6 +52,13 @@ Hooks ending in `Infinite` return a [`UseInfiniteQueryResult`](https://tanstack.
 | [`useGhUser(login)`](#useghuserloin) | Public profile for a GitHub user | `GitHubUser` |
 | [`useGhUserRepos(login, params?)`](#useghuserreposlogin-params) | Public repositories of a user | `GitHubPagedResponse<GitHubRepository>` |
 | [`useGhUserReposInfinite(login, params?)`](#useghuserreposinfinitelogin-params) | Infinite-scroll variant | `InfiniteData<GitHubPagedResponse<GitHubRepository>>` |
+| `useGhCurrentUser()` | Authenticated user's own profile | `GitHubUser` |
+| `useGhUserFollowers(login, params?)` | Followers of a user | `GitHubPagedResponse<GitHubUser>` |
+| `useGhUserFollowersInfinite(login, params?)` | Infinite-scroll variant | `InfiniteData<GitHubPagedResponse<GitHubUser>>` |
+| `useGhUserFollowing(login, params?)` | Users a person is following | `GitHubPagedResponse<GitHubUser>` |
+| `useGhUserFollowingInfinite(login, params?)` | Infinite-scroll variant | `InfiniteData<GitHubPagedResponse<GitHubUser>>` |
+| `useGhUserPublicEvents(login, params?)` | Public events performed by a user | `GitHubPagedResponse<GitHubEvent>` |
+| `useGhUserContributionMap(login, params?)` | Contribution calendar (GraphQL) — requires `token` | `ContributionCalendar` |
 
 ### Repository hooks
 
@@ -77,6 +84,22 @@ Hooks ending in `Infinite` return a [`UseInfiniteQueryResult`](https://tanstack.
 | [`useGhRepoIssuesInfinite(owner, name, params?)`](#useghrepoissuesinfiniteowner-name-params) | Infinite-scroll variant | `InfiniteData<GitHubPagedResponse<GitHubIssue>>` |
 | [`useGhRepoPullRequests(owner, name, params?)`](#useghrepopullrequestsowner-name-params) | Pull request list | `GitHubPagedResponse<GitHubPullRequest>` |
 | [`useGhRepoPullRequestsInfinite(owner, name, params?)`](#useghrepopullrequestsinfiniteowner-name-params) | Infinite-scroll variant | `InfiniteData<GitHubPagedResponse<GitHubPullRequest>>` |
+| `useGhRepoLatestRelease(owner, name)` | Most recent published release | `GitHubRelease` |
+| `useGhRepoWebhooks(owner, name, params?)` | Webhook list (requires admin token) | `GitHubPagedResponse<GitHubWebhook>` |
+| `useGhRepoWebhooksInfinite(owner, name, params?)` | Infinite-scroll variant | `InfiniteData<GitHubPagedResponse<GitHubWebhook>>` |
+| `useGhRepoRaw(owner, name, path, params?)` | Raw file content as string | `string` |
+| `useGhRepoAdvisories(owner, name, params?)` | Repository security advisories | `GitHubPagedResponse<GitHubRepositoryAdvisory>` |
+| `useGhRepoAdvisoriesInfinite(owner, name, params?)` | Infinite-scroll variant | `InfiniteData<GitHubPagedResponse<GitHubRepositoryAdvisory>>` |
+| `useGhRepoAdvisory(owner, name, ghsaId)` | Single repository advisory by GHSA ID | `GitHubRepositoryAdvisory` |
+
+### Repository hooks — mutations
+
+All mutation hooks return a [`UseMutationResult`](https://tanstack.com/query/latest/docs/framework/react/reference/useMutation).
+
+| Hook | Description | Returns |
+| ---- | ----------- | ------- |
+| `useGhCreateFork(owner, name)` | Fork a repository | `GitHubRepository` |
+| `useGhCreateIssue(owner, name)` | Create a new issue | `GitHubIssue` |
 
 ### Issue hooks
 
@@ -95,6 +118,19 @@ Hooks ending in `Infinite` return a [`UseInfiniteQueryResult`](https://tanstack.
 | [`useGhPullRequestFiles(owner, name, number, params?)`](#useghpullrequestfilesowner-name-number-params) | Files changed in a PR | `GitHubPagedResponse<GitHubPullRequestFile>` |
 | [`useGhPullRequestReviews(owner, name, number, params?)`](#useghpullrequestreviews-owner-name-number-params) | Reviews on a PR | `GitHubPagedResponse<GitHubReview>` |
 | [`useGhPullRequestReviewComments(owner, name, number, params?)`](#useghpullrequestreviewcommentsowner-name-number-params) | Review comments on a PR | `GitHubPagedResponse<GitHubReviewComment>` |
+| `useGhPullRequestIsMerged(owner, name, number)` | Whether a PR has been merged | `boolean` |
+
+### Pull Request hooks — mutations
+
+All mutation hooks return a [`UseMutationResult`](https://tanstack.com/query/latest/docs/framework/react/reference/useMutation).
+
+| Hook | Description | Returns |
+| ---- | ----------- | ------- |
+| `useGhMergePullRequest(owner, name, number)` | Merge a pull request | `MergeResult` |
+| `useGhCreatePullRequestReview(owner, name, number)` | Submit a review | `GitHubReview` |
+| `useGhRequestReviewers(owner, name, number)` | Request reviewers | `GitHubPullRequest` |
+| `useGhUpdatePullRequest(owner, name, number)` | Update title, body, or state | `GitHubPullRequest` |
+| `useGhAddPullRequestComment(owner, name, number)` | Add an inline review comment | `GitHubReviewComment` |
 
 ### Commit hooks
 
@@ -104,6 +140,17 @@ Hooks ending in `Infinite` return a [`UseInfiniteQueryResult`](https://tanstack.
 | [`useGhCommitStatuses(owner, name, ref, params?)`](#useghcommitstatusesowner-name-ref-params) | Status checks for a commit | `GitHubPagedResponse<GitHubCommitStatus>` |
 | [`useGhCommitCombinedStatus(owner, name, ref)`](#useghcommitcombinedstatusowner-name-ref) | Combined status for a commit | `GitHubCombinedStatus` |
 | [`useGhCommitCheckRuns(owner, name, ref, params?)`](#useghcommitcheckrunsowner-name-ref-params) | Check runs for a commit | `GitHubPagedResponse<GitHubCheckRun>` |
+| `useGhCommitComments(owner, name, ref, params?)` | Comments on a commit | `GitHubPagedResponse<GitHubCommitComment>` |
+| `useGhCommitCommentsInfinite(owner, name, ref, params?)` | Infinite-scroll variant | `InfiniteData<GitHubPagedResponse<GitHubCommitComment>>` |
+
+### Commit hooks — mutations
+
+All mutation hooks return a [`UseMutationResult`](https://tanstack.com/query/latest/docs/framework/react/reference/useMutation).
+
+| Hook | Description | Returns |
+| ---- | ----------- | ------- |
+| `useGhCreateCommitStatus(owner, name, ref)` | Create a commit status check | `GitHubCommitStatus` |
+| `useGhAddCommitComment(owner, name, ref)` | Add a comment to a commit | `GitHubCommitComment` |
 
 ### Organization hooks
 
@@ -138,6 +185,13 @@ Hooks ending in `Infinite` return a [`UseInfiniteQueryResult`](https://tanstack.
 | [`useGhGists(params?)`](#useghgistsparams) | List gists (one page) | `GitHubPagedResponse<GitHubGist>` |
 | [`useGhGistsInfinite(params?)`](#useghgistsinfiniteparams) | Infinite-scroll variant of `useGhGists` | `InfiniteData<GitHubPagedResponse<GitHubGist>>` |
 | [`useGhGist(gistId)`](#useghgistgistid) | Single gist by ID | `GitHubGist` |
+| `useGhGistCommits(gistId, params?)` | Commit history of a gist | `GitHubPagedResponse<GistCommit>` |
+| `useGhGistCommitsInfinite(gistId, params?)` | Infinite-scroll variant | `InfiniteData<GitHubPagedResponse<GistCommit>>` |
+| `useGhGistForks(gistId, params?)` | Forks of a gist | `GitHubPagedResponse<GistFork>` |
+| `useGhGistForksInfinite(gistId, params?)` | Infinite-scroll variant | `InfiniteData<GitHubPagedResponse<GistFork>>` |
+| `useGhGistComments(gistId, params?)` | Comments on a gist | `GitHubPagedResponse<GistComment>` |
+| `useGhGistCommentsInfinite(gistId, params?)` | Infinite-scroll variant | `InfiniteData<GitHubPagedResponse<GistComment>>` |
+| `useGhGistIsStarred(gistId)` | Whether the authenticated user has starred the gist | `boolean` |
 
 ### Gist hooks — mutations
 
@@ -148,6 +202,12 @@ All mutation hooks return a [`UseMutationResult`](https://tanstack.com/query/lat
 | [`useGhCreateGist()`](#useghcreategist) | Create a new gist | `GitHubGist` |
 | [`useGhUpdateGist(gistId)`](#useghupdategistgistid) | Update an existing gist | `GitHubGist` |
 | [`useGhDeleteGist(gistId)`](#useghdeletegistgistid) | Delete a gist | `void` |
+| `useGhForkGist(gistId)` | Fork a gist | `GitHubGist` |
+| `useGhStarGist(gistId)` | Star a gist | `void` |
+| `useGhUnstarGist(gistId)` | Unstar a gist | `void` |
+| `useGhAddGistComment(gistId)` | Add a comment to a gist | `GistComment` |
+| `useGhUpdateGistComment(gistId)` | Update an existing gist comment | `GistComment` |
+| `useGhDeleteGistComment(gistId)` | Delete a gist comment | `void` |
 
 ---
 
@@ -215,6 +275,83 @@ Infinite-scroll variant of `useGhUserRepos`.
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query (also disabled when `login` is empty) |
 | `token` | `string` | — | GitHub personal access token |
+
+---
+
+### `useGhCurrentUser()`
+
+Fetches the authenticated user's own profile. Requires a `token`.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query |
+| `token` | `string` | — | GitHub personal access token (required) |
+
+---
+
+### `useGhUserFollowers(login, params?)`
+
+Fetches the followers of a GitHub user.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query (also disabled when `login` is empty) |
+| `token` | `string` | — | GitHub personal access token |
+
+---
+
+### `useGhUserFollowersInfinite(login, params?)`
+
+Infinite-scroll variant of `useGhUserFollowers`.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query (also disabled when `login` is empty) |
+| `token` | `string` | — | GitHub personal access token |
+
+---
+
+### `useGhUserFollowing(login, params?)`
+
+Fetches the users that a GitHub user is following.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query (also disabled when `login` is empty) |
+| `token` | `string` | — | GitHub personal access token |
+
+---
+
+### `useGhUserFollowingInfinite(login, params?)`
+
+Infinite-scroll variant of `useGhUserFollowing`.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query (also disabled when `login` is empty) |
+| `token` | `string` | — | GitHub personal access token |
+
+---
+
+### `useGhUserPublicEvents(login, params?)`
+
+Fetches the public events performed by a GitHub user.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query (also disabled when `login` is empty) |
+| `token` | `string` | — | GitHub personal access token |
+
+---
+
+### `useGhUserContributionMap(login, params?)`
+
+Fetches a user's contribution calendar via the GitHub GraphQL API. Requires a `token`.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query (also disabled when `login` is empty) |
+| `token` | `string` | — | GitHub personal access token (required) |
 
 ---
 
@@ -517,6 +654,136 @@ Infinite-scroll variant of `useGhRepoPullRequests`.
 
 ---
 
+### `useGhRepoLatestRelease(owner, name)`
+
+Fetches the most recent published release for a repository.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query |
+| `token` | `string` | — | GitHub personal access token |
+
+---
+
+### `useGhRepoWebhooks(owner, name, params?)`
+
+Fetches the webhooks configured for a repository. Requires a token with admin access.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query |
+| `token` | `string` | — | GitHub personal access token with `admin:repo_hook` scope |
+
+---
+
+### `useGhRepoWebhooksInfinite(owner, name, params?)`
+
+Infinite-scroll variant of `useGhRepoWebhooks`.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query |
+| `token` | `string` | — | GitHub personal access token with `admin:repo_hook` scope |
+
+---
+
+### `useGhRepoRaw(owner, name, path, params?)`
+
+Fetches the raw content of a file as a string. Pass a `ref` in `params` to fetch from a specific branch, tag, or commit SHA.
+
+```tsx
+import { useGhRepoRaw } from '@api-hooks/gh';
+
+function RawFile({ owner, repo }: { owner: string; repo: string }) {
+  const { data } = useGhRepoRaw(owner, repo, '.github/CODEOWNERS');
+
+  return <pre>{data}</pre>;
+}
+```
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query (also disabled when `path` is empty) |
+| `token` | `string` | — | GitHub personal access token — required for private repositories |
+
+---
+
+### `useGhRepoAdvisories(owner, name, params?)`
+
+Fetches the security advisories published in a repository.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query |
+| `token` | `string` | — | GitHub personal access token |
+
+---
+
+### `useGhRepoAdvisoriesInfinite(owner, name, params?)`
+
+Infinite-scroll variant of `useGhRepoAdvisories`.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query |
+| `token` | `string` | — | GitHub personal access token |
+
+---
+
+### `useGhRepoAdvisory(owner, name, ghsaId)`
+
+Fetches a single repository security advisory by its GHSA ID.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query (also disabled when `ghsaId` is empty) |
+| `token` | `string` | — | GitHub personal access token |
+
+---
+
+### `useGhCreateFork(owner, name)`
+
+Forks a repository into the authenticated user's account (or an organization).
+
+```tsx
+import { useGhCreateFork } from '@api-hooks/gh';
+
+function ForkButton({ owner, repo }: { owner: string; repo: string }) {
+  const { mutate, isPending } = useGhCreateFork(owner, repo);
+
+  return (
+    <button onClick={() => mutate()} disabled={isPending}>
+      Fork
+    </button>
+  );
+}
+```
+
+---
+
+### `useGhCreateIssue(owner, name)`
+
+Creates a new issue in a repository.
+
+```tsx
+import { useGhCreateIssue } from '@api-hooks/gh';
+
+function NewIssueForm({ owner, repo }: { owner: string; repo: string }) {
+  const { mutate, isPending } = useGhCreateIssue(owner, repo);
+
+  return (
+    <button
+      onClick={() => mutate({ title: 'Bug report', body: 'Something is broken.' })}
+      disabled={isPending}
+    >
+      Submit
+    </button>
+  );
+}
+```
+
+---
+
 ### `useGhIssue(owner, name, number)`
 
 Fetches a single issue by number.
@@ -605,6 +872,61 @@ Fetches the inline diff comments on a pull request.
 
 ---
 
+### `useGhPullRequestIsMerged(owner, name, number)`
+
+Returns `true` when the pull request has been merged.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query (also disabled when `number` is `0`) |
+| `token` | `string` | — | GitHub personal access token |
+
+---
+
+### `useGhMergePullRequest(owner, name, number)`
+
+Merges a pull request.
+
+```tsx
+import { useGhMergePullRequest } from '@api-hooks/gh';
+
+function MergeButton({ owner, repo, number }: { owner: string; repo: string; number: number }) {
+  const { mutate, isPending } = useGhMergePullRequest(owner, repo, number);
+
+  return (
+    <button onClick={() => mutate({ merge_method: 'squash' })} disabled={isPending}>
+      Merge
+    </button>
+  );
+}
+```
+
+---
+
+### `useGhCreatePullRequestReview(owner, name, number)`
+
+Submits a review (approve, request changes, or comment) on a pull request.
+
+---
+
+### `useGhRequestReviewers(owner, name, number)`
+
+Requests one or more reviewers for a pull request.
+
+---
+
+### `useGhUpdatePullRequest(owner, name, number)`
+
+Updates the title, body, state, or base branch of a pull request.
+
+---
+
+### `useGhAddPullRequestComment(owner, name, number)`
+
+Adds an inline review comment to a pull request diff.
+
+---
+
 ### `useGhCommit(owner, name, ref)`
 
 Fetches a single commit. `ref` can be a commit SHA, branch name, or tag name.
@@ -656,6 +978,54 @@ Fetches the GitHub Actions check runs for a commit.
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query |
 | `token` | `string` | — | GitHub personal access token |
+
+---
+
+### `useGhCommitComments(owner, name, ref, params?)`
+
+Fetches the comments posted on a commit.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query (also disabled when `ref` is empty) |
+| `token` | `string` | — | GitHub personal access token |
+
+---
+
+### `useGhCommitCommentsInfinite(owner, name, ref, params?)`
+
+Infinite-scroll variant of `useGhCommitComments`.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query (also disabled when `ref` is empty) |
+| `token` | `string` | — | GitHub personal access token |
+
+---
+
+### `useGhCreateCommitStatus(owner, name, ref)`
+
+Creates a status check (pending / success / failure / error) for a commit.
+
+```tsx
+import { useGhCreateCommitStatus } from '@api-hooks/gh';
+
+function MarkStatus({ owner, repo, sha }: { owner: string; repo: string; sha: string }) {
+  const { mutate } = useGhCreateCommitStatus(owner, repo, sha);
+
+  return (
+    <button onClick={() => mutate({ state: 'success', context: 'my-ci' })}>
+      Mark success
+    </button>
+  );
+}
+```
+
+---
+
+### `useGhAddCommitComment(owner, name, ref)`
+
+Adds a comment to a commit.
 
 ---
 
@@ -778,6 +1148,113 @@ function InfiniteRepoSearch({ query }: { query: string }) {
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query (also disabled when `params.q` is empty) |
 | `token` | `string` | — | GitHub personal access token |
+
+---
+
+### `useGhGistCommits(gistId, params?)`
+
+Fetches the commit history of a gist.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query (also disabled when `gistId` is empty) |
+
+---
+
+### `useGhGistCommitsInfinite(gistId, params?)`
+
+Infinite-scroll variant of `useGhGistCommits`.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query (also disabled when `gistId` is empty) |
+
+---
+
+### `useGhGistForks(gistId, params?)`
+
+Fetches the forks of a gist.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query (also disabled when `gistId` is empty) |
+
+---
+
+### `useGhGistForksInfinite(gistId, params?)`
+
+Infinite-scroll variant of `useGhGistForks`.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query (also disabled when `gistId` is empty) |
+
+---
+
+### `useGhGistComments(gistId, params?)`
+
+Fetches the comments on a gist.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query (also disabled when `gistId` is empty) |
+
+---
+
+### `useGhGistCommentsInfinite(gistId, params?)`
+
+Infinite-scroll variant of `useGhGistComments`.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query (also disabled when `gistId` is empty) |
+
+---
+
+### `useGhGistIsStarred(gistId)`
+
+Returns `true` when the authenticated user has starred the gist. Requires a `token`.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query (also disabled when `gistId` is empty) |
+| `token` | `string` | — | GitHub personal access token (required) |
+
+---
+
+### `useGhForkGist(gistId)`
+
+Forks a gist into the authenticated user's account.
+
+---
+
+### `useGhStarGist(gistId)`
+
+Stars a gist on behalf of the authenticated user.
+
+---
+
+### `useGhUnstarGist(gistId)`
+
+Unstars a gist on behalf of the authenticated user.
+
+---
+
+### `useGhAddGistComment(gistId)`
+
+Adds a comment to a gist.
+
+---
+
+### `useGhUpdateGistComment(gistId)`
+
+Updates an existing comment on a gist. Call `mutate({ commentId, body })`.
+
+---
+
+### `useGhDeleteGistComment(gistId)`
+
+Deletes a comment from a gist. Call `mutate({ commentId })`.
 
 ---
 
