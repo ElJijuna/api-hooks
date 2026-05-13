@@ -1,3 +1,14 @@
+## [1.14.0](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/npm@1.13.0...@api-hooks/npm@1.14.0) (2026-05-13)
+
+### Features
+
+* **@api-hooks/gh:** add hooks for gist, user, repo, PR and commit sub-operations ([c035814](https://github.com/ElJijuna/api-hooks/commit/c03581496acf430ffddb6dcaa9615dedfff0c3fa))
+* **@api-hooks/npm:** add useNpmUser and useNpmUserPackages hooks ([54a3e4e](https://github.com/ElJijuna/api-hooks/commit/54a3e4ea65612ab6d03875f99ea099eb4d1af6d1))
+
+### Documentation
+
+* update READMEs in base gh and npm ([7a36718](https://github.com/ElJijuna/api-hooks/commit/7a36718069d90b00de80e1961da2f63be3dc4cf3))
+
 ## [1.13.0](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/npm@1.12.0...@api-hooks/npm@1.13.0) (2026-05-12)
 
 ### Features
