@@ -62,4 +62,8 @@ export const npmQueryKeys = {
     ['npm', 'org', org, 'members'] as const,
   orgTeamMembers: (org: string, team: string) =>
     ['npm', 'org', org, 'team', team, 'members'] as const,
+  user: (username: string) =>
+    ['npm', 'user', username] as const,
+  userPackages: (username: string, params?: object) =>
+    ['npm', 'user', username, 'packages', params] as const,
 } as const;

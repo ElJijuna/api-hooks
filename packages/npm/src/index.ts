@@ -39,4 +39,6 @@ export * from './hooks/useNpmOrgPackages.js';
 export * from './hooks/useNpmOrgTeams.js';
 export * from './hooks/useNpmOrgMembers.js';
 export * from './hooks/useNpmOrgTeamMembers.js';
+export * from './hooks/useNpmUser.js';
+export * from './hooks/useNpmUserPackages.js';
 export * from './keys/npmQueryKeys.js';
