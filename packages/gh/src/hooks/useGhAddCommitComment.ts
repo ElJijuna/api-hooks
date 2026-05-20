@@ -1,14 +1,9 @@
-import { useMemo } from 'react';
 import { useMutation, type UseMutationResult } from '@tanstack/react-query';
-import { GitHubClient, CommitResource } from 'gh-api-client';
+import { CommitResource } from 'gh-api-client';
+import { useGhClient } from '../GhClientContext.js';
 
 type GitHubCommitComment = Awaited<ReturnType<CommitResource['addComment']>>;
 type CommitCommentData = Parameters<CommitResource['addComment']>[0];
-
-export interface UseGhAddCommitCommentOptions {
-  /** GitHub personal access token — required for private repositories. */
-  token?: string;
-}
 
 /**
  * Adds a comment to a specific commit.
@@ -22,11 +17,10 @@ export interface UseGhAddCommitCommentOptions {
 export function useGhAddCommitComment(
   owner: string,
   repo: string,
-  ref: string,
-  options: UseGhAddCommitCommentOptions = {}
+  ref: string
 ): UseMutationResult<GitHubCommitComment, Error, CommitCommentData> {
-  const { token } = options;
-  const client = useMemo(() => new GitHubClient(token ? { token } : {}), [token]);
+
+  const client = useGhClient();
 
   return useMutation<GitHubCommitComment, Error, CommitCommentData>({
     mutationFn: (data) => client.repo(owner, repo).commit(ref).addComment(data),

@@ -1,13 +1,11 @@
-import { useMemo } from 'react';
 import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { GitHubClient, type GitHubIssueComment, type GitHubPagedResponse, type PaginationParams } from 'gh-api-client';
+import { type GitHubIssueComment, type GitHubPagedResponse, type PaginationParams } from 'gh-api-client';
+import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
 export interface UseGhIssueCommentsOptions {
   /** Disable the query. Also disabled when any required param is empty/zero. */
   enabled?: boolean;
-  /** GitHub personal access token — required for private repositories. */
-  token?: string;
 }
 
 /**
@@ -27,8 +25,9 @@ export function useGhIssueComments(
   params?: PaginationParams & { since?: string },
   options: UseGhIssueCommentsOptions = {}
 ): UseQueryResult<GitHubPagedResponse<GitHubIssueComment>, Error> {
-  const { enabled = true, token } = options;
-  const client = useMemo(() => new GitHubClient(token ? { token } : {}), [token]);
+  const { enabled = true } = options;
+
+  const client = useGhClient();
 
   return useQuery<GitHubPagedResponse<GitHubIssueComment>, Error>({
     queryKey: ghQueryKeys.issueComments(owner, repo, issueNumber, params),

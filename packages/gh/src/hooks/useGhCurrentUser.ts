@@ -1,13 +1,11 @@
-import { useMemo } from 'react';
 import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { GitHubClient, type GitHubUser } from 'gh-api-client';
+import { type GitHubUser } from 'gh-api-client';
+import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
 export interface UseGhCurrentUserOptions {
   /** Disable the query. */
   enabled?: boolean;
-  /** GitHub personal access token — required to fetch the authenticated user. */
-  token?: string;
 }
 
 /**
@@ -19,8 +17,9 @@ export interface UseGhCurrentUserOptions {
 export function useGhCurrentUser(
   options: UseGhCurrentUserOptions = {}
 ): UseQueryResult<GitHubUser, Error> {
-  const { enabled = true, token } = options;
-  const client = useMemo(() => new GitHubClient(token ? { token } : {}), [token]);
+  const { enabled = true } = options;
+
+  const client = useGhClient();
 
   return useQuery<GitHubUser, Error>({
     queryKey: ghQueryKeys.currentUser(),

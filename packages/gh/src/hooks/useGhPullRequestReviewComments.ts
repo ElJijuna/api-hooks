@@ -1,13 +1,11 @@
-import { useMemo } from 'react';
 import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { GitHubClient, type GitHubReviewComment, type GitHubPagedResponse, type ReviewCommentsParams } from 'gh-api-client';
+import { type GitHubReviewComment, type GitHubPagedResponse, type ReviewCommentsParams } from 'gh-api-client';
+import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
 export interface UseGhPullRequestReviewCommentsOptions {
   /** Disable the query. Also disabled when any required param is empty/zero. */
   enabled?: boolean;
-  /** GitHub personal access token — required for private repositories. */
-  token?: string;
 }
 
 /**
@@ -27,8 +25,9 @@ export function useGhPullRequestReviewComments(
   params?: ReviewCommentsParams,
   options: UseGhPullRequestReviewCommentsOptions = {}
 ): UseQueryResult<GitHubPagedResponse<GitHubReviewComment>, Error> {
-  const { enabled = true, token } = options;
-  const client = useMemo(() => new GitHubClient(token ? { token } : {}), [token]);
+  const { enabled = true } = options;
+
+  const client = useGhClient();
 
   return useQuery<GitHubPagedResponse<GitHubReviewComment>, Error>({
     queryKey: ghQueryKeys.pullRequestReviewComments(owner, repo, pullNumber, params),

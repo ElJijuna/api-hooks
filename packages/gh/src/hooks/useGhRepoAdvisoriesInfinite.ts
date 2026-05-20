@@ -1,13 +1,11 @@
-import { useMemo } from 'react';
 import { useInfiniteQuery, type UseInfiniteQueryResult, type InfiniteData } from '@tanstack/react-query';
-import { GitHubClient, type GitHubPagedResponse, type GitHubRepositoryAdvisory, type RepoAdvisoriesParams } from 'gh-api-client';
+import { type GitHubPagedResponse, type GitHubRepositoryAdvisory, type RepoAdvisoriesParams } from 'gh-api-client';
+import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
 export interface UseGhRepoAdvisoriesInfiniteOptions {
   /** Disable the query. */
   enabled?: boolean;
-  /** GitHub personal access token. */
-  token?: string;
 }
 
 /**
@@ -25,8 +23,9 @@ export function useGhRepoAdvisoriesInfinite(
   params?: Omit<RepoAdvisoriesParams, 'page'>,
   options: UseGhRepoAdvisoriesInfiniteOptions = {}
 ): UseInfiniteQueryResult<InfiniteData<GitHubPagedResponse<GitHubRepositoryAdvisory>, number>, Error> {
-  const { enabled = true, token } = options;
-  const client = useMemo(() => new GitHubClient(token ? { token } : {}), [token]);
+  const { enabled = true } = options;
+
+  const client = useGhClient();
 
   return useInfiniteQuery({
     queryKey: ghQueryKeys.repoAdvisoriesInfinite(owner, repo, params),

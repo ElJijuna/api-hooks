@@ -65,6 +65,6 @@
     "vite-magic-tree-shaking": "^1.0.0"
   },
   "dependencies": {
-    "gh-api-client": "^1.10.0"
+    "gh-api-client": "^1.11.0"
   }
 }

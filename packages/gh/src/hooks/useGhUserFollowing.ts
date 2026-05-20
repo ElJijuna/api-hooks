@@ -1,13 +1,11 @@
-import { useMemo } from 'react';
 import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { GitHubClient, type GitHubPagedResponse, type GitHubUser, type PaginationParams } from 'gh-api-client';
+import { type GitHubPagedResponse, type GitHubUser, type PaginationParams } from 'gh-api-client';
+import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
 export interface UseGhUserFollowingOptions {
   /** Disable the query. Also disabled when `login` is empty. */
   enabled?: boolean;
-  /** GitHub personal access token. */
-  token?: string;
 }
 
 /**
@@ -23,8 +21,9 @@ export function useGhUserFollowing(
   params?: PaginationParams,
   options: UseGhUserFollowingOptions = {}
 ): UseQueryResult<GitHubPagedResponse<GitHubUser>, Error> {
-  const { enabled = true, token } = options;
-  const client = useMemo(() => new GitHubClient(token ? { token } : {}), [token]);
+  const { enabled = true } = options;
+
+  const client = useGhClient();
 
   return useQuery<GitHubPagedResponse<GitHubUser>, Error>({
     queryKey: ghQueryKeys.userFollowing(login, params),

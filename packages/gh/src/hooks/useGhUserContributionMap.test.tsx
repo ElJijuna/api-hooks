@@ -36,7 +36,7 @@ describe('useGhUserContributionMap', () => {
     mockContributionMap.mockResolvedValue(mockCalendar);
 
     const { result } = renderHook(
-      () => useGhUserContributionMap('octocat', undefined, { token: 'token' }),
+      () => useGhUserContributionMap('octocat', undefined, {}),
       { wrapper }
     );
 
@@ -50,7 +50,7 @@ describe('useGhUserContributionMap', () => {
     mockContributionMap.mockRejectedValue(new GitHubApiError(401, 'Unauthorized'));
 
     const { result } = renderHook(
-      () => useGhUserContributionMap('octocat', undefined, { token: 'bad' }),
+      () => useGhUserContributionMap('octocat', undefined, {}),
       { wrapper }
     );
 

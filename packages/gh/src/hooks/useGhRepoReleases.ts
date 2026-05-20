@@ -1,13 +1,11 @@
-import { useMemo } from 'react';
 import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { GitHubClient, type GitHubRelease, type GitHubPagedResponse, type ReleasesParams } from 'gh-api-client';
+import { type GitHubRelease, type GitHubPagedResponse, type ReleasesParams } from 'gh-api-client';
+import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
 export interface UseGhRepoReleasesOptions {
   /** Disable the query. Also disabled when `owner` or `repo` is empty. */
   enabled?: boolean;
-  /** GitHub personal access token — required for private repositories. */
-  token?: string;
 }
 
 /**
@@ -25,8 +23,9 @@ export function useGhRepoReleases(
   params?: ReleasesParams,
   options: UseGhRepoReleasesOptions = {}
 ): UseQueryResult<GitHubPagedResponse<GitHubRelease>, Error> {
-  const { enabled = true, token } = options;
-  const client = useMemo(() => new GitHubClient(token ? { token } : {}), [token]);
+  const { enabled = true } = options;
+
+  const client = useGhClient();
 
   return useQuery<GitHubPagedResponse<GitHubRelease>, Error>({
     queryKey: ghQueryKeys.repoReleases(owner, repo, params),

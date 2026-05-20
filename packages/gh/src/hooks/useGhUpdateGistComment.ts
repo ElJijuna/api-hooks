@@ -1,11 +1,6 @@
-import { useMemo } from 'react';
 import { useMutation, type UseMutationResult } from '@tanstack/react-query';
-import { GitHubClient, type GistComment, type GistCommentData } from 'gh-api-client';
-
-export interface UseGhUpdateGistCommentOptions {
-  /** GitHub personal access token — required to update gist comments. */
-  token?: string;
-}
+import { type GistComment, type GistCommentData } from 'gh-api-client';
+import { useGhClient } from '../GhClientContext.js';
 
 export interface UpdateGistCommentVariables {
   commentId: number;
@@ -18,15 +13,13 @@ export interface UpdateGistCommentVariables {
  * Uses `useMutation` — call `mutate({ commentId, data })` to trigger the update.
  *
  * @param gistId - Gist ID containing the comment
- * @param options - Options including the required `token`
  * @returns TanStack Mutation result with the updated {@link GistComment}
  */
 export function useGhUpdateGistComment(
-  gistId: string,
-  options: UseGhUpdateGistCommentOptions = {}
+  gistId: string
 ): UseMutationResult<GistComment, Error, UpdateGistCommentVariables> {
-  const { token } = options;
-  const client = useMemo(() => new GitHubClient(token ? { token } : {}), [token]);
+
+  const client = useGhClient();
 
   return useMutation<GistComment, Error, UpdateGistCommentVariables>({
     mutationFn: ({ commentId, data }) => client.gist(gistId).updateComment(commentId, data),

@@ -33,7 +33,7 @@ describe('useGhCurrentUser', () => {
   it('returns data on success', async () => {
     mockCurrentUser.mockResolvedValue(mockUser);
 
-    const { result } = renderHook(() => useGhCurrentUser({ token: 'token' }), { wrapper });
+    const { result } = renderHook(() => useGhCurrentUser({}), { wrapper });
 
     await waitFor(() => expect(result.current.isLoading).toBe(false));
 
@@ -44,7 +44,7 @@ describe('useGhCurrentUser', () => {
   it('returns error on failure', async () => {
     mockCurrentUser.mockRejectedValue(new GitHubApiError(401, 'Unauthorized'));
 
-    const { result } = renderHook(() => useGhCurrentUser({ token: 'bad-token' }), { wrapper });
+    const { result } = renderHook(() => useGhCurrentUser({}), { wrapper });
 
     await waitFor(() => expect(result.current.isError).toBe(true));
 

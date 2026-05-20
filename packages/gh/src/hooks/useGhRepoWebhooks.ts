@@ -1,13 +1,11 @@
-import { useMemo } from 'react';
 import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { GitHubClient, type GitHubPagedResponse, type GitHubWebhook, type WebhooksParams } from 'gh-api-client';
+import { type GitHubPagedResponse, type GitHubWebhook, type WebhooksParams } from 'gh-api-client';
+import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
 export interface UseGhRepoWebhooksOptions {
   /** Disable the query. Also disabled when `owner` or `repo` is empty. */
   enabled?: boolean;
-  /** GitHub personal access token — required (repo admin scope). */
-  token?: string;
 }
 
 /**
@@ -27,8 +25,9 @@ export function useGhRepoWebhooks(
   params?: WebhooksParams,
   options: UseGhRepoWebhooksOptions = {}
 ): UseQueryResult<GitHubPagedResponse<GitHubWebhook>, Error> {
-  const { enabled = true, token } = options;
-  const client = useMemo(() => new GitHubClient(token ? { token } : {}), [token]);
+  const { enabled = true } = options;
+
+  const client = useGhClient();
 
   return useQuery<GitHubPagedResponse<GitHubWebhook>, Error>({
     queryKey: ghQueryKeys.repoWebhooks(owner, repo, params),

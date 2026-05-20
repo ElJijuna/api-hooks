@@ -7,11 +7,11 @@
       {
         "preset": "conventionalcommits",
         "releaseRules": [
-          { "type": "feat",     "release": "minor" },
-          { "type": "fix",      "release": "patch" },
-          { "type": "perf",     "release": "patch" },
-          { "type": "refactor", "release": "patch" },
-          { "breaking": true,   "release": "major" }
+          { "type": "feat",     "scope": "@api-hooks/npm", "release": "minor" },
+          { "type": "fix",      "scope": "@api-hooks/npm", "release": "patch" },
+          { "type": "perf",     "scope": "@api-hooks/npm", "release": "patch" },
+          { "type": "refactor", "scope": "@api-hooks/npm", "release": "patch" },
+          { "breaking": true,   "scope": "@api-hooks/npm", "release": "major" }
         ]
       }
     ],

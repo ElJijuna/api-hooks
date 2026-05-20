@@ -1,6 +1,6 @@
-import { useMemo } from 'react';
 import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { GitHubClient, type GitHubPagedResponse, type PaginationParams } from 'gh-api-client';
+import { type GitHubPagedResponse, type PaginationParams } from 'gh-api-client';
+import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
 export interface GitHubContributor {
@@ -14,8 +14,6 @@ export interface GitHubContributor {
 export interface UseGhRepoContributorsOptions {
   /** Disable the query. Also disabled when `owner` or `repo` is empty. */
   enabled?: boolean;
-  /** GitHub personal access token — required for private repositories. */
-  token?: string;
 }
 
 /**
@@ -33,8 +31,9 @@ export function useGhRepoContributors(
   params?: PaginationParams & { anon?: boolean },
   options: UseGhRepoContributorsOptions = {}
 ): UseQueryResult<GitHubPagedResponse<GitHubContributor>, Error> {
-  const { enabled = true, token } = options;
-  const client = useMemo(() => new GitHubClient(token ? { token } : {}), [token]);
+  const { enabled = true } = options;
+
+  const client = useGhClient();
 
   return useQuery<GitHubPagedResponse<GitHubContributor>, Error>({
     queryKey: ghQueryKeys.repoContributors(owner, repo, params),

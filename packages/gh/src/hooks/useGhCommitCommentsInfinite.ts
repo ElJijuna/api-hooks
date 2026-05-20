@@ -1,6 +1,6 @@
-import { useMemo } from 'react';
 import { useInfiniteQuery, type UseInfiniteQueryResult, type InfiniteData } from '@tanstack/react-query';
-import { GitHubClient, CommitResource, type GitHubPagedResponse, type PaginationParams } from 'gh-api-client';
+import { CommitResource, type GitHubPagedResponse, type PaginationParams } from 'gh-api-client';
+import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
 type GitHubCommitComment = Awaited<ReturnType<CommitResource['addComment']>>;
@@ -9,8 +9,6 @@ type CommitCommentsParams = Parameters<CommitResource['comments']>[0];
 export interface UseGhCommitCommentsInfiniteOptions {
   /** Disable the query. */
   enabled?: boolean;
-  /** GitHub personal access token — required for private repositories. */
-  token?: string;
 }
 
 /**
@@ -30,8 +28,9 @@ export function useGhCommitCommentsInfinite(
   params?: Omit<NonNullable<CommitCommentsParams>, 'page'>,
   options: UseGhCommitCommentsInfiniteOptions = {}
 ): UseInfiniteQueryResult<InfiniteData<GitHubPagedResponse<GitHubCommitComment>, number>, Error> {
-  const { enabled = true, token } = options;
-  const client = useMemo(() => new GitHubClient(token ? { token } : {}), [token]);
+  const { enabled = true } = options;
+
+  const client = useGhClient();
 
   return useInfiniteQuery({
     queryKey: ghQueryKeys.commitCommentsInfinite(owner, repo, ref, params),

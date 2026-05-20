@@ -1,13 +1,10 @@
-import { useMemo } from 'react';
 import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { GitHubClient } from 'gh-api-client';
+import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
 export interface UseGhGistIsStarredOptions {
   /** Disable the query. Also disabled when `gistId` is empty. */
   enabled?: boolean;
-  /** GitHub personal access token — required to check star status. */
-  token?: string;
 }
 
 /**
@@ -21,8 +18,9 @@ export function useGhGistIsStarred(
   gistId: string,
   options: UseGhGistIsStarredOptions = {}
 ): UseQueryResult<boolean, Error> {
-  const { enabled = true, token } = options;
-  const client = useMemo(() => new GitHubClient(token ? { token } : {}), [token]);
+  const { enabled = true } = options;
+
+  const client = useGhClient();
 
   return useQuery<boolean, Error>({
     queryKey: ghQueryKeys.gistIsStarred(gistId),

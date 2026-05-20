@@ -1,13 +1,11 @@
-import { useMemo } from 'react';
 import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { GitHubClient, type GitHubIssue } from 'gh-api-client';
+import { type GitHubIssue } from 'gh-api-client';
+import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
 export interface UseGhIssueOptions {
   /** Disable the query. Also disabled when any required param is empty/zero. */
   enabled?: boolean;
-  /** GitHub personal access token — required for private repositories. */
-  token?: string;
 }
 
 /**
@@ -25,8 +23,9 @@ export function useGhIssue(
   issueNumber: number,
   options: UseGhIssueOptions = {}
 ): UseQueryResult<GitHubIssue, Error> {
-  const { enabled = true, token } = options;
-  const client = useMemo(() => new GitHubClient(token ? { token } : {}), [token]);
+  const { enabled = true } = options;
+
+  const client = useGhClient();
 
   return useQuery<GitHubIssue, Error>({
     queryKey: ghQueryKeys.issue(owner, repo, issueNumber),

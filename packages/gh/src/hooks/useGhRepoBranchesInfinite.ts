@@ -1,13 +1,11 @@
-import { useMemo } from 'react';
 import { useInfiniteQuery, type UseInfiniteQueryResult, type InfiniteData } from '@tanstack/react-query';
-import { GitHubClient, type GitHubBranch, type GitHubPagedResponse, type BranchesParams } from 'gh-api-client';
+import { type GitHubBranch, type GitHubPagedResponse, type BranchesParams } from 'gh-api-client';
+import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
 export interface UseGhRepoBranchesInfiniteOptions {
   /** Disable the query. Also disabled when `owner` or `repo` is empty. */
   enabled?: boolean;
-  /** GitHub personal access token — required for private repositories. */
-  token?: string;
 }
 
 /**
@@ -25,8 +23,9 @@ export function useGhRepoBranchesInfinite(
   params?: Omit<BranchesParams, 'page'>,
   options: UseGhRepoBranchesInfiniteOptions = {}
 ): UseInfiniteQueryResult<InfiniteData<GitHubPagedResponse<GitHubBranch>, number>, Error> {
-  const { enabled = true, token } = options;
-  const client = useMemo(() => new GitHubClient(token ? { token } : {}), [token]);
+  const { enabled = true } = options;
+
+  const client = useGhClient();
 
   return useInfiniteQuery({
     queryKey: ghQueryKeys.repoBranchesInfinite(owner, repo, params),

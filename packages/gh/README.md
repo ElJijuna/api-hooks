@@ -23,20 +23,43 @@ npm install @api-hooks/gh gh-api-client @tanstack/react-query
 
 ## Setup
 
-Wrap your application with a `QueryClientProvider` once at the root:
+Wrap your application with `QueryClientProvider` and `GhClientProvider` at the root. Pass your GitHub token to `GhClientProvider` — all hooks will use it automatically.
 
 ```tsx
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { GhClientProvider } from '@api-hooks/gh';
 
 const queryClient = new QueryClient();
 
 export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <YourApp />
+      <GhClientProvider options={{ token: 'ghp_yourPersonalAccessToken' }}>
+        <YourApp />
+      </GhClientProvider>
     </QueryClientProvider>
   );
 }
+```
+
+If you don't need authentication (public API only), omit `options`:
+
+```tsx
+<GhClientProvider>
+  <YourApp />
+</GhClientProvider>
+```
+
+You can also pass a pre-configured `GitHubClient` instance directly:
+
+```tsx
+import { GitHubClient } from 'gh-api-client';
+
+const client = new GitHubClient({ token: 'ghp_...', apiUrl: 'https://github.mycompany.com/api/v3' });
+
+<GhClientProvider client={client}>
+  <YourApp />
+</GhClientProvider>
 ```
 
 ## Hooks
@@ -58,7 +81,7 @@ Hooks ending in `Infinite` return a [`UseInfiniteQueryResult`](https://tanstack.
 | `useGhUserFollowing(login, params?)` | Users a person is following | `GitHubPagedResponse<GitHubUser>` |
 | `useGhUserFollowingInfinite(login, params?)` | Infinite-scroll variant | `InfiniteData<GitHubPagedResponse<GitHubUser>>` |
 | `useGhUserPublicEvents(login, params?)` | Public events performed by a user | `GitHubPagedResponse<GitHubEvent>` |
-| `useGhUserContributionMap(login, params?)` | Contribution calendar (GraphQL) — requires `token` | `ContributionCalendar` |
+| `useGhUserContributionMap(login, params?)` | Contribution calendar (GraphQL) | `ContributionCalendar` |
 
 ### Repository hooks
 
@@ -91,6 +114,8 @@ Hooks ending in `Infinite` return a [`UseInfiniteQueryResult`](https://tanstack.
 | `useGhRepoAdvisories(owner, name, params?)` | Repository security advisories | `GitHubPagedResponse<GitHubRepositoryAdvisory>` |
 | `useGhRepoAdvisoriesInfinite(owner, name, params?)` | Infinite-scroll variant | `InfiniteData<GitHubPagedResponse<GitHubRepositoryAdvisory>>` |
 | `useGhRepoAdvisory(owner, name, ghsaId)` | Single repository advisory by GHSA ID | `GitHubRepositoryAdvisory` |
+| `useGhRepoWorkflowRuns(owner, name, params?)` | GitHub Actions workflow runs | `GitHubWorkflowRunsResponse` |
+| `useGhRepoWorkflowRunsInfinite(owner, name, params?)` | Infinite-scroll variant | `InfiniteData<GitHubWorkflowRunsResponse>` |
 
 ### Repository hooks — mutations
 
@@ -108,6 +133,8 @@ All mutation hooks return a [`UseMutationResult`](https://tanstack.com/query/lat
 | [`useGhIssue(owner, name, number)`](#useghissueowner-name-number) | Single issue | `GitHubIssue` |
 | [`useGhIssueComments(owner, name, number, params?)`](#useghissuecommentsowner-name-number-params) | Comments on an issue | `GitHubPagedResponse<GitHubIssueComment>` |
 | [`useGhIssueCommentsInfinite(owner, name, number, params?)`](#useghissuecommentsinfiniteowner-name-number-params) | Infinite-scroll variant | `InfiniteData<GitHubPagedResponse<GitHubIssueComment>>` |
+| `useGhIssues(params?)` | Issues across all repos for the authenticated user | `GitHubPagedResponse<GitHubIssue>` |
+| `useGhIssuesInfinite(params?)` | Infinite-scroll variant | `InfiniteData<GitHubPagedResponse<GitHubIssue>>` |
 
 ### Pull Request hooks
 
@@ -162,12 +189,30 @@ All mutation hooks return a [`UseMutationResult`](https://tanstack.com/query/lat
 | [`useGhOrgMembers(name, params?)`](#useghorgmembersname-params) | Members of an organization | `GitHubPagedResponse<GitHubUser>` |
 | [`useGhOrgMembersInfinite(name, params?)`](#useghorgmembersinfinitename-params) | Infinite-scroll variant | `InfiniteData<GitHubPagedResponse<GitHubUser>>` |
 
+### Notification hooks
+
+| Hook | Description | Returns |
+| ---- | ----------- | ------- |
+| `useGhNotifications(params?)` | Notifications for the authenticated user | `GitHubPagedResponse<GitHubNotification>` |
+| `useGhNotificationsInfinite(params?)` | Infinite-scroll variant | `InfiniteData<GitHubPagedResponse<GitHubNotification>>` |
+
+### Notification hooks — mutations
+
+All mutation hooks return a [`UseMutationResult`](https://tanstack.com/query/latest/docs/framework/react/reference/useMutation).
+
+| Hook | Description | Returns |
+| ---- | ----------- | ------- |
+| `useGhMarkNotificationRead()` | Mark a notification thread as read — `mutate(threadId)` | `void` |
+| `useGhMarkAllNotificationsRead()` | Mark all notifications as read | `void` |
+
 ### Search hooks
 
 | Hook | Description | Returns |
 | ---- | ----------- | ------- |
 | [`useGhSearchRepos(params)`](#useghsearchreposparams) | Search repositories | `GitHubPagedResponse<GitHubRepository>` |
 | [`useGhSearchReposInfinite(params)`](#useghsearchreposinfiniteparams) | Infinite-scroll variant | `InfiniteData<GitHubPagedResponse<GitHubRepository>>` |
+| `useGhSearchIssues(params)` | Search issues and pull requests | `GitHubPagedResponse<GitHubIssue>` |
+| `useGhSearchIssuesInfinite(params)` | Infinite-scroll variant | `InfiniteData<GitHubPagedResponse<GitHubIssue>>` |
 
 ### Advisory hooks
 
@@ -263,7 +308,6 @@ function UserRepoList({ login }: { login: string }) {
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query (also disabled when `login` is empty) |
-| `token` | `string` | — | GitHub personal access token |
 
 ---
 
@@ -274,18 +318,16 @@ Infinite-scroll variant of `useGhUserRepos`.
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query (also disabled when `login` is empty) |
-| `token` | `string` | — | GitHub personal access token |
 
 ---
 
 ### `useGhCurrentUser()`
 
-Fetches the authenticated user's own profile. Requires a `token`.
+Fetches the authenticated user's own profile. Requires a token set in `GhClientProvider`.
 
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query |
-| `token` | `string` | — | GitHub personal access token (required) |
 
 ---
 
@@ -296,7 +338,6 @@ Fetches the followers of a GitHub user.
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query (also disabled when `login` is empty) |
-| `token` | `string` | — | GitHub personal access token |
 
 ---
 
@@ -307,7 +348,6 @@ Infinite-scroll variant of `useGhUserFollowers`.
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query (also disabled when `login` is empty) |
-| `token` | `string` | — | GitHub personal access token |
 
 ---
 
@@ -318,7 +358,6 @@ Fetches the users that a GitHub user is following.
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query (also disabled when `login` is empty) |
-| `token` | `string` | — | GitHub personal access token |
 
 ---
 
@@ -329,7 +368,6 @@ Infinite-scroll variant of `useGhUserFollowing`.
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query (also disabled when `login` is empty) |
-| `token` | `string` | — | GitHub personal access token |
 
 ---
 
@@ -340,18 +378,16 @@ Fetches the public events performed by a GitHub user.
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query (also disabled when `login` is empty) |
-| `token` | `string` | — | GitHub personal access token |
 
 ---
 
 ### `useGhUserContributionMap(login, params?)`
 
-Fetches a user's contribution calendar via the GitHub GraphQL API. Requires a `token`.
+Fetches a user's contribution calendar via the GitHub GraphQL API. Requires a token set in `GhClientProvider`.
 
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query (also disabled when `login` is empty) |
-| `token` | `string` | — | GitHub personal access token (required) |
 
 ---
 
@@ -372,7 +408,6 @@ function RepoCard({ owner, name }: { owner: string; name: string }) {
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query (also disabled when `owner` or `name` is empty) |
-| `token` | `string` | — | GitHub personal access token — required for private repositories |
 
 ---
 
@@ -383,7 +418,6 @@ Fetches the commit list for a repository.
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query |
-| `token` | `string` | — | GitHub personal access token |
 
 ---
 
@@ -394,7 +428,6 @@ Infinite-scroll variant of `useGhRepoCommits`.
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query |
-| `token` | `string` | — | GitHub personal access token |
 
 ---
 
@@ -405,7 +438,6 @@ Fetches the branches of a repository.
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query |
-| `token` | `string` | — | GitHub personal access token |
 
 ---
 
@@ -416,7 +448,6 @@ Infinite-scroll variant of `useGhRepoBranches`.
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query |
-| `token` | `string` | — | GitHub personal access token |
 
 ---
 
@@ -437,7 +468,6 @@ function BranchInfo({ owner, repo }: { owner: string; repo: string }) {
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query (also disabled when `branch` is empty) |
-| `token` | `string` | — | GitHub personal access token |
 
 ---
 
@@ -448,7 +478,6 @@ Fetches the tags of a repository.
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query |
-| `token` | `string` | — | GitHub personal access token |
 
 ---
 
@@ -459,7 +488,6 @@ Infinite-scroll variant of `useGhRepoTags`.
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query |
-| `token` | `string` | — | GitHub personal access token |
 
 ---
 
@@ -488,7 +516,6 @@ function ReleaseList({ owner, repo }: { owner: string; repo: string }) {
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query |
-| `token` | `string` | — | GitHub personal access token |
 
 ---
 
@@ -499,7 +526,6 @@ Infinite-scroll variant of `useGhRepoReleases`.
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query |
-| `token` | `string` | — | GitHub personal access token |
 
 ---
 
@@ -510,7 +536,6 @@ Fetches the forks of a repository.
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query |
-| `token` | `string` | — | GitHub personal access token |
 
 ---
 
@@ -521,7 +546,6 @@ Infinite-scroll variant of `useGhRepoForks`.
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query |
-| `token` | `string` | — | GitHub personal access token |
 
 ---
 
@@ -543,7 +567,6 @@ function FileViewer({ owner, repo }: { owner: string; repo: string }) {
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query |
-| `token` | `string` | — | GitHub personal access token |
 
 ---
 
@@ -568,18 +591,16 @@ function TopicBadges({ owner, repo }: { owner: string; repo: string }) {
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query |
-| `token` | `string` | — | GitHub personal access token |
 
 ---
 
 ### `useGhRepoContributors(owner, name, params?)`
 
-Fetches the contributors of a repository. Each item includes `login`, `id`, `contributions`, `avatar_url`, and `html_url`. The `GitHubContributor` type is exported from `@api-hooks/gh`.
+Fetches the contributors of a repository. Each item includes `login`, `id`, `contributions`, `avatar_url`, and `html_url`.
 
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query |
-| `token` | `string` | — | GitHub personal access token |
 
 ---
 
@@ -590,7 +611,6 @@ Infinite-scroll variant of `useGhRepoContributors`.
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query |
-| `token` | `string` | — | GitHub personal access token |
 
 ---
 
@@ -601,7 +621,6 @@ Fetches the issues of a repository. Note: GitHub includes pull requests in this 
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query |
-| `token` | `string` | — | GitHub personal access token |
 
 ---
 
@@ -612,7 +631,6 @@ Infinite-scroll variant of `useGhRepoIssues`.
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query |
-| `token` | `string` | — | GitHub personal access token |
 
 ---
 
@@ -639,7 +657,6 @@ function OpenPRs({ owner, repo }: { owner: string; repo: string }) {
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query |
-| `token` | `string` | — | GitHub personal access token |
 
 ---
 
@@ -650,7 +667,6 @@ Infinite-scroll variant of `useGhRepoPullRequests`.
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query |
-| `token` | `string` | — | GitHub personal access token |
 
 ---
 
@@ -661,18 +677,16 @@ Fetches the most recent published release for a repository.
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query |
-| `token` | `string` | — | GitHub personal access token |
 
 ---
 
 ### `useGhRepoWebhooks(owner, name, params?)`
 
-Fetches the webhooks configured for a repository. Requires a token with admin access.
+Fetches the webhooks configured for a repository. Requires a token with admin access set in `GhClientProvider`.
 
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query |
-| `token` | `string` | — | GitHub personal access token with `admin:repo_hook` scope |
 
 ---
 
@@ -683,7 +697,6 @@ Infinite-scroll variant of `useGhRepoWebhooks`.
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query |
-| `token` | `string` | — | GitHub personal access token with `admin:repo_hook` scope |
 
 ---
 
@@ -704,7 +717,6 @@ function RawFile({ owner, repo }: { owner: string; repo: string }) {
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query (also disabled when `path` is empty) |
-| `token` | `string` | — | GitHub personal access token — required for private repositories |
 
 ---
 
@@ -715,7 +727,6 @@ Fetches the security advisories published in a repository.
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query |
-| `token` | `string` | — | GitHub personal access token |
 
 ---
 
@@ -726,7 +737,6 @@ Infinite-scroll variant of `useGhRepoAdvisories`.
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query |
-| `token` | `string` | — | GitHub personal access token |
 
 ---
 
@@ -737,7 +747,44 @@ Fetches a single repository security advisory by its GHSA ID.
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query (also disabled when `ghsaId` is empty) |
-| `token` | `string` | — | GitHub personal access token |
+
+---
+
+### `useGhRepoWorkflowRuns(owner, name, params?)`
+
+Fetches GitHub Actions workflow runs for a repository. The response envelope includes `total_count` and `workflow_runs`.
+
+```tsx
+import { useGhRepoWorkflowRuns } from '@api-hooks/gh';
+
+function WorkflowStatus({ owner, repo }: { owner: string; repo: string }) {
+  const { data } = useGhRepoWorkflowRuns(owner, repo, { per_page: 5 });
+
+  return (
+    <ul>
+      {data?.workflow_runs.map(run => (
+        <li key={run.id}>
+          {run.name} — {run.status} ({run.conclusion ?? 'in progress'})
+        </li>
+      ))}
+    </ul>
+  );
+}
+```
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query |
+
+---
+
+### `useGhRepoWorkflowRunsInfinite(owner, name, params?)`
+
+Infinite-scroll variant of `useGhRepoWorkflowRuns`. Uses `total_count` to determine if more pages exist.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query |
 
 ---
 
@@ -791,7 +838,6 @@ Fetches a single issue by number.
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query (also disabled when `number` is `0`) |
-| `token` | `string` | — | GitHub personal access token |
 
 ---
 
@@ -802,7 +848,6 @@ Fetches the comments on an issue.
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query |
-| `token` | `string` | — | GitHub personal access token |
 
 ---
 
@@ -813,7 +858,41 @@ Infinite-scroll variant of `useGhIssueComments`.
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query |
-| `token` | `string` | — | GitHub personal access token |
+
+---
+
+### `useGhIssues(params?)`
+
+Fetches issues assigned to the authenticated user across all repositories (`GET /issues`). Note: GitHub includes pull requests in this endpoint — filter them by checking for the absence of `pull_request`.
+
+```tsx
+import { useGhIssues } from '@api-hooks/gh';
+
+function MyIssues() {
+  const { data } = useGhIssues({ filter: 'assigned', state: 'open' });
+  const issues = data?.values.filter(i => !i.pull_request) ?? [];
+
+  return (
+    <ul>
+      {issues.map(i => <li key={i.id}>#{i.number} {i.title}</li>)}
+    </ul>
+  );
+}
+```
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query |
+
+---
+
+### `useGhIssuesInfinite(params?)`
+
+Infinite-scroll variant of `useGhIssues`.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query |
 
 ---
 
@@ -824,7 +903,6 @@ Fetches a single pull request by number.
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query (also disabled when `number` is `0`) |
-| `token` | `string` | — | GitHub personal access token |
 
 ---
 
@@ -835,7 +913,6 @@ Fetches the commits included in a pull request.
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query |
-| `token` | `string` | — | GitHub personal access token |
 
 ---
 
@@ -846,7 +923,6 @@ Fetches the files changed by a pull request.
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query |
-| `token` | `string` | — | GitHub personal access token |
 
 ---
 
@@ -857,7 +933,6 @@ Fetches the reviews submitted on a pull request.
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query |
-| `token` | `string` | — | GitHub personal access token |
 
 ---
 
@@ -868,7 +943,6 @@ Fetches the inline diff comments on a pull request.
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query |
-| `token` | `string` | — | GitHub personal access token |
 
 ---
 
@@ -879,7 +953,6 @@ Returns `true` when the pull request has been merged.
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query (also disabled when `number` is `0`) |
-| `token` | `string` | — | GitHub personal access token |
 
 ---
 
@@ -934,7 +1007,6 @@ Fetches a single commit. `ref` can be a commit SHA, branch name, or tag name.
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query (also disabled when `ref` is empty) |
-| `token` | `string` | — | GitHub personal access token |
 
 ---
 
@@ -945,7 +1017,6 @@ Fetches the individual CI/CD statuses for a commit (Statuses API).
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query |
-| `token` | `string` | — | GitHub personal access token |
 
 ---
 
@@ -966,7 +1037,6 @@ function CommitStatus({ owner, repo, sha }: { owner: string; repo: string; sha: 
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query |
-| `token` | `string` | — | GitHub personal access token |
 
 ---
 
@@ -977,7 +1047,6 @@ Fetches the GitHub Actions check runs for a commit.
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query |
-| `token` | `string` | — | GitHub personal access token |
 
 ---
 
@@ -988,7 +1057,6 @@ Fetches the comments posted on a commit.
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query (also disabled when `ref` is empty) |
-| `token` | `string` | — | GitHub personal access token |
 
 ---
 
@@ -999,7 +1067,6 @@ Infinite-scroll variant of `useGhCommitComments`.
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query (also disabled when `ref` is empty) |
-| `token` | `string` | — | GitHub personal access token |
 
 ---
 
@@ -1046,7 +1113,6 @@ function OrgCard({ org }: { org: string }) {
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query (also disabled when `name` is empty) |
-| `token` | `string` | — | GitHub personal access token |
 
 ---
 
@@ -1057,7 +1123,6 @@ Fetches the repositories belonging to an organization.
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query |
-| `token` | `string` | — | GitHub personal access token — required for private repositories |
 
 ---
 
@@ -1068,7 +1133,6 @@ Infinite-scroll variant of `useGhOrgRepos`.
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query |
-| `token` | `string` | — | GitHub personal access token |
 
 ---
 
@@ -1079,7 +1143,6 @@ Fetches the members of an organization.
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query |
-| `token` | `string` | — | GitHub personal access token |
 
 ---
 
@@ -1090,7 +1153,80 @@ Infinite-scroll variant of `useGhOrgMembers`.
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query |
-| `token` | `string` | — | GitHub personal access token |
+
+---
+
+### `useGhNotifications(params?)`
+
+Fetches notifications for the authenticated user. Requires a token set in `GhClientProvider`.
+
+```tsx
+import { useGhNotifications } from '@api-hooks/gh';
+
+function NotificationBadge() {
+  const { data } = useGhNotifications({ participating: true });
+  const unread = data?.values.filter(n => n.unread) ?? [];
+
+  return <span>{unread.length} unread</span>;
+}
+```
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query |
+
+---
+
+### `useGhNotificationsInfinite(params?)`
+
+Infinite-scroll variant of `useGhNotifications`.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query |
+
+---
+
+### `useGhMarkNotificationRead()`
+
+Marks a single notification thread as read. Call `mutate(threadId)`.
+
+```tsx
+import { useGhMarkNotificationRead } from '@api-hooks/gh';
+
+function NotificationItem({ threadId, title }: { threadId: string; title: string }) {
+  const { mutate, isPending } = useGhMarkNotificationRead();
+
+  return (
+    <div>
+      <span>{title}</span>
+      <button onClick={() => mutate(threadId)} disabled={isPending}>
+        Mark as read
+      </button>
+    </div>
+  );
+}
+```
+
+---
+
+### `useGhMarkAllNotificationsRead()`
+
+Marks all notifications as read.
+
+```tsx
+import { useGhMarkAllNotificationsRead } from '@api-hooks/gh';
+
+function ClearAllButton() {
+  const { mutate, isPending } = useGhMarkAllNotificationsRead();
+
+  return (
+    <button onClick={() => mutate()} disabled={isPending}>
+      Mark all as read
+    </button>
+  );
+}
+```
 
 ---
 
@@ -1118,7 +1254,6 @@ function RepoSearch({ query }: { query: string }) {
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query (also disabled when `params.q` is empty) |
-| `token` | `string` | — | GitHub personal access token |
 
 ---
 
@@ -1147,7 +1282,43 @@ function InfiniteRepoSearch({ query }: { query: string }) {
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query (also disabled when `params.q` is empty) |
-| `token` | `string` | — | GitHub personal access token |
+
+---
+
+### `useGhSearchIssues(params)`
+
+Searches for issues and pull requests using [GitHub's search syntax](https://docs.github.com/en/search-github/searching-on-github/searching-for-issues-and-pull-requests). `params.q` is required. The response includes a `totalCount` field.
+
+```tsx
+import { useGhSearchIssues } from '@api-hooks/gh';
+
+function IssueSearch({ query }: { query: string }) {
+  const { data } = useGhSearchIssues({ q: `is:issue is:open ${query}` });
+
+  return (
+    <>
+      <p>{data?.totalCount} issues found</p>
+      <ul>
+        {data?.values.map(i => <li key={i.id}>#{i.number} {i.title}</li>)}
+      </ul>
+    </>
+  );
+}
+```
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query (also disabled when `params.q` is empty) |
+
+---
+
+### `useGhSearchIssuesInfinite(params)`
+
+Infinite-scroll variant of `useGhSearchIssues`.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query (also disabled when `params.q` is empty) |
 
 ---
 
@@ -1213,12 +1384,11 @@ Infinite-scroll variant of `useGhGistComments`.
 
 ### `useGhGistIsStarred(gistId)`
 
-Returns `true` when the authenticated user has starred the gist. Requires a `token`.
+Returns `true` when the authenticated user has starred the gist. Requires a token set in `GhClientProvider`.
 
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query (also disabled when `gistId` is empty) |
-| `token` | `string` | — | GitHub personal access token (required) |
 
 ---
 
@@ -1260,7 +1430,7 @@ Deletes a comment from a gist. Call `mutate({ commentId })`.
 
 ### `useGhGists(params?, options?)`
 
-Lists public gists, or all gists for the authenticated user when a `token` is provided. Returns one page.
+Lists public gists, or all gists for the authenticated user when a token is set in `GhClientProvider`. Returns one page.
 
 ```tsx
 import { useGhGists } from '@api-hooks/gh';
@@ -1281,7 +1451,6 @@ function GistList() {
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query |
-| `token` | `string` | — | GitHub personal access token — required to list secret gists |
 
 ---
 
@@ -1294,7 +1463,7 @@ import { useGhGistsInfinite } from '@api-hooks/gh';
 
 function InfiniteGistList() {
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage } =
-    useGhGistsInfinite({ per_page: 10 }, { token: 'ghp_...' });
+    useGhGistsInfinite({ per_page: 10 });
 
   const allGists = data?.pages.flatMap(p => p.values) ?? [];
 
@@ -1318,7 +1487,6 @@ function InfiniteGistList() {
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query |
-| `token` | `string` | — | GitHub personal access token — required to list secret gists |
 
 ---
 
@@ -1442,7 +1610,6 @@ function CriticalAdvisories() {
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query |
-| `token` | `string` | — | GitHub personal access token |
 
 ---
 
@@ -1453,7 +1620,6 @@ Infinite-scroll variant of `useGhAdvisories`.
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query |
-| `token` | `string` | — | GitHub personal access token |
 
 ---
 
@@ -1483,7 +1649,6 @@ function AdvisoryDetail({ ghsaId }: { ghsaId: string }) {
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query (also disabled when `ghsaId` is empty) |
-| `token` | `string` | — | GitHub personal access token |
 
 ---
 
@@ -1514,7 +1679,6 @@ function CveDetail({ cveId }: { cveId: string }) {
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query (also disabled when `cveId` is empty) |
-| `token` | `string` | — | GitHub personal access token |
 
 ---
 

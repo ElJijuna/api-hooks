@@ -1,11 +1,6 @@
-import { useMemo } from 'react';
 import { useMutation, type UseMutationResult } from '@tanstack/react-query';
-import { GitHubClient, type GitHubIssue, type CreateIssueData } from 'gh-api-client';
-
-export interface UseGhCreateIssueOptions {
-  /** GitHub personal access token — required to create issues. */
-  token?: string;
-}
+import { type GitHubIssue, type CreateIssueData } from 'gh-api-client';
+import { useGhClient } from '../GhClientContext.js';
 
 /**
  * Creates a new issue in a GitHub repository.
@@ -14,16 +9,14 @@ export interface UseGhCreateIssueOptions {
  *
  * @param owner - Repository owner (user or org)
  * @param repo - Repository name
- * @param options - Options including the required `token`
  * @returns TanStack Mutation result with the created {@link GitHubIssue}
  */
 export function useGhCreateIssue(
   owner: string,
-  repo: string,
-  options: UseGhCreateIssueOptions = {}
+  repo: string
 ): UseMutationResult<GitHubIssue, Error, CreateIssueData> {
-  const { token } = options;
-  const client = useMemo(() => new GitHubClient(token ? { token } : {}), [token]);
+
+  const client = useGhClient();
 
   return useMutation<GitHubIssue, Error, CreateIssueData>({
     mutationFn: (data) => client.repo(owner, repo).createIssue(data),

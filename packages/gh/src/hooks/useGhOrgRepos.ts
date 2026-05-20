@@ -1,13 +1,11 @@
-import { useMemo } from 'react';
 import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { GitHubClient, type GitHubRepository, type GitHubPagedResponse, type ReposParams } from 'gh-api-client';
+import { type GitHubRepository, type GitHubPagedResponse, type ReposParams } from 'gh-api-client';
+import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
 export interface UseGhOrgReposOptions {
   /** Disable the query. Also disabled when `orgName` is empty. */
   enabled?: boolean;
-  /** GitHub personal access token — required for private repositories. */
-  token?: string;
 }
 
 /**
@@ -23,8 +21,9 @@ export function useGhOrgRepos(
   params?: ReposParams,
   options: UseGhOrgReposOptions = {}
 ): UseQueryResult<GitHubPagedResponse<GitHubRepository>, Error> {
-  const { enabled = true, token } = options;
-  const client = useMemo(() => new GitHubClient(token ? { token } : {}), [token]);
+  const { enabled = true } = options;
+
+  const client = useGhClient();
 
   return useQuery<GitHubPagedResponse<GitHubRepository>, Error>({
     queryKey: ghQueryKeys.orgRepos(orgName, params),

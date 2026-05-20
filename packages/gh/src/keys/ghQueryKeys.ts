@@ -99,4 +99,20 @@ export const ghQueryKeys = {
   // Commit extended
   commitComments: (owner: string, repo: string, ref: string, params?: object) => ['gh', 'repo', owner, repo, 'commit', ref, 'comments', params] as const,
   commitCommentsInfinite: (owner: string, repo: string, ref: string, params?: object) => ['gh', 'repo', owner, repo, 'commit', ref, 'comments', 'infinite', params] as const,
+
+  // Notifications
+  notifications: (params?: object) => ['gh', 'notifications', params] as const,
+  notificationsInfinite: (params?: object) => ['gh', 'notifications', 'infinite', params] as const,
+
+  // Cross-repo issues
+  issues: (params?: object) => ['gh', 'issues', params] as const,
+  issuesInfinite: (params?: object) => ['gh', 'issues', 'infinite', params] as const,
+
+  // Search issues
+  searchIssues: (params: object) => ['gh', 'search', 'issues', params] as const,
+  searchIssuesInfinite: (params: object) => ['gh', 'search', 'issues', 'infinite', params] as const,
+
+  // Workflow runs
+  repoWorkflowRuns: (owner: string, repo: string, params?: object) => ['gh', 'repo', owner, repo, 'workflow-runs', params] as const,
+  repoWorkflowRunsInfinite: (owner: string, repo: string, params?: object) => ['gh', 'repo', owner, repo, 'workflow-runs', 'infinite', params] as const,
 } as const;

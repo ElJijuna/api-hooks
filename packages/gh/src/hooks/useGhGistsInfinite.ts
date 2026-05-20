@@ -1,13 +1,11 @@
-import { useMemo } from 'react';
 import { useInfiniteQuery, type UseInfiniteQueryResult, type InfiniteData } from '@tanstack/react-query';
-import { GitHubClient, type GitHubGist, type GitHubPagedResponse, type GistsParams } from 'gh-api-client';
+import { type GitHubGist, type GitHubPagedResponse, type GistsParams } from 'gh-api-client';
+import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
 export interface UseGhGistsInfiniteOptions {
   /** Disable the query. */
   enabled?: boolean;
-  /** GitHub personal access token — required to list secret gists. */
-  token?: string;
 }
 
 /**
@@ -24,8 +22,9 @@ export function useGhGistsInfinite(
   params?: Omit<GistsParams, 'page'>,
   options: UseGhGistsInfiniteOptions = {}
 ): UseInfiniteQueryResult<InfiniteData<GitHubPagedResponse<GitHubGist>, number>, Error> {
-  const { enabled = true, token } = options;
-  const client = useMemo(() => new GitHubClient(token ? { token } : {}), [token]);
+  const { enabled = true } = options;
+
+  const client = useGhClient();
 
   return useInfiniteQuery({
     queryKey: ghQueryKeys.gistsInfinite(params),

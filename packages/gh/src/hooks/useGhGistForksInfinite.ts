@@ -1,13 +1,11 @@
-import { useMemo } from 'react';
 import { useInfiniteQuery, type UseInfiniteQueryResult, type InfiniteData } from '@tanstack/react-query';
-import { GitHubClient, type GitHubPagedResponse, type GistFork, type PaginationParams } from 'gh-api-client';
+import { type GitHubPagedResponse, type GistFork, type PaginationParams } from 'gh-api-client';
+import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
 export interface UseGhGistForksInfiniteOptions {
   /** Disable the query. */
   enabled?: boolean;
-  /** GitHub personal access token. */
-  token?: string;
 }
 
 /**
@@ -23,8 +21,9 @@ export function useGhGistForksInfinite(
   params?: Omit<PaginationParams, 'page'>,
   options: UseGhGistForksInfiniteOptions = {}
 ): UseInfiniteQueryResult<InfiniteData<GitHubPagedResponse<GistFork>, number>, Error> {
-  const { enabled = true, token } = options;
-  const client = useMemo(() => new GitHubClient(token ? { token } : {}), [token]);
+  const { enabled = true } = options;
+
+  const client = useGhClient();
 
   return useInfiniteQuery({
     queryKey: ghQueryKeys.gistForksInfinite(gistId, params),

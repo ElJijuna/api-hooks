@@ -1,13 +1,11 @@
-import { useMemo } from 'react';
 import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { GitHubClient, type GitHubGist, type GitHubPagedResponse, type GistsParams } from 'gh-api-client';
+import { type GitHubGist, type GitHubPagedResponse, type GistsParams } from 'gh-api-client';
+import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
 export interface UseGhGistsOptions {
   /** Disable the query. */
   enabled?: boolean;
-  /** GitHub personal access token — required to list secret gists. */
-  token?: string;
 }
 
 /**
@@ -21,8 +19,9 @@ export function useGhGists(
   params?: GistsParams,
   options: UseGhGistsOptions = {}
 ): UseQueryResult<GitHubPagedResponse<GitHubGist>, Error> {
-  const { enabled = true, token } = options;
-  const client = useMemo(() => new GitHubClient(token ? { token } : {}), [token]);
+  const { enabled = true } = options;
+
+  const client = useGhClient();
 
   return useQuery<GitHubPagedResponse<GitHubGist>, Error>({
     queryKey: ghQueryKeys.gists(params),

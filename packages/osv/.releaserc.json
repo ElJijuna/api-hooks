@@ -1,0 +1,57 @@
+{
+  "tagFormat": "@api-hooks/osv@${version}",
+  "branches": ["main"],
+  "plugins": [
+    [
+      "@semantic-release/commit-analyzer",
+      {
+        "preset": "conventionalcommits",
+        "releaseRules": [
+          { "type": "feat",     "scope": "@api-hooks/osv", "release": "minor" },
+          { "type": "fix",      "scope": "@api-hooks/osv", "release": "patch" },
+          { "type": "perf",     "scope": "@api-hooks/osv", "release": "patch" },
+          { "type": "refactor", "scope": "@api-hooks/osv", "release": "patch" },
+          { "breaking": true,   "scope": "@api-hooks/osv", "release": "major" }
+        ]
+      }
+    ],
+    [
+      "@semantic-release/release-notes-generator",
+      {
+        "preset": "conventionalcommits",
+        "presetConfig": {
+          "types": [
+            { "type": "feat",     "section": "Features" },
+            { "type": "fix",      "section": "Bug Fixes" },
+            { "type": "perf",     "section": "Performance" },
+            { "type": "refactor", "section": "Refactoring" },
+            { "type": "docs",     "section": "Documentation", "hidden": false },
+            { "type": "chore",    "section": "Chores",        "hidden": true }
+          ]
+        }
+      }
+    ],
+    [
+      "@semantic-release/changelog",
+      { "changelogFile": "CHANGELOG.md" }
+    ],
+    [
+      "@semantic-release/npm",
+      { "pkgRoot": "." }
+    ],
+    [
+      "@semantic-release/github",
+      {
+        "successComment": "🎉 This change is included in `@api-hooks/osv@${nextRelease.version}`.",
+        "releasedLabels": ["released"]
+      }
+    ],
+    [
+      "@semantic-release/git",
+      {
+        "assets": ["CHANGELOG.md", "package.json"],
+        "message": "chore(release): @api-hooks/osv@${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+      }
+    ]
+  ]
+}

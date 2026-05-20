@@ -1,11 +1,5 @@
-import { useMemo } from 'react';
 import { useMutation, type UseMutationResult } from '@tanstack/react-query';
-import { GitHubClient } from 'gh-api-client';
-
-export interface UseGhStarGistOptions {
-  /** GitHub personal access token — required to star gists. */
-  token?: string;
-}
+import { useGhClient } from '../GhClientContext.js';
 
 /**
  * Stars a GitHub Gist for the authenticated user.
@@ -13,15 +7,13 @@ export interface UseGhStarGistOptions {
  * Uses `useMutation` — call `mutate()` or `mutateAsync()` to trigger the star.
  *
  * @param gistId - Gist ID to star
- * @param options - Options including the required `token`
  * @returns TanStack Mutation result (`void`)
  */
 export function useGhStarGist(
-  gistId: string,
-  options: UseGhStarGistOptions = {}
+  gistId: string
 ): UseMutationResult<void, Error, void> {
-  const { token } = options;
-  const client = useMemo(() => new GitHubClient(token ? { token } : {}), [token]);
+
+  const client = useGhClient();
 
   return useMutation<void, Error, void>({
     mutationFn: () => client.gist(gistId).star(),

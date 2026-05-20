@@ -1,6 +1,6 @@
-import { useMemo } from 'react';
 import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { GitHubClient, type GitHubUser } from 'gh-api-client';
+import { type GitHubUser } from 'gh-api-client';
+import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
 export interface UseGhUserOptions {
@@ -20,7 +20,8 @@ export function useGhUser(
   options: UseGhUserOptions = {}
 ): UseQueryResult<GitHubUser, Error> {
   const { enabled = true } = options;
-  const client = useMemo(() => new GitHubClient(), []);
+
+  const client = useGhClient();
 
   return useQuery<GitHubUser, Error>({
     queryKey: ghQueryKeys.user(login),

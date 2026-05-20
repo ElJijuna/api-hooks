@@ -1,13 +1,11 @@
-import { useMemo } from 'react';
 import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { GitHubClient, type GitHubBranch, type GitHubPagedResponse, type BranchesParams } from 'gh-api-client';
+import { type GitHubBranch, type GitHubPagedResponse, type BranchesParams } from 'gh-api-client';
+import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
 export interface UseGhRepoBranchesOptions {
   /** Disable the query. Also disabled when `owner` or `repo` is empty. */
   enabled?: boolean;
-  /** GitHub personal access token — required for private repositories. */
-  token?: string;
 }
 
 /**
@@ -25,8 +23,9 @@ export function useGhRepoBranches(
   params?: BranchesParams,
   options: UseGhRepoBranchesOptions = {}
 ): UseQueryResult<GitHubPagedResponse<GitHubBranch>, Error> {
-  const { enabled = true, token } = options;
-  const client = useMemo(() => new GitHubClient(token ? { token } : {}), [token]);
+  const { enabled = true } = options;
+
+  const client = useGhClient();
 
   return useQuery<GitHubPagedResponse<GitHubBranch>, Error>({
     queryKey: ghQueryKeys.repoBranches(owner, repo, params),

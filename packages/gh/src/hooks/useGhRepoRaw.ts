@@ -1,13 +1,11 @@
-import { useMemo } from 'react';
 import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { GitHubClient, type ContentParams } from 'gh-api-client';
+import { type ContentParams } from 'gh-api-client';
+import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
 export interface UseGhRepoRawOptions {
   /** Disable the query. Also disabled when required params are empty. */
   enabled?: boolean;
-  /** GitHub personal access token. */
-  token?: string;
 }
 
 /**
@@ -27,8 +25,9 @@ export function useGhRepoRaw(
   params?: ContentParams,
   options: UseGhRepoRawOptions = {}
 ): UseQueryResult<string, Error> {
-  const { enabled = true, token } = options;
-  const client = useMemo(() => new GitHubClient(token ? { token } : {}), [token]);
+  const { enabled = true } = options;
+
+  const client = useGhClient();
 
   return useQuery<string, Error>({
     queryKey: ghQueryKeys.repoRaw(owner, repo, filePath, params),

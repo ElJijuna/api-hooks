@@ -1,13 +1,8 @@
-import { useMemo } from 'react';
 import { useMutation, type UseMutationResult } from '@tanstack/react-query';
-import { GitHubClient, PullRequestResource, type GitHubPullRequest } from 'gh-api-client';
+import { PullRequestResource, type GitHubPullRequest } from 'gh-api-client';
+import { useGhClient } from '../GhClientContext.js';
 
 type RequestReviewersData = Parameters<PullRequestResource['requestReviewers']>[0];
-
-export interface UseGhRequestReviewersOptions {
-  /** GitHub personal access token — required to request reviewers. */
-  token?: string;
-}
 
 /**
  * Requests reviewers for a GitHub pull request.
@@ -17,17 +12,15 @@ export interface UseGhRequestReviewersOptions {
  * @param owner - Repository owner (user or org)
  * @param repo - Repository name
  * @param pullNumber - Pull request number
- * @param options - Options including the required `token`
  * @returns TanStack Mutation result with the updated {@link GitHubPullRequest}
  */
 export function useGhRequestReviewers(
   owner: string,
   repo: string,
-  pullNumber: number,
-  options: UseGhRequestReviewersOptions = {}
+  pullNumber: number
 ): UseMutationResult<GitHubPullRequest, Error, RequestReviewersData> {
-  const { token } = options;
-  const client = useMemo(() => new GitHubClient(token ? { token } : {}), [token]);
+
+  const client = useGhClient();
 
   return useMutation<GitHubPullRequest, Error, RequestReviewersData>({
     mutationFn: (data) => client.repo(owner, repo).pullRequest(pullNumber).requestReviewers(data),

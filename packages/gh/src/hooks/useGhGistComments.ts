@@ -1,13 +1,11 @@
-import { useMemo } from 'react';
 import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { GitHubClient, type GitHubPagedResponse, type GistComment, type PaginationParams } from 'gh-api-client';
+import { type GitHubPagedResponse, type GistComment, type PaginationParams } from 'gh-api-client';
+import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
 export interface UseGhGistCommentsOptions {
   /** Disable the query. Also disabled when `gistId` is empty. */
   enabled?: boolean;
-  /** GitHub personal access token — required to read comments on secret gists. */
-  token?: string;
 }
 
 /**
@@ -23,8 +21,9 @@ export function useGhGistComments(
   params?: PaginationParams,
   options: UseGhGistCommentsOptions = {}
 ): UseQueryResult<GitHubPagedResponse<GistComment>, Error> {
-  const { enabled = true, token } = options;
-  const client = useMemo(() => new GitHubClient(token ? { token } : {}), [token]);
+  const { enabled = true } = options;
+
+  const client = useGhClient();
 
   return useQuery<GitHubPagedResponse<GistComment>, Error>({
     queryKey: ghQueryKeys.gistComments(gistId, params),

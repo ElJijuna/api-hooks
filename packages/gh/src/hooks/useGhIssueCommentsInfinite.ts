@@ -1,13 +1,11 @@
-import { useMemo } from 'react';
 import { useInfiniteQuery, type UseInfiniteQueryResult, type InfiniteData } from '@tanstack/react-query';
-import { GitHubClient, type GitHubIssueComment, type GitHubPagedResponse, type PaginationParams } from 'gh-api-client';
+import { type GitHubIssueComment, type GitHubPagedResponse, type PaginationParams } from 'gh-api-client';
+import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
 export interface UseGhIssueCommentsInfiniteOptions {
   /** Disable the query. Also disabled when any required param is empty/zero. */
   enabled?: boolean;
-  /** GitHub personal access token — required for private repositories. */
-  token?: string;
 }
 
 /**
@@ -27,8 +25,9 @@ export function useGhIssueCommentsInfinite(
   params?: Omit<PaginationParams & { since?: string }, 'page'>,
   options: UseGhIssueCommentsInfiniteOptions = {}
 ): UseInfiniteQueryResult<InfiniteData<GitHubPagedResponse<GitHubIssueComment>, number>, Error> {
-  const { enabled = true, token } = options;
-  const client = useMemo(() => new GitHubClient(token ? { token } : {}), [token]);
+  const { enabled = true } = options;
+
+  const client = useGhClient();
 
   return useInfiniteQuery({
     queryKey: ghQueryKeys.issueCommentsInfinite(owner, repo, issueNumber, params),

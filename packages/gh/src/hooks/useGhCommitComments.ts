@@ -1,6 +1,6 @@
-import { useMemo } from 'react';
 import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { GitHubClient, CommitResource, type GitHubPagedResponse } from 'gh-api-client';
+import { CommitResource, type GitHubPagedResponse } from 'gh-api-client';
+import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
 type GitHubCommitComment = Awaited<ReturnType<CommitResource['addComment']>>;
@@ -9,8 +9,6 @@ type CommitCommentsParams = Parameters<CommitResource['comments']>[0];
 export interface UseGhCommitCommentsOptions {
   /** Disable the query. Also disabled when any required param is empty. */
   enabled?: boolean;
-  /** GitHub personal access token — required for private repositories. */
-  token?: string;
 }
 
 /**
@@ -30,8 +28,9 @@ export function useGhCommitComments(
   params?: CommitCommentsParams,
   options: UseGhCommitCommentsOptions = {}
 ): UseQueryResult<GitHubPagedResponse<GitHubCommitComment>, Error> {
-  const { enabled = true, token } = options;
-  const client = useMemo(() => new GitHubClient(token ? { token } : {}), [token]);
+  const { enabled = true } = options;
+
+  const client = useGhClient();
 
   return useQuery<GitHubPagedResponse<GitHubCommitComment>, Error>({
     queryKey: ghQueryKeys.commitComments(owner, repo, ref, params),

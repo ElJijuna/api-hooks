@@ -3,6 +3,8 @@
 // - gh-api-client (https://www.npmjs.com/package/gh-api-client)
 // - @tanstack/react-query
 
+export * from './GhClientContext.js';
+
 // User
 export * from './hooks/useGhUser.js';
 export * from './hooks/useGhUserRepos.js';
@@ -66,6 +68,8 @@ export * from './hooks/useGhRepoAdvisoriesInfinite.js';
 export * from './hooks/useGhRepoAdvisory.js';
 export * from './hooks/useGhCreateFork.js';
 export * from './hooks/useGhCreateIssue.js';
+export * from './hooks/useGhRepoWorkflowRuns.js';
+export * from './hooks/useGhRepoWorkflowRunsInfinite.js';
 
 // Issue
 export * from './hooks/useGhIssue.js';
@@ -95,6 +99,16 @@ export * from './hooks/useGhCommitCommentsInfinite.js';
 export * from './hooks/useGhCreateCommitStatus.js';
 export * from './hooks/useGhAddCommitComment.js';
 
+// Notifications
+export * from './hooks/useGhNotifications.js';
+export * from './hooks/useGhNotificationsInfinite.js';
+export * from './hooks/useGhMarkNotificationRead.js';
+export * from './hooks/useGhMarkAllNotificationsRead.js';
+
+// Cross-repo issues
+export * from './hooks/useGhIssues.js';
+export * from './hooks/useGhIssuesInfinite.js';
+
 // Org
 export * from './hooks/useGhOrg.js';
 export * from './hooks/useGhOrgRepos.js';
@@ -105,6 +119,8 @@ export * from './hooks/useGhOrgMembersInfinite.js';
 // Search
 export * from './hooks/useGhSearchRepos.js';
 export * from './hooks/useGhSearchReposInfinite.js';
+export * from './hooks/useGhSearchIssues.js';
+export * from './hooks/useGhSearchIssuesInfinite.js';
 
 // Advisory
 export * from './hooks/useGhAdvisories.js';
