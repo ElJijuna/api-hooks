@@ -61,6 +61,7 @@ React hooks for the [GitHub REST API](https://docs.github.com/en/rest).
 | `useGhRepoForks(owner, name, params?)` | `GitHubPagedResponse<GitHubRepository>` |
 | `useGhRepoContents(owner, name, path?, params?)` | `GitHubContent \| GitHubContent[]` |
 | `useGhRepoRaw(owner, name, path, params?)` | `string` |
+| `useGhRepoMultipleRaw(owner, name, paths, params?)` | `Record<string, string>` |
 | `useGhRepoTopics(owner, name)` | `string[]` |
 | `useGhRepoContributors(owner, name, params?)` | `GitHubPagedResponse<GitHubUser>` |
 | `useGhRepoIssues(owner, name, params?)` | `GitHubPagedResponse<GitHubIssue>` |

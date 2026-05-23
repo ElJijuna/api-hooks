@@ -89,6 +89,7 @@ export const ghQueryKeys = {
   repoWebhooks: (owner: string, repo: string, params?: object) => ['gh', 'repo', owner, repo, 'webhooks', params] as const,
   repoWebhooksInfinite: (owner: string, repo: string, params?: object) => ['gh', 'repo', owner, repo, 'webhooks', 'infinite', params] as const,
   repoRaw: (owner: string, repo: string, filePath: string, params?: object) => ['gh', 'repo', owner, repo, 'raw', filePath, params] as const,
+  repoMultipleRaw: (owner: string, repo: string, filePaths: string[], params?: object) => ['gh', 'repo', owner, repo, 'raw', filePaths, params] as const,
   repoAdvisories: (owner: string, repo: string, params?: object) => ['gh', 'repo', owner, repo, 'advisories', params] as const,
   repoAdvisoriesInfinite: (owner: string, repo: string, params?: object) => ['gh', 'repo', owner, repo, 'advisories', 'infinite', params] as const,
   repoAdvisory: (owner: string, repo: string, ghsaId: string) => ['gh', 'repo', owner, repo, 'advisory', ghsaId] as const,

@@ -63,6 +63,7 @@ export * from './hooks/useGhRepoLatestRelease.js';
 export * from './hooks/useGhRepoWebhooks.js';
 export * from './hooks/useGhRepoWebhooksInfinite.js';
 export * from './hooks/useGhRepoRaw.js';
+export * from './hooks/useGhRepoMultipleRaw.js';
 export * from './hooks/useGhRepoAdvisories.js';
 export * from './hooks/useGhRepoAdvisoriesInfinite.js';
 export * from './hooks/useGhRepoAdvisory.js';

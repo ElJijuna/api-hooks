@@ -111,6 +111,7 @@ Hooks ending in `Infinite` return a [`UseInfiniteQueryResult`](https://tanstack.
 | `useGhRepoWebhooks(owner, name, params?)` | Webhook list (requires admin token) | `GitHubPagedResponse<GitHubWebhook>` |
 | `useGhRepoWebhooksInfinite(owner, name, params?)` | Infinite-scroll variant | `InfiniteData<GitHubPagedResponse<GitHubWebhook>>` |
 | `useGhRepoRaw(owner, name, path, params?)` | Raw file content as string | `string` |
+| `useGhRepoMultipleRaw(owner, name, paths, params?)` | Multiple raw file contents keyed by path | `Record<string, string>` |
 | `useGhRepoAdvisories(owner, name, params?)` | Repository security advisories | `GitHubPagedResponse<GitHubRepositoryAdvisory>` |
 | `useGhRepoAdvisoriesInfinite(owner, name, params?)` | Infinite-scroll variant | `InfiniteData<GitHubPagedResponse<GitHubRepositoryAdvisory>>` |
 | `useGhRepoAdvisory(owner, name, ghsaId)` | Single repository advisory by GHSA ID | `GitHubRepositoryAdvisory` |
@@ -717,6 +718,37 @@ function RawFile({ owner, repo }: { owner: string; repo: string }) {
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query (also disabled when `path` is empty) |
+
+---
+
+### `useGhRepoMultipleRaw(owner, name, paths, params?)`
+
+Fetches the raw content of multiple files as a path-keyed object. Pass a `ref` in `params` to fetch from a specific branch, tag, or commit SHA.
+
+```tsx
+import { useGhRepoMultipleRaw } from '@api-hooks/gh';
+
+function RawFiles({ owner, repo }: { owner: string; repo: string }) {
+  const { data } = useGhRepoMultipleRaw(owner, repo, ['README.md', 'package.json'], {
+    ref: 'main',
+  });
+
+  return (
+    <div>
+      {Object.entries(data ?? {}).map(([path, content]) => (
+        <section key={path}>
+          <h2>{path}</h2>
+          <pre>{content}</pre>
+        </section>
+      ))}
+    </div>
+  );
+}
+```
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query (also disabled when `paths` is empty or includes an empty path) |
 
 ---
 
