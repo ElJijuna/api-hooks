@@ -1,3 +1,9 @@
+## [1.1.0](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/osv@1.0.0...@api-hooks/osv@1.1.0) (2026-05-23)
+
+### Features
+
+* **@api-hooks/gh:** add hook useGhRepoMultipleRaw ([e29f39c](https://github.com/ElJijuna/api-hooks/commit/e29f39cc41eb314247734de5119736363ca00a08))
+
 ## 1.0.0 (2026-05-20)
 
 ### ⚠ BREAKING CHANGES
