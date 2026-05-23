@@ -1,3 +1,9 @@
+## [2.1.0](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/gh@2.0.0...@api-hooks/gh@2.1.0) (2026-05-23)
+
+### Features
+
+* **@api-hooks/gh:** add hook useGhRepoMultipleRaw ([e29f39c](https://github.com/ElJijuna/api-hooks/commit/e29f39cc41eb314247734de5119736363ca00a08))
+
 ## [2.0.0](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/gh@1.14.0...@api-hooks/gh@2.0.0) (2026-05-20)
 
 ### ⚠ BREAKING CHANGES
