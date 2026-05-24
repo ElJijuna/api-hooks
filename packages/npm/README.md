@@ -1,5 +1,9 @@
 # @api-hooks/npm
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/ElJijuna/api-hooks/main/public/assets/api-hooks.png" alt="api-hooks logo" width="240" />
+</p>
+
 React hooks for the [npm registry API](https://github.com/npm/registry/blob/main/docs/REGISTRY-API.md), built on [`npmjs-api-client`](https://www.npmjs.com/package/npmjs-api-client) and [`@tanstack/react-query`](https://tanstack.com/query).
 
 [![npm](https://img.shields.io/npm/v/@api-hooks/npm)](https://www.npmjs.com/package/@api-hooks/npm)
