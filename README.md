@@ -1,6 +1,8 @@
 # api-hooks
 
-![api-hooks logo](public/assets/api-hooks.png)
+<p align="center">
+  <img src="https://raw.githubusercontent.com/ElJijuna/api-hooks/main/public/assets/api-hooks.png" alt="api-hooks logo" width="240" />
+</p>
 
 A collection of React hooks for popular APIs, built on [`@tanstack/react-query`](https://tanstack.com/query).
 
