@@ -1,5 +1,9 @@
 # @api-hooks/osv
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/ElJijuna/api-hooks/main/public/assets/api-hooks.png" alt="api-hooks logo" width="240" />
+</p>
+
 React hooks for the [OSV (Open Source Vulnerabilities) API](https://osv.dev), built on [`osv-api-client`](https://www.npmjs.com/package/osv-api-client) and [`@tanstack/react-query`](https://tanstack.com/query).
 
 [![npm](https://img.shields.io/npm/v/@api-hooks/osv)](https://www.npmjs.com/package/@api-hooks/osv)
