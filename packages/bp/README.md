@@ -1,5 +1,9 @@
 # @api-hooks/bp
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/ElJijuna/api-hooks/main/public/assets/api-hooks.png" alt="api-hooks logo" width="240" />
+</p>
+
 React hooks for the [Bundlephobia API](https://bundlephobia.com), built on [`bundlephobia-api-client`](https://www.npmjs.com/package/bundlephobia-api-client) and [`@tanstack/react-query`](https://tanstack.com/query).
 
 [![npm](https://img.shields.io/npm/v/@api-hooks/bp)](https://www.npmjs.com/package/@api-hooks/bp)
