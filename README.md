@@ -1,5 +1,7 @@
 # api-hooks
 
+![api-hooks logo](public/assets/api-hooks.png)
+
 A collection of React hooks for popular APIs, built on [`@tanstack/react-query`](https://tanstack.com/query).
 
 [![CI](https://github.com/ElJijuna/api-hooks/actions/workflows/ci.yml/badge.svg)](https://github.com/ElJijuna/api-hooks/actions/workflows/ci.yml)
@@ -50,6 +52,7 @@ React hooks for the [GitHub REST API](https://docs.github.com/en/rest).
 | `useGhUserFollowers(login, params?)` | `GitHubPagedResponse<GitHubUser>` |
 | `useGhUserFollowing(login, params?)` | `GitHubPagedResponse<GitHubUser>` |
 | `useGhUserPublicEvents(login, params?)` | `GitHubPagedResponse<GitHubEvent>` |
+| `useGhUserOrganizations(login, params?)` | `GitHubPagedResponse<GitHubOrganization>` |
 | `useGhUserContributionMap(login, params?)` | `ContributionCalendar` |
 | `useGhRepo(owner, name)` | `GitHubRepository` |
 | `useGhRepoCommits(owner, name, params?)` | `GitHubPagedResponse<GitHubCommit>` |

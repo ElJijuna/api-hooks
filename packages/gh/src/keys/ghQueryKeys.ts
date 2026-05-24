@@ -1,4 +1,6 @@
 export const ghQueryKeys = {
+  graphql: (query: string, variables?: object) => ['gh', 'graphql', query, variables] as const,
+
   // User
   user: (login: string) => ['gh', 'user', login] as const,
   userRepos: (login: string, params?: object) => ['gh', 'user', login, 'repos', params] as const,
@@ -82,6 +84,9 @@ export const ghQueryKeys = {
   userFollowing: (login: string, params?: object) => ['gh', 'user', login, 'following', params] as const,
   userFollowingInfinite: (login: string, params?: object) => ['gh', 'user', login, 'following', 'infinite', params] as const,
   userPublicEvents: (login: string, params?: object) => ['gh', 'user', login, 'events', params] as const,
+  userOrganizations: (login: string, params?: object) => ['gh', 'user', login, 'organizations', params] as const,
+  userOrganizationsInfinite: (login: string, params?: object) => ['gh', 'user', login, 'organizations', 'infinite', params] as const,
+  userSocialAccounts: (login: string) => ['gh', 'user', login, 'social-accounts'] as const,
   userContributionMap: (login: string, params?: object) => ['gh', 'user', login, 'contributions', params] as const,
 
   // Repo extended
@@ -93,6 +98,7 @@ export const ghQueryKeys = {
   repoAdvisories: (owner: string, repo: string, params?: object) => ['gh', 'repo', owner, repo, 'advisories', params] as const,
   repoAdvisoriesInfinite: (owner: string, repo: string, params?: object) => ['gh', 'repo', owner, repo, 'advisories', 'infinite', params] as const,
   repoAdvisory: (owner: string, repo: string, ghsaId: string) => ['gh', 'repo', owner, repo, 'advisory', ghsaId] as const,
+  repoGitTree: (owner: string, repo: string, treeSha: string, params?: object) => ['gh', 'repo', owner, repo, 'git', 'trees', treeSha, params] as const,
 
   // Pull Request extended
   pullRequestIsMerged: (owner: string, repo: string, pullNumber: number) => ['gh', 'repo', owner, repo, 'pull', pullNumber, 'merged'] as const,

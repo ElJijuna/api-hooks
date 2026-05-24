@@ -1,5 +1,9 @@
 # @api-hooks/gh
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/ElJijuna/api-hooks/main/public/assets/api-hooks.png" alt="api-hooks logo" width="240" />
+</p>
+
 React hooks for the [GitHub REST API](https://docs.github.com/en/rest), built on [`gh-api-client`](https://www.npmjs.com/package/gh-api-client) and [`@tanstack/react-query`](https://tanstack.com/query).
 
 [![npm](https://img.shields.io/npm/v/@api-hooks/gh)](https://www.npmjs.com/package/@api-hooks/gh)
@@ -68,6 +72,12 @@ All query hooks return a [`UseQueryResult`](https://tanstack.com/query/latest/do
 
 Hooks ending in `Infinite` return a [`UseInfiniteQueryResult`](https://tanstack.com/query/latest/docs/framework/react/reference/useInfiniteQuery) — use `data.pages`, `hasNextPage`, and `fetchNextPage()` to build infinite-scroll UIs.
 
+### GraphQL hooks
+
+| Hook | Description | Returns |
+| ---- | ----------- | ------- |
+| `useGhGraphql(query, variables?)` | Execute a GitHub GraphQL query | Typed GraphQL response |
+
 ### User hooks
 
 | Hook | Description | Returns |
@@ -81,6 +91,9 @@ Hooks ending in `Infinite` return a [`UseInfiniteQueryResult`](https://tanstack.
 | `useGhUserFollowing(login, params?)` | Users a person is following | `GitHubPagedResponse<GitHubUser>` |
 | `useGhUserFollowingInfinite(login, params?)` | Infinite-scroll variant | `InfiniteData<GitHubPagedResponse<GitHubUser>>` |
 | `useGhUserPublicEvents(login, params?)` | Public events performed by a user | `GitHubPagedResponse<GitHubEvent>` |
+| `useGhUserOrganizations(login, params?)` | Public organizations for a user | `GitHubPagedResponse<GitHubOrganization>` |
+| `useGhUserOrganizationsInfinite(login, params?)` | Infinite-scroll variant | `InfiniteData<GitHubPagedResponse<GitHubOrganization>>` |
+| `useGhUserSocialAccounts(login)` | Social accounts linked on a user profile | `SocialAccount[]` |
 | `useGhUserContributionMap(login, params?)` | Contribution calendar (GraphQL) | `ContributionCalendar` |
 
 ### Repository hooks
@@ -117,6 +130,7 @@ Hooks ending in `Infinite` return a [`UseInfiniteQueryResult`](https://tanstack.
 | `useGhRepoAdvisory(owner, name, ghsaId)` | Single repository advisory by GHSA ID | `GitHubRepositoryAdvisory` |
 | `useGhRepoWorkflowRuns(owner, name, params?)` | GitHub Actions workflow runs | `GitHubWorkflowRunsResponse` |
 | `useGhRepoWorkflowRunsInfinite(owner, name, params?)` | Infinite-scroll variant | `InfiniteData<GitHubWorkflowRunsResponse>` |
+| `useGhRepoGitTree(owner, name, treeSha, params?)` | Git tree entries for a tree SHA or ref | `GitHubTree` |
 
 ### Repository hooks — mutations
 
@@ -126,6 +140,12 @@ All mutation hooks return a [`UseMutationResult`](https://tanstack.com/query/lat
 | ---- | ----------- | ------- |
 | `useGhCreateFork(owner, name)` | Fork a repository | `GitHubRepository` |
 | `useGhCreateIssue(owner, name)` | Create a new issue | `GitHubIssue` |
+| `useGhCreateRepoWebhook(owner, name)` | Create a repository webhook | `GitHubWebhook` |
+| `useGhUpdateRepoWebhook(owner, name)` | Update a repository webhook | `GitHubWebhook` |
+| `useGhDeleteRepoWebhook(owner, name)` | Delete a repository webhook | `void` |
+| `useGhCreateRepoAdvisory(owner, name)` | Create a draft repository advisory | `GitHubRepositoryAdvisory` |
+| `useGhUpdateRepoAdvisory(owner, name)` | Update a repository advisory | `GitHubRepositoryAdvisory` |
+| `useGhRequestRepoAdvisoryCve(owner, name)` | Request a CVE for a repository advisory | `GitHubRepositoryAdvisory` |
 
 ### Issue hooks
 
@@ -189,6 +209,14 @@ All mutation hooks return a [`UseMutationResult`](https://tanstack.com/query/lat
 | [`useGhOrgReposInfinite(name, params?)`](#useghorgreposinfinitename-params) | Infinite-scroll variant | `InfiniteData<GitHubPagedResponse<GitHubRepository>>` |
 | [`useGhOrgMembers(name, params?)`](#useghorgmembersname-params) | Members of an organization | `GitHubPagedResponse<GitHubUser>` |
 | [`useGhOrgMembersInfinite(name, params?)`](#useghorgmembersinfinitename-params) | Infinite-scroll variant | `InfiniteData<GitHubPagedResponse<GitHubUser>>` |
+
+### Organization hooks — mutations
+
+All mutation hooks return a [`UseMutationResult`](https://tanstack.com/query/latest/docs/framework/react/reference/useMutation).
+
+| Hook | Description | Returns |
+| ---- | ----------- | ------- |
+| `useGhCreateOrgRepo(name)` | Create a repository in an organization | `GitHubRepository` |
 
 ### Notification hooks
 
@@ -258,6 +286,28 @@ All mutation hooks return a [`UseMutationResult`](https://tanstack.com/query/lat
 ---
 
 ## API Reference
+
+### `useGhGraphql(query, variables?)`
+
+Executes a GitHub GraphQL query. Pass the expected response type as the generic parameter when you want typed `data`.
+
+```tsx
+import { useGhGraphql } from '@api-hooks/gh';
+
+function ViewerLogin() {
+  const { data } = useGhGraphql<{ viewer: { login: string } }>(
+    `query Viewer { viewer { login } }`
+  );
+
+  return <span>{data?.viewer.login}</span>;
+}
+```
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query (also disabled when `query` is empty) |
+
+---
 
 ### `useGhUser(login)`
 
@@ -375,6 +425,52 @@ Infinite-scroll variant of `useGhUserFollowing`.
 ### `useGhUserPublicEvents(login, params?)`
 
 Fetches the public events performed by a GitHub user.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query (also disabled when `login` is empty) |
+
+---
+
+### `useGhUserOrganizations(login, params?)`
+
+Fetches the public organizations for a GitHub user.
+
+```tsx
+import { useGhUserOrganizations } from '@api-hooks/gh';
+
+function UserOrganizations({ login }: { login: string }) {
+  const { data } = useGhUserOrganizations(login, { per_page: 20 });
+
+  return (
+    <ul>
+      {data?.values.map(org => (
+        <li key={org.id}>{org.login}</li>
+      ))}
+    </ul>
+  );
+}
+```
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query (also disabled when `login` is empty) |
+
+---
+
+### `useGhUserOrganizationsInfinite(login, params?)`
+
+Infinite-scroll variant of `useGhUserOrganizations`.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query (also disabled when `login` is empty) |
+
+---
+
+### `useGhUserSocialAccounts(login)`
+
+Fetches the social accounts configured on a GitHub user's profile.
 
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
@@ -820,6 +916,32 @@ Infinite-scroll variant of `useGhRepoWorkflowRuns`. Uses `total_count` to determ
 
 ---
 
+### `useGhRepoGitTree(owner, name, treeSha, params?)`
+
+Fetches a Git tree for a repository. Pass `{ recursive: '1' }` to retrieve nested tree entries.
+
+```tsx
+import { useGhRepoGitTree } from '@api-hooks/gh';
+
+function RepoTree({ owner, repo }: { owner: string; repo: string }) {
+  const { data } = useGhRepoGitTree(owner, repo, 'main', { recursive: '1' });
+
+  return (
+    <ul>
+      {data?.tree.map(item => (
+        <li key={item.path}>{item.path}</li>
+      ))}
+    </ul>
+  );
+}
+```
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query (also disabled when `treeSha` is empty) |
+
+---
+
 ### `useGhCreateFork(owner, name)`
 
 Forks a repository into the authenticated user's account (or an organization).
@@ -860,6 +982,64 @@ function NewIssueForm({ owner, repo }: { owner: string; repo: string }) {
   );
 }
 ```
+
+---
+
+### `useGhCreateRepoWebhook(owner, name)`
+
+Creates a webhook on a repository. Requires a token with repository admin access.
+
+```tsx
+import { useGhCreateRepoWebhook } from '@api-hooks/gh';
+
+function CreateWebhookButton({ owner, repo }: { owner: string; repo: string }) {
+  const { mutate, isPending } = useGhCreateRepoWebhook(owner, repo);
+
+  return (
+    <button
+      onClick={() =>
+        mutate({
+          config: { url: 'https://example.com/webhook', content_type: 'json' },
+          events: ['push'],
+        })
+      }
+      disabled={isPending}
+    >
+      Create webhook
+    </button>
+  );
+}
+```
+
+---
+
+### `useGhUpdateRepoWebhook(owner, name)`
+
+Updates a repository webhook. Call `mutate({ hookId, data })`.
+
+---
+
+### `useGhDeleteRepoWebhook(owner, name)`
+
+Deletes a repository webhook. Call `mutate({ hookId })`.
+
+---
+
+### `useGhCreateRepoAdvisory(owner, name)`
+
+Creates a draft security advisory in a repository.
+
+---
+
+### `useGhUpdateRepoAdvisory(owner, name)`
+
+Updates a repository security advisory. Call `mutate({ ghsaId, data })`.
+
+---
+
+### `useGhRequestRepoAdvisoryCve(owner, name)`
+
+Requests a CVE ID for a repository security advisory. Call `mutate({ ghsaId })`.
 
 ---
 
@@ -1185,6 +1365,29 @@ Infinite-scroll variant of `useGhOrgMembers`.
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query |
+
+---
+
+### `useGhCreateOrgRepo(name)`
+
+Creates a repository in an organization. Requires a token with permission to create organization repositories.
+
+```tsx
+import { useGhCreateOrgRepo } from '@api-hooks/gh';
+
+function CreateOrgRepoButton({ org }: { org: string }) {
+  const { mutate, isPending } = useGhCreateOrgRepo(org);
+
+  return (
+    <button
+      onClick={() => mutate({ name: 'new-repo', private: true })}
+      disabled={isPending}
+    >
+      Create repo
+    </button>
+  );
+}
+```
 
 ---
 

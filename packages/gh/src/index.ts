@@ -4,6 +4,7 @@
 // - @tanstack/react-query
 
 export * from './GhClientContext.js';
+export * from './hooks/useGhGraphql.js';
 
 // User
 export * from './hooks/useGhUser.js';
@@ -15,6 +16,9 @@ export * from './hooks/useGhUserFollowersInfinite.js';
 export * from './hooks/useGhUserFollowing.js';
 export * from './hooks/useGhUserFollowingInfinite.js';
 export * from './hooks/useGhUserPublicEvents.js';
+export * from './hooks/useGhUserOrganizations.js';
+export * from './hooks/useGhUserOrganizationsInfinite.js';
+export * from './hooks/useGhUserSocialAccounts.js';
 export * from './hooks/useGhUserContributionMap.js';
 
 // Gist
@@ -71,6 +75,13 @@ export * from './hooks/useGhCreateFork.js';
 export * from './hooks/useGhCreateIssue.js';
 export * from './hooks/useGhRepoWorkflowRuns.js';
 export * from './hooks/useGhRepoWorkflowRunsInfinite.js';
+export * from './hooks/useGhRepoGitTree.js';
+export * from './hooks/useGhCreateRepoWebhook.js';
+export * from './hooks/useGhUpdateRepoWebhook.js';
+export * from './hooks/useGhDeleteRepoWebhook.js';
+export * from './hooks/useGhCreateRepoAdvisory.js';
+export * from './hooks/useGhUpdateRepoAdvisory.js';
+export * from './hooks/useGhRequestRepoAdvisoryCve.js';
 
 // Issue
 export * from './hooks/useGhIssue.js';
@@ -116,6 +127,7 @@ export * from './hooks/useGhOrgRepos.js';
 export * from './hooks/useGhOrgReposInfinite.js';
 export * from './hooks/useGhOrgMembers.js';
 export * from './hooks/useGhOrgMembersInfinite.js';
+export * from './hooks/useGhCreateOrgRepo.js';
 
 // Search
 export * from './hooks/useGhSearchRepos.js';
