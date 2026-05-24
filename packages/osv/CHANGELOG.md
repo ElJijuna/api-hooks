@@ -1,3 +1,15 @@
+## [1.2.0](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/osv@1.1.0...@api-hooks/osv@1.2.0) (2026-05-24)
+
+### Features
+
+* **@api-hooks/gh:** add hooks for gh-api-client ([fd602b7](https://github.com/ElJijuna/api-hooks/commit/fd602b7c111dc587b56a2b18ac0eb055bc0071cd))
+
+### Bug Fixes
+
+* **@api-hooks/bp:** update README ([56f99f7](https://github.com/ElJijuna/api-hooks/commit/56f99f79d2bc1ce5a0bbc8d5084969a23cfed44d))
+* **@api-hooks/npm:** update README ([d0c95b3](https://github.com/ElJijuna/api-hooks/commit/d0c95b38497e08a4347878a81af2b975988dd690))
+* **@api-hooks/osv:** update README ([7771b29](https://github.com/ElJijuna/api-hooks/commit/7771b291f70de0bb079bf3a0ff447d1e38585fc1))
+
 ## [1.1.0](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/osv@1.0.0...@api-hooks/osv@1.1.0) (2026-05-23)
 
 ### Features
