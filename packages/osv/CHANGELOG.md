@@ -1,3 +1,10 @@
+## [1.3.0](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/osv@1.2.0...@api-hooks/osv@1.3.0) (2026-05-26)
+
+### Features
+
+* **@api-hooks/gh:** add new hooks keys ([9050cf7](https://github.com/ElJijuna/api-hooks/commit/9050cf73ea777c0e3a16dbadb33dad41a73e2636))
+* **@api-hooks/gh:** implement hooks for gh-api-client v1.16.0 ([c62838e](https://github.com/ElJijuna/api-hooks/commit/c62838e7fb8b2656452e94a84f0de2b08978a65a))
+
 ## [1.2.0](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/osv@1.1.0...@api-hooks/osv@1.2.0) (2026-05-24)
 
 ### Features
