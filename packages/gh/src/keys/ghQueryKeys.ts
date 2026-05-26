@@ -122,4 +122,24 @@ export const ghQueryKeys = {
   // Workflow runs
   repoWorkflowRuns: (owner: string, repo: string, params?: object) => ['gh', 'repo', owner, repo, 'workflow-runs', params] as const,
   repoWorkflowRunsInfinite: (owner: string, repo: string, params?: object) => ['gh', 'repo', owner, repo, 'workflow-runs', 'infinite', params] as const,
+
+  // Workflows (files)
+  repoWorkflows: (owner: string, repo: string, params?: object) => ['gh', 'repo', owner, repo, 'workflows', params] as const,
+  repoWorkflowsInfinite: (owner: string, repo: string, params?: object) => ['gh', 'repo', owner, repo, 'workflows', 'infinite', params] as const,
+  repoWorkflowRun: (owner: string, repo: string, runId: number) => ['gh', 'repo', owner, repo, 'workflow-run', runId] as const,
+
+  // Languages
+  repoLanguages: (owner: string, repo: string) => ['gh', 'repo', owner, repo, 'languages'] as const,
+
+  // User contributions
+  userCommitContributionsByRepo: (login: string) => ['gh', 'user', login, 'contributions', 'commits-by-repo'] as const,
+  userPrContributionsByRepo: (login: string) => ['gh', 'user', login, 'contributions', 'prs-by-repo'] as const,
+  userIssueContributionsByRepo: (login: string) => ['gh', 'user', login, 'contributions', 'issues-by-repo'] as const,
+  userPinnedItems: (login: string) => ['gh', 'user', login, 'pinned-items'] as const,
+
+  // Search
+  searchUsers: (params: object) => ['gh', 'search', 'users', params] as const,
+  searchUsersInfinite: (params: object) => ['gh', 'search', 'users', 'infinite', params] as const,
+  searchCode: (params: object) => ['gh', 'search', 'code', params] as const,
+  searchCodeInfinite: (params: object) => ['gh', 'search', 'code', 'infinite', params] as const,
 } as const;
