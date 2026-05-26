@@ -95,6 +95,10 @@ Hooks ending in `Infinite` return a [`UseInfiniteQueryResult`](https://tanstack.
 | `useGhUserOrganizationsInfinite(login, params?)` | Infinite-scroll variant | `InfiniteData<GitHubPagedResponse<GitHubOrganization>>` |
 | `useGhUserSocialAccounts(login)` | Social accounts linked on a user profile | `SocialAccount[]` |
 | `useGhUserContributionMap(login, params?)` | Contribution calendar (GraphQL) | `ContributionCalendar` |
+| `useGhUserCommitContributionsByRepo(login)` | Commit contributions by repository (GraphQL) | `RepoContribution[]` |
+| `useGhUserPrContributionsByRepo(login)` | Pull request contributions by repository (GraphQL) | `RepoContribution[]` |
+| `useGhUserIssueContributionsByRepo(login)` | Issue contributions by repository (GraphQL) | `RepoContribution[]` |
+| `useGhUserPinnedItems(login)` | Pinned repositories and gists (GraphQL) | `PinnedItem[]` |
 
 ### Repository hooks
 
@@ -131,6 +135,10 @@ Hooks ending in `Infinite` return a [`UseInfiniteQueryResult`](https://tanstack.
 | `useGhRepoWorkflowRuns(owner, name, params?)` | GitHub Actions workflow runs | `GitHubWorkflowRunsResponse` |
 | `useGhRepoWorkflowRunsInfinite(owner, name, params?)` | Infinite-scroll variant | `InfiniteData<GitHubWorkflowRunsResponse>` |
 | `useGhRepoGitTree(owner, name, treeSha, params?)` | Git tree entries for a tree SHA or ref | `GitHubTree` |
+| `useGhRepoLanguages(owner, name)` | Programming languages used, mapped to byte counts | `RepoLanguages` |
+| `useGhRepoWorkflows(owner, name, params?)` | GitHub Actions workflow definitions | `GitHubWorkflowsResponse` |
+| `useGhRepoWorkflowsInfinite(owner, name, params?)` | Infinite-scroll variant | `InfiniteData<GitHubWorkflowsResponse>` |
+| `useGhRepoWorkflowRun(owner, name, runId)` | Single workflow run by ID | `GitHubWorkflowRun` |
 
 ### Repository hooks — mutations
 
@@ -146,6 +154,19 @@ All mutation hooks return a [`UseMutationResult`](https://tanstack.com/query/lat
 | `useGhCreateRepoAdvisory(owner, name)` | Create a draft repository advisory | `GitHubRepositoryAdvisory` |
 | `useGhUpdateRepoAdvisory(owner, name)` | Update a repository advisory | `GitHubRepositoryAdvisory` |
 | `useGhRequestRepoAdvisoryCve(owner, name)` | Request a CVE for a repository advisory | `GitHubRepositoryAdvisory` |
+| `useGhCreateLabel(owner, name)` | Create a label — `mutate(data)` | `GitHubLabel` |
+| `useGhUpdateLabel(owner, name)` | Update a label — `mutate({ name, data })` | `GitHubLabel` |
+| `useGhDeleteLabel(owner, name)` | Delete a label — `mutate(name)` | `void` |
+| `useGhCreateMilestone(owner, name)` | Create a milestone — `mutate(data)` | `GitHubMilestone` |
+| `useGhUpdateMilestone(owner, name)` | Update a milestone — `mutate({ milestoneNumber, data })` | `GitHubMilestone` |
+| `useGhDeleteMilestone(owner, name)` | Delete a milestone — `mutate(milestoneNumber)` | `void` |
+| `useGhAddCollaborator(owner, name)` | Add a collaborator — `mutate({ username, data? })` | `void` |
+| `useGhRemoveCollaborator(owner, name)` | Remove a collaborator — `mutate(username)` | `void` |
+| `useGhCreateRelease(owner, name)` | Create a release — `mutate(data)` | `GitHubRelease` |
+| `useGhUpdateRelease(owner, name)` | Update a release — `mutate({ releaseId, data })` | `GitHubRelease` |
+| `useGhDeleteRelease(owner, name)` | Delete a release — `mutate(releaseId)` | `void` |
+| `useGhCancelWorkflowRun(owner, name)` | Cancel a workflow run — `mutate(runId)` | `void` |
+| `useGhTriggerWorkflow(owner, name)` | Trigger a workflow dispatch — `mutate({ workflowId, data })` | `void` |
 
 ### Issue hooks
 
@@ -156,6 +177,15 @@ All mutation hooks return a [`UseMutationResult`](https://tanstack.com/query/lat
 | [`useGhIssueCommentsInfinite(owner, name, number, params?)`](#useghissuecommentsinfiniteowner-name-number-params) | Infinite-scroll variant | `InfiniteData<GitHubPagedResponse<GitHubIssueComment>>` |
 | `useGhIssues(params?)` | Issues across all repos for the authenticated user | `GitHubPagedResponse<GitHubIssue>` |
 | `useGhIssuesInfinite(params?)` | Infinite-scroll variant | `InfiniteData<GitHubPagedResponse<GitHubIssue>>` |
+
+### Issue hooks — mutations
+
+All mutation hooks return a [`UseMutationResult`](https://tanstack.com/query/latest/docs/framework/react/reference/useMutation).
+
+| Hook | Description | Returns |
+| ---- | ----------- | ------- |
+| `useGhAddIssueComment(owner, name, number)` | Add a comment to an issue — `mutate(body)` | `GitHubIssueComment` |
+| `useGhUpdateIssue(owner, name, number)` | Update an issue (title, body, state, labels…) | `GitHubIssue` |
 
 ### Pull Request hooks
 
@@ -242,6 +272,10 @@ All mutation hooks return a [`UseMutationResult`](https://tanstack.com/query/lat
 | [`useGhSearchReposInfinite(params)`](#useghsearchreposinfiniteparams) | Infinite-scroll variant | `InfiniteData<GitHubPagedResponse<GitHubRepository>>` |
 | `useGhSearchIssues(params)` | Search issues and pull requests | `GitHubPagedResponse<GitHubIssue>` |
 | `useGhSearchIssuesInfinite(params)` | Infinite-scroll variant | `InfiniteData<GitHubPagedResponse<GitHubIssue>>` |
+| `useGhSearchUsers(params)` | Search users | `GitHubPagedResponse<GitHubUser>` |
+| `useGhSearchUsersInfinite(params)` | Infinite-scroll variant | `InfiniteData<GitHubPagedResponse<GitHubUser>>` |
+| `useGhSearchCode(params)` | Search code across repositories | `GitHubPagedResponse<GitHubCodeResult>` |
+| `useGhSearchCodeInfinite(params)` | Infinite-scroll variant | `InfiniteData<GitHubPagedResponse<GitHubCodeResult>>` |
 
 ### Advisory hooks
 

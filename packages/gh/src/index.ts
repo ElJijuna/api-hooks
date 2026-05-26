@@ -20,6 +20,10 @@ export * from './hooks/useGhUserOrganizations.js';
 export * from './hooks/useGhUserOrganizationsInfinite.js';
 export * from './hooks/useGhUserSocialAccounts.js';
 export * from './hooks/useGhUserContributionMap.js';
+export * from './hooks/useGhUserCommitContributionsByRepo.js';
+export * from './hooks/useGhUserPrContributionsByRepo.js';
+export * from './hooks/useGhUserIssueContributionsByRepo.js';
+export * from './hooks/useGhUserPinnedItems.js';
 
 // Gist
 export * from './hooks/useGhGist.js';
@@ -82,11 +86,30 @@ export * from './hooks/useGhDeleteRepoWebhook.js';
 export * from './hooks/useGhCreateRepoAdvisory.js';
 export * from './hooks/useGhUpdateRepoAdvisory.js';
 export * from './hooks/useGhRequestRepoAdvisoryCve.js';
+export * from './hooks/useGhRepoLanguages.js';
+export * from './hooks/useGhRepoWorkflows.js';
+export * from './hooks/useGhRepoWorkflowsInfinite.js';
+export * from './hooks/useGhRepoWorkflowRun.js';
+export * from './hooks/useGhCancelWorkflowRun.js';
+export * from './hooks/useGhTriggerWorkflow.js';
+export * from './hooks/useGhCreateLabel.js';
+export * from './hooks/useGhUpdateLabel.js';
+export * from './hooks/useGhDeleteLabel.js';
+export * from './hooks/useGhCreateMilestone.js';
+export * from './hooks/useGhUpdateMilestone.js';
+export * from './hooks/useGhDeleteMilestone.js';
+export * from './hooks/useGhAddCollaborator.js';
+export * from './hooks/useGhRemoveCollaborator.js';
+export * from './hooks/useGhCreateRelease.js';
+export * from './hooks/useGhUpdateRelease.js';
+export * from './hooks/useGhDeleteRelease.js';
 
 // Issue
 export * from './hooks/useGhIssue.js';
 export * from './hooks/useGhIssueComments.js';
 export * from './hooks/useGhIssueCommentsInfinite.js';
+export * from './hooks/useGhAddIssueComment.js';
+export * from './hooks/useGhUpdateIssue.js';
 
 // Pull Request
 export * from './hooks/useGhPullRequest.js';
@@ -134,6 +157,10 @@ export * from './hooks/useGhSearchRepos.js';
 export * from './hooks/useGhSearchReposInfinite.js';
 export * from './hooks/useGhSearchIssues.js';
 export * from './hooks/useGhSearchIssuesInfinite.js';
+export * from './hooks/useGhSearchUsers.js';
+export * from './hooks/useGhSearchUsersInfinite.js';
+export * from './hooks/useGhSearchCode.js';
+export * from './hooks/useGhSearchCodeInfinite.js';
 
 // Advisory
 export * from './hooks/useGhAdvisories.js';
