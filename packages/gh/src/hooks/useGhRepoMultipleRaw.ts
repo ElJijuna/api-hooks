@@ -1,5 +1,5 @@
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { type ContentParams } from 'gh-api-client';
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
+import type { ContentParams } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
@@ -23,7 +23,7 @@ export function useGhRepoMultipleRaw(
   repo: string,
   filePaths: string[],
   params?: ContentParams,
-  options: UseGhRepoMultipleRawOptions = {}
+  options: UseGhRepoMultipleRawOptions = {},
 ): UseQueryResult<Record<string, string>, Error> {
   const { enabled = true } = options;
 

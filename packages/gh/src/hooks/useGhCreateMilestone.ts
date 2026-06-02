@@ -1,5 +1,5 @@
-import { useMutation, type UseMutationResult } from '@tanstack/react-query';
-import { type GitHubMilestone, type CreateMilestoneData } from 'gh-api-client';
+import { type UseMutationResult, useMutation } from '@tanstack/react-query';
+import type { CreateMilestoneData, GitHubMilestone } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 
 /**
@@ -13,9 +13,8 @@ import { useGhClient } from '../GhClientContext.js';
  */
 export function useGhCreateMilestone(
   owner: string,
-  repo: string
+  repo: string,
 ): UseMutationResult<GitHubMilestone, Error, CreateMilestoneData> {
-
   const client = useGhClient();
 
   return useMutation<GitHubMilestone, Error, CreateMilestoneData>({

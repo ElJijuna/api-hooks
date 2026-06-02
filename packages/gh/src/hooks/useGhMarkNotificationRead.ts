@@ -1,4 +1,4 @@
-import { useMutation, type UseMutationResult } from '@tanstack/react-query';
+import { type UseMutationResult, useMutation } from '@tanstack/react-query';
 import { useGhClient } from '../GhClientContext.js';
 
 /**
@@ -8,9 +8,7 @@ import { useGhClient } from '../GhClientContext.js';
  *
  * @returns TanStack Mutation result with `void`
  */
-export function useGhMarkNotificationRead(
-): UseMutationResult<void, Error, string> {
-
+export function useGhMarkNotificationRead(): UseMutationResult<void, Error, string> {
   const client = useGhClient();
 
   return useMutation<void, Error, string>({

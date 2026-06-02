@@ -1,5 +1,9 @@
-import { useInfiniteQuery, type UseInfiniteQueryResult, type InfiniteData } from '@tanstack/react-query';
-import { type GitHubPagedResponse, type GistFork, type PaginationParams } from 'gh-api-client';
+import {
+  type InfiniteData,
+  type UseInfiniteQueryResult,
+  useInfiniteQuery,
+} from '@tanstack/react-query';
+import type { GistFork, GitHubPagedResponse, PaginationParams } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
@@ -19,7 +23,7 @@ export interface UseGhGistForksInfiniteOptions {
 export function useGhGistForksInfinite(
   gistId: string,
   params?: Omit<PaginationParams, 'page'>,
-  options: UseGhGistForksInfiniteOptions = {}
+  options: UseGhGistForksInfiniteOptions = {},
 ): UseInfiniteQueryResult<InfiniteData<GitHubPagedResponse<GistFork>, number>, Error> {
   const { enabled = true } = options;
 
@@ -30,8 +34,7 @@ export function useGhGistForksInfinite(
     queryFn: ({ pageParam, signal }) =>
       client.gist(gistId).forks({ ...params, page: pageParam }, signal),
     initialPageParam: 1,
-    getNextPageParam: (lastPage) =>
-      lastPage.hasNextPage ? lastPage.nextPage : undefined,
+    getNextPageParam: (lastPage) => (lastPage.hasNextPage ? lastPage.nextPage : undefined),
     enabled: enabled && gistId.length > 0,
   });
 }

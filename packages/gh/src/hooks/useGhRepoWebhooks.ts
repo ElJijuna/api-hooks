@@ -1,5 +1,5 @@
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { type GitHubPagedResponse, type GitHubWebhook, type WebhooksParams } from 'gh-api-client';
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
+import type { GitHubPagedResponse, GitHubWebhook, WebhooksParams } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
@@ -23,7 +23,7 @@ export function useGhRepoWebhooks(
   owner: string,
   repo: string,
   params?: WebhooksParams,
-  options: UseGhRepoWebhooksOptions = {}
+  options: UseGhRepoWebhooksOptions = {},
 ): UseQueryResult<GitHubPagedResponse<GitHubWebhook>, Error> {
   const { enabled = true } = options;
 

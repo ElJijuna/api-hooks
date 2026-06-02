@@ -1,5 +1,5 @@
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { type GitHubTag, type GitHubPagedResponse, type TagsParams } from 'gh-api-client';
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
+import type { GitHubPagedResponse, GitHubTag, TagsParams } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
@@ -21,7 +21,7 @@ export function useGhRepoTags(
   owner: string,
   repo: string,
   params?: TagsParams,
-  options: UseGhRepoTagsOptions = {}
+  options: UseGhRepoTagsOptions = {},
 ): UseQueryResult<GitHubPagedResponse<GitHubTag>, Error> {
   const { enabled = true } = options;
 

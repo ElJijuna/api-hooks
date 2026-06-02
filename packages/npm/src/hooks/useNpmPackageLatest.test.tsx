@@ -1,18 +1,16 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { NpmClient, NpmApiError, type NpmPackageVersion } from 'npmjs-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import { NpmApiError, NpmClient, type NpmPackageVersion } from 'npmjs-api-client';
 import { useNpmPackageLatest } from './useNpmPackageLatest.js';
 
 const mockGet = jest.fn<() => Promise<NpmPackageVersion>>();
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(NpmClient.prototype, 'package')
-    .mockReturnValue({
-      latest: () => ({ get: mockGet }),
-    } as ReturnType<NpmClient['package']>);
+  jest.spyOn(NpmClient.prototype, 'package').mockReturnValue({
+    latest: () => ({ get: mockGet }),
+  } as ReturnType<NpmClient['package']>);
 });
 
 const mockVersion: NpmPackageVersion = {
@@ -60,10 +58,9 @@ describe('useNpmPackageLatest', () => {
   });
 
   it('does not fetch when enabled is false', () => {
-    const { result } = renderHook(
-      () => useNpmPackageLatest('react', { enabled: false }),
-      { wrapper }
-    );
+    const { result } = renderHook(() => useNpmPackageLatest('react', { enabled: false }), {
+      wrapper,
+    });
 
     expect(result.current.isLoading).toBe(false);
     expect(mockGet).not.toHaveBeenCalled();

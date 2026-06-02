@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import { BundlephobiaClient, type PackageHistory } from 'bundlephobia-api-client';
 import { bpQueryKeys } from '../keys/bpQueryKeys.js';
 
@@ -19,7 +19,7 @@ export interface UseBpPackageHistoryOptions {
  */
 export function useBpPackageHistory(
   name: string,
-  options: UseBpPackageHistoryOptions = {}
+  options: UseBpPackageHistoryOptions = {},
 ): UseQueryResult<PackageHistory, Error> {
   const { enabled = true } = options;
   const client = useMemo(() => new BundlephobiaClient(), []);

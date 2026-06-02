@@ -1,7 +1,7 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor, act } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GitHubClient, GitHubApiError, type GitHubIssueComment } from 'gh-api-client';
+import { act, renderHook, waitFor } from '@testing-library/react';
+import { GitHubApiError, GitHubClient, type GitHubIssueComment } from 'gh-api-client';
 import { useGhAddIssueComment } from './useGhAddIssueComment.js';
 
 const mockAddComment = jest.fn<(body: string) => Promise<GitHubIssueComment>>();
@@ -9,14 +9,19 @@ const mockIssue = jest.fn().mockReturnValue({ addComment: mockAddComment });
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(GitHubClient.prototype, 'repo')
-    .mockReturnValue({
-      issue: mockIssue,
-    } as unknown as ReturnType<GitHubClient['repo']>);
+  jest.spyOn(GitHubClient.prototype, 'repo').mockReturnValue({
+    issue: mockIssue,
+  } as unknown as ReturnType<GitHubClient['repo']>);
 });
 
-const mockComment = { id: 1, body: 'Looks good!', user: null, created_at: '2024-01-01T00:00:00Z', updated_at: '2024-01-01T00:00:00Z', html_url: '' } as unknown as GitHubIssueComment;
+const mockComment = {
+  id: 1,
+  body: 'Looks good!',
+  user: null,
+  created_at: '2024-01-01T00:00:00Z',
+  updated_at: '2024-01-01T00:00:00Z',
+  html_url: '',
+} as unknown as GitHubIssueComment;
 
 function wrapper({ children }: { children: React.ReactNode }) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
@@ -29,7 +34,9 @@ describe('useGhAddIssueComment', () => {
 
     const { result } = renderHook(() => useGhAddIssueComment('owner', 'repo', 42), { wrapper });
 
-    act(() => { result.current.mutate('Looks good!'); });
+    act(() => {
+      result.current.mutate('Looks good!');
+    });
 
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
@@ -43,7 +50,9 @@ describe('useGhAddIssueComment', () => {
 
     const { result } = renderHook(() => useGhAddIssueComment('owner', 'repo', 42), { wrapper });
 
-    act(() => { result.current.mutate('comment'); });
+    act(() => {
+      result.current.mutate('comment');
+    });
 
     await waitFor(() => expect(result.current.isError).toBe(true));
 

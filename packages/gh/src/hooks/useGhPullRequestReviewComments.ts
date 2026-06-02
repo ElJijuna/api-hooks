@@ -1,5 +1,5 @@
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { type GitHubReviewComment, type GitHubPagedResponse, type ReviewCommentsParams } from 'gh-api-client';
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
+import type { GitHubPagedResponse, GitHubReviewComment, ReviewCommentsParams } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
@@ -23,7 +23,7 @@ export function useGhPullRequestReviewComments(
   repo: string,
   pullNumber: number,
   params?: ReviewCommentsParams,
-  options: UseGhPullRequestReviewCommentsOptions = {}
+  options: UseGhPullRequestReviewCommentsOptions = {},
 ): UseQueryResult<GitHubPagedResponse<GitHubReviewComment>, Error> {
   const { enabled = true } = options;
 

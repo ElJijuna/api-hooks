@@ -1,6 +1,5 @@
-
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { type JsdelivrStats, type JsdelivrGroupBy, type JsdelivrPeriod } from 'npmjs-api-client';
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
+import type { JsdelivrGroupBy, JsdelivrPeriod, JsdelivrStats } from 'npmjs-api-client';
 import { npmQueryKeys } from '../keys/npmQueryKeys.js';
 import { useNpmClient } from '../NpmClientContext.js';
 
@@ -24,7 +23,7 @@ export interface UseNpmPackageCdnStatsOptions {
  */
 export function useNpmPackageCdnStats(
   name: string,
-  options: UseNpmPackageCdnStatsOptions = {}
+  options: UseNpmPackageCdnStatsOptions = {},
 ): UseQueryResult<JsdelivrStats, Error> {
   const { groupBy = 'version', period = 'month', enabled = true } = options;
   const client = useNpmClient();

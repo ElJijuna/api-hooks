@@ -1,5 +1,9 @@
-import { useInfiniteQuery, type UseInfiniteQueryResult, type InfiniteData } from '@tanstack/react-query';
-import { type GitHubPagedResponse, type GitHubUser, type PaginationParams } from 'gh-api-client';
+import {
+  type InfiniteData,
+  type UseInfiniteQueryResult,
+  useInfiniteQuery,
+} from '@tanstack/react-query';
+import type { GitHubPagedResponse, GitHubUser, PaginationParams } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
@@ -19,7 +23,7 @@ export interface UseGhUserFollowingInfiniteOptions {
 export function useGhUserFollowingInfinite(
   login: string,
   params?: Omit<PaginationParams, 'page'>,
-  options: UseGhUserFollowingInfiniteOptions = {}
+  options: UseGhUserFollowingInfiniteOptions = {},
 ): UseInfiniteQueryResult<InfiniteData<GitHubPagedResponse<GitHubUser>, number>, Error> {
   const { enabled = true } = options;
 
@@ -30,8 +34,7 @@ export function useGhUserFollowingInfinite(
     queryFn: ({ pageParam, signal }) =>
       client.user(login).following({ ...params, page: pageParam }, signal),
     initialPageParam: 1,
-    getNextPageParam: (lastPage) =>
-      lastPage.hasNextPage ? lastPage.nextPage : undefined,
+    getNextPageParam: (lastPage) => (lastPage.hasNextPage ? lastPage.nextPage : undefined),
     enabled: enabled && login.length > 0,
   });
 }

@@ -1,6 +1,6 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { renderHook, waitFor } from '@testing-library/react';
 import { GitHubClient, type SocialAccount } from 'gh-api-client';
 import { useGhUserSocialAccounts } from './useGhUserSocialAccounts.js';
 
@@ -8,11 +8,9 @@ const mockSocialAccounts = jest.fn<(signal?: AbortSignal) => Promise<SocialAccou
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(GitHubClient.prototype, 'user')
-    .mockReturnValue({
-      socialAccounts: mockSocialAccounts,
-    } as unknown as ReturnType<GitHubClient['user']>);
+  jest.spyOn(GitHubClient.prototype, 'user').mockReturnValue({
+    socialAccounts: mockSocialAccounts,
+  } as unknown as ReturnType<GitHubClient['user']>);
 });
 
 function wrapper({ children }: { children: React.ReactNode }) {

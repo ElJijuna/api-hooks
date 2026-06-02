@@ -1,6 +1,6 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor, act } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { act, renderHook, waitFor } from '@testing-library/react';
 import { GitHubClient, type GitHubWebhook } from 'gh-api-client';
 import { useGhCreateRepoWebhook } from './useGhCreateRepoWebhook.js';
 
@@ -8,11 +8,9 @@ const mockCreateWebhook = jest.fn<(data: object) => Promise<GitHubWebhook>>();
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(GitHubClient.prototype, 'repo')
-    .mockReturnValue({
-      createWebhook: mockCreateWebhook,
-    } as unknown as ReturnType<GitHubClient['repo']>);
+  jest.spyOn(GitHubClient.prototype, 'repo').mockReturnValue({
+    createWebhook: mockCreateWebhook,
+  } as unknown as ReturnType<GitHubClient['repo']>);
 });
 
 function wrapper({ children }: { children: React.ReactNode }) {

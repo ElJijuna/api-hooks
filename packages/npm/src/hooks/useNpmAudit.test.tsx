@@ -1,7 +1,12 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, act, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { NpmClient, NpmApiError, type NpmAuditPayload, type NpmAuditResult } from 'npmjs-api-client';
+import { act, renderHook, waitFor } from '@testing-library/react';
+import {
+  NpmApiError,
+  type NpmAuditPayload,
+  type NpmAuditResult,
+  NpmClient,
+} from 'npmjs-api-client';
 import { useNpmAudit } from './useNpmAudit.js';
 
 const mockAudit = jest.fn<() => Promise<NpmAuditResult>>();

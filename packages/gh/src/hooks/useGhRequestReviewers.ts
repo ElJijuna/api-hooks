@@ -1,5 +1,5 @@
-import { useMutation, type UseMutationResult } from '@tanstack/react-query';
-import { PullRequestResource, type GitHubPullRequest } from 'gh-api-client';
+import { type UseMutationResult, useMutation } from '@tanstack/react-query';
+import type { GitHubPullRequest, PullRequestResource } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 
 type RequestReviewersData = Parameters<PullRequestResource['requestReviewers']>[0];
@@ -17,9 +17,8 @@ type RequestReviewersData = Parameters<PullRequestResource['requestReviewers']>[
 export function useGhRequestReviewers(
   owner: string,
   repo: string,
-  pullNumber: number
+  pullNumber: number,
 ): UseMutationResult<GitHubPullRequest, Error, RequestReviewersData> {
-
   const client = useGhClient();
 
   return useMutation<GitHubPullRequest, Error, RequestReviewersData>({

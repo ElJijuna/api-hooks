@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import { BundlephobiaClient, type BundleSize } from 'bundlephobia-api-client';
 import { bpQueryKeys } from '../keys/bpQueryKeys.js';
 
@@ -17,7 +17,7 @@ export interface UseBpPackageSizeOptions {
  */
 export function useBpPackageSize(
   name: string,
-  options: UseBpPackageSizeOptions = {}
+  options: UseBpPackageSizeOptions = {},
 ): UseQueryResult<BundleSize, Error> {
   const { enabled = true } = options;
   const client = useMemo(() => new BundlephobiaClient(), []);

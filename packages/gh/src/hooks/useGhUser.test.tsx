@@ -1,18 +1,16 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GitHubClient, GitHubApiError, type GitHubUser } from 'gh-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import { GitHubApiError, GitHubClient, type GitHubUser } from 'gh-api-client';
 import { useGhUser } from './useGhUser.js';
 
 const mockGet = jest.fn<(signal?: AbortSignal) => Promise<GitHubUser>>();
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(GitHubClient.prototype, 'user')
-    .mockReturnValue({
-      get: mockGet,
-    } as unknown as ReturnType<GitHubClient['user']>);
+  jest.spyOn(GitHubClient.prototype, 'user').mockReturnValue({
+    get: mockGet,
+  } as unknown as ReturnType<GitHubClient['user']>);
 });
 
 const mockUser: GitHubUser = {
@@ -66,10 +64,7 @@ describe('useGhUser', () => {
   });
 
   it('does not fetch when enabled is false', () => {
-    const { result } = renderHook(
-      () => useGhUser('octocat', { enabled: false }),
-      { wrapper }
-    );
+    const { result } = renderHook(() => useGhUser('octocat', { enabled: false }), { wrapper });
 
     expect(result.current.isLoading).toBe(false);
     expect(mockGet).not.toHaveBeenCalled();

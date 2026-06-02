@@ -1,10 +1,18 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GitHubClient, GitHubApiError, type GitHubAdvisory, type GitHubPagedResponse } from 'gh-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import {
+  type GitHubAdvisory,
+  GitHubApiError,
+  GitHubClient,
+  type GitHubPagedResponse,
+} from 'gh-api-client';
 import { useGhAdvisoriesInfinite } from './useGhAdvisoriesInfinite.js';
 
-const mockAdvisories = jest.fn<(params?: object, signal?: AbortSignal) => Promise<GitHubPagedResponse<GitHubAdvisory>>>();
+const mockAdvisories =
+  jest.fn<
+    (params?: object, signal?: AbortSignal) => Promise<GitHubPagedResponse<GitHubAdvisory>>
+  >();
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -13,7 +21,10 @@ beforeEach(() => {
 
 const mockAdvisory = { ghsa_id: 'GHSA-1234-5678-9abc' } as unknown as GitHubAdvisory;
 
-function makeResponse(hasNextPage: boolean, nextPage?: number): GitHubPagedResponse<GitHubAdvisory> {
+function makeResponse(
+  hasNextPage: boolean,
+  nextPage?: number,
+): GitHubPagedResponse<GitHubAdvisory> {
   return { values: [mockAdvisory], hasNextPage, nextPage };
 }
 
@@ -75,14 +86,14 @@ describe('useGhAdvisoriesInfinite', () => {
 
     const { result } = renderHook(
       () => useGhAdvisoriesInfinite({ severity: 'critical' as const, per_page: 10 }),
-      { wrapper }
+      { wrapper },
     );
 
     await waitFor(() => expect(result.current.isLoading).toBe(false));
 
     expect(mockAdvisories).toHaveBeenCalledWith(
       { severity: 'critical', per_page: 10, page: 1 },
-      expect.anything()
+      expect.anything(),
     );
   });
 
@@ -97,10 +108,9 @@ describe('useGhAdvisoriesInfinite', () => {
   });
 
   it('does not fetch when enabled is false', () => {
-    const { result } = renderHook(
-      () => useGhAdvisoriesInfinite(undefined, { enabled: false }),
-      { wrapper }
-    );
+    const { result } = renderHook(() => useGhAdvisoriesInfinite(undefined, { enabled: false }), {
+      wrapper,
+    });
 
     expect(result.current.isLoading).toBe(false);
     expect(mockAdvisories).not.toHaveBeenCalled();

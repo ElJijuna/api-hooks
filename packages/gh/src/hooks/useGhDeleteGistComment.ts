@@ -1,4 +1,4 @@
-import { useMutation, type UseMutationResult } from '@tanstack/react-query';
+import { type UseMutationResult, useMutation } from '@tanstack/react-query';
 import { useGhClient } from '../GhClientContext.js';
 
 export interface DeleteGistCommentVariables {
@@ -14,9 +14,8 @@ export interface DeleteGistCommentVariables {
  * @returns TanStack Mutation result (`void`)
  */
 export function useGhDeleteGistComment(
-  gistId: string
+  gistId: string,
 ): UseMutationResult<void, Error, DeleteGistCommentVariables> {
-
   const client = useGhClient();
 
   return useMutation<void, Error, DeleteGistCommentVariables>({

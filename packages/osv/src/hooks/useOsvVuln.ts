@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import { OsvClient, type OsvVulnerability } from 'osv-api-client';
 import { osvQueryKeys } from '../keys/osvQueryKeys.js';
 
@@ -17,7 +17,7 @@ export interface UseOsvVulnOptions {
  */
 export function useOsvVuln(
   id: string,
-  options: UseOsvVulnOptions = {}
+  options: UseOsvVulnOptions = {},
 ): UseQueryResult<OsvVulnerability, Error> {
   const { enabled = true } = options;
   const client = useMemo(() => new OsvClient(), []);

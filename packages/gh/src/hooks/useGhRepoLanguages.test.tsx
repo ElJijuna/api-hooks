@@ -1,18 +1,16 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GitHubClient, GitHubApiError } from 'gh-api-client';
-import { useGhRepoLanguages, type RepoLanguages } from './useGhRepoLanguages.js';
+import { renderHook, waitFor } from '@testing-library/react';
+import { GitHubApiError, GitHubClient } from 'gh-api-client';
+import { type RepoLanguages, useGhRepoLanguages } from './useGhRepoLanguages.js';
 
 const mockLanguages = jest.fn<(signal?: AbortSignal) => Promise<RepoLanguages>>();
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(GitHubClient.prototype, 'repo')
-    .mockReturnValue({
-      languages: mockLanguages,
-    } as unknown as ReturnType<GitHubClient['repo']>);
+  jest.spyOn(GitHubClient.prototype, 'repo').mockReturnValue({
+    languages: mockLanguages,
+  } as unknown as ReturnType<GitHubClient['repo']>);
 });
 
 const mockResponse: RepoLanguages = { TypeScript: 45231, CSS: 3210, HTML: 1200 };
@@ -51,7 +49,9 @@ describe('useGhRepoLanguages', () => {
   });
 
   it('does not fetch when enabled is false', () => {
-    const { result } = renderHook(() => useGhRepoLanguages('owner', 'repo', { enabled: false }), { wrapper });
+    const { result } = renderHook(() => useGhRepoLanguages('owner', 'repo', { enabled: false }), {
+      wrapper,
+    });
     expect(result.current.isLoading).toBe(false);
     expect(mockLanguages).not.toHaveBeenCalled();
   });

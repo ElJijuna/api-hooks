@@ -1,5 +1,5 @@
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { CommitResource, type GitHubPagedResponse } from 'gh-api-client';
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
+import type { CommitResource, GitHubPagedResponse } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
@@ -26,7 +26,7 @@ export function useGhCommitComments(
   repo: string,
   ref: string,
   params?: CommitCommentsParams,
-  options: UseGhCommitCommentsOptions = {}
+  options: UseGhCommitCommentsOptions = {},
 ): UseQueryResult<GitHubPagedResponse<GitHubCommitComment>, Error> {
   const { enabled = true } = options;
 

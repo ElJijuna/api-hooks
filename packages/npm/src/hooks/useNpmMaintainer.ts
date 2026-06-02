@@ -1,6 +1,5 @@
-
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { type NpmUser } from 'npmjs-api-client';
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
+import type { NpmUser } from 'npmjs-api-client';
 import { npmQueryKeys } from '../keys/npmQueryKeys.js';
 import { useNpmClient } from '../NpmClientContext.js';
 
@@ -18,7 +17,7 @@ export interface UseNpmMaintainerOptions {
  */
 export function useNpmMaintainer(
   username: string,
-  options: UseNpmMaintainerOptions = {}
+  options: UseNpmMaintainerOptions = {},
 ): UseQueryResult<NpmUser, Error> {
   const { enabled = true } = options;
   const client = useNpmClient();

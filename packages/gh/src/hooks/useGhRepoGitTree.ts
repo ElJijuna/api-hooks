@@ -1,5 +1,5 @@
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { type GitHubTree, type GitTreeParams } from 'gh-api-client';
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
+import type { GitHubTree, GitTreeParams } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
@@ -23,7 +23,7 @@ export function useGhRepoGitTree(
   repo: string,
   treeSha: string,
   params?: GitTreeParams,
-  options: UseGhRepoGitTreeOptions = {}
+  options: UseGhRepoGitTreeOptions = {},
 ): UseQueryResult<GitHubTree, Error> {
   const { enabled = true } = options;
 

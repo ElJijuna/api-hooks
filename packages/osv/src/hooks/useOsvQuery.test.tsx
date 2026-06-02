@@ -1,7 +1,7 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { OsvClient, OsvApiError, type OsvQueryParams, type OsvQueryResult } from 'osv-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import { OsvApiError, OsvClient, type OsvQueryParams, type OsvQueryResult } from 'osv-api-client';
 import { useOsvQuery } from './useOsvQuery.js';
 
 const mockQuery = jest.fn<() => Promise<OsvQueryResult>>();
@@ -18,7 +18,11 @@ const params: OsvQueryParams = {
 
 const mockResult: OsvQueryResult = {
   vulns: [
-    { id: 'GHSA-jfh8-c2jp-hdp8', published: '2021-01-01T00:00:00Z', modified: '2023-01-01T00:00:00Z' },
+    {
+      id: 'GHSA-jfh8-c2jp-hdp8',
+      published: '2021-01-01T00:00:00Z',
+      modified: '2023-01-01T00:00:00Z',
+    },
   ],
 };
 
@@ -54,10 +58,7 @@ describe('useOsvQuery', () => {
   });
 
   it('does not fetch when enabled is false', () => {
-    const { result } = renderHook(
-      () => useOsvQuery(params, { enabled: false }),
-      { wrapper }
-    );
+    const { result } = renderHook(() => useOsvQuery(params, { enabled: false }), { wrapper });
 
     expect(result.current.isLoading).toBe(false);
     expect(mockQuery).not.toHaveBeenCalled();

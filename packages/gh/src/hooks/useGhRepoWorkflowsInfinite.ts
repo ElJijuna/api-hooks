@@ -1,5 +1,9 @@
-import { useInfiniteQuery, type UseInfiniteQueryResult, type InfiniteData } from '@tanstack/react-query';
-import { type GitHubWorkflowsResponse, type WorkflowsParams } from 'gh-api-client';
+import {
+  type InfiniteData,
+  type UseInfiniteQueryResult,
+  useInfiniteQuery,
+} from '@tanstack/react-query';
+import type { GitHubWorkflowsResponse, WorkflowsParams } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
@@ -23,7 +27,7 @@ export function useGhRepoWorkflowsInfinite(
   owner: string,
   repo: string,
   params?: Omit<WorkflowsParams, 'page'>,
-  options: UseGhRepoWorkflowsInfiniteOptions = {}
+  options: UseGhRepoWorkflowsInfiniteOptions = {},
 ): UseInfiniteQueryResult<InfiniteData<GitHubWorkflowsResponse, number>, Error> {
   const { enabled = true } = options;
 

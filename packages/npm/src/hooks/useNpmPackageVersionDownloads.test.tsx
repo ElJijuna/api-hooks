@@ -1,7 +1,7 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { NpmClient, NpmApiError, type NpmVersionDownloadPoint } from 'npmjs-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import { NpmApiError, NpmClient, type NpmVersionDownloadPoint } from 'npmjs-api-client';
 import { useNpmPackageVersionDownloads } from './useNpmPackageVersionDownloads.js';
 
 const mockDownloads = jest.fn<() => Promise<NpmVersionDownloadPoint>>();
@@ -9,11 +9,9 @@ const mockVersion = jest.fn(() => ({ downloads: mockDownloads }));
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(NpmClient.prototype, 'package')
-    .mockReturnValue({
-      version: mockVersion,
-    } as ReturnType<NpmClient['package']>);
+  jest.spyOn(NpmClient.prototype, 'package').mockReturnValue({
+    version: mockVersion,
+  } as ReturnType<NpmClient['package']>);
 });
 
 const mockData: NpmVersionDownloadPoint = {
@@ -34,7 +32,9 @@ describe('useNpmPackageVersionDownloads', () => {
   it('returns data on success with default period', async () => {
     mockDownloads.mockResolvedValue(mockData);
 
-    const { result } = renderHook(() => useNpmPackageVersionDownloads('react', '18.2.0'), { wrapper });
+    const { result } = renderHook(() => useNpmPackageVersionDownloads('react', '18.2.0'), {
+      wrapper,
+    });
 
     await waitFor(() => expect(result.current.isLoading).toBe(false));
 
@@ -50,7 +50,7 @@ describe('useNpmPackageVersionDownloads', () => {
 
     const { result } = renderHook(
       () => useNpmPackageVersionDownloads('react', '0.0.0-nonexistent'),
-      { wrapper }
+      { wrapper },
     );
 
     await waitFor(() => expect(result.current.isError).toBe(true));
@@ -78,7 +78,7 @@ describe('useNpmPackageVersionDownloads', () => {
   it('does not fetch when enabled is false', () => {
     const { result } = renderHook(
       () => useNpmPackageVersionDownloads('react', '18.2.0', { enabled: false }),
-      { wrapper }
+      { wrapper },
     );
 
     expect(result.current.isLoading).toBe(false);

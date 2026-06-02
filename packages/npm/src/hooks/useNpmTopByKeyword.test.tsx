@@ -1,7 +1,7 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { NpmClient, NpmApiError, type NpmSearchResult } from 'npmjs-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import { NpmApiError, NpmClient, type NpmSearchResult } from 'npmjs-api-client';
 import { useNpmTopByKeyword } from './useNpmTopByKeyword.js';
 
 const mockTopByKeyword = jest.fn<() => Promise<NpmSearchResult>>();
@@ -20,7 +20,9 @@ const mockResult: NpmSearchResult = {
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest.spyOn(NpmClient.prototype, 'topByKeyword').mockImplementation(mockTopByKeyword as typeof NpmClient.prototype.topByKeyword);
+  jest
+    .spyOn(NpmClient.prototype, 'topByKeyword')
+    .mockImplementation(mockTopByKeyword as typeof NpmClient.prototype.topByKeyword);
 });
 
 function wrapper({ children }: { children: React.ReactNode }) {
@@ -70,7 +72,9 @@ describe('useNpmTopByKeyword', () => {
   });
 
   it('does not fetch when enabled is false', () => {
-    const { result } = renderHook(() => useNpmTopByKeyword('react', { enabled: false }), { wrapper });
+    const { result } = renderHook(() => useNpmTopByKeyword('react', { enabled: false }), {
+      wrapper,
+    });
 
     expect(result.current.isLoading).toBe(false);
     expect(mockTopByKeyword).not.toHaveBeenCalled();

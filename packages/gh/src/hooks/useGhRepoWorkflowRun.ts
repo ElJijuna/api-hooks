@@ -1,5 +1,5 @@
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { type GitHubWorkflowRun } from 'gh-api-client';
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
+import type { GitHubWorkflowRun } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
@@ -21,7 +21,7 @@ export function useGhRepoWorkflowRun(
   owner: string,
   repo: string,
   runId: number,
-  options: UseGhRepoWorkflowRunOptions = {}
+  options: UseGhRepoWorkflowRunOptions = {},
 ): UseQueryResult<GitHubWorkflowRun, Error> {
   const { enabled = true } = options;
 

@@ -1,6 +1,5 @@
-
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { type NpmBulkDownloads, type NpmDownloadPeriod } from 'npmjs-api-client';
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
+import type { NpmBulkDownloads, NpmDownloadPeriod } from 'npmjs-api-client';
 import { npmQueryKeys } from '../keys/npmQueryKeys.js';
 import { useNpmClient } from '../NpmClientContext.js';
 
@@ -20,7 +19,7 @@ export interface UseNpmBulkDownloadsOptions {
  */
 export function useNpmBulkDownloads(
   packages: string[],
-  options: UseNpmBulkDownloadsOptions = {}
+  options: UseNpmBulkDownloadsOptions = {},
 ): UseQueryResult<NpmBulkDownloads, Error> {
   const { period = 'last-month', enabled = true } = options;
   const client = useNpmClient();

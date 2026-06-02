@@ -1,18 +1,16 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor, act } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GitHubClient, GitHubApiError, type GitHubGist } from 'gh-api-client';
+import { act, renderHook, waitFor } from '@testing-library/react';
+import { GitHubApiError, GitHubClient, type GitHubGist } from 'gh-api-client';
 import { useGhForkGist } from './useGhForkGist.js';
 
 const mockFork = jest.fn<(signal?: AbortSignal) => Promise<GitHubGist>>();
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(GitHubClient.prototype, 'gist')
-    .mockReturnValue({
-      fork: mockFork,
-    } as unknown as ReturnType<GitHubClient['gist']>);
+  jest.spyOn(GitHubClient.prototype, 'gist').mockReturnValue({
+    fork: mockFork,
+  } as unknown as ReturnType<GitHubClient['gist']>);
 });
 
 const mockGist: GitHubGist = {

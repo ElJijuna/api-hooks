@@ -1,21 +1,31 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor, act } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GitHubClient, GitHubApiError, type GitHubRelease, type CreateReleaseData } from 'gh-api-client';
+import { act, renderHook, waitFor } from '@testing-library/react';
+import {
+  type CreateReleaseData,
+  GitHubApiError,
+  GitHubClient,
+  type GitHubRelease,
+} from 'gh-api-client';
 import { useGhCreateRelease } from './useGhCreateRelease.js';
 
 const mockCreateRelease = jest.fn<(data: CreateReleaseData) => Promise<GitHubRelease>>();
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(GitHubClient.prototype, 'repo')
-    .mockReturnValue({
-      createRelease: mockCreateRelease,
-    } as unknown as ReturnType<GitHubClient['repo']>);
+  jest.spyOn(GitHubClient.prototype, 'repo').mockReturnValue({
+    createRelease: mockCreateRelease,
+  } as unknown as ReturnType<GitHubClient['repo']>);
 });
 
-const mockRelease = { id: 1, tag_name: 'v1.0.0', name: 'v1.0.0', body: '', draft: false, prerelease: false } as unknown as GitHubRelease;
+const mockRelease = {
+  id: 1,
+  tag_name: 'v1.0.0',
+  name: 'v1.0.0',
+  body: '',
+  draft: false,
+  prerelease: false,
+} as unknown as GitHubRelease;
 
 const releaseData: CreateReleaseData = { tag_name: 'v1.0.0', name: 'v1.0.0' };
 
@@ -30,7 +40,9 @@ describe('useGhCreateRelease', () => {
 
     const { result } = renderHook(() => useGhCreateRelease('owner', 'repo'), { wrapper });
 
-    act(() => { result.current.mutate(releaseData); });
+    act(() => {
+      result.current.mutate(releaseData);
+    });
 
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
@@ -43,7 +55,9 @@ describe('useGhCreateRelease', () => {
 
     const { result } = renderHook(() => useGhCreateRelease('owner', 'repo'), { wrapper });
 
-    act(() => { result.current.mutate(releaseData); });
+    act(() => {
+      result.current.mutate(releaseData);
+    });
 
     await waitFor(() => expect(result.current.isError).toBe(true));
 

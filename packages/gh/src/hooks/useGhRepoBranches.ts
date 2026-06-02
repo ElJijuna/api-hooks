@@ -1,5 +1,5 @@
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { type GitHubBranch, type GitHubPagedResponse, type BranchesParams } from 'gh-api-client';
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
+import type { BranchesParams, GitHubBranch, GitHubPagedResponse } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
@@ -21,7 +21,7 @@ export function useGhRepoBranches(
   owner: string,
   repo: string,
   params?: BranchesParams,
-  options: UseGhRepoBranchesOptions = {}
+  options: UseGhRepoBranchesOptions = {},
 ): UseQueryResult<GitHubPagedResponse<GitHubBranch>, Error> {
   const { enabled = true } = options;
 

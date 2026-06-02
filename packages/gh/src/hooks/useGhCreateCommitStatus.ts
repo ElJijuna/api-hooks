@@ -1,5 +1,5 @@
-import { useMutation, type UseMutationResult } from '@tanstack/react-query';
-import { CommitResource, type GitHubCommitStatus } from 'gh-api-client';
+import { type UseMutationResult, useMutation } from '@tanstack/react-query';
+import type { CommitResource, GitHubCommitStatus } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 
 type CreateStatusData = Parameters<CommitResource['createStatus']>[0];
@@ -16,9 +16,8 @@ type CreateStatusData = Parameters<CommitResource['createStatus']>[0];
 export function useGhCreateCommitStatus(
   owner: string,
   repo: string,
-  ref: string
+  ref: string,
 ): UseMutationResult<GitHubCommitStatus, Error, CreateStatusData> {
-
   const client = useGhClient();
 
   return useMutation<GitHubCommitStatus, Error, CreateStatusData>({

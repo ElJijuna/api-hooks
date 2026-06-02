@@ -1,18 +1,16 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { NpmClient, NpmApiError, type NpmDownloadRange } from 'npmjs-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import { NpmApiError, NpmClient, type NpmDownloadRange } from 'npmjs-api-client';
 import { useNpmPackageDownloadRange } from './useNpmPackageDownloadRange.js';
 
 const mockDownloadRange = jest.fn<() => Promise<NpmDownloadRange>>();
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(NpmClient.prototype, 'package')
-    .mockReturnValue({
-      downloadRange: mockDownloadRange,
-    } as ReturnType<NpmClient['package']>);
+  jest.spyOn(NpmClient.prototype, 'package').mockReturnValue({
+    downloadRange: mockDownloadRange,
+  } as ReturnType<NpmClient['package']>);
 });
 
 const mockData: NpmDownloadRange = {
@@ -51,7 +49,7 @@ describe('useNpmPackageDownloadRange', () => {
 
     const { result } = renderHook(
       () => useNpmPackageDownloadRange('react', { period: '2024-01-01:2024-01-31' }),
-      { wrapper }
+      { wrapper },
     );
 
     await waitFor(() => expect(result.current.isLoading).toBe(false));
@@ -62,7 +60,9 @@ describe('useNpmPackageDownloadRange', () => {
   it('returns error on failure', async () => {
     mockDownloadRange.mockRejectedValue(new NpmApiError(404, 'Not Found'));
 
-    const { result } = renderHook(() => useNpmPackageDownloadRange('nonexistent-pkg-xyz'), { wrapper });
+    const { result } = renderHook(() => useNpmPackageDownloadRange('nonexistent-pkg-xyz'), {
+      wrapper,
+    });
 
     await waitFor(() => expect(result.current.isError).toBe(true));
 
@@ -78,10 +78,9 @@ describe('useNpmPackageDownloadRange', () => {
   });
 
   it('does not fetch when enabled is false', () => {
-    const { result } = renderHook(
-      () => useNpmPackageDownloadRange('react', { enabled: false }),
-      { wrapper }
-    );
+    const { result } = renderHook(() => useNpmPackageDownloadRange('react', { enabled: false }), {
+      wrapper,
+    });
 
     expect(result.current.isLoading).toBe(false);
     expect(mockDownloadRange).not.toHaveBeenCalled();

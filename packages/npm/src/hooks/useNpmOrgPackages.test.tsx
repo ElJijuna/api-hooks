@@ -1,7 +1,7 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { NpmClient, NpmApiError, type NpmOrgPackages } from 'npmjs-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import { NpmApiError, NpmClient, type NpmOrgPackages } from 'npmjs-api-client';
 import { useNpmOrgPackages } from './useNpmOrgPackages.js';
 
 const mockPackages = jest.fn<() => Promise<NpmOrgPackages>>();
@@ -52,7 +52,9 @@ describe('useNpmOrgPackages', () => {
   });
 
   it('does not fetch when enabled is false', () => {
-    const { result } = renderHook(() => useNpmOrgPackages('npmcli', { enabled: false }), { wrapper });
+    const { result } = renderHook(() => useNpmOrgPackages('npmcli', { enabled: false }), {
+      wrapper,
+    });
 
     expect(result.current.isLoading).toBe(false);
     expect(mockPackages).not.toHaveBeenCalled();

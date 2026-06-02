@@ -1,5 +1,5 @@
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { type GitHubPagedResponse, type GistCommit, type PaginationParams } from 'gh-api-client';
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
+import type { GistCommit, GitHubPagedResponse, PaginationParams } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
@@ -19,7 +19,7 @@ export interface UseGhGistCommitsOptions {
 export function useGhGistCommits(
   gistId: string,
   params?: PaginationParams,
-  options: UseGhGistCommitsOptions = {}
+  options: UseGhGistCommitsOptions = {},
 ): UseQueryResult<GitHubPagedResponse<GistCommit>, Error> {
   const { enabled = true } = options;
 

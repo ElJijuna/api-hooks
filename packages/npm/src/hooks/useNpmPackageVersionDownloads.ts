@@ -1,6 +1,5 @@
-
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { type NpmVersionDownloadPeriod, type NpmVersionDownloadPoint } from 'npmjs-api-client';
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
+import type { NpmVersionDownloadPeriod, NpmVersionDownloadPoint } from 'npmjs-api-client';
 import { npmQueryKeys } from '../keys/npmQueryKeys.js';
 import { useNpmClient } from '../NpmClientContext.js';
 
@@ -24,7 +23,7 @@ export interface UseNpmPackageVersionDownloadsOptions {
 export function useNpmPackageVersionDownloads(
   name: string,
   version: string,
-  options: UseNpmPackageVersionDownloadsOptions = {}
+  options: UseNpmPackageVersionDownloadsOptions = {},
 ): UseQueryResult<NpmVersionDownloadPoint, Error> {
   const { period = 'last-week', enabled = true } = options;
   const client = useNpmClient();

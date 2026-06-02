@@ -1,5 +1,5 @@
-import { useMutation, type UseMutationResult } from '@tanstack/react-query';
-import { PullRequestResource, type GitHubReviewComment } from 'gh-api-client';
+import { type UseMutationResult, useMutation } from '@tanstack/react-query';
+import type { GitHubReviewComment, PullRequestResource } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 
 type AddCommentData = Parameters<PullRequestResource['addComment']>[0];
@@ -17,9 +17,8 @@ type AddCommentData = Parameters<PullRequestResource['addComment']>[0];
 export function useGhAddPullRequestComment(
   owner: string,
   repo: string,
-  pullNumber: number
+  pullNumber: number,
 ): UseMutationResult<GitHubReviewComment, Error, AddCommentData> {
-
   const client = useGhClient();
 
   return useMutation<GitHubReviewComment, Error, AddCommentData>({

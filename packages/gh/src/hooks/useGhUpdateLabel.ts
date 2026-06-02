@@ -1,5 +1,5 @@
-import { useMutation, type UseMutationResult } from '@tanstack/react-query';
-import { type GitHubLabel, type UpdateLabelData } from 'gh-api-client';
+import { type UseMutationResult, useMutation } from '@tanstack/react-query';
+import type { GitHubLabel, UpdateLabelData } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 
 type UpdateLabelVars = { name: string; data: UpdateLabelData };
@@ -15,9 +15,8 @@ type UpdateLabelVars = { name: string; data: UpdateLabelData };
  */
 export function useGhUpdateLabel(
   owner: string,
-  repo: string
+  repo: string,
 ): UseMutationResult<GitHubLabel, Error, UpdateLabelVars> {
-
   const client = useGhClient();
 
   return useMutation<GitHubLabel, Error, UpdateLabelVars>({

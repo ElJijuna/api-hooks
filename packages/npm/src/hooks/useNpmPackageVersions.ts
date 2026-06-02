@@ -1,6 +1,5 @@
-
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { type NpmPackageVersion } from 'npmjs-api-client';
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
+import type { NpmPackageVersion } from 'npmjs-api-client';
 import { npmQueryKeys } from '../keys/npmQueryKeys.js';
 import { useNpmClient } from '../NpmClientContext.js';
 
@@ -18,7 +17,7 @@ export interface UseNpmPackageVersionsOptions {
  */
 export function useNpmPackageVersions(
   name: string,
-  options: UseNpmPackageVersionsOptions = {}
+  options: UseNpmPackageVersionsOptions = {},
 ): UseQueryResult<NpmPackageVersion[], Error> {
   const { enabled = true } = options;
   const client = useNpmClient();

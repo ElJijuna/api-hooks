@@ -1,5 +1,5 @@
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { type NpmAuthenticatedUser } from 'npmjs-api-client';
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
+import type { NpmAuthenticatedUser } from 'npmjs-api-client';
 import { npmQueryKeys } from '../keys/npmQueryKeys.js';
 import { useNpmClient } from '../NpmClientContext.js';
 
@@ -17,7 +17,7 @@ export interface UseNpmUserOptions {
  */
 export function useNpmUser(
   username: string,
-  options: UseNpmUserOptions = {}
+  options: UseNpmUserOptions = {},
 ): UseQueryResult<NpmAuthenticatedUser, Error> {
   const { enabled = true } = options;
   const client = useNpmClient();

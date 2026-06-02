@@ -1,5 +1,5 @@
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { type GitHubRepository, type GitHubPagedResponse, type ForksParams } from 'gh-api-client';
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
+import type { ForksParams, GitHubPagedResponse, GitHubRepository } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
@@ -21,7 +21,7 @@ export function useGhRepoForks(
   owner: string,
   repo: string,
   params?: ForksParams,
-  options: UseGhRepoForksOptions = {}
+  options: UseGhRepoForksOptions = {},
 ): UseQueryResult<GitHubPagedResponse<GitHubRepository>, Error> {
   const { enabled = true } = options;
 

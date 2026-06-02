@@ -1,18 +1,16 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GitHubClient, GitHubApiError } from 'gh-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import { GitHubApiError, GitHubClient } from 'gh-api-client';
 import { useGhGistIsStarred } from './useGhGistIsStarred.js';
 
 const mockIsStarred = jest.fn<(signal?: AbortSignal) => Promise<boolean>>();
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(GitHubClient.prototype, 'gist')
-    .mockReturnValue({
-      isStarred: mockIsStarred,
-    } as unknown as ReturnType<GitHubClient['gist']>);
+  jest.spyOn(GitHubClient.prototype, 'gist').mockReturnValue({
+    isStarred: mockIsStarred,
+  } as unknown as ReturnType<GitHubClient['gist']>);
 });
 
 function wrapper({ children }: { children: React.ReactNode }) {
@@ -60,10 +58,9 @@ describe('useGhGistIsStarred', () => {
   });
 
   it('does not fetch when enabled is false', () => {
-    const { result } = renderHook(
-      () => useGhGistIsStarred('abc123', { enabled: false }),
-      { wrapper }
-    );
+    const { result } = renderHook(() => useGhGistIsStarred('abc123', { enabled: false }), {
+      wrapper,
+    });
 
     expect(result.current.isLoading).toBe(false);
     expect(mockIsStarred).not.toHaveBeenCalled();

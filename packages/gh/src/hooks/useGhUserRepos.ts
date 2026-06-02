@@ -1,5 +1,5 @@
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { type GitHubRepository, type GitHubPagedResponse, type ReposParams } from 'gh-api-client';
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
+import type { GitHubPagedResponse, GitHubRepository, ReposParams } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
@@ -19,7 +19,7 @@ export interface UseGhUserReposOptions {
 export function useGhUserRepos(
   login: string,
   params?: ReposParams,
-  options: UseGhUserReposOptions = {}
+  options: UseGhUserReposOptions = {},
 ): UseQueryResult<GitHubPagedResponse<GitHubRepository>, Error> {
   const { enabled = true } = options;
 

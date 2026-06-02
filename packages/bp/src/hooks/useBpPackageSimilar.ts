@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import { BundlephobiaClient, type SimilarPackages } from 'bundlephobia-api-client';
 import { bpQueryKeys } from '../keys/bpQueryKeys.js';
 
@@ -17,7 +17,7 @@ export interface UseBpPackageSimilarOptions {
  */
 export function useBpPackageSimilar(
   name: string,
-  options: UseBpPackageSimilarOptions = {}
+  options: UseBpPackageSimilarOptions = {},
 ): UseQueryResult<SimilarPackages, Error> {
   const { enabled = true } = options;
   const client = useMemo(() => new BundlephobiaClient(), []);

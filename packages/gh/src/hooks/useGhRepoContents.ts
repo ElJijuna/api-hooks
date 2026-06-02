@@ -1,5 +1,5 @@
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { type GitHubContent, type ContentParams } from 'gh-api-client';
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
+import type { ContentParams, GitHubContent } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
@@ -25,7 +25,7 @@ export function useGhRepoContents(
   repo: string,
   path?: string,
   params?: ContentParams,
-  options: UseGhRepoContentsOptions = {}
+  options: UseGhRepoContentsOptions = {},
 ): UseQueryResult<GitHubContent | GitHubContent[], Error> {
   const { enabled = true } = options;
 

@@ -1,10 +1,16 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GitHubClient, GitHubApiError, type GitHubUser, type GitHubPagedResponse } from 'gh-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import {
+  GitHubApiError,
+  GitHubClient,
+  type GitHubPagedResponse,
+  type GitHubUser,
+} from 'gh-api-client';
 import { useGhSearchUsersInfinite } from './useGhSearchUsersInfinite.js';
 
-const mockSearchUsers = jest.fn<(params?: object, signal?: AbortSignal) => Promise<GitHubPagedResponse<GitHubUser>>>();
+const mockSearchUsers =
+  jest.fn<(params?: object, signal?: AbortSignal) => Promise<GitHubPagedResponse<GitHubUser>>>();
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -12,7 +18,11 @@ beforeEach(() => {
 });
 
 const mockUser = { id: 1, login: 'octocat' } as unknown as GitHubUser;
-const mockResponse: GitHubPagedResponse<GitHubUser> = { values: [mockUser], hasNextPage: false, totalCount: 1 };
+const mockResponse: GitHubPagedResponse<GitHubUser> = {
+  values: [mockUser],
+  hasNextPage: false,
+  totalCount: 1,
+};
 
 function wrapper({ children }: { children: React.ReactNode }) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
@@ -41,7 +51,10 @@ describe('useGhSearchUsersInfinite', () => {
   });
 
   it('does not fetch when enabled is false', () => {
-    const { result } = renderHook(() => useGhSearchUsersInfinite({ q: 'octocat' }, { enabled: false }), { wrapper });
+    const { result } = renderHook(
+      () => useGhSearchUsersInfinite({ q: 'octocat' }, { enabled: false }),
+      { wrapper },
+    );
     expect(result.current.isLoading).toBe(false);
     expect(mockSearchUsers).not.toHaveBeenCalled();
   });

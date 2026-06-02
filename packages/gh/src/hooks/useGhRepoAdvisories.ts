@@ -1,5 +1,9 @@
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { type GitHubPagedResponse, type GitHubRepositoryAdvisory, type RepoAdvisoriesParams } from 'gh-api-client';
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
+import type {
+  GitHubPagedResponse,
+  GitHubRepositoryAdvisory,
+  RepoAdvisoriesParams,
+} from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
@@ -21,7 +25,7 @@ export function useGhRepoAdvisories(
   owner: string,
   repo: string,
   params?: RepoAdvisoriesParams,
-  options: UseGhRepoAdvisoriesOptions = {}
+  options: UseGhRepoAdvisoriesOptions = {},
 ): UseQueryResult<GitHubPagedResponse<GitHubRepositoryAdvisory>, Error> {
   const { enabled = true } = options;
 

@@ -1,18 +1,17 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GitHubClient, GitHubApiError, type GitHubRepositoryAdvisory } from 'gh-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import { GitHubApiError, GitHubClient, type GitHubRepositoryAdvisory } from 'gh-api-client';
 import { useGhRepoAdvisory } from './useGhRepoAdvisory.js';
 
-const mockRepoAdvisory = jest.fn<(ghsaId: string, signal?: AbortSignal) => Promise<GitHubRepositoryAdvisory>>();
+const mockRepoAdvisory =
+  jest.fn<(ghsaId: string, signal?: AbortSignal) => Promise<GitHubRepositoryAdvisory>>();
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(GitHubClient.prototype, 'repo')
-    .mockReturnValue({
-      repoAdvisory: mockRepoAdvisory,
-    } as unknown as ReturnType<GitHubClient['repo']>);
+  jest.spyOn(GitHubClient.prototype, 'repo').mockReturnValue({
+    repoAdvisory: mockRepoAdvisory,
+  } as unknown as ReturnType<GitHubClient['repo']>);
 });
 
 const mockAdvisory = {
@@ -31,10 +30,9 @@ describe('useGhRepoAdvisory', () => {
   it('returns data on success', async () => {
     mockRepoAdvisory.mockResolvedValue(mockAdvisory);
 
-    const { result } = renderHook(
-      () => useGhRepoAdvisory('owner', 'repo', 'GHSA-1234-5678-9abc'),
-      { wrapper }
-    );
+    const { result } = renderHook(() => useGhRepoAdvisory('owner', 'repo', 'GHSA-1234-5678-9abc'), {
+      wrapper,
+    });
 
     await waitFor(() => expect(result.current.isLoading).toBe(false));
 
@@ -45,10 +43,9 @@ describe('useGhRepoAdvisory', () => {
   it('returns error on failure', async () => {
     mockRepoAdvisory.mockRejectedValue(new GitHubApiError(404, 'Not Found'));
 
-    const { result } = renderHook(
-      () => useGhRepoAdvisory('owner', 'repo', 'GHSA-0000-0000-0000'),
-      { wrapper }
-    );
+    const { result } = renderHook(() => useGhRepoAdvisory('owner', 'repo', 'GHSA-0000-0000-0000'), {
+      wrapper,
+    });
 
     await waitFor(() => expect(result.current.isError).toBe(true));
 
@@ -65,7 +62,7 @@ describe('useGhRepoAdvisory', () => {
   it('does not fetch when enabled is false', () => {
     const { result } = renderHook(
       () => useGhRepoAdvisory('owner', 'repo', 'GHSA-1234-5678-9abc', { enabled: false }),
-      { wrapper }
+      { wrapper },
     );
 
     expect(result.current.isLoading).toBe(false);

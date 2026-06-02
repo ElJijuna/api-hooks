@@ -1,18 +1,22 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GitHubClient, GitHubApiError, type GitHubPagedResponse, type GistComment } from 'gh-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import {
+  type GistComment,
+  GitHubApiError,
+  GitHubClient,
+  type GitHubPagedResponse,
+} from 'gh-api-client';
 import { useGhGistComments } from './useGhGistComments.js';
 
-const mockComments = jest.fn<(params?: object, signal?: AbortSignal) => Promise<GitHubPagedResponse<GistComment>>>();
+const mockComments =
+  jest.fn<(params?: object, signal?: AbortSignal) => Promise<GitHubPagedResponse<GistComment>>>();
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(GitHubClient.prototype, 'gist')
-    .mockReturnValue({
-      comments: mockComments,
-    } as unknown as ReturnType<GitHubClient['gist']>);
+  jest.spyOn(GitHubClient.prototype, 'gist').mockReturnValue({
+    comments: mockComments,
+  } as unknown as ReturnType<GitHubClient['gist']>);
 });
 
 const mockResponse: GitHubPagedResponse<GistComment> = {
@@ -65,7 +69,7 @@ describe('useGhGistComments', () => {
   it('does not fetch when enabled is false', () => {
     const { result } = renderHook(
       () => useGhGistComments('abc123', undefined, { enabled: false }),
-      { wrapper }
+      { wrapper },
     );
 
     expect(result.current.isLoading).toBe(false);

@@ -1,18 +1,16 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { NpmClient, NpmApiError, type NpmPerson } from 'npmjs-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import { NpmApiError, NpmClient, type NpmPerson } from 'npmjs-api-client';
 import { useNpmPackageMaintainers } from './useNpmPackageMaintainers.js';
 
 const mockMaintainers = jest.fn<() => Promise<NpmPerson[]>>();
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(NpmClient.prototype, 'package')
-    .mockReturnValue({
-      maintainers: mockMaintainers,
-    } as ReturnType<NpmClient['package']>);
+  jest.spyOn(NpmClient.prototype, 'package').mockReturnValue({
+    maintainers: mockMaintainers,
+  } as ReturnType<NpmClient['package']>);
 });
 
 const mockData: NpmPerson[] = [
@@ -43,7 +41,9 @@ describe('useNpmPackageMaintainers', () => {
   it('returns error on failure', async () => {
     mockMaintainers.mockRejectedValue(new NpmApiError(404, 'Not Found'));
 
-    const { result } = renderHook(() => useNpmPackageMaintainers('nonexistent-pkg-xyz'), { wrapper });
+    const { result } = renderHook(() => useNpmPackageMaintainers('nonexistent-pkg-xyz'), {
+      wrapper,
+    });
 
     await waitFor(() => expect(result.current.isError).toBe(true));
 
@@ -59,10 +59,9 @@ describe('useNpmPackageMaintainers', () => {
   });
 
   it('does not fetch when enabled is false', () => {
-    const { result } = renderHook(
-      () => useNpmPackageMaintainers('react', { enabled: false }),
-      { wrapper }
-    );
+    const { result } = renderHook(() => useNpmPackageMaintainers('react', { enabled: false }), {
+      wrapper,
+    });
 
     expect(result.current.isLoading).toBe(false);
     expect(mockMaintainers).not.toHaveBeenCalled();

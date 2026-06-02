@@ -1,23 +1,38 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GitHubClient, GitHubApiError, CommitResource, type GitHubPagedResponse } from 'gh-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import type { CommitResource } from 'gh-api-client';
+import { GitHubApiError, GitHubClient, type GitHubPagedResponse } from 'gh-api-client';
 import { useGhCommitCommentsInfinite } from './useGhCommitCommentsInfinite.js';
 
 type GitHubCommitComment = Awaited<ReturnType<CommitResource['addComment']>>;
 
-const mockComments = jest.fn<(params?: object, signal?: AbortSignal) => Promise<GitHubPagedResponse<GitHubCommitComment>>>();
+const mockComments =
+  jest.fn<
+    (params?: object, signal?: AbortSignal) => Promise<GitHubPagedResponse<GitHubCommitComment>>
+  >();
 const mockCommit = jest.fn().mockReturnValue({ comments: mockComments });
 
 beforeEach(() => {
   jest.clearAllMocks();
   mockCommit.mockReturnValue({ comments: mockComments });
-  jest.spyOn(GitHubClient.prototype, 'repo').mockReturnValue({ commit: mockCommit } as unknown as ReturnType<GitHubClient['repo']>);
+  jest
+    .spyOn(GitHubClient.prototype, 'repo')
+    .mockReturnValue({ commit: mockCommit } as unknown as ReturnType<GitHubClient['repo']>);
 });
 
-const mockComment = { id: 1, body: 'A comment', path: null, line: null, user: null } as unknown as GitHubCommitComment;
+const mockComment = {
+  id: 1,
+  body: 'A comment',
+  path: null,
+  line: null,
+  user: null,
+} as unknown as GitHubCommitComment;
 
-function makeResponse(hasNextPage: boolean, nextPage?: number): GitHubPagedResponse<GitHubCommitComment> {
+function makeResponse(
+  hasNextPage: boolean,
+  nextPage?: number,
+): GitHubPagedResponse<GitHubCommitComment> {
   return { values: [mockComment], hasNextPage, nextPage };
 }
 
@@ -30,7 +45,10 @@ describe('useGhCommitCommentsInfinite', () => {
   it('fetches the first page on mount', async () => {
     mockComments.mockResolvedValue(makeResponse(false));
 
-    const { result } = renderHook(() => useGhCommitCommentsInfinite('octocat', 'Hello-World', 'abc123'), { wrapper });
+    const { result } = renderHook(
+      () => useGhCommitCommentsInfinite('octocat', 'Hello-World', 'abc123'),
+      { wrapper },
+    );
 
     await waitFor(() => expect(result.current.isLoading).toBe(false));
 
@@ -45,7 +63,10 @@ describe('useGhCommitCommentsInfinite', () => {
       .mockResolvedValueOnce(makeResponse(true, 2))
       .mockResolvedValueOnce(makeResponse(false));
 
-    const { result } = renderHook(() => useGhCommitCommentsInfinite('octocat', 'Hello-World', 'abc123'), { wrapper });
+    const { result } = renderHook(
+      () => useGhCommitCommentsInfinite('octocat', 'Hello-World', 'abc123'),
+      { wrapper },
+    );
 
     await waitFor(() => expect(result.current.isLoading).toBe(false));
 
@@ -59,7 +80,10 @@ describe('useGhCommitCommentsInfinite', () => {
   it('reports hasNextPage correctly', async () => {
     mockComments.mockResolvedValue(makeResponse(true, 2));
 
-    const { result } = renderHook(() => useGhCommitCommentsInfinite('octocat', 'Hello-World', 'abc123'), { wrapper });
+    const { result } = renderHook(
+      () => useGhCommitCommentsInfinite('octocat', 'Hello-World', 'abc123'),
+      { wrapper },
+    );
 
     await waitFor(() => expect(result.current.isLoading).toBe(false));
 
@@ -69,7 +93,10 @@ describe('useGhCommitCommentsInfinite', () => {
   it('returns error on failure', async () => {
     mockComments.mockRejectedValue(new GitHubApiError(404, 'Not Found'));
 
-    const { result } = renderHook(() => useGhCommitCommentsInfinite('octocat', 'Hello-World', 'abc123'), { wrapper });
+    const { result } = renderHook(
+      () => useGhCommitCommentsInfinite('octocat', 'Hello-World', 'abc123'),
+      { wrapper },
+    );
 
     await waitFor(() => expect(result.current.isError).toBe(true));
 
@@ -77,7 +104,9 @@ describe('useGhCommitCommentsInfinite', () => {
   });
 
   it('does not fetch when ref is empty', () => {
-    const { result } = renderHook(() => useGhCommitCommentsInfinite('octocat', 'Hello-World', ''), { wrapper });
+    const { result } = renderHook(() => useGhCommitCommentsInfinite('octocat', 'Hello-World', ''), {
+      wrapper,
+    });
 
     expect(result.current.isLoading).toBe(false);
     expect(mockComments).not.toHaveBeenCalled();
@@ -85,8 +114,11 @@ describe('useGhCommitCommentsInfinite', () => {
 
   it('does not fetch when enabled is false', () => {
     const { result } = renderHook(
-      () => useGhCommitCommentsInfinite('octocat', 'Hello-World', 'abc123', undefined, { enabled: false }),
-      { wrapper }
+      () =>
+        useGhCommitCommentsInfinite('octocat', 'Hello-World', 'abc123', undefined, {
+          enabled: false,
+        }),
+      { wrapper },
     );
 
     expect(result.current.isLoading).toBe(false);

@@ -1,21 +1,31 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor, act } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GitHubClient, GitHubApiError, type GitHubLabel, type UpdateLabelData } from 'gh-api-client';
+import { act, renderHook, waitFor } from '@testing-library/react';
+import {
+  GitHubApiError,
+  GitHubClient,
+  type GitHubLabel,
+  type UpdateLabelData,
+} from 'gh-api-client';
 import { useGhUpdateLabel } from './useGhUpdateLabel.js';
 
 const mockUpdateLabel = jest.fn<(name: string, data: UpdateLabelData) => Promise<GitHubLabel>>();
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(GitHubClient.prototype, 'repo')
-    .mockReturnValue({
-      updateLabel: mockUpdateLabel,
-    } as unknown as ReturnType<GitHubClient['repo']>);
+  jest.spyOn(GitHubClient.prototype, 'repo').mockReturnValue({
+    updateLabel: mockUpdateLabel,
+  } as unknown as ReturnType<GitHubClient['repo']>);
 });
 
-const mockLabel: GitHubLabel = { id: 1, name: 'bug', color: 'ee0701', description: 'Updated', url: 'https://api.github.com/repos/owner/repo/labels/bug', default: true };
+const mockLabel: GitHubLabel = {
+  id: 1,
+  name: 'bug',
+  color: 'ee0701',
+  description: 'Updated',
+  url: 'https://api.github.com/repos/owner/repo/labels/bug',
+  default: true,
+};
 
 function wrapper({ children }: { children: React.ReactNode }) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
@@ -28,7 +38,9 @@ describe('useGhUpdateLabel', () => {
 
     const { result } = renderHook(() => useGhUpdateLabel('owner', 'repo'), { wrapper });
 
-    act(() => { result.current.mutate({ name: 'bug', data: { description: 'Updated' } }); });
+    act(() => {
+      result.current.mutate({ name: 'bug', data: { description: 'Updated' } });
+    });
 
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
@@ -41,7 +53,9 @@ describe('useGhUpdateLabel', () => {
 
     const { result } = renderHook(() => useGhUpdateLabel('owner', 'repo'), { wrapper });
 
-    act(() => { result.current.mutate({ name: 'bug', data: { color: 'ff0000' } }); });
+    act(() => {
+      result.current.mutate({ name: 'bug', data: { color: 'ff0000' } });
+    });
 
     await waitFor(() => expect(result.current.isError).toBe(true));
 

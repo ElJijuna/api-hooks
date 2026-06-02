@@ -1,5 +1,5 @@
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { type GitHubRelease } from 'gh-api-client';
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
+import type { GitHubRelease } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
@@ -19,7 +19,7 @@ export interface UseGhRepoLatestReleaseOptions {
 export function useGhRepoLatestRelease(
   owner: string,
   repo: string,
-  options: UseGhRepoLatestReleaseOptions = {}
+  options: UseGhRepoLatestReleaseOptions = {},
 ): UseQueryResult<GitHubRelease, Error> {
   const { enabled = true } = options;
 

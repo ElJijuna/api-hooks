@@ -1,5 +1,5 @@
-import { useMutation, type UseMutationResult } from '@tanstack/react-query';
-import { type TriggerWorkflowData } from 'gh-api-client';
+import { type UseMutationResult, useMutation } from '@tanstack/react-query';
+import type { TriggerWorkflowData } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 
 type TriggerWorkflowVars = { workflowId: number | string; data: TriggerWorkflowData };
@@ -15,12 +15,12 @@ type TriggerWorkflowVars = { workflowId: number | string; data: TriggerWorkflowD
  */
 export function useGhTriggerWorkflow(
   owner: string,
-  repo: string
+  repo: string,
 ): UseMutationResult<void, Error, TriggerWorkflowVars> {
-
   const client = useGhClient();
 
   return useMutation<void, Error, TriggerWorkflowVars>({
-    mutationFn: ({ workflowId, data }) => client.repo(owner, repo).triggerWorkflow(workflowId, data),
+    mutationFn: ({ workflowId, data }) =>
+      client.repo(owner, repo).triggerWorkflow(workflowId, data),
   });
 }

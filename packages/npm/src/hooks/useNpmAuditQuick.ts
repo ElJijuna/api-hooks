@@ -1,6 +1,5 @@
-
-import { useMutation, type UseMutationResult } from '@tanstack/react-query';
-import { type NpmAuditPayload, type NpmAuditQuickResult } from 'npmjs-api-client';
+import { type UseMutationResult, useMutation } from '@tanstack/react-query';
+import type { NpmAuditPayload, NpmAuditQuickResult } from 'npmjs-api-client';
 import { useNpmClient } from '../NpmClientContext.js';
 
 /**

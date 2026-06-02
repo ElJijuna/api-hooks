@@ -1,5 +1,5 @@
-import { useMutation, type UseMutationResult } from '@tanstack/react-query';
-import { type CreateWebhookData, type GitHubWebhook } from 'gh-api-client';
+import { type UseMutationResult, useMutation } from '@tanstack/react-query';
+import type { CreateWebhookData, GitHubWebhook } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 
 /**
@@ -11,7 +11,7 @@ import { useGhClient } from '../GhClientContext.js';
  */
 export function useGhCreateRepoWebhook(
   owner: string,
-  repo: string
+  repo: string,
 ): UseMutationResult<GitHubWebhook, Error, CreateWebhookData> {
   const client = useGhClient();
 

@@ -1,18 +1,16 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GitHubClient, GitHubApiError, type GitHubGist } from 'gh-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import { GitHubApiError, GitHubClient, type GitHubGist } from 'gh-api-client';
 import { useGhGist } from './useGhGist.js';
 
 const mockGet = jest.fn<(signal?: AbortSignal) => Promise<GitHubGist>>();
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(GitHubClient.prototype, 'gist')
-    .mockReturnValue({
-      get: mockGet,
-    } as unknown as ReturnType<GitHubClient['gist']>);
+  jest.spyOn(GitHubClient.prototype, 'gist').mockReturnValue({
+    get: mockGet,
+  } as unknown as ReturnType<GitHubClient['gist']>);
 });
 
 const mockGist: GitHubGist = {
@@ -72,10 +70,7 @@ describe('useGhGist', () => {
   });
 
   it('does not fetch when enabled is false', () => {
-    const { result } = renderHook(
-      () => useGhGist('abc123', { enabled: false }),
-      { wrapper }
-    );
+    const { result } = renderHook(() => useGhGist('abc123', { enabled: false }), { wrapper });
 
     expect(result.current.isLoading).toBe(false);
     expect(mockGet).not.toHaveBeenCalled();

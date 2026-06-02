@@ -1,5 +1,5 @@
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { type GitHubPagedResponse, type GitHubUser, type PaginationParams } from 'gh-api-client';
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
+import type { GitHubPagedResponse, GitHubUser, PaginationParams } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
@@ -19,7 +19,7 @@ export interface UseGhUserFollowersOptions {
 export function useGhUserFollowers(
   login: string,
   params?: PaginationParams,
-  options: UseGhUserFollowersOptions = {}
+  options: UseGhUserFollowersOptions = {},
 ): UseQueryResult<GitHubPagedResponse<GitHubUser>, Error> {
   const { enabled = true } = options;
 

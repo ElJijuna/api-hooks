@@ -1,5 +1,5 @@
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { type GitHubCodeResult, type GitHubPagedResponse, type SearchCodeParams } from 'gh-api-client';
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
+import type { GitHubCodeResult, GitHubPagedResponse, SearchCodeParams } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
@@ -17,7 +17,7 @@ export interface UseGhSearchCodeOptions {
  */
 export function useGhSearchCode(
   params: SearchCodeParams,
-  options: UseGhSearchCodeOptions = {}
+  options: UseGhSearchCodeOptions = {},
 ): UseQueryResult<GitHubPagedResponse<GitHubCodeResult>, Error> {
   const { enabled = true } = options;
 

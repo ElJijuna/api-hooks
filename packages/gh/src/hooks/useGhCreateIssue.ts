@@ -1,5 +1,5 @@
-import { useMutation, type UseMutationResult } from '@tanstack/react-query';
-import { type GitHubIssue, type CreateIssueData } from 'gh-api-client';
+import { type UseMutationResult, useMutation } from '@tanstack/react-query';
+import type { CreateIssueData, GitHubIssue } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 
 /**
@@ -13,9 +13,8 @@ import { useGhClient } from '../GhClientContext.js';
  */
 export function useGhCreateIssue(
   owner: string,
-  repo: string
+  repo: string,
 ): UseMutationResult<GitHubIssue, Error, CreateIssueData> {
-
   const client = useGhClient();
 
   return useMutation<GitHubIssue, Error, CreateIssueData>({

@@ -1,4 +1,4 @@
-import { describe, it, expect } from '@jest/globals';
+import { describe, expect, it } from '@jest/globals';
 import { renderHook } from '@testing-library/react';
 import { GitHubClient } from 'gh-api-client';
 import { GhClientProvider, useGhClient } from './GhClientContext.js';

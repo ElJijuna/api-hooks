@@ -1,18 +1,16 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GitHubClient, GitHubApiError, type GitHubRelease } from 'gh-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import { GitHubApiError, GitHubClient, type GitHubRelease } from 'gh-api-client';
 import { useGhRepoLatestRelease } from './useGhRepoLatestRelease.js';
 
 const mockLatestRelease = jest.fn<(signal?: AbortSignal) => Promise<GitHubRelease>>();
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(GitHubClient.prototype, 'repo')
-    .mockReturnValue({
-      latestRelease: mockLatestRelease,
-    } as unknown as ReturnType<GitHubClient['repo']>);
+  jest.spyOn(GitHubClient.prototype, 'repo').mockReturnValue({
+    latestRelease: mockLatestRelease,
+  } as unknown as ReturnType<GitHubClient['repo']>);
 });
 
 const mockRelease: GitHubRelease = {
@@ -68,7 +66,7 @@ describe('useGhRepoLatestRelease', () => {
   it('does not fetch when enabled is false', () => {
     const { result } = renderHook(
       () => useGhRepoLatestRelease('owner', 'repo', { enabled: false }),
-      { wrapper }
+      { wrapper },
     );
 
     expect(result.current.isLoading).toBe(false);

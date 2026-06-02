@@ -1,5 +1,5 @@
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { type GitHubNotification, type GitHubPagedResponse, type NotificationsParams } from 'gh-api-client';
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
+import type { GitHubNotification, GitHubPagedResponse, NotificationsParams } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
@@ -17,7 +17,7 @@ export interface UseGhNotificationsOptions {
  */
 export function useGhNotifications(
   params?: NotificationsParams,
-  options: UseGhNotificationsOptions = {}
+  options: UseGhNotificationsOptions = {},
 ): UseQueryResult<GitHubPagedResponse<GitHubNotification>, Error> {
   const { enabled = true } = options;
 

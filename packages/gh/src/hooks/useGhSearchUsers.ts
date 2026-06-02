@@ -1,5 +1,5 @@
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { type GitHubUser, type GitHubPagedResponse, type SearchUsersParams } from 'gh-api-client';
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
+import type { GitHubPagedResponse, GitHubUser, SearchUsersParams } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
@@ -17,7 +17,7 @@ export interface UseGhSearchUsersOptions {
  */
 export function useGhSearchUsers(
   params: SearchUsersParams,
-  options: UseGhSearchUsersOptions = {}
+  options: UseGhSearchUsersOptions = {},
 ): UseQueryResult<GitHubPagedResponse<GitHubUser>, Error> {
   const { enabled = true } = options;
 

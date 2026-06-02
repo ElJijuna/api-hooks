@@ -1,20 +1,19 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { renderHook, waitFor } from '@testing-library/react';
 import { GitHubClient, type GitHubOrganization, type GitHubPagedResponse } from 'gh-api-client';
 import { useGhUserOrganizationsInfinite } from './useGhUserOrganizationsInfinite.js';
 
-const mockOrganizations = jest.fn<
-  (params?: object, signal?: AbortSignal) => Promise<GitHubPagedResponse<GitHubOrganization>>
->();
+const mockOrganizations =
+  jest.fn<
+    (params?: object, signal?: AbortSignal) => Promise<GitHubPagedResponse<GitHubOrganization>>
+  >();
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(GitHubClient.prototype, 'user')
-    .mockReturnValue({
-      organizations: mockOrganizations,
-    } as unknown as ReturnType<GitHubClient['user']>);
+  jest.spyOn(GitHubClient.prototype, 'user').mockReturnValue({
+    organizations: mockOrganizations,
+  } as unknown as ReturnType<GitHubClient['user']>);
 });
 
 const page = {
@@ -51,17 +50,14 @@ describe('useGhUserOrganizationsInfinite', () => {
 
     const { result } = renderHook(
       () => useGhUserOrganizationsInfinite('octocat', { per_page: 10 }),
-      { wrapper }
+      { wrapper },
     );
 
     await waitFor(() => expect(result.current.isLoading).toBe(false));
 
     expect(result.current.data?.pages[0]).toEqual(page);
     expect(result.current.hasNextPage).toBe(true);
-    expect(mockOrganizations).toHaveBeenCalledWith(
-      { per_page: 10, page: 1 },
-      expect.anything()
-    );
+    expect(mockOrganizations).toHaveBeenCalledWith({ per_page: 10, page: 1 }, expect.anything());
   });
 
   it('does not fetch when login is empty', () => {

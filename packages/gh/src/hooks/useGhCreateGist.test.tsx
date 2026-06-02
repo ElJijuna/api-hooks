@@ -1,16 +1,15 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor, act } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GitHubClient, GitHubApiError, type GitHubGist, type CreateGistData } from 'gh-api-client';
+import { act, renderHook, waitFor } from '@testing-library/react';
+import { type CreateGistData, GitHubApiError, GitHubClient, type GitHubGist } from 'gh-api-client';
 import { useGhCreateGist } from './useGhCreateGist.js';
 
-const mockCreateGist = jest.fn<(data: CreateGistData, signal?: AbortSignal) => Promise<GitHubGist>>();
+const mockCreateGist =
+  jest.fn<(data: CreateGistData, signal?: AbortSignal) => Promise<GitHubGist>>();
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(GitHubClient.prototype, 'createGist')
-    .mockImplementation(mockCreateGist);
+  jest.spyOn(GitHubClient.prototype, 'createGist').mockImplementation(mockCreateGist);
 });
 
 const mockGist: GitHubGist = {
@@ -19,7 +18,17 @@ const mockGist: GitHubGist = {
   public: true,
   owner: null,
   user: null,
-  files: { 'hello.txt': { filename: 'hello.txt', type: 'text/plain', language: 'Text', raw_url: '', size: 5, truncated: false, content: 'hello' } },
+  files: {
+    'hello.txt': {
+      filename: 'hello.txt',
+      type: 'text/plain',
+      language: 'Text',
+      raw_url: '',
+      size: 5,
+      truncated: false,
+      content: 'hello',
+    },
+  },
   comments: 0,
   comments_url: 'https://api.github.com/gists/abc123/comments',
   html_url: 'https://gist.github.com/abc123',

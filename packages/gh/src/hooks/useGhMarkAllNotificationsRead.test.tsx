@@ -1,14 +1,16 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor, act } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GitHubClient, GitHubApiError } from 'gh-api-client';
+import { act, renderHook, waitFor } from '@testing-library/react';
+import { GitHubApiError, GitHubClient } from 'gh-api-client';
 import { useGhMarkAllNotificationsRead } from './useGhMarkAllNotificationsRead.js';
 
 const mockMarkAllRead = jest.fn<() => Promise<void>>();
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest.spyOn(GitHubClient.prototype, 'markAllNotificationsRead').mockImplementation(mockMarkAllRead);
+  jest
+    .spyOn(GitHubClient.prototype, 'markAllNotificationsRead')
+    .mockImplementation(mockMarkAllRead);
 });
 
 function wrapper({ children }: { children: React.ReactNode }) {
@@ -20,7 +22,9 @@ describe('useGhMarkAllNotificationsRead', () => {
   it('succeeds when called', async () => {
     mockMarkAllRead.mockResolvedValue(undefined);
     const { result } = renderHook(() => useGhMarkAllNotificationsRead(), { wrapper });
-    act(() => { result.current.mutate(); });
+    act(() => {
+      result.current.mutate();
+    });
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
     expect(mockMarkAllRead).toHaveBeenCalled();
   });
@@ -28,7 +32,9 @@ describe('useGhMarkAllNotificationsRead', () => {
   it('returns error on failure', async () => {
     mockMarkAllRead.mockRejectedValue(new GitHubApiError(401, 'Unauthorized'));
     const { result } = renderHook(() => useGhMarkAllNotificationsRead(), { wrapper });
-    act(() => { result.current.mutate(); });
+    act(() => {
+      result.current.mutate();
+    });
     await waitFor(() => expect(result.current.isError).toBe(true));
     expect(result.current.error).toBeInstanceOf(GitHubApiError);
   });

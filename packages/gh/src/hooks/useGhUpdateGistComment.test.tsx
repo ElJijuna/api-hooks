@@ -1,18 +1,24 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor, act } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GitHubClient, GitHubApiError, type GistComment, type GistCommentData } from 'gh-api-client';
+import { act, renderHook, waitFor } from '@testing-library/react';
+import {
+  type GistComment,
+  type GistCommentData,
+  GitHubApiError,
+  GitHubClient,
+} from 'gh-api-client';
 import { useGhUpdateGistComment } from './useGhUpdateGistComment.js';
 
-const mockUpdateComment = jest.fn<(commentId: number, data: GistCommentData, signal?: AbortSignal) => Promise<GistComment>>();
+const mockUpdateComment =
+  jest.fn<
+    (commentId: number, data: GistCommentData, signal?: AbortSignal) => Promise<GistComment>
+  >();
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(GitHubClient.prototype, 'gist')
-    .mockReturnValue({
-      updateComment: mockUpdateComment,
-    } as unknown as ReturnType<GitHubClient['gist']>);
+  jest.spyOn(GitHubClient.prototype, 'gist').mockReturnValue({
+    updateComment: mockUpdateComment,
+  } as unknown as ReturnType<GitHubClient['gist']>);
 });
 
 const mockComment: GistComment = {

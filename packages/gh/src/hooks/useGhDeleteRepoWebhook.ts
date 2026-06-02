@@ -1,4 +1,4 @@
-import { useMutation, type UseMutationResult } from '@tanstack/react-query';
+import { type UseMutationResult, useMutation } from '@tanstack/react-query';
 import { useGhClient } from '../GhClientContext.js';
 
 export interface DeleteRepoWebhookVariables {
@@ -14,7 +14,7 @@ export interface DeleteRepoWebhookVariables {
  */
 export function useGhDeleteRepoWebhook(
   owner: string,
-  repo: string
+  repo: string,
 ): UseMutationResult<void, Error, DeleteRepoWebhookVariables> {
   const client = useGhClient();
 

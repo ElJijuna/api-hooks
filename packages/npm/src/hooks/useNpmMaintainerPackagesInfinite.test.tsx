@@ -1,7 +1,7 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { NpmClient, NpmApiError, type NpmSearchResult } from 'npmjs-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import { NpmApiError, NpmClient, type NpmSearchResult } from 'npmjs-api-client';
 import { useNpmMaintainerPackagesInfinite } from './useNpmMaintainerPackagesInfinite.js';
 
 const mockPackages = jest.fn<() => Promise<NpmSearchResult>>();
@@ -41,10 +41,9 @@ describe('useNpmMaintainerPackagesInfinite', () => {
   it('fetches the first page on mount', async () => {
     mockPackages.mockResolvedValue(makeResult(0, 20, 35));
 
-    const { result } = renderHook(
-      () => useNpmMaintainerPackagesInfinite('sindresorhus'),
-      { wrapper }
-    );
+    const { result } = renderHook(() => useNpmMaintainerPackagesInfinite('sindresorhus'), {
+      wrapper,
+    });
 
     await waitFor(() => expect(result.current.isLoading).toBe(false));
 
@@ -58,10 +57,9 @@ describe('useNpmMaintainerPackagesInfinite', () => {
       .mockResolvedValueOnce(makeResult(0, 20, 40))
       .mockResolvedValueOnce(makeResult(20, 20, 40));
 
-    const { result } = renderHook(
-      () => useNpmMaintainerPackagesInfinite('sindresorhus'),
-      { wrapper }
-    );
+    const { result } = renderHook(() => useNpmMaintainerPackagesInfinite('sindresorhus'), {
+      wrapper,
+    });
 
     await waitFor(() => expect(result.current.isLoading).toBe(false));
 
@@ -75,10 +73,9 @@ describe('useNpmMaintainerPackagesInfinite', () => {
   it('reports hasNextPage=false when all packages are loaded', async () => {
     mockPackages.mockResolvedValue(makeResult(0, 10, 10));
 
-    const { result } = renderHook(
-      () => useNpmMaintainerPackagesInfinite('sindresorhus'),
-      { wrapper }
-    );
+    const { result } = renderHook(() => useNpmMaintainerPackagesInfinite('sindresorhus'), {
+      wrapper,
+    });
 
     await waitFor(() => expect(result.current.isLoading).toBe(false));
 
@@ -88,10 +85,9 @@ describe('useNpmMaintainerPackagesInfinite', () => {
   it('reports hasNextPage=true when more packages remain', async () => {
     mockPackages.mockResolvedValue(makeResult(0, 20, 35));
 
-    const { result } = renderHook(
-      () => useNpmMaintainerPackagesInfinite('sindresorhus'),
-      { wrapper }
-    );
+    const { result } = renderHook(() => useNpmMaintainerPackagesInfinite('sindresorhus'), {
+      wrapper,
+    });
 
     await waitFor(() => expect(result.current.isLoading).toBe(false));
 
@@ -101,10 +97,9 @@ describe('useNpmMaintainerPackagesInfinite', () => {
   it('returns error on failure', async () => {
     mockPackages.mockRejectedValue(new NpmApiError(404, 'Not Found'));
 
-    const { result } = renderHook(
-      () => useNpmMaintainerPackagesInfinite('sindresorhus'),
-      { wrapper }
-    );
+    const { result } = renderHook(() => useNpmMaintainerPackagesInfinite('sindresorhus'), {
+      wrapper,
+    });
 
     await waitFor(() => expect(result.current.isError).toBe(true));
 
@@ -113,10 +108,7 @@ describe('useNpmMaintainerPackagesInfinite', () => {
   });
 
   it('does not fetch when username is empty', () => {
-    const { result } = renderHook(
-      () => useNpmMaintainerPackagesInfinite(''),
-      { wrapper }
-    );
+    const { result } = renderHook(() => useNpmMaintainerPackagesInfinite(''), { wrapper });
 
     expect(result.current.isLoading).toBe(false);
     expect(mockPackages).not.toHaveBeenCalled();
@@ -125,7 +117,7 @@ describe('useNpmMaintainerPackagesInfinite', () => {
   it('does not fetch when enabled is false', () => {
     const { result } = renderHook(
       () => useNpmMaintainerPackagesInfinite('sindresorhus', { enabled: false }),
-      { wrapper }
+      { wrapper },
     );
 
     expect(result.current.isLoading).toBe(false);

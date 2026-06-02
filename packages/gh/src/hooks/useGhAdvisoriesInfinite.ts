@@ -1,5 +1,9 @@
-import { useInfiniteQuery, type UseInfiniteQueryResult, type InfiniteData } from '@tanstack/react-query';
-import { type GitHubAdvisory, type GitHubPagedResponse, type AdvisoriesParams } from 'gh-api-client';
+import {
+  type InfiniteData,
+  type UseInfiniteQueryResult,
+  useInfiniteQuery,
+} from '@tanstack/react-query';
+import type { AdvisoriesParams, GitHubAdvisory, GitHubPagedResponse } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
@@ -17,7 +21,7 @@ export interface UseGhAdvisoriesInfiniteOptions {
  */
 export function useGhAdvisoriesInfinite(
   params?: Omit<AdvisoriesParams, 'page'>,
-  options: UseGhAdvisoriesInfiniteOptions = {}
+  options: UseGhAdvisoriesInfiniteOptions = {},
 ): UseInfiniteQueryResult<InfiniteData<GitHubPagedResponse<GitHubAdvisory>, number>, Error> {
   const { enabled = true } = options;
 
@@ -25,11 +29,9 @@ export function useGhAdvisoriesInfinite(
 
   return useInfiniteQuery({
     queryKey: ghQueryKeys.advisoriesInfinite(params),
-    queryFn: ({ pageParam, signal }) =>
-      client.advisories({ ...params, page: pageParam }, signal),
+    queryFn: ({ pageParam, signal }) => client.advisories({ ...params, page: pageParam }, signal),
     initialPageParam: 1,
-    getNextPageParam: (lastPage) =>
-      lastPage.hasNextPage ? lastPage.nextPage : undefined,
+    getNextPageParam: (lastPage) => (lastPage.hasNextPage ? lastPage.nextPage : undefined),
     enabled,
   });
 }

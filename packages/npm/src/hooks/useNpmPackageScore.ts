@@ -1,6 +1,5 @@
-
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { type NpmsScore } from 'npmjs-api-client';
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
+import type { NpmsScore } from 'npmjs-api-client';
 import { npmQueryKeys } from '../keys/npmQueryKeys.js';
 import { useNpmClient } from '../NpmClientContext.js';
 
@@ -18,7 +17,7 @@ export interface UseNpmPackageScoreOptions {
  */
 export function useNpmPackageScore(
   name: string,
-  options: UseNpmPackageScoreOptions = {}
+  options: UseNpmPackageScoreOptions = {},
 ): UseQueryResult<NpmsScore, Error> {
   const { enabled = true } = options;
   const client = useNpmClient();

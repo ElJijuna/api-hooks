@@ -1,18 +1,16 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { NpmClient, NpmApiError, type JsdelivrStats } from 'npmjs-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import { type JsdelivrStats, NpmApiError, NpmClient } from 'npmjs-api-client';
 import { useNpmPackageVersionCdnStats } from './useNpmPackageVersionCdnStats.js';
 
 const mockCdnStats = jest.fn<() => Promise<JsdelivrStats>>();
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(NpmClient.prototype, 'package')
-    .mockReturnValue({
-      version: () => ({ cdnStats: mockCdnStats }),
-    } as ReturnType<NpmClient['package']>);
+  jest.spyOn(NpmClient.prototype, 'package').mockReturnValue({
+    version: () => ({ cdnStats: mockCdnStats }),
+  } as ReturnType<NpmClient['package']>);
 });
 
 const mockData: JsdelivrStats = {
@@ -31,7 +29,9 @@ describe('useNpmPackageVersionCdnStats', () => {
   it('returns data on success with defaults', async () => {
     mockCdnStats.mockResolvedValue(mockData);
 
-    const { result } = renderHook(() => useNpmPackageVersionCdnStats('react', '18.2.0'), { wrapper });
+    const { result } = renderHook(() => useNpmPackageVersionCdnStats('react', '18.2.0'), {
+      wrapper,
+    });
 
     await waitFor(() => expect(result.current.isLoading).toBe(false));
 
@@ -44,7 +44,7 @@ describe('useNpmPackageVersionCdnStats', () => {
 
     const { result } = renderHook(
       () => useNpmPackageVersionCdnStats('react', '18.2.0', { groupBy: 'date', period: 'week' }),
-      { wrapper }
+      { wrapper },
     );
 
     await waitFor(() => expect(result.current.isLoading).toBe(false));
@@ -55,7 +55,10 @@ describe('useNpmPackageVersionCdnStats', () => {
   it('returns error on failure', async () => {
     mockCdnStats.mockRejectedValue(new NpmApiError(404, 'Not Found'));
 
-    const { result } = renderHook(() => useNpmPackageVersionCdnStats('react', '0.0.0-nonexistent'), { wrapper });
+    const { result } = renderHook(
+      () => useNpmPackageVersionCdnStats('react', '0.0.0-nonexistent'),
+      { wrapper },
+    );
 
     await waitFor(() => expect(result.current.isError).toBe(true));
 
@@ -79,7 +82,7 @@ describe('useNpmPackageVersionCdnStats', () => {
   it('does not fetch when enabled is false', () => {
     const { result } = renderHook(
       () => useNpmPackageVersionCdnStats('react', '18.2.0', { enabled: false }),
-      { wrapper }
+      { wrapper },
     );
 
     expect(result.current.isLoading).toBe(false);

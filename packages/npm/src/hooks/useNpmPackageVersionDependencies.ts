@@ -1,6 +1,5 @@
-
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { type DepsDevDependencies } from 'npmjs-api-client';
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
+import type { DepsDevDependencies } from 'npmjs-api-client';
 import { npmQueryKeys } from '../keys/npmQueryKeys.js';
 import { useNpmClient } from '../NpmClientContext.js';
 
@@ -23,7 +22,7 @@ export interface UseNpmPackageVersionDependenciesOptions {
 export function useNpmPackageVersionDependencies(
   name: string,
   version: string,
-  options: UseNpmPackageVersionDependenciesOptions = {}
+  options: UseNpmPackageVersionDependenciesOptions = {},
 ): UseQueryResult<DepsDevDependencies, Error> {
   const { enabled = true } = options;
   const client = useNpmClient();

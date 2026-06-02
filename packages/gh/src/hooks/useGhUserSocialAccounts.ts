@@ -1,5 +1,5 @@
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { type SocialAccount } from 'gh-api-client';
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
+import type { SocialAccount } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
@@ -17,7 +17,7 @@ export interface UseGhUserSocialAccountsOptions {
  */
 export function useGhUserSocialAccounts(
   login: string,
-  options: UseGhUserSocialAccountsOptions = {}
+  options: UseGhUserSocialAccountsOptions = {},
 ): UseQueryResult<SocialAccount[], Error> {
   const { enabled = true } = options;
 

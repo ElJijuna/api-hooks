@@ -1,7 +1,7 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { NpmClient, NpmApiError, type NpmBulkDownloads } from 'npmjs-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import { NpmApiError, type NpmBulkDownloads, NpmClient } from 'npmjs-api-client';
 import { useNpmBulkDownloads } from './useNpmBulkDownloads.js';
 
 const mockBulkDownloads = jest.fn<() => Promise<NpmBulkDownloads>>();
@@ -35,7 +35,11 @@ describe('useNpmBulkDownloads', () => {
 
     expect(result.current.data).toEqual(mockData);
     expect(result.current.isError).toBe(false);
-    expect(mockBulkDownloads).toHaveBeenCalledWith(['react', 'vue'], 'last-month', expect.anything());
+    expect(mockBulkDownloads).toHaveBeenCalledWith(
+      ['react', 'vue'],
+      'last-month',
+      expect.anything(),
+    );
   });
 
   it('passes custom period', async () => {
@@ -43,12 +47,16 @@ describe('useNpmBulkDownloads', () => {
 
     const { result } = renderHook(
       () => useNpmBulkDownloads(['react', 'vue'], { period: 'last-week' }),
-      { wrapper }
+      { wrapper },
     );
 
     await waitFor(() => expect(result.current.isLoading).toBe(false));
 
-    expect(mockBulkDownloads).toHaveBeenCalledWith(['react', 'vue'], 'last-week', expect.anything());
+    expect(mockBulkDownloads).toHaveBeenCalledWith(
+      ['react', 'vue'],
+      'last-week',
+      expect.anything(),
+    );
   });
 
   it('returns error on failure', async () => {
@@ -69,10 +77,9 @@ describe('useNpmBulkDownloads', () => {
   });
 
   it('does not fetch when enabled is false', () => {
-    const { result } = renderHook(
-      () => useNpmBulkDownloads(['react'], { enabled: false }),
-      { wrapper }
-    );
+    const { result } = renderHook(() => useNpmBulkDownloads(['react'], { enabled: false }), {
+      wrapper,
+    });
 
     expect(result.current.isLoading).toBe(false);
     expect(mockBulkDownloads).not.toHaveBeenCalled();

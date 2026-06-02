@@ -1,18 +1,16 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { NpmClient, NpmApiError, type NpmUser } from 'npmjs-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import { NpmApiError, NpmClient, type NpmUser } from 'npmjs-api-client';
 import { useNpmMaintainer } from './useNpmMaintainer.js';
 
 const mockInfo = jest.fn<() => Promise<NpmUser>>();
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(NpmClient.prototype, 'maintainer')
-    .mockReturnValue({
-      info: mockInfo,
-    } as ReturnType<NpmClient['maintainer']>);
+  jest.spyOn(NpmClient.prototype, 'maintainer').mockReturnValue({
+    info: mockInfo,
+  } as ReturnType<NpmClient['maintainer']>);
 });
 
 const mockUser: NpmUser = {
@@ -59,10 +57,9 @@ describe('useNpmMaintainer', () => {
   });
 
   it('does not fetch when enabled is false', () => {
-    const { result } = renderHook(
-      () => useNpmMaintainer('pilmee', { enabled: false }),
-      { wrapper }
-    );
+    const { result } = renderHook(() => useNpmMaintainer('pilmee', { enabled: false }), {
+      wrapper,
+    });
 
     expect(result.current.isLoading).toBe(false);
     expect(mockInfo).not.toHaveBeenCalled();

@@ -1,5 +1,9 @@
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { type GitHubPullRequestFile, type GitHubPagedResponse, type PullRequestFilesParams } from 'gh-api-client';
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
+import type {
+  GitHubPagedResponse,
+  GitHubPullRequestFile,
+  PullRequestFilesParams,
+} from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
@@ -23,7 +27,7 @@ export function useGhPullRequestFiles(
   repo: string,
   pullNumber: number,
   params?: PullRequestFilesParams,
-  options: UseGhPullRequestFilesOptions = {}
+  options: UseGhPullRequestFilesOptions = {},
 ): UseQueryResult<GitHubPagedResponse<GitHubPullRequestFile>, Error> {
   const { enabled = true } = options;
 
@@ -31,8 +35,7 @@ export function useGhPullRequestFiles(
 
   return useQuery<GitHubPagedResponse<GitHubPullRequestFile>, Error>({
     queryKey: ghQueryKeys.pullRequestFiles(owner, repo, pullNumber, params),
-    queryFn: ({ signal }) =>
-      client.repo(owner, repo).pullRequest(pullNumber).files(params, signal),
+    queryFn: ({ signal }) => client.repo(owner, repo).pullRequest(pullNumber).files(params, signal),
     enabled: enabled && owner.length > 0 && repo.length > 0 && pullNumber > 0,
   });
 }

@@ -1,7 +1,7 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { NpmClient, NpmApiError, type NpmSearchResult } from 'npmjs-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import { NpmApiError, NpmClient, type NpmSearchResult } from 'npmjs-api-client';
 import { useNpmTopByMaintenance } from './useNpmTopByMaintenance.js';
 
 const mockTopByMaintenance = jest.fn<() => Promise<NpmSearchResult>>();
@@ -20,7 +20,9 @@ const mockResult: NpmSearchResult = {
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest.spyOn(NpmClient.prototype, 'topByMaintenance').mockImplementation(mockTopByMaintenance as typeof NpmClient.prototype.topByMaintenance);
+  jest
+    .spyOn(NpmClient.prototype, 'topByMaintenance')
+    .mockImplementation(mockTopByMaintenance as typeof NpmClient.prototype.topByMaintenance);
 });
 
 function wrapper({ children }: { children: React.ReactNode }) {

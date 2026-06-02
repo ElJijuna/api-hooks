@@ -1,6 +1,5 @@
-
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { type PackagephobiaSize } from 'npmjs-api-client';
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
+import type { PackagephobiaSize } from 'npmjs-api-client';
 import { npmQueryKeys } from '../keys/npmQueryKeys.js';
 import { useNpmClient } from '../NpmClientContext.js';
 
@@ -19,7 +18,7 @@ export interface UseNpmPackageSizeOptions {
  */
 export function useNpmPackageSize(
   name: string,
-  options: UseNpmPackageSizeOptions = {}
+  options: UseNpmPackageSizeOptions = {},
 ): UseQueryResult<PackagephobiaSize, Error> {
   const { enabled = true } = options;
   const client = useNpmClient();

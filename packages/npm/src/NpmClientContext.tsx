@@ -9,11 +9,12 @@ export interface NpmClientProviderProps {
   options?: NpmClientOptions;
 }
 
-export function NpmClientProvider({ children, client: providedClient, options }: NpmClientProviderProps) {
-  const client = useMemo(
-    () => providedClient ?? new NpmClient(options),
-    [providedClient, options]
-  );
+export function NpmClientProvider({
+  children,
+  client: providedClient,
+  options,
+}: NpmClientProviderProps) {
+  const client = useMemo(() => providedClient ?? new NpmClient(options), [providedClient, options]);
 
   return <NpmClientContext value={client}>{children}</NpmClientContext>;
 }

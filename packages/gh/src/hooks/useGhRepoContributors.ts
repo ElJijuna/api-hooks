@@ -1,5 +1,5 @@
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { type GitHubPagedResponse, type PaginationParams } from 'gh-api-client';
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
+import type { GitHubPagedResponse, PaginationParams } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
@@ -29,7 +29,7 @@ export function useGhRepoContributors(
   owner: string,
   repo: string,
   params?: PaginationParams & { anon?: boolean },
-  options: UseGhRepoContributorsOptions = {}
+  options: UseGhRepoContributorsOptions = {},
 ): UseQueryResult<GitHubPagedResponse<GitHubContributor>, Error> {
   const { enabled = true } = options;
 

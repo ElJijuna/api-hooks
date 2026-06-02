@@ -1,5 +1,5 @@
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { type GitHubAdvisory } from 'gh-api-client';
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
+import type { GitHubAdvisory } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
@@ -19,7 +19,7 @@ export interface UseGhAdvisoryByCveOptions {
  */
 export function useGhAdvisoryByCve(
   cveId: string,
-  options: UseGhAdvisoryByCveOptions = {}
+  options: UseGhAdvisoryByCveOptions = {},
 ): UseQueryResult<GitHubAdvisory | null, Error> {
   const { enabled = true } = options;
 

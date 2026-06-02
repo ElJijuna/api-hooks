@@ -1,7 +1,7 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { NpmClient, NpmApiError, type NpmSearchResult } from 'npmjs-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import { NpmApiError, NpmClient, type NpmSearchResult } from 'npmjs-api-client';
 import { useNpmSearch } from './useNpmSearch.js';
 
 const mockSearch = jest.fn<() => Promise<NpmSearchResult>>();
@@ -54,14 +54,14 @@ describe('useNpmSearch', () => {
 
     const { result } = renderHook(
       () => useNpmSearch('react', { size: 5, from: 10, quality: 0.8 }),
-      { wrapper }
+      { wrapper },
     );
 
     await waitFor(() => expect(result.current.isLoading).toBe(false));
 
     expect(mockSearch).toHaveBeenCalledWith(
       { text: 'react', size: 5, from: 10, quality: 0.8 },
-      expect.anything()
+      expect.anything(),
     );
   });
 
@@ -84,10 +84,7 @@ describe('useNpmSearch', () => {
   });
 
   it('does not fetch when enabled is false', () => {
-    const { result } = renderHook(
-      () => useNpmSearch('react', { enabled: false }),
-      { wrapper }
-    );
+    const { result } = renderHook(() => useNpmSearch('react', { enabled: false }), { wrapper });
 
     expect(result.current.isLoading).toBe(false);
     expect(mockSearch).not.toHaveBeenCalled();

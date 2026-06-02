@@ -1,7 +1,7 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { NpmClient, NpmApiError, type NpmSearchResult } from 'npmjs-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import { NpmApiError, NpmClient, type NpmSearchResult } from 'npmjs-api-client';
 import { useNpmTopByPopularity } from './useNpmTopByPopularity.js';
 
 const mockTopByPopularity = jest.fn<() => Promise<NpmSearchResult>>();
@@ -20,7 +20,9 @@ const mockResult: NpmSearchResult = {
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest.spyOn(NpmClient.prototype, 'topByPopularity').mockImplementation(mockTopByPopularity as typeof NpmClient.prototype.topByPopularity);
+  jest
+    .spyOn(NpmClient.prototype, 'topByPopularity')
+    .mockImplementation(mockTopByPopularity as typeof NpmClient.prototype.topByPopularity);
 });
 
 function wrapper({ children }: { children: React.ReactNode }) {

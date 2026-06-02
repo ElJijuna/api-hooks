@@ -1,18 +1,16 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor, act } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GitHubClient, GitHubApiError, type GitHubGist, type UpdateGistData } from 'gh-api-client';
+import { act, renderHook, waitFor } from '@testing-library/react';
+import { GitHubApiError, GitHubClient, type GitHubGist, type UpdateGistData } from 'gh-api-client';
 import { useGhUpdateGist } from './useGhUpdateGist.js';
 
 const mockUpdate = jest.fn<(data: UpdateGistData, signal?: AbortSignal) => Promise<GitHubGist>>();
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(GitHubClient.prototype, 'gist')
-    .mockReturnValue({
-      update: mockUpdate,
-    } as unknown as ReturnType<GitHubClient['gist']>);
+  jest.spyOn(GitHubClient.prototype, 'gist').mockReturnValue({
+    update: mockUpdate,
+  } as unknown as ReturnType<GitHubClient['gist']>);
 });
 
 const mockGist: GitHubGist = {
@@ -47,7 +45,9 @@ describe('useGhUpdateGist', () => {
 
     const { result } = renderHook(() => useGhUpdateGist('abc123'), { wrapper });
 
-    act(() => { result.current.mutate(updateData); });
+    act(() => {
+      result.current.mutate(updateData);
+    });
 
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
@@ -60,7 +60,9 @@ describe('useGhUpdateGist', () => {
 
     const { result } = renderHook(() => useGhUpdateGist('abc123'), { wrapper });
 
-    act(() => { result.current.mutate(updateData); });
+    act(() => {
+      result.current.mutate(updateData);
+    });
 
     await waitFor(() => expect(result.current.isError).toBe(true));
 

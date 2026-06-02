@@ -1,5 +1,9 @@
-import { useInfiniteQuery, type UseInfiniteQueryResult, type InfiniteData } from '@tanstack/react-query';
-import { type GitHubCommit, type GitHubPagedResponse, type CommitsParams } from 'gh-api-client';
+import {
+  type InfiniteData,
+  type UseInfiniteQueryResult,
+  useInfiniteQuery,
+} from '@tanstack/react-query';
+import type { CommitsParams, GitHubCommit, GitHubPagedResponse } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
@@ -21,7 +25,7 @@ export function useGhRepoCommitsInfinite(
   owner: string,
   repo: string,
   params?: Omit<CommitsParams, 'page'>,
-  options: UseGhRepoCommitsInfiniteOptions = {}
+  options: UseGhRepoCommitsInfiniteOptions = {},
 ): UseInfiniteQueryResult<InfiniteData<GitHubPagedResponse<GitHubCommit>, number>, Error> {
   const { enabled = true } = options;
 
@@ -32,8 +36,7 @@ export function useGhRepoCommitsInfinite(
     queryFn: ({ pageParam, signal }) =>
       client.repo(owner, repo).commits({ ...params, page: pageParam }, signal),
     initialPageParam: 1,
-    getNextPageParam: (lastPage) =>
-      lastPage.hasNextPage ? lastPage.nextPage : undefined,
+    getNextPageParam: (lastPage) => (lastPage.hasNextPage ? lastPage.nextPage : undefined),
     enabled: enabled && owner.length > 0 && repo.length > 0,
   });
 }

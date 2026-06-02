@@ -1,10 +1,16 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GitHubClient, GitHubApiError, type GitHubPagedResponse, type GistCommit } from 'gh-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import {
+  type GistCommit,
+  GitHubApiError,
+  GitHubClient,
+  type GitHubPagedResponse,
+} from 'gh-api-client';
 import { useGhGistCommitsInfinite } from './useGhGistCommitsInfinite.js';
 
-const mockCommits = jest.fn<(params?: object, signal?: AbortSignal) => Promise<GitHubPagedResponse<GistCommit>>>();
+const mockCommits =
+  jest.fn<(params?: object, signal?: AbortSignal) => Promise<GitHubPagedResponse<GistCommit>>>();
 const mockGist = jest.fn().mockReturnValue({ commits: mockCommits });
 
 beforeEach(() => {
@@ -13,7 +19,11 @@ beforeEach(() => {
   jest.spyOn(GitHubClient.prototype, 'gist').mockImplementation(mockGist);
 });
 
-const mockCommit = { version: 'abc123', committed_at: '2024-01-01T00:00:00Z', user: null } as unknown as GistCommit;
+const mockCommit = {
+  version: 'abc123',
+  committed_at: '2024-01-01T00:00:00Z',
+  user: null,
+} as unknown as GistCommit;
 
 function makeResponse(hasNextPage: boolean, nextPage?: number): GitHubPagedResponse<GistCommit> {
   return { values: [mockCommit], hasNextPage, nextPage };
@@ -84,7 +94,7 @@ describe('useGhGistCommitsInfinite', () => {
   it('does not fetch when enabled is false', () => {
     const { result } = renderHook(
       () => useGhGistCommitsInfinite('abc123', undefined, { enabled: false }),
-      { wrapper }
+      { wrapper },
     );
 
     expect(result.current.isLoading).toBe(false);

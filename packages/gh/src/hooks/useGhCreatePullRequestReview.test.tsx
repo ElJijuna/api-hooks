@@ -1,7 +1,8 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor, act } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GitHubClient, GitHubApiError, PullRequestResource, type GitHubReview } from 'gh-api-client';
+import { act, renderHook, waitFor } from '@testing-library/react';
+import type { PullRequestResource } from 'gh-api-client';
+import { GitHubApiError, GitHubClient, type GitHubReview } from 'gh-api-client';
 import { useGhCreatePullRequestReview } from './useGhCreatePullRequestReview.js';
 
 type CreateReviewData = Parameters<PullRequestResource['createReview']>[0];
@@ -11,11 +12,9 @@ const mockPullRequest = jest.fn().mockReturnValue({ createReview: mockCreateRevi
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(GitHubClient.prototype, 'repo')
-    .mockReturnValue({
-      pullRequest: mockPullRequest,
-    } as unknown as ReturnType<GitHubClient['repo']>);
+  jest.spyOn(GitHubClient.prototype, 'repo').mockReturnValue({
+    pullRequest: mockPullRequest,
+  } as unknown as ReturnType<GitHubClient['repo']>);
 });
 
 const mockReview = {
@@ -38,10 +37,9 @@ describe('useGhCreatePullRequestReview', () => {
   it('returns created review on success', async () => {
     mockCreateReview.mockResolvedValue(mockReview);
 
-    const { result } = renderHook(
-      () => useGhCreatePullRequestReview('owner', 'repo', 42),
-      { wrapper }
-    );
+    const { result } = renderHook(() => useGhCreatePullRequestReview('owner', 'repo', 42), {
+      wrapper,
+    });
 
     act(() => {
       result.current.mutate(reviewData);
@@ -56,10 +54,9 @@ describe('useGhCreatePullRequestReview', () => {
   it('returns error on failure', async () => {
     mockCreateReview.mockRejectedValue(new GitHubApiError(422, 'Unprocessable Entity'));
 
-    const { result } = renderHook(
-      () => useGhCreatePullRequestReview('owner', 'repo', 42),
-      { wrapper }
-    );
+    const { result } = renderHook(() => useGhCreatePullRequestReview('owner', 'repo', 42), {
+      wrapper,
+    });
 
     act(() => {
       result.current.mutate(reviewData);
@@ -71,10 +68,9 @@ describe('useGhCreatePullRequestReview', () => {
   });
 
   it('is idle before mutate is called', () => {
-    const { result } = renderHook(
-      () => useGhCreatePullRequestReview('owner', 'repo', 42),
-      { wrapper }
-    );
+    const { result } = renderHook(() => useGhCreatePullRequestReview('owner', 'repo', 42), {
+      wrapper,
+    });
 
     expect(result.current.isIdle).toBe(true);
   });
