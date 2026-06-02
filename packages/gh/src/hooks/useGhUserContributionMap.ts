@@ -1,5 +1,5 @@
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { type ContributionCalendar, type ContributionMapParams } from 'gh-api-client';
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
+import type { ContributionCalendar, ContributionMapParams } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
@@ -22,7 +22,7 @@ export interface UseGhUserContributionMapOptions {
 export function useGhUserContributionMap(
   login: string,
   params?: ContributionMapParams,
-  options: UseGhUserContributionMapOptions = {}
+  options: UseGhUserContributionMapOptions = {},
 ): UseQueryResult<ContributionCalendar, Error> {
   const { enabled = true } = options;
 

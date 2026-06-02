@@ -1,6 +1,6 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { renderHook, waitFor } from '@testing-library/react';
 import { NpmClient } from 'npmjs-api-client';
 import { useNpmMaintainerAvatar } from './useNpmMaintainerAvatar.js';
 
@@ -8,11 +8,9 @@ const mockAvatar = jest.fn<() => Promise<string | undefined>>();
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(NpmClient.prototype, 'maintainer')
-    .mockReturnValue({
-      avatar: mockAvatar,
-    } as ReturnType<NpmClient['maintainer']>);
+  jest.spyOn(NpmClient.prototype, 'maintainer').mockReturnValue({
+    avatar: mockAvatar,
+  } as ReturnType<NpmClient['maintainer']>);
 });
 
 function wrapper({ children }: { children: React.ReactNode }) {
@@ -55,7 +53,7 @@ describe('useNpmMaintainerAvatar', () => {
   it('does not fetch when enabled is false', () => {
     const { result } = renderHook(
       () => useNpmMaintainerAvatar('sindresorhus', { enabled: false }),
-      { wrapper }
+      { wrapper },
     );
 
     expect(result.current.isLoading).toBe(false);

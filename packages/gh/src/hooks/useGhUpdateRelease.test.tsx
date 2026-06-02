@@ -1,21 +1,31 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor, act } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GitHubClient, GitHubApiError, type GitHubRelease, type UpdateReleaseData } from 'gh-api-client';
+import { act, renderHook, waitFor } from '@testing-library/react';
+import {
+  GitHubApiError,
+  GitHubClient,
+  type GitHubRelease,
+  type UpdateReleaseData,
+} from 'gh-api-client';
 import { useGhUpdateRelease } from './useGhUpdateRelease.js';
 
-const mockUpdateRelease = jest.fn<(id: number, data: UpdateReleaseData) => Promise<GitHubRelease>>();
+const mockUpdateRelease =
+  jest.fn<(id: number, data: UpdateReleaseData) => Promise<GitHubRelease>>();
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(GitHubClient.prototype, 'repo')
-    .mockReturnValue({
-      updateRelease: mockUpdateRelease,
-    } as unknown as ReturnType<GitHubClient['repo']>);
+  jest.spyOn(GitHubClient.prototype, 'repo').mockReturnValue({
+    updateRelease: mockUpdateRelease,
+  } as unknown as ReturnType<GitHubClient['repo']>);
 });
 
-const mockRelease = { id: 1, tag_name: 'v1.0.0', name: 'Release 1.0', draft: false, prerelease: false } as unknown as GitHubRelease;
+const mockRelease = {
+  id: 1,
+  tag_name: 'v1.0.0',
+  name: 'Release 1.0',
+  draft: false,
+  prerelease: false,
+} as unknown as GitHubRelease;
 
 function wrapper({ children }: { children: React.ReactNode }) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
@@ -28,7 +38,9 @@ describe('useGhUpdateRelease', () => {
 
     const { result } = renderHook(() => useGhUpdateRelease('owner', 'repo'), { wrapper });
 
-    act(() => { result.current.mutate({ releaseId: 1, data: { name: 'Release 1.0' } }); });
+    act(() => {
+      result.current.mutate({ releaseId: 1, data: { name: 'Release 1.0' } });
+    });
 
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
@@ -41,7 +53,9 @@ describe('useGhUpdateRelease', () => {
 
     const { result } = renderHook(() => useGhUpdateRelease('owner', 'repo'), { wrapper });
 
-    act(() => { result.current.mutate({ releaseId: 99, data: { name: 'Test' } }); });
+    act(() => {
+      result.current.mutate({ releaseId: 99, data: { name: 'Test' } });
+    });
 
     await waitFor(() => expect(result.current.isError).toBe(true));
 

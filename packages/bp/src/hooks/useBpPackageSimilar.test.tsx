@@ -1,24 +1,38 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { BundlephobiaClient, BundlephobiaApiError, type SimilarPackages } from 'bundlephobia-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import {
+  BundlephobiaApiError,
+  BundlephobiaClient,
+  type SimilarPackages,
+} from 'bundlephobia-api-client';
 import { useBpPackageSimilar } from './useBpPackageSimilar.js';
 
 const mockSimilar = jest.fn<(signal?: AbortSignal) => Promise<SimilarPackages>>();
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(BundlephobiaClient.prototype, 'package')
-    .mockReturnValue({
-      similar: mockSimilar,
-    } as unknown as ReturnType<BundlephobiaClient['package']>);
+  jest.spyOn(BundlephobiaClient.prototype, 'package').mockReturnValue({
+    similar: mockSimilar,
+  } as unknown as ReturnType<BundlephobiaClient['package']>);
 });
 
 const mockSimilarPackages: SimilarPackages = {
   alternativePackages: [
-    { name: 'preact', version: '10.19.0', description: 'Fast 3kb React alternative', size: 4500, gzip: 1800 },
-    { name: 'inferno', version: '8.2.0', description: 'Inferno is a fast React-like library', size: 8200, gzip: 3100 },
+    {
+      name: 'preact',
+      version: '10.19.0',
+      description: 'Fast 3kb React alternative',
+      size: 4500,
+      gzip: 1800,
+    },
+    {
+      name: 'inferno',
+      version: '8.2.0',
+      description: 'Inferno is a fast React-like library',
+      size: 8200,
+      gzip: 3100,
+    },
   ],
 };
 
@@ -62,10 +76,9 @@ describe('useBpPackageSimilar', () => {
   });
 
   it('does not fetch when enabled is false', () => {
-    const { result } = renderHook(
-      () => useBpPackageSimilar('react', { enabled: false }),
-      { wrapper }
-    );
+    const { result } = renderHook(() => useBpPackageSimilar('react', { enabled: false }), {
+      wrapper,
+    });
 
     expect(result.current.isLoading).toBe(false);
     expect(mockSimilar).not.toHaveBeenCalled();

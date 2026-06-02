@@ -1,4 +1,4 @@
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
@@ -18,7 +18,7 @@ export interface UseGhGraphqlOptions {
 export function useGhGraphql<TData = unknown>(
   query: string,
   variables?: Record<string, unknown>,
-  options: UseGhGraphqlOptions = {}
+  options: UseGhGraphqlOptions = {},
 ): UseQueryResult<TData, Error> {
   const { enabled = true } = options;
 

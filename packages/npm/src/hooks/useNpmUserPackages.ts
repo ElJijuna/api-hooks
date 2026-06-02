@@ -1,5 +1,5 @@
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { type NpmUserPackages, type NpmUserPackagesParams } from 'npmjs-api-client';
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
+import type { NpmUserPackages, NpmUserPackagesParams } from 'npmjs-api-client';
 import { npmQueryKeys } from '../keys/npmQueryKeys.js';
 import { useNpmClient } from '../NpmClientContext.js';
 
@@ -19,7 +19,7 @@ export interface UseNpmUserPackagesOptions {
 export function useNpmUserPackages(
   username: string,
   params?: NpmUserPackagesParams,
-  options: UseNpmUserPackagesOptions = {}
+  options: UseNpmUserPackagesOptions = {},
 ): UseQueryResult<NpmUserPackages, Error> {
   const { enabled = true } = options;
   const client = useNpmClient();

@@ -1,21 +1,25 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GitHubClient, GitHubApiError, type RepoContribution } from 'gh-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import { GitHubApiError, GitHubClient, type RepoContribution } from 'gh-api-client';
 import { useGhUserIssueContributionsByRepo } from './useGhUserIssueContributionsByRepo.js';
 
-const mockIssueContributionsByRepo = jest.fn<(signal?: AbortSignal) => Promise<RepoContribution[]>>();
+const mockIssueContributionsByRepo =
+  jest.fn<(signal?: AbortSignal) => Promise<RepoContribution[]>>();
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(GitHubClient.prototype, 'user')
-    .mockReturnValue({
-      issueContributionsByRepo: mockIssueContributionsByRepo,
-    } as unknown as ReturnType<GitHubClient['user']>);
+  jest.spyOn(GitHubClient.prototype, 'user').mockReturnValue({
+    issueContributionsByRepo: mockIssueContributionsByRepo,
+  } as unknown as ReturnType<GitHubClient['user']>);
 });
 
-const mockContributions: RepoContribution[] = [{ repository: { nameWithOwner: 'owner/repo', url: 'https://github.com/owner/repo' }, totalCount: 5 }];
+const mockContributions: RepoContribution[] = [
+  {
+    repository: { nameWithOwner: 'owner/repo', url: 'https://github.com/owner/repo' },
+    totalCount: 5,
+  },
+];
 
 function wrapper({ children }: { children: React.ReactNode }) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
@@ -44,7 +48,10 @@ describe('useGhUserIssueContributionsByRepo', () => {
   });
 
   it('does not fetch when enabled is false', () => {
-    const { result } = renderHook(() => useGhUserIssueContributionsByRepo('octocat', { enabled: false }), { wrapper });
+    const { result } = renderHook(
+      () => useGhUserIssueContributionsByRepo('octocat', { enabled: false }),
+      { wrapper },
+    );
     expect(result.current.isLoading).toBe(false);
     expect(mockIssueContributionsByRepo).not.toHaveBeenCalled();
   });

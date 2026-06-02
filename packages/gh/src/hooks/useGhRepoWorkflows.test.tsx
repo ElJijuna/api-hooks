@@ -1,21 +1,35 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GitHubClient, GitHubApiError, type GitHubWorkflowsResponse } from 'gh-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import { GitHubApiError, GitHubClient, type GitHubWorkflowsResponse } from 'gh-api-client';
 import { useGhRepoWorkflows } from './useGhRepoWorkflows.js';
 
-const mockWorkflows = jest.fn<(params?: object, signal?: AbortSignal) => Promise<GitHubWorkflowsResponse>>();
+const mockWorkflows =
+  jest.fn<(params?: object, signal?: AbortSignal) => Promise<GitHubWorkflowsResponse>>();
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(GitHubClient.prototype, 'repo')
-    .mockReturnValue({
-      workflows: mockWorkflows,
-    } as unknown as ReturnType<GitHubClient['repo']>);
+  jest.spyOn(GitHubClient.prototype, 'repo').mockReturnValue({
+    workflows: mockWorkflows,
+  } as unknown as ReturnType<GitHubClient['repo']>);
 });
 
-const mockResponse: GitHubWorkflowsResponse = { total_count: 1, workflows: [{ id: 1, name: 'CI', path: '.github/workflows/ci.yml', state: 'active', created_at: '2024-01-01T00:00:00Z', updated_at: '2024-01-01T00:00:00Z', url: '', html_url: '', badge_url: '' }] };
+const mockResponse: GitHubWorkflowsResponse = {
+  total_count: 1,
+  workflows: [
+    {
+      id: 1,
+      name: 'CI',
+      path: '.github/workflows/ci.yml',
+      state: 'active',
+      created_at: '2024-01-01T00:00:00Z',
+      updated_at: '2024-01-01T00:00:00Z',
+      url: '',
+      html_url: '',
+      badge_url: '',
+    },
+  ],
+};
 
 function wrapper({ children }: { children: React.ReactNode }) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
@@ -51,7 +65,10 @@ describe('useGhRepoWorkflows', () => {
   });
 
   it('does not fetch when enabled is false', () => {
-    const { result } = renderHook(() => useGhRepoWorkflows('owner', 'repo', undefined, { enabled: false }), { wrapper });
+    const { result } = renderHook(
+      () => useGhRepoWorkflows('owner', 'repo', undefined, { enabled: false }),
+      { wrapper },
+    );
     expect(result.current.isLoading).toBe(false);
     expect(mockWorkflows).not.toHaveBeenCalled();
   });

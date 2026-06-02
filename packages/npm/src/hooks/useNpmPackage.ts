@@ -1,7 +1,7 @@
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { type NpmPackument } from 'npmjs-api-client';
-import { useNpmClient } from '../NpmClientContext.js';
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
+import type { NpmPackument } from 'npmjs-api-client';
 import { npmQueryKeys } from '../keys/npmQueryKeys.js';
+import { useNpmClient } from '../NpmClientContext.js';
 
 export interface UseNpmPackageOptions {
   /** Disable the query. Also disabled when `name` is empty. */
@@ -17,7 +17,7 @@ export interface UseNpmPackageOptions {
  */
 export function useNpmPackage(
   name: string,
-  options: UseNpmPackageOptions = {}
+  options: UseNpmPackageOptions = {},
 ): UseQueryResult<NpmPackument, Error> {
   const { enabled = true } = options;
   const client = useNpmClient();

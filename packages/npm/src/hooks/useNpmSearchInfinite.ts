@@ -1,6 +1,9 @@
-
-import { useInfiniteQuery, type UseInfiniteQueryResult, type InfiniteData } from '@tanstack/react-query';
-import { type NpmSearchResult, type NpmSearchParams } from 'npmjs-api-client';
+import {
+  type InfiniteData,
+  type UseInfiniteQueryResult,
+  useInfiniteQuery,
+} from '@tanstack/react-query';
+import type { NpmSearchParams, NpmSearchResult } from 'npmjs-api-client';
 import { npmQueryKeys } from '../keys/npmQueryKeys.js';
 import { useNpmClient } from '../NpmClientContext.js';
 
@@ -21,7 +24,7 @@ export interface UseNpmSearchInfiniteOptions extends Omit<NpmSearchParams, 'text
  */
 export function useNpmSearchInfinite(
   text: string,
-  options: UseNpmSearchInfiniteOptions = {}
+  options: UseNpmSearchInfiniteOptions = {},
 ): UseInfiniteQueryResult<InfiniteData<NpmSearchResult, number>, Error> {
   const { enabled = true, ...rest } = options;
   const size = rest.size ?? 20;
@@ -29,8 +32,7 @@ export function useNpmSearchInfinite(
 
   return useInfiniteQuery({
     queryKey: npmQueryKeys.searchInfinite({ text, ...rest }),
-    queryFn: ({ pageParam, signal }) =>
-      client.search({ text, ...rest, from: pageParam }, signal),
+    queryFn: ({ pageParam, signal }) => client.search({ text, ...rest, from: pageParam }, signal),
     initialPageParam: 0,
     getNextPageParam: (lastPage, _, lastPageParam) => {
       const nextFrom = lastPageParam + size;

@@ -1,18 +1,16 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { NpmClient, NpmApiError, type NpmSearchResult } from 'npmjs-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import { NpmApiError, NpmClient, type NpmSearchResult } from 'npmjs-api-client';
 import { useNpmMaintainerPackages } from './useNpmMaintainerPackages.js';
 
 const mockPackages = jest.fn<() => Promise<NpmSearchResult>>();
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(NpmClient.prototype, 'maintainer')
-    .mockReturnValue({
-      packages: mockPackages,
-    } as ReturnType<NpmClient['maintainer']>);
+  jest.spyOn(NpmClient.prototype, 'maintainer').mockReturnValue({
+    packages: mockPackages,
+  } as ReturnType<NpmClient['maintainer']>);
 });
 
 const mockResult: NpmSearchResult = {
@@ -57,7 +55,7 @@ describe('useNpmMaintainerPackages', () => {
 
     const { result } = renderHook(
       () => useNpmMaintainerPackages('pilmee', { size: 25, from: 25 }),
-      { wrapper }
+      { wrapper },
     );
 
     await waitFor(() => expect(result.current.isLoading).toBe(false));
@@ -68,7 +66,9 @@ describe('useNpmMaintainerPackages', () => {
   it('returns error on failure', async () => {
     mockPackages.mockRejectedValue(new NpmApiError(404, 'Not Found'));
 
-    const { result } = renderHook(() => useNpmMaintainerPackages('nonexistent-user-xyz'), { wrapper });
+    const { result } = renderHook(() => useNpmMaintainerPackages('nonexistent-user-xyz'), {
+      wrapper,
+    });
 
     await waitFor(() => expect(result.current.isError).toBe(true));
 
@@ -84,10 +84,9 @@ describe('useNpmMaintainerPackages', () => {
   });
 
   it('does not fetch when enabled is false', () => {
-    const { result } = renderHook(
-      () => useNpmMaintainerPackages('pilmee', { enabled: false }),
-      { wrapper }
-    );
+    const { result } = renderHook(() => useNpmMaintainerPackages('pilmee', { enabled: false }), {
+      wrapper,
+    });
 
     expect(result.current.isLoading).toBe(false);
     expect(mockPackages).not.toHaveBeenCalled();

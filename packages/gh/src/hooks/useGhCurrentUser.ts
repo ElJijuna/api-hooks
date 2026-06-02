@@ -1,5 +1,5 @@
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { type GitHubUser } from 'gh-api-client';
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
+import type { GitHubUser } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
@@ -15,7 +15,7 @@ export interface UseGhCurrentUserOptions {
  * @returns TanStack Query result with {@link GitHubUser}
  */
 export function useGhCurrentUser(
-  options: UseGhCurrentUserOptions = {}
+  options: UseGhCurrentUserOptions = {},
 ): UseQueryResult<GitHubUser, Error> {
   const { enabled = true } = options;
 

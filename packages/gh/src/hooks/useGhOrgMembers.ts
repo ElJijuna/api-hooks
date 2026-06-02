@@ -1,5 +1,5 @@
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { type GitHubUser, type GitHubPagedResponse, type OrgMembersParams } from 'gh-api-client';
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
+import type { GitHubPagedResponse, GitHubUser, OrgMembersParams } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
@@ -19,7 +19,7 @@ export interface UseGhOrgMembersOptions {
 export function useGhOrgMembers(
   orgName: string,
   params?: OrgMembersParams,
-  options: UseGhOrgMembersOptions = {}
+  options: UseGhOrgMembersOptions = {},
 ): UseQueryResult<GitHubPagedResponse<GitHubUser>, Error> {
   const { enabled = true } = options;
 

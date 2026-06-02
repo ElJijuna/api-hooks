@@ -1,5 +1,5 @@
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { type GitHubGist, type GitHubPagedResponse, type GistsParams } from 'gh-api-client';
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
+import type { GistsParams, GitHubGist, GitHubPagedResponse } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
@@ -17,7 +17,7 @@ export interface UseGhGistsOptions {
  */
 export function useGhGists(
   params?: GistsParams,
-  options: UseGhGistsOptions = {}
+  options: UseGhGistsOptions = {},
 ): UseQueryResult<GitHubPagedResponse<GitHubGist>, Error> {
   const { enabled = true } = options;
 

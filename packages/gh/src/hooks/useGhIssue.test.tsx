@@ -1,7 +1,7 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GitHubClient, GitHubApiError, type GitHubIssue } from 'gh-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import { GitHubApiError, GitHubClient, type GitHubIssue } from 'gh-api-client';
 import { useGhIssue } from './useGhIssue.js';
 
 const mockGet = jest.fn<(signal?: AbortSignal) => Promise<GitHubIssue>>();
@@ -10,10 +10,17 @@ const mockIssue = jest.fn().mockReturnValue({ get: mockGet });
 beforeEach(() => {
   jest.clearAllMocks();
   mockIssue.mockReturnValue({ get: mockGet });
-  jest.spyOn(GitHubClient.prototype, 'repo').mockReturnValue({ issue: mockIssue } as unknown as ReturnType<GitHubClient['repo']>);
+  jest
+    .spyOn(GitHubClient.prototype, 'repo')
+    .mockReturnValue({ issue: mockIssue } as unknown as ReturnType<GitHubClient['repo']>);
 });
 
-const mockIssueData = { id: 1, number: 1, title: 'Found a bug', state: 'open' } as unknown as GitHubIssue;
+const mockIssueData = {
+  id: 1,
+  number: 1,
+  title: 'Found a bug',
+  state: 'open',
+} as unknown as GitHubIssue;
 
 function wrapper({ children }: { children: React.ReactNode }) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
@@ -45,7 +52,10 @@ describe('useGhIssue', () => {
   });
 
   it('does not fetch when enabled is false', () => {
-    const { result } = renderHook(() => useGhIssue('octocat', 'Hello-World', 1, { enabled: false }), { wrapper });
+    const { result } = renderHook(
+      () => useGhIssue('octocat', 'Hello-World', 1, { enabled: false }),
+      { wrapper },
+    );
     expect(result.current.isLoading).toBe(false);
     expect(mockGet).not.toHaveBeenCalled();
   });

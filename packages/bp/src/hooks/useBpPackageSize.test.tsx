@@ -1,18 +1,16 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { BundlephobiaClient, BundlephobiaApiError, type BundleSize } from 'bundlephobia-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import { BundlephobiaApiError, BundlephobiaClient, type BundleSize } from 'bundlephobia-api-client';
 import { useBpPackageSize } from './useBpPackageSize.js';
 
 const mockSize = jest.fn<(version?: string, signal?: AbortSignal) => Promise<BundleSize>>();
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(BundlephobiaClient.prototype, 'package')
-    .mockReturnValue({
-      size: mockSize,
-    } as unknown as ReturnType<BundlephobiaClient['package']>);
+  jest.spyOn(BundlephobiaClient.prototype, 'package').mockReturnValue({
+    size: mockSize,
+  } as unknown as ReturnType<BundlephobiaClient['package']>);
 });
 
 const mockBundleSize: BundleSize = {
@@ -74,10 +72,7 @@ describe('useBpPackageSize', () => {
   });
 
   it('does not fetch when enabled is false', () => {
-    const { result } = renderHook(
-      () => useBpPackageSize('react', { enabled: false }),
-      { wrapper }
-    );
+    const { result } = renderHook(() => useBpPackageSize('react', { enabled: false }), { wrapper });
 
     expect(result.current.isLoading).toBe(false);
     expect(mockSize).not.toHaveBeenCalled();

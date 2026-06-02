@@ -1,21 +1,30 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GitHubClient, GitHubApiError, type GitHubWorkflowRun } from 'gh-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import { GitHubApiError, GitHubClient, type GitHubWorkflowRun } from 'gh-api-client';
 import { useGhRepoWorkflowRun } from './useGhRepoWorkflowRun.js';
 
-const mockWorkflowRun = jest.fn<(runId: number, signal?: AbortSignal) => Promise<GitHubWorkflowRun>>();
+const mockWorkflowRun =
+  jest.fn<(runId: number, signal?: AbortSignal) => Promise<GitHubWorkflowRun>>();
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(GitHubClient.prototype, 'repo')
-    .mockReturnValue({
-      workflowRun: mockWorkflowRun,
-    } as unknown as ReturnType<GitHubClient['repo']>);
+  jest.spyOn(GitHubClient.prototype, 'repo').mockReturnValue({
+    workflowRun: mockWorkflowRun,
+  } as unknown as ReturnType<GitHubClient['repo']>);
 });
 
-const mockRun = { id: 42, name: 'CI', status: 'completed', conclusion: 'success', run_number: 1, workflow_id: 1, created_at: '2024-01-01T00:00:00Z', updated_at: '2024-01-01T00:00:00Z', html_url: '' } as unknown as GitHubWorkflowRun;
+const mockRun = {
+  id: 42,
+  name: 'CI',
+  status: 'completed',
+  conclusion: 'success',
+  run_number: 1,
+  workflow_id: 1,
+  created_at: '2024-01-01T00:00:00Z',
+  updated_at: '2024-01-01T00:00:00Z',
+  html_url: '',
+} as unknown as GitHubWorkflowRun;
 
 function wrapper({ children }: { children: React.ReactNode }) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
@@ -45,7 +54,10 @@ describe('useGhRepoWorkflowRun', () => {
   });
 
   it('does not fetch when enabled is false', () => {
-    const { result } = renderHook(() => useGhRepoWorkflowRun('owner', 'repo', 42, { enabled: false }), { wrapper });
+    const { result } = renderHook(
+      () => useGhRepoWorkflowRun('owner', 'repo', 42, { enabled: false }),
+      { wrapper },
+    );
     expect(result.current.isLoading).toBe(false);
     expect(mockWorkflowRun).not.toHaveBeenCalled();
   });

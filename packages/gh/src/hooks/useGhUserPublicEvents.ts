@@ -1,10 +1,10 @@
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { UserResource, type GitHubPagedResponse } from 'gh-api-client';
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
+import type { GitHubPagedResponse, UserResource } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
+import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
 type GitHubEvent = Awaited<ReturnType<UserResource['publicEvents']>>['values'][0];
 type EventsParams = Parameters<UserResource['publicEvents']>[0];
-import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
 export interface UseGhUserPublicEventsOptions {
   /** Disable the query. Also disabled when `login` is empty. */
@@ -22,7 +22,7 @@ export interface UseGhUserPublicEventsOptions {
 export function useGhUserPublicEvents(
   login: string,
   params?: EventsParams,
-  options: UseGhUserPublicEventsOptions = {}
+  options: UseGhUserPublicEventsOptions = {},
 ): UseQueryResult<GitHubPagedResponse<GitHubEvent>, Error> {
   const { enabled = true } = options;
 

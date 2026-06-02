@@ -1,5 +1,5 @@
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { type GitHubIssue, type GitHubPagedResponse, type SearchIssuesParams } from 'gh-api-client';
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
+import type { GitHubIssue, GitHubPagedResponse, SearchIssuesParams } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
@@ -17,7 +17,7 @@ export interface UseGhSearchIssuesOptions {
  */
 export function useGhSearchIssues(
   params: SearchIssuesParams,
-  options: UseGhSearchIssuesOptions = {}
+  options: UseGhSearchIssuesOptions = {},
 ): UseQueryResult<GitHubPagedResponse<GitHubIssue>, Error> {
   const { enabled = true } = options;
 

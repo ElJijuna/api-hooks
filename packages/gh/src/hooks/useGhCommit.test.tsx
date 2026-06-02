@@ -1,7 +1,7 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GitHubClient, GitHubApiError, type GitHubCommit } from 'gh-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import { GitHubApiError, GitHubClient, type GitHubCommit } from 'gh-api-client';
 import { useGhCommit } from './useGhCommit.js';
 
 const mockGet = jest.fn<(signal?: AbortSignal) => Promise<GitHubCommit>>();
@@ -10,10 +10,15 @@ const mockCommit = jest.fn().mockReturnValue({ get: mockGet });
 beforeEach(() => {
   jest.clearAllMocks();
   mockCommit.mockReturnValue({ get: mockGet });
-  jest.spyOn(GitHubClient.prototype, 'repo').mockReturnValue({ commit: mockCommit } as unknown as ReturnType<GitHubClient['repo']>);
+  jest
+    .spyOn(GitHubClient.prototype, 'repo')
+    .mockReturnValue({ commit: mockCommit } as unknown as ReturnType<GitHubClient['repo']>);
 });
 
-const mockCommitData = { sha: 'abc123', commit: { message: 'Initial commit' } } as unknown as GitHubCommit;
+const mockCommitData = {
+  sha: 'abc123',
+  commit: { message: 'Initial commit' },
+} as unknown as GitHubCommit;
 
 function wrapper({ children }: { children: React.ReactNode }) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
@@ -23,7 +28,9 @@ function wrapper({ children }: { children: React.ReactNode }) {
 describe('useGhCommit', () => {
   it('returns data on success', async () => {
     mockGet.mockResolvedValue(mockCommitData);
-    const { result } = renderHook(() => useGhCommit('octocat', 'Hello-World', 'abc123'), { wrapper });
+    const { result } = renderHook(() => useGhCommit('octocat', 'Hello-World', 'abc123'), {
+      wrapper,
+    });
     await waitFor(() => expect(result.current.isLoading).toBe(false));
     expect(result.current.data).toEqual(mockCommitData);
     expect(result.current.isError).toBe(false);
@@ -33,7 +40,9 @@ describe('useGhCommit', () => {
 
   it('returns error on failure', async () => {
     mockGet.mockRejectedValue(new GitHubApiError(404, 'Not Found'));
-    const { result } = renderHook(() => useGhCommit('octocat', 'Hello-World', 'deadbeef'), { wrapper });
+    const { result } = renderHook(() => useGhCommit('octocat', 'Hello-World', 'deadbeef'), {
+      wrapper,
+    });
     await waitFor(() => expect(result.current.isError).toBe(true));
     expect(result.current.error).toBeInstanceOf(GitHubApiError);
   });
@@ -45,7 +54,10 @@ describe('useGhCommit', () => {
   });
 
   it('does not fetch when enabled is false', () => {
-    const { result } = renderHook(() => useGhCommit('octocat', 'Hello-World', 'abc123', { enabled: false }), { wrapper });
+    const { result } = renderHook(
+      () => useGhCommit('octocat', 'Hello-World', 'abc123', { enabled: false }),
+      { wrapper },
+    );
     expect(result.current.isLoading).toBe(false);
     expect(mockGet).not.toHaveBeenCalled();
   });

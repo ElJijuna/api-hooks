@@ -1,25 +1,24 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { renderHook, waitFor } from '@testing-library/react';
 import {
-  GitHubClient,
   GitHubApiError,
+  GitHubClient,
   type GitHubOrganization,
   type GitHubPagedResponse,
 } from 'gh-api-client';
 import { useGhUserOrganizations } from './useGhUserOrganizations.js';
 
-const mockOrganizations = jest.fn<
-  (params?: object, signal?: AbortSignal) => Promise<GitHubPagedResponse<GitHubOrganization>>
->();
+const mockOrganizations =
+  jest.fn<
+    (params?: object, signal?: AbortSignal) => Promise<GitHubPagedResponse<GitHubOrganization>>
+  >();
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(GitHubClient.prototype, 'user')
-    .mockReturnValue({
-      organizations: mockOrganizations,
-    } as unknown as ReturnType<GitHubClient['user']>);
+  jest.spyOn(GitHubClient.prototype, 'user').mockReturnValue({
+    organizations: mockOrganizations,
+  } as unknown as ReturnType<GitHubClient['user']>);
 });
 
 const response = {
@@ -53,10 +52,9 @@ describe('useGhUserOrganizations', () => {
   it('returns organizations on success', async () => {
     mockOrganizations.mockResolvedValue(response);
 
-    const { result } = renderHook(
-      () => useGhUserOrganizations('octocat', { per_page: 10 }),
-      { wrapper }
-    );
+    const { result } = renderHook(() => useGhUserOrganizations('octocat', { per_page: 10 }), {
+      wrapper,
+    });
 
     await waitFor(() => expect(result.current.isLoading).toBe(false));
 
@@ -85,7 +83,7 @@ describe('useGhUserOrganizations', () => {
   it('does not fetch when enabled is false', () => {
     const { result } = renderHook(
       () => useGhUserOrganizations('octocat', undefined, { enabled: false }),
-      { wrapper }
+      { wrapper },
     );
 
     expect(result.current.isLoading).toBe(false);

@@ -1,21 +1,33 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor, act } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GitHubClient, GitHubApiError, type GitHubMilestone, type CreateMilestoneData } from 'gh-api-client';
+import { act, renderHook, waitFor } from '@testing-library/react';
+import {
+  type CreateMilestoneData,
+  GitHubApiError,
+  GitHubClient,
+  type GitHubMilestone,
+} from 'gh-api-client';
 import { useGhCreateMilestone } from './useGhCreateMilestone.js';
 
 const mockCreateMilestone = jest.fn<(data: CreateMilestoneData) => Promise<GitHubMilestone>>();
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(GitHubClient.prototype, 'repo')
-    .mockReturnValue({
-      createMilestone: mockCreateMilestone,
-    } as unknown as ReturnType<GitHubClient['repo']>);
+  jest.spyOn(GitHubClient.prototype, 'repo').mockReturnValue({
+    createMilestone: mockCreateMilestone,
+  } as unknown as ReturnType<GitHubClient['repo']>);
 });
 
-const mockMilestone = { id: 1, number: 1, title: 'v1.0', state: 'open', description: null, due_on: null, open_issues: 0, closed_issues: 0 } as unknown as GitHubMilestone;
+const mockMilestone = {
+  id: 1,
+  number: 1,
+  title: 'v1.0',
+  state: 'open',
+  description: null,
+  due_on: null,
+  open_issues: 0,
+  closed_issues: 0,
+} as unknown as GitHubMilestone;
 
 const milestoneData: CreateMilestoneData = { title: 'v1.0' };
 
@@ -30,7 +42,9 @@ describe('useGhCreateMilestone', () => {
 
     const { result } = renderHook(() => useGhCreateMilestone('owner', 'repo'), { wrapper });
 
-    act(() => { result.current.mutate(milestoneData); });
+    act(() => {
+      result.current.mutate(milestoneData);
+    });
 
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
@@ -43,7 +57,9 @@ describe('useGhCreateMilestone', () => {
 
     const { result } = renderHook(() => useGhCreateMilestone('owner', 'repo'), { wrapper });
 
-    act(() => { result.current.mutate(milestoneData); });
+    act(() => {
+      result.current.mutate(milestoneData);
+    });
 
     await waitFor(() => expect(result.current.isError).toBe(true));
 

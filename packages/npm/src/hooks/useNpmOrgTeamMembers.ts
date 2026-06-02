@@ -1,4 +1,4 @@
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import { npmQueryKeys } from '../keys/npmQueryKeys.js';
 import { useNpmClient } from '../NpmClientContext.js';
 
@@ -20,7 +20,7 @@ export interface UseNpmOrgTeamMembersOptions {
 export function useNpmOrgTeamMembers(
   org: string,
   team: string,
-  options: UseNpmOrgTeamMembersOptions = {}
+  options: UseNpmOrgTeamMembersOptions = {},
 ): UseQueryResult<string[], Error> {
   const { enabled = true } = options;
   const client = useNpmClient();

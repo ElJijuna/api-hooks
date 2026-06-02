@@ -1,18 +1,33 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GitHubClient, GitHubApiError, type GitHubNotification, type GitHubPagedResponse } from 'gh-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import {
+  GitHubApiError,
+  GitHubClient,
+  type GitHubNotification,
+  type GitHubPagedResponse,
+} from 'gh-api-client';
 import { useGhNotifications } from './useGhNotifications.js';
 
-const mockNotifications = jest.fn<(params?: object, signal?: AbortSignal) => Promise<GitHubPagedResponse<GitHubNotification>>>();
+const mockNotifications =
+  jest.fn<
+    (params?: object, signal?: AbortSignal) => Promise<GitHubPagedResponse<GitHubNotification>>
+  >();
 
 beforeEach(() => {
   jest.clearAllMocks();
   jest.spyOn(GitHubClient.prototype, 'notifications').mockImplementation(mockNotifications);
 });
 
-const mockNotification = { id: '1', unread: true, reason: 'mention' } as unknown as GitHubNotification;
-const mockResponse: GitHubPagedResponse<GitHubNotification> = { values: [mockNotification], hasNextPage: false };
+const mockNotification = {
+  id: '1',
+  unread: true,
+  reason: 'mention',
+} as unknown as GitHubNotification;
+const mockResponse: GitHubPagedResponse<GitHubNotification> = {
+  values: [mockNotification],
+  hasNextPage: false,
+};
 
 function wrapper({ children }: { children: React.ReactNode }) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
@@ -45,7 +60,9 @@ describe('useGhNotifications', () => {
   });
 
   it('does not fetch when enabled is false', () => {
-    const { result } = renderHook(() => useGhNotifications(undefined, { enabled: false }), { wrapper });
+    const { result } = renderHook(() => useGhNotifications(undefined, { enabled: false }), {
+      wrapper,
+    });
     expect(result.current.isLoading).toBe(false);
     expect(mockNotifications).not.toHaveBeenCalled();
   });

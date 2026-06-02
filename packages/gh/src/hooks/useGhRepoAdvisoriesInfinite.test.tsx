@@ -1,10 +1,21 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GitHubClient, GitHubApiError, type GitHubPagedResponse, type GitHubRepositoryAdvisory } from 'gh-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import {
+  GitHubApiError,
+  GitHubClient,
+  type GitHubPagedResponse,
+  type GitHubRepositoryAdvisory,
+} from 'gh-api-client';
 import { useGhRepoAdvisoriesInfinite } from './useGhRepoAdvisoriesInfinite.js';
 
-const mockAdvisories = jest.fn<(params?: object, signal?: AbortSignal) => Promise<GitHubPagedResponse<GitHubRepositoryAdvisory>>>();
+const mockAdvisories =
+  jest.fn<
+    (
+      params?: object,
+      signal?: AbortSignal,
+    ) => Promise<GitHubPagedResponse<GitHubRepositoryAdvisory>>
+  >();
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -13,9 +24,16 @@ beforeEach(() => {
   } as unknown as ReturnType<GitHubClient['repo']>);
 });
 
-const mockAdvisory = { ghsa_id: 'GHSA-1234-5678-9abc', summary: 'A vulnerability', severity: 'high' } as unknown as GitHubRepositoryAdvisory;
+const mockAdvisory = {
+  ghsa_id: 'GHSA-1234-5678-9abc',
+  summary: 'A vulnerability',
+  severity: 'high',
+} as unknown as GitHubRepositoryAdvisory;
 
-function makeResponse(hasNextPage: boolean, nextPage?: number): GitHubPagedResponse<GitHubRepositoryAdvisory> {
+function makeResponse(
+  hasNextPage: boolean,
+  nextPage?: number,
+): GitHubPagedResponse<GitHubRepositoryAdvisory> {
   return { values: [mockAdvisory], hasNextPage, nextPage };
 }
 
@@ -28,7 +46,9 @@ describe('useGhRepoAdvisoriesInfinite', () => {
   it('fetches the first page on mount', async () => {
     mockAdvisories.mockResolvedValue(makeResponse(false));
 
-    const { result } = renderHook(() => useGhRepoAdvisoriesInfinite('octocat', 'Hello-World'), { wrapper });
+    const { result } = renderHook(() => useGhRepoAdvisoriesInfinite('octocat', 'Hello-World'), {
+      wrapper,
+    });
 
     await waitFor(() => expect(result.current.isLoading).toBe(false));
 
@@ -42,7 +62,9 @@ describe('useGhRepoAdvisoriesInfinite', () => {
       .mockResolvedValueOnce(makeResponse(true, 2))
       .mockResolvedValueOnce(makeResponse(false));
 
-    const { result } = renderHook(() => useGhRepoAdvisoriesInfinite('octocat', 'Hello-World'), { wrapper });
+    const { result } = renderHook(() => useGhRepoAdvisoriesInfinite('octocat', 'Hello-World'), {
+      wrapper,
+    });
 
     await waitFor(() => expect(result.current.isLoading).toBe(false));
 
@@ -56,7 +78,9 @@ describe('useGhRepoAdvisoriesInfinite', () => {
   it('reports hasNextPage correctly', async () => {
     mockAdvisories.mockResolvedValue(makeResponse(true, 2));
 
-    const { result } = renderHook(() => useGhRepoAdvisoriesInfinite('octocat', 'Hello-World'), { wrapper });
+    const { result } = renderHook(() => useGhRepoAdvisoriesInfinite('octocat', 'Hello-World'), {
+      wrapper,
+    });
 
     await waitFor(() => expect(result.current.isLoading).toBe(false));
 
@@ -66,7 +90,9 @@ describe('useGhRepoAdvisoriesInfinite', () => {
   it('returns error on failure', async () => {
     mockAdvisories.mockRejectedValue(new GitHubApiError(404, 'Not Found'));
 
-    const { result } = renderHook(() => useGhRepoAdvisoriesInfinite('octocat', 'Hello-World'), { wrapper });
+    const { result } = renderHook(() => useGhRepoAdvisoriesInfinite('octocat', 'Hello-World'), {
+      wrapper,
+    });
 
     await waitFor(() => expect(result.current.isError).toBe(true));
 
@@ -83,7 +109,7 @@ describe('useGhRepoAdvisoriesInfinite', () => {
   it('does not fetch when enabled is false', () => {
     const { result } = renderHook(
       () => useGhRepoAdvisoriesInfinite('octocat', 'Hello-World', undefined, { enabled: false }),
-      { wrapper }
+      { wrapper },
     );
 
     expect(result.current.isLoading).toBe(false);

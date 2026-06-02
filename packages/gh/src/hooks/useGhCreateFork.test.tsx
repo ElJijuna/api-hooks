@@ -1,18 +1,16 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor, act } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GitHubClient, GitHubApiError, type GitHubRepository } from 'gh-api-client';
+import { act, renderHook, waitFor } from '@testing-library/react';
+import { GitHubApiError, GitHubClient, type GitHubRepository } from 'gh-api-client';
 import { useGhCreateFork } from './useGhCreateFork.js';
 
 const mockCreateFork = jest.fn<(data?: object) => Promise<GitHubRepository>>();
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(GitHubClient.prototype, 'repo')
-    .mockReturnValue({
-      createFork: mockCreateFork,
-    } as unknown as ReturnType<GitHubClient['repo']>);
+  jest.spyOn(GitHubClient.prototype, 'repo').mockReturnValue({
+    createFork: mockCreateFork,
+  } as unknown as ReturnType<GitHubClient['repo']>);
 });
 
 const mockRepo = {
@@ -23,7 +21,16 @@ const mockRepo = {
   private: false,
   html_url: 'https://github.com/forker/repo',
   description: null,
-  owner: { id: 2, login: 'forker', avatar_url: '', html_url: '', type: 'User', site_admin: false, node_id: '', url: '' },
+  owner: {
+    id: 2,
+    login: 'forker',
+    avatar_url: '',
+    html_url: '',
+    type: 'User',
+    site_admin: false,
+    node_id: '',
+    url: '',
+  },
   node_id: 'R_2',
 } as unknown as GitHubRepository;
 

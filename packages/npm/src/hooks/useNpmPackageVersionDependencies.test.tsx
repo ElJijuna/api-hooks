@@ -1,18 +1,16 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { NpmClient, NpmApiError, type DepsDevDependencies } from 'npmjs-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import { type DepsDevDependencies, NpmApiError, NpmClient } from 'npmjs-api-client';
 import { useNpmPackageVersionDependencies } from './useNpmPackageVersionDependencies.js';
 
 const mockDependencies = jest.fn<() => Promise<DepsDevDependencies>>();
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(NpmClient.prototype, 'package')
-    .mockReturnValue({
-      version: () => ({ dependencies: mockDependencies }),
-    } as ReturnType<NpmClient['package']>);
+  jest.spyOn(NpmClient.prototype, 'package').mockReturnValue({
+    version: () => ({ dependencies: mockDependencies }),
+  } as ReturnType<NpmClient['package']>);
 });
 
 const mockData: DepsDevDependencies = {
@@ -44,7 +42,9 @@ describe('useNpmPackageVersionDependencies', () => {
   it('returns data on success', async () => {
     mockDependencies.mockResolvedValue(mockData);
 
-    const { result } = renderHook(() => useNpmPackageVersionDependencies('react', '18.2.0'), { wrapper });
+    const { result } = renderHook(() => useNpmPackageVersionDependencies('react', '18.2.0'), {
+      wrapper,
+    });
 
     await waitFor(() => expect(result.current.isLoading).toBe(false));
 
@@ -55,7 +55,10 @@ describe('useNpmPackageVersionDependencies', () => {
   it('returns error on failure', async () => {
     mockDependencies.mockRejectedValue(new NpmApiError(404, 'Not Found'));
 
-    const { result } = renderHook(() => useNpmPackageVersionDependencies('react', '0.0.0-nonexistent'), { wrapper });
+    const { result } = renderHook(
+      () => useNpmPackageVersionDependencies('react', '0.0.0-nonexistent'),
+      { wrapper },
+    );
 
     await waitFor(() => expect(result.current.isError).toBe(true));
 
@@ -63,7 +66,9 @@ describe('useNpmPackageVersionDependencies', () => {
   });
 
   it('does not fetch when name is empty', () => {
-    const { result } = renderHook(() => useNpmPackageVersionDependencies('', '18.2.0'), { wrapper });
+    const { result } = renderHook(() => useNpmPackageVersionDependencies('', '18.2.0'), {
+      wrapper,
+    });
 
     expect(result.current.isLoading).toBe(false);
     expect(mockDependencies).not.toHaveBeenCalled();
@@ -79,7 +84,7 @@ describe('useNpmPackageVersionDependencies', () => {
   it('does not fetch when enabled is false', () => {
     const { result } = renderHook(
       () => useNpmPackageVersionDependencies('react', '18.2.0', { enabled: false }),
-      { wrapper }
+      { wrapper },
     );
 
     expect(result.current.isLoading).toBe(false);

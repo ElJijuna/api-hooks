@@ -1,14 +1,22 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GitHubClient, GitHubApiError, type GitHubUser, type GitHubPagedResponse } from 'gh-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import {
+  GitHubApiError,
+  GitHubClient,
+  type GitHubPagedResponse,
+  type GitHubUser,
+} from 'gh-api-client';
 import { useGhOrgMembersInfinite } from './useGhOrgMembersInfinite.js';
 
-const mockMembers = jest.fn<(params?: object, signal?: AbortSignal) => Promise<GitHubPagedResponse<GitHubUser>>>();
+const mockMembers =
+  jest.fn<(params?: object, signal?: AbortSignal) => Promise<GitHubPagedResponse<GitHubUser>>>();
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest.spyOn(GitHubClient.prototype, 'org').mockReturnValue({ members: mockMembers } as unknown as ReturnType<GitHubClient['org']>);
+  jest
+    .spyOn(GitHubClient.prototype, 'org')
+    .mockReturnValue({ members: mockMembers } as unknown as ReturnType<GitHubClient['org']>);
 });
 
 const mockUser = { login: 'octocat', id: 1 } as unknown as GitHubUser;
@@ -32,7 +40,9 @@ describe('useGhOrgMembersInfinite', () => {
   });
 
   it('fetches the next page when fetchNextPage is called', async () => {
-    mockMembers.mockResolvedValueOnce(makeResponse(true, 2)).mockResolvedValueOnce(makeResponse(false));
+    mockMembers
+      .mockResolvedValueOnce(makeResponse(true, 2))
+      .mockResolvedValueOnce(makeResponse(false));
     const { result } = renderHook(() => useGhOrgMembersInfinite('github'), { wrapper });
     await waitFor(() => expect(result.current.isLoading).toBe(false));
     void result.current.fetchNextPage();
@@ -55,7 +65,10 @@ describe('useGhOrgMembersInfinite', () => {
   });
 
   it('does not fetch when enabled is false', () => {
-    const { result } = renderHook(() => useGhOrgMembersInfinite('github', undefined, { enabled: false }), { wrapper });
+    const { result } = renderHook(
+      () => useGhOrgMembersInfinite('github', undefined, { enabled: false }),
+      { wrapper },
+    );
     expect(result.current.isLoading).toBe(false);
     expect(mockMembers).not.toHaveBeenCalled();
   });

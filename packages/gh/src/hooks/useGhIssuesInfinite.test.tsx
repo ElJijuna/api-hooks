@@ -1,17 +1,28 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GitHubClient, GitHubApiError, type GitHubIssue, type GitHubPagedResponse } from 'gh-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import {
+  GitHubApiError,
+  GitHubClient,
+  type GitHubIssue,
+  type GitHubPagedResponse,
+} from 'gh-api-client';
 import { useGhIssuesInfinite } from './useGhIssuesInfinite.js';
 
-const mockIssues = jest.fn<(params?: object, signal?: AbortSignal) => Promise<GitHubPagedResponse<GitHubIssue>>>();
+const mockIssues =
+  jest.fn<(params?: object, signal?: AbortSignal) => Promise<GitHubPagedResponse<GitHubIssue>>>();
 
 beforeEach(() => {
   jest.clearAllMocks();
   jest.spyOn(GitHubClient.prototype, 'issues').mockImplementation(mockIssues);
 });
 
-const mockIssue = { id: 1, number: 1, title: 'Cross-repo bug', state: 'open' } as unknown as GitHubIssue;
+const mockIssue = {
+  id: 1,
+  number: 1,
+  title: 'Cross-repo bug',
+  state: 'open',
+} as unknown as GitHubIssue;
 const mockResponse: GitHubPagedResponse<GitHubIssue> = { values: [mockIssue], hasNextPage: false };
 
 function wrapper({ children }: { children: React.ReactNode }) {
@@ -44,7 +55,9 @@ describe('useGhIssuesInfinite', () => {
   });
 
   it('does not fetch when enabled is false', () => {
-    const { result } = renderHook(() => useGhIssuesInfinite(undefined, { enabled: false }), { wrapper });
+    const { result } = renderHook(() => useGhIssuesInfinite(undefined, { enabled: false }), {
+      wrapper,
+    });
     expect(result.current.isLoading).toBe(false);
     expect(mockIssues).not.toHaveBeenCalled();
   });

@@ -1,18 +1,16 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { NpmClient, NpmApiError, type UnpkgFile } from 'npmjs-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import { NpmApiError, NpmClient, type UnpkgFile } from 'npmjs-api-client';
 import { useNpmPackageVersionFiles } from './useNpmPackageVersionFiles.js';
 
 const mockFiles = jest.fn<() => Promise<UnpkgFile>>();
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(NpmClient.prototype, 'package')
-    .mockReturnValue({
-      version: () => ({ files: mockFiles }),
-    } as ReturnType<NpmClient['package']>);
+  jest.spyOn(NpmClient.prototype, 'package').mockReturnValue({
+    version: () => ({ files: mockFiles }),
+  } as ReturnType<NpmClient['package']>);
 });
 
 const mockData: UnpkgFile = {
@@ -46,7 +44,9 @@ describe('useNpmPackageVersionFiles', () => {
   it('returns error on failure', async () => {
     mockFiles.mockRejectedValue(new NpmApiError(404, 'Not Found'));
 
-    const { result } = renderHook(() => useNpmPackageVersionFiles('react', '0.0.0-nonexistent'), { wrapper });
+    const { result } = renderHook(() => useNpmPackageVersionFiles('react', '0.0.0-nonexistent'), {
+      wrapper,
+    });
 
     await waitFor(() => expect(result.current.isError).toBe(true));
 
@@ -70,7 +70,7 @@ describe('useNpmPackageVersionFiles', () => {
   it('does not fetch when enabled is false', () => {
     const { result } = renderHook(
       () => useNpmPackageVersionFiles('react', '18.2.0', { enabled: false }),
-      { wrapper }
+      { wrapper },
     );
 
     expect(result.current.isLoading).toBe(false);

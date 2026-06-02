@@ -1,10 +1,16 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GitHubClient, GitHubApiError, type GitHubPagedResponse, type GistFork } from 'gh-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import {
+  type GistFork,
+  GitHubApiError,
+  GitHubClient,
+  type GitHubPagedResponse,
+} from 'gh-api-client';
 import { useGhGistForksInfinite } from './useGhGistForksInfinite.js';
 
-const mockForks = jest.fn<(params?: object, signal?: AbortSignal) => Promise<GitHubPagedResponse<GistFork>>>();
+const mockForks =
+  jest.fn<(params?: object, signal?: AbortSignal) => Promise<GitHubPagedResponse<GistFork>>>();
 const mockGist = jest.fn().mockReturnValue({ forks: mockForks });
 
 beforeEach(() => {
@@ -13,7 +19,12 @@ beforeEach(() => {
   jest.spyOn(GitHubClient.prototype, 'gist').mockImplementation(mockGist);
 });
 
-const mockFork = { id: 'fork123', created_at: '2024-01-01T00:00:00Z', updated_at: '2024-01-01T00:00:00Z', user: null } as unknown as GistFork;
+const mockFork = {
+  id: 'fork123',
+  created_at: '2024-01-01T00:00:00Z',
+  updated_at: '2024-01-01T00:00:00Z',
+  user: null,
+} as unknown as GistFork;
 
 function makeResponse(hasNextPage: boolean, nextPage?: number): GitHubPagedResponse<GistFork> {
   return { values: [mockFork], hasNextPage, nextPage };
@@ -84,7 +95,7 @@ describe('useGhGistForksInfinite', () => {
   it('does not fetch when enabled is false', () => {
     const { result } = renderHook(
       () => useGhGistForksInfinite('abc123', undefined, { enabled: false }),
-      { wrapper }
+      { wrapper },
     );
 
     expect(result.current.isLoading).toBe(false);

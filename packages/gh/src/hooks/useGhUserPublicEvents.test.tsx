@@ -1,18 +1,22 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GitHubClient, GitHubApiError, type GitHubPagedResponse, type GitHubEvent } from 'gh-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import {
+  GitHubApiError,
+  GitHubClient,
+  type GitHubEvent,
+  type GitHubPagedResponse,
+} from 'gh-api-client';
 import { useGhUserPublicEvents } from './useGhUserPublicEvents.js';
 
-const mockPublicEvents = jest.fn<(params?: object, signal?: AbortSignal) => Promise<GitHubPagedResponse<GitHubEvent>>>();
+const mockPublicEvents =
+  jest.fn<(params?: object, signal?: AbortSignal) => Promise<GitHubPagedResponse<GitHubEvent>>>();
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(GitHubClient.prototype, 'user')
-    .mockReturnValue({
-      publicEvents: mockPublicEvents,
-    } as unknown as ReturnType<GitHubClient['user']>);
+  jest.spyOn(GitHubClient.prototype, 'user').mockReturnValue({
+    publicEvents: mockPublicEvents,
+  } as unknown as ReturnType<GitHubClient['user']>);
 });
 
 const mockResponse: GitHubPagedResponse<GitHubEvent> = {
@@ -20,7 +24,14 @@ const mockResponse: GitHubPagedResponse<GitHubEvent> = {
     {
       id: 'event1',
       type: 'PushEvent',
-      actor: { id: 1, login: 'octocat', display_login: 'octocat', gravatar_id: '', url: '', avatar_url: '' },
+      actor: {
+        id: 1,
+        login: 'octocat',
+        display_login: 'octocat',
+        gravatar_id: '',
+        url: '',
+        avatar_url: '',
+      },
       repo: { id: 1, name: 'octocat/Hello-World', url: '' },
       payload: {},
       public: true,
@@ -67,7 +78,7 @@ describe('useGhUserPublicEvents', () => {
   it('does not fetch when enabled is false', () => {
     const { result } = renderHook(
       () => useGhUserPublicEvents('octocat', undefined, { enabled: false }),
-      { wrapper }
+      { wrapper },
     );
 
     expect(result.current.isLoading).toBe(false);

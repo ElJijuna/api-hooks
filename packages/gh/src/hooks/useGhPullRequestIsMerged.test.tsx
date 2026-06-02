@@ -1,7 +1,7 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GitHubClient, GitHubApiError } from 'gh-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import { GitHubApiError, GitHubClient } from 'gh-api-client';
 import { useGhPullRequestIsMerged } from './useGhPullRequestIsMerged.js';
 
 const mockIsMerged = jest.fn<(signal?: AbortSignal) => Promise<boolean>>();
@@ -9,11 +9,9 @@ const mockPullRequest = jest.fn().mockReturnValue({ isMerged: mockIsMerged });
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(GitHubClient.prototype, 'repo')
-    .mockReturnValue({
-      pullRequest: mockPullRequest,
-    } as unknown as ReturnType<GitHubClient['repo']>);
+  jest.spyOn(GitHubClient.prototype, 'repo').mockReturnValue({
+    pullRequest: mockPullRequest,
+  } as unknown as ReturnType<GitHubClient['repo']>);
 });
 
 function wrapper({ children }: { children: React.ReactNode }) {
@@ -25,10 +23,7 @@ describe('useGhPullRequestIsMerged', () => {
   it('returns true when PR is merged', async () => {
     mockIsMerged.mockResolvedValue(true);
 
-    const { result } = renderHook(
-      () => useGhPullRequestIsMerged('owner', 'repo', 42),
-      { wrapper }
-    );
+    const { result } = renderHook(() => useGhPullRequestIsMerged('owner', 'repo', 42), { wrapper });
 
     await waitFor(() => expect(result.current.isLoading).toBe(false));
 
@@ -39,10 +34,7 @@ describe('useGhPullRequestIsMerged', () => {
   it('returns false when PR is not merged', async () => {
     mockIsMerged.mockResolvedValue(false);
 
-    const { result } = renderHook(
-      () => useGhPullRequestIsMerged('owner', 'repo', 42),
-      { wrapper }
-    );
+    const { result } = renderHook(() => useGhPullRequestIsMerged('owner', 'repo', 42), { wrapper });
 
     await waitFor(() => expect(result.current.isLoading).toBe(false));
 
@@ -52,10 +44,7 @@ describe('useGhPullRequestIsMerged', () => {
   it('returns error on failure', async () => {
     mockIsMerged.mockRejectedValue(new GitHubApiError(404, 'Not Found'));
 
-    const { result } = renderHook(
-      () => useGhPullRequestIsMerged('owner', 'repo', 99),
-      { wrapper }
-    );
+    const { result } = renderHook(() => useGhPullRequestIsMerged('owner', 'repo', 99), { wrapper });
 
     await waitFor(() => expect(result.current.isError).toBe(true));
 
@@ -63,10 +52,7 @@ describe('useGhPullRequestIsMerged', () => {
   });
 
   it('does not fetch when pullNumber is 0', () => {
-    const { result } = renderHook(
-      () => useGhPullRequestIsMerged('owner', 'repo', 0),
-      { wrapper }
-    );
+    const { result } = renderHook(() => useGhPullRequestIsMerged('owner', 'repo', 0), { wrapper });
 
     expect(result.current.isLoading).toBe(false);
     expect(mockIsMerged).not.toHaveBeenCalled();
@@ -75,7 +61,7 @@ describe('useGhPullRequestIsMerged', () => {
   it('does not fetch when enabled is false', () => {
     const { result } = renderHook(
       () => useGhPullRequestIsMerged('owner', 'repo', 42, { enabled: false }),
-      { wrapper }
+      { wrapper },
     );
 
     expect(result.current.isLoading).toBe(false);

@@ -1,21 +1,30 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor, act } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GitHubClient, GitHubApiError, type GitHubMilestone, type UpdateMilestoneData } from 'gh-api-client';
+import { act, renderHook, waitFor } from '@testing-library/react';
+import {
+  GitHubApiError,
+  GitHubClient,
+  type GitHubMilestone,
+  type UpdateMilestoneData,
+} from 'gh-api-client';
 import { useGhUpdateMilestone } from './useGhUpdateMilestone.js';
 
-const mockUpdateMilestone = jest.fn<(number: number, data: UpdateMilestoneData) => Promise<GitHubMilestone>>();
+const mockUpdateMilestone =
+  jest.fn<(number: number, data: UpdateMilestoneData) => Promise<GitHubMilestone>>();
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(GitHubClient.prototype, 'repo')
-    .mockReturnValue({
-      updateMilestone: mockUpdateMilestone,
-    } as unknown as ReturnType<GitHubClient['repo']>);
+  jest.spyOn(GitHubClient.prototype, 'repo').mockReturnValue({
+    updateMilestone: mockUpdateMilestone,
+  } as unknown as ReturnType<GitHubClient['repo']>);
 });
 
-const mockMilestone = { id: 1, number: 1, title: 'v1.0', state: 'closed' } as unknown as GitHubMilestone;
+const mockMilestone = {
+  id: 1,
+  number: 1,
+  title: 'v1.0',
+  state: 'closed',
+} as unknown as GitHubMilestone;
 
 function wrapper({ children }: { children: React.ReactNode }) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
@@ -28,7 +37,9 @@ describe('useGhUpdateMilestone', () => {
 
     const { result } = renderHook(() => useGhUpdateMilestone('owner', 'repo'), { wrapper });
 
-    act(() => { result.current.mutate({ milestoneNumber: 1, data: { state: 'closed' } }); });
+    act(() => {
+      result.current.mutate({ milestoneNumber: 1, data: { state: 'closed' } });
+    });
 
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
@@ -41,7 +52,9 @@ describe('useGhUpdateMilestone', () => {
 
     const { result } = renderHook(() => useGhUpdateMilestone('owner', 'repo'), { wrapper });
 
-    act(() => { result.current.mutate({ milestoneNumber: 99, data: { title: 'New' } }); });
+    act(() => {
+      result.current.mutate({ milestoneNumber: 99, data: { title: 'New' } });
+    });
 
     await waitFor(() => expect(result.current.isError).toBe(true));
 

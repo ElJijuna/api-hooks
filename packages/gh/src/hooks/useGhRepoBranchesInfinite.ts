@@ -1,5 +1,9 @@
-import { useInfiniteQuery, type UseInfiniteQueryResult, type InfiniteData } from '@tanstack/react-query';
-import { type GitHubBranch, type GitHubPagedResponse, type BranchesParams } from 'gh-api-client';
+import {
+  type InfiniteData,
+  type UseInfiniteQueryResult,
+  useInfiniteQuery,
+} from '@tanstack/react-query';
+import type { BranchesParams, GitHubBranch, GitHubPagedResponse } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
@@ -21,7 +25,7 @@ export function useGhRepoBranchesInfinite(
   owner: string,
   repo: string,
   params?: Omit<BranchesParams, 'page'>,
-  options: UseGhRepoBranchesInfiniteOptions = {}
+  options: UseGhRepoBranchesInfiniteOptions = {},
 ): UseInfiniteQueryResult<InfiniteData<GitHubPagedResponse<GitHubBranch>, number>, Error> {
   const { enabled = true } = options;
 
@@ -32,8 +36,7 @@ export function useGhRepoBranchesInfinite(
     queryFn: ({ pageParam, signal }) =>
       client.repo(owner, repo).branches({ ...params, page: pageParam }, signal),
     initialPageParam: 1,
-    getNextPageParam: (lastPage) =>
-      lastPage.hasNextPage ? lastPage.nextPage : undefined,
+    getNextPageParam: (lastPage) => (lastPage.hasNextPage ? lastPage.nextPage : undefined),
     enabled: enabled && owner.length > 0 && repo.length > 0,
   });
 }

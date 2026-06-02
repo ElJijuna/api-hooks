@@ -1,21 +1,25 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GitHubClient, GitHubApiError, type RepoContribution } from 'gh-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import { GitHubApiError, GitHubClient, type RepoContribution } from 'gh-api-client';
 import { useGhUserCommitContributionsByRepo } from './useGhUserCommitContributionsByRepo.js';
 
-const mockCommitContributionsByRepo = jest.fn<(signal?: AbortSignal) => Promise<RepoContribution[]>>();
+const mockCommitContributionsByRepo =
+  jest.fn<(signal?: AbortSignal) => Promise<RepoContribution[]>>();
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(GitHubClient.prototype, 'user')
-    .mockReturnValue({
-      commitContributionsByRepo: mockCommitContributionsByRepo,
-    } as unknown as ReturnType<GitHubClient['user']>);
+  jest.spyOn(GitHubClient.prototype, 'user').mockReturnValue({
+    commitContributionsByRepo: mockCommitContributionsByRepo,
+  } as unknown as ReturnType<GitHubClient['user']>);
 });
 
-const mockContributions: RepoContribution[] = [{ repository: { nameWithOwner: 'owner/repo', url: 'https://github.com/owner/repo' }, totalCount: 42 }];
+const mockContributions: RepoContribution[] = [
+  {
+    repository: { nameWithOwner: 'owner/repo', url: 'https://github.com/owner/repo' },
+    totalCount: 42,
+  },
+];
 
 function wrapper({ children }: { children: React.ReactNode }) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
@@ -45,7 +49,10 @@ describe('useGhUserCommitContributionsByRepo', () => {
   });
 
   it('does not fetch when enabled is false', () => {
-    const { result } = renderHook(() => useGhUserCommitContributionsByRepo('octocat', { enabled: false }), { wrapper });
+    const { result } = renderHook(
+      () => useGhUserCommitContributionsByRepo('octocat', { enabled: false }),
+      { wrapper },
+    );
     expect(result.current.isLoading).toBe(false);
     expect(mockCommitContributionsByRepo).not.toHaveBeenCalled();
   });

@@ -1,5 +1,5 @@
-import { useMutation, type UseMutationResult } from '@tanstack/react-query';
-import { type GitHubRepository, type CreateForkData } from 'gh-api-client';
+import { type UseMutationResult, useMutation } from '@tanstack/react-query';
+import type { CreateForkData, GitHubRepository } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 
 /**
@@ -13,9 +13,8 @@ import { useGhClient } from '../GhClientContext.js';
  */
 export function useGhCreateFork(
   owner: string,
-  repo: string
+  repo: string,
 ): UseMutationResult<GitHubRepository, Error, CreateForkData | undefined> {
-
   const client = useGhClient();
 
   return useMutation<GitHubRepository, Error, CreateForkData | undefined>({

@@ -1,5 +1,9 @@
-import { useInfiniteQuery, type UseInfiniteQueryResult, type InfiniteData } from '@tanstack/react-query';
-import { type GitHubIssueComment, type GitHubPagedResponse, type PaginationParams } from 'gh-api-client';
+import {
+  type InfiniteData,
+  type UseInfiniteQueryResult,
+  useInfiniteQuery,
+} from '@tanstack/react-query';
+import type { GitHubIssueComment, GitHubPagedResponse, PaginationParams } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
@@ -23,7 +27,7 @@ export function useGhIssueCommentsInfinite(
   repo: string,
   issueNumber: number,
   params?: Omit<PaginationParams & { since?: string }, 'page'>,
-  options: UseGhIssueCommentsInfiniteOptions = {}
+  options: UseGhIssueCommentsInfiniteOptions = {},
 ): UseInfiniteQueryResult<InfiniteData<GitHubPagedResponse<GitHubIssueComment>, number>, Error> {
   const { enabled = true } = options;
 
@@ -32,10 +36,12 @@ export function useGhIssueCommentsInfinite(
   return useInfiniteQuery({
     queryKey: ghQueryKeys.issueCommentsInfinite(owner, repo, issueNumber, params),
     queryFn: ({ pageParam, signal }) =>
-      client.repo(owner, repo).issue(issueNumber).comments({ ...params, page: pageParam }, signal),
+      client
+        .repo(owner, repo)
+        .issue(issueNumber)
+        .comments({ ...params, page: pageParam }, signal),
     initialPageParam: 1,
-    getNextPageParam: (lastPage) =>
-      lastPage.hasNextPage ? lastPage.nextPage : undefined,
+    getNextPageParam: (lastPage) => (lastPage.hasNextPage ? lastPage.nextPage : undefined),
     enabled: enabled && owner.length > 0 && repo.length > 0 && issueNumber > 0,
   });
 }

@@ -1,4 +1,4 @@
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
@@ -18,7 +18,7 @@ export interface UseGhRepoTopicsOptions {
 export function useGhRepoTopics(
   owner: string,
   repo: string,
-  options: UseGhRepoTopicsOptions = {}
+  options: UseGhRepoTopicsOptions = {},
 ): UseQueryResult<string[], Error> {
   const { enabled = true } = options;
 

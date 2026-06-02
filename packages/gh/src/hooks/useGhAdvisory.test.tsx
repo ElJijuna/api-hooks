@@ -1,7 +1,7 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GitHubClient, GitHubApiError, type GitHubAdvisory } from 'gh-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import { type GitHubAdvisory, GitHubApiError, GitHubClient } from 'gh-api-client';
 import { useGhAdvisory } from './useGhAdvisory.js';
 
 const mockAdvisory = jest.fn<(ghsaId: string, signal?: AbortSignal) => Promise<GitHubAdvisory>>();
@@ -11,7 +11,10 @@ beforeEach(() => {
   jest.spyOn(GitHubClient.prototype, 'advisory').mockImplementation(mockAdvisory);
 });
 
-const mockData = { ghsa_id: 'GHSA-1234-5678-9abc', cve_id: 'CVE-2021-44228' } as unknown as GitHubAdvisory;
+const mockData = {
+  ghsa_id: 'GHSA-1234-5678-9abc',
+  cve_id: 'CVE-2021-44228',
+} as unknown as GitHubAdvisory;
 
 function wrapper({ children }: { children: React.ReactNode }) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
@@ -49,10 +52,9 @@ describe('useGhAdvisory', () => {
   });
 
   it('does not fetch when enabled is false', () => {
-    const { result } = renderHook(
-      () => useGhAdvisory('GHSA-1234-5678-9abc', { enabled: false }),
-      { wrapper }
-    );
+    const { result } = renderHook(() => useGhAdvisory('GHSA-1234-5678-9abc', { enabled: false }), {
+      wrapper,
+    });
 
     expect(result.current.isLoading).toBe(false);
     expect(mockAdvisory).not.toHaveBeenCalled();

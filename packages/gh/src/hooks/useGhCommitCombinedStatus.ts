@@ -1,5 +1,5 @@
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { type GitHubCombinedStatus } from 'gh-api-client';
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
+import type { GitHubCombinedStatus } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
@@ -21,7 +21,7 @@ export function useGhCommitCombinedStatus(
   owner: string,
   repo: string,
   ref: string,
-  options: UseGhCommitCombinedStatusOptions = {}
+  options: UseGhCommitCombinedStatusOptions = {},
 ): UseQueryResult<GitHubCombinedStatus, Error> {
   const { enabled = true } = options;
 

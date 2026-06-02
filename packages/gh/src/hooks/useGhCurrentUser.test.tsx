@@ -1,16 +1,14 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GitHubClient, GitHubApiError, type GitHubUser } from 'gh-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import { GitHubApiError, GitHubClient, type GitHubUser } from 'gh-api-client';
 import { useGhCurrentUser } from './useGhCurrentUser.js';
 
 const mockCurrentUser = jest.fn<(signal?: AbortSignal) => Promise<GitHubUser>>();
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(GitHubClient.prototype, 'currentUser')
-    .mockImplementation(mockCurrentUser);
+  jest.spyOn(GitHubClient.prototype, 'currentUser').mockImplementation(mockCurrentUser);
 });
 
 const mockUser: GitHubUser = {
@@ -52,10 +50,7 @@ describe('useGhCurrentUser', () => {
   });
 
   it('does not fetch when enabled is false', () => {
-    const { result } = renderHook(
-      () => useGhCurrentUser({ enabled: false }),
-      { wrapper }
-    );
+    const { result } = renderHook(() => useGhCurrentUser({ enabled: false }), { wrapper });
 
     expect(result.current.isLoading).toBe(false);
     expect(mockCurrentUser).not.toHaveBeenCalled();

@@ -1,4 +1,4 @@
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
@@ -20,7 +20,7 @@ export function useGhPullRequestIsMerged(
   owner: string,
   repo: string,
   pullNumber: number,
-  options: UseGhPullRequestIsMergedOptions = {}
+  options: UseGhPullRequestIsMergedOptions = {},
 ): UseQueryResult<boolean, Error> {
   const { enabled = true } = options;
 

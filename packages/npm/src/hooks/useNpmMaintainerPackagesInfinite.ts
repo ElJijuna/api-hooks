@@ -1,10 +1,14 @@
-
-import { useInfiniteQuery, type UseInfiniteQueryResult, type InfiniteData } from '@tanstack/react-query';
-import { type NpmSearchResult, type MaintainerPackagesParams } from 'npmjs-api-client';
+import {
+  type InfiniteData,
+  type UseInfiniteQueryResult,
+  useInfiniteQuery,
+} from '@tanstack/react-query';
+import type { MaintainerPackagesParams, NpmSearchResult } from 'npmjs-api-client';
 import { npmQueryKeys } from '../keys/npmQueryKeys.js';
 import { useNpmClient } from '../NpmClientContext.js';
 
-export interface UseNpmMaintainerPackagesInfiniteOptions extends Omit<MaintainerPackagesParams, 'from'> {
+export interface UseNpmMaintainerPackagesInfiniteOptions
+  extends Omit<MaintainerPackagesParams, 'from'> {
   /** Disable the query. Also disabled when `username` is empty. */
   enabled?: boolean;
 }
@@ -21,7 +25,7 @@ export interface UseNpmMaintainerPackagesInfiniteOptions extends Omit<Maintainer
  */
 export function useNpmMaintainerPackagesInfinite(
   username: string,
-  options: UseNpmMaintainerPackagesInfiniteOptions = {}
+  options: UseNpmMaintainerPackagesInfiniteOptions = {},
 ): UseInfiniteQueryResult<InfiniteData<NpmSearchResult, number>, Error> {
   const { enabled = true, ...rest } = options;
   const size = rest.size ?? 20;

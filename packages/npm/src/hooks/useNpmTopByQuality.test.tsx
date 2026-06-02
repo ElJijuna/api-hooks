@@ -1,7 +1,7 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { NpmClient, NpmApiError, type NpmSearchResult } from 'npmjs-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import { NpmApiError, NpmClient, type NpmSearchResult } from 'npmjs-api-client';
 import { useNpmTopByQuality } from './useNpmTopByQuality.js';
 
 const mockTopByQuality = jest.fn<() => Promise<NpmSearchResult>>();
@@ -20,7 +20,9 @@ const mockResult: NpmSearchResult = {
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest.spyOn(NpmClient.prototype, 'topByQuality').mockImplementation(mockTopByQuality as typeof NpmClient.prototype.topByQuality);
+  jest
+    .spyOn(NpmClient.prototype, 'topByQuality')
+    .mockImplementation(mockTopByQuality as typeof NpmClient.prototype.topByQuality);
 });
 
 function wrapper({ children }: { children: React.ReactNode }) {

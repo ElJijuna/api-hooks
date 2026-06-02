@@ -1,20 +1,19 @@
 export type {
-  OsvVulnerability,
-  OsvQueryParams,
-  OsvQueryResult,
+  OsvAffected,
   OsvBatchQuery,
   OsvBatchQueryResult,
   OsvBatchResultEntry,
-  OsvAffected,
-  OsvPackageIdentifier,
-  OsvSeverity,
-  OsvReference,
   OsvCredit,
+  OsvEcosystem,
+  OsvPackageIdentifier,
+  OsvQueryParams,
+  OsvQueryResult,
   OsvRange,
   OsvRangeEvent,
-  OsvEcosystem,
+  OsvReference,
+  OsvSeverity,
+  OsvVulnerability,
 } from 'osv-api-client';
-
-export type { UseOsvVulnOptions } from './hooks/useOsvVuln.js';
 export type { UseOsvQueryOptions } from './hooks/useOsvQuery.js';
 export type { UseOsvQueryBatchOptions } from './hooks/useOsvQueryBatch.js';
+export type { UseOsvVulnOptions } from './hooks/useOsvVuln.js';

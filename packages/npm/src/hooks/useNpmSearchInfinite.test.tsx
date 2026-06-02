@@ -1,7 +1,7 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { NpmClient, NpmApiError, type NpmSearchResult } from 'npmjs-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import { NpmApiError, NpmClient, type NpmSearchResult } from 'npmjs-api-client';
 import { useNpmSearchInfinite } from './useNpmSearchInfinite.js';
 
 const mockSearch = jest.fn<() => Promise<NpmSearchResult>>();
@@ -87,10 +87,7 @@ describe('useNpmSearchInfinite', () => {
   it('passes size option to the client and uses it for pagination', async () => {
     mockSearch.mockResolvedValue(makeResult(0, 5, 12));
 
-    const { result } = renderHook(
-      () => useNpmSearchInfinite('react', { size: 5 }),
-      { wrapper }
-    );
+    const { result } = renderHook(() => useNpmSearchInfinite('react', { size: 5 }), { wrapper });
 
     await waitFor(() => expect(result.current.isLoading).toBe(false));
 
@@ -117,10 +114,9 @@ describe('useNpmSearchInfinite', () => {
   });
 
   it('does not fetch when enabled is false', () => {
-    const { result } = renderHook(
-      () => useNpmSearchInfinite('react', { enabled: false }),
-      { wrapper }
-    );
+    const { result } = renderHook(() => useNpmSearchInfinite('react', { enabled: false }), {
+      wrapper,
+    });
 
     expect(result.current.isLoading).toBe(false);
     expect(mockSearch).not.toHaveBeenCalled();

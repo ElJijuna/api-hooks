@@ -1,6 +1,5 @@
-
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { type JsdelivrStats, type JsdelivrGroupBy, type JsdelivrPeriod } from 'npmjs-api-client';
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
+import type { JsdelivrGroupBy, JsdelivrPeriod, JsdelivrStats } from 'npmjs-api-client';
 import { npmQueryKeys } from '../keys/npmQueryKeys.js';
 import { useNpmClient } from '../NpmClientContext.js';
 
@@ -27,14 +26,15 @@ export interface UseNpmPackageVersionCdnStatsOptions {
 export function useNpmPackageVersionCdnStats(
   name: string,
   version: string,
-  options: UseNpmPackageVersionCdnStatsOptions = {}
+  options: UseNpmPackageVersionCdnStatsOptions = {},
 ): UseQueryResult<JsdelivrStats, Error> {
   const { groupBy = 'file', period = 'month', enabled = true } = options;
   const client = useNpmClient();
 
   return useQuery<JsdelivrStats, Error>({
     queryKey: npmQueryKeys.packageVersionCdnStats(name, version, groupBy, period),
-    queryFn: ({ signal }) => client.package(name).version(version).cdnStats(groupBy, period, signal),
+    queryFn: ({ signal }) =>
+      client.package(name).version(version).cdnStats(groupBy, period, signal),
     enabled: enabled && name.length > 0 && version.length > 0,
   });
 }

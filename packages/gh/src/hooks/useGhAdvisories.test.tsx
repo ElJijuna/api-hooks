@@ -1,18 +1,32 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GitHubClient, GitHubApiError, type GitHubAdvisory, type GitHubPagedResponse } from 'gh-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import {
+  type GitHubAdvisory,
+  GitHubApiError,
+  GitHubClient,
+  type GitHubPagedResponse,
+} from 'gh-api-client';
 import { useGhAdvisories } from './useGhAdvisories.js';
 
-const mockAdvisories = jest.fn<(params?: object, signal?: AbortSignal) => Promise<GitHubPagedResponse<GitHubAdvisory>>>();
+const mockAdvisories =
+  jest.fn<
+    (params?: object, signal?: AbortSignal) => Promise<GitHubPagedResponse<GitHubAdvisory>>
+  >();
 
 beforeEach(() => {
   jest.clearAllMocks();
   jest.spyOn(GitHubClient.prototype, 'advisories').mockImplementation(mockAdvisories);
 });
 
-const mockAdvisory = { ghsa_id: 'GHSA-1234-5678-9abc', cve_id: 'CVE-2021-44228' } as unknown as GitHubAdvisory;
-const mockResponse: GitHubPagedResponse<GitHubAdvisory> = { values: [mockAdvisory], hasNextPage: false };
+const mockAdvisory = {
+  ghsa_id: 'GHSA-1234-5678-9abc',
+  cve_id: 'CVE-2021-44228',
+} as unknown as GitHubAdvisory;
+const mockResponse: GitHubPagedResponse<GitHubAdvisory> = {
+  values: [mockAdvisory],
+  hasNextPage: false,
+};
 
 function wrapper({ children }: { children: React.ReactNode }) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
@@ -54,7 +68,9 @@ describe('useGhAdvisories', () => {
   });
 
   it('does not fetch when enabled is false', () => {
-    const { result } = renderHook(() => useGhAdvisories(undefined, { enabled: false }), { wrapper });
+    const { result } = renderHook(() => useGhAdvisories(undefined, { enabled: false }), {
+      wrapper,
+    });
 
     expect(result.current.isLoading).toBe(false);
     expect(mockAdvisories).not.toHaveBeenCalled();

@@ -1,14 +1,16 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GitHubClient, GitHubApiError } from 'gh-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import { GitHubApiError, GitHubClient } from 'gh-api-client';
 import { useGhRepoTopics } from './useGhRepoTopics.js';
 
 const mockTopics = jest.fn<(signal?: AbortSignal) => Promise<string[]>>();
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest.spyOn(GitHubClient.prototype, 'repo').mockReturnValue({ topics: mockTopics } as unknown as ReturnType<GitHubClient['repo']>);
+  jest
+    .spyOn(GitHubClient.prototype, 'repo')
+    .mockReturnValue({ topics: mockTopics } as unknown as ReturnType<GitHubClient['repo']>);
 });
 
 const mockTopicsData = ['typescript', 'react'];
@@ -48,7 +50,10 @@ describe('useGhRepoTopics', () => {
   });
 
   it('does not fetch when enabled is false', () => {
-    const { result } = renderHook(() => useGhRepoTopics('octocat', 'Hello-World', { enabled: false }), { wrapper });
+    const { result } = renderHook(
+      () => useGhRepoTopics('octocat', 'Hello-World', { enabled: false }),
+      { wrapper },
+    );
     expect(result.current.isLoading).toBe(false);
     expect(mockTopics).not.toHaveBeenCalled();
   });

@@ -1,7 +1,8 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor, act } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GitHubClient, GitHubApiError, PullRequestResource, type GitHubPullRequest } from 'gh-api-client';
+import { act, renderHook, waitFor } from '@testing-library/react';
+import type { PullRequestResource } from 'gh-api-client';
+import { GitHubApiError, GitHubClient, type GitHubPullRequest } from 'gh-api-client';
 import { useGhUpdatePullRequest } from './useGhUpdatePullRequest.js';
 
 type UpdatePullRequestData = Parameters<PullRequestResource['update']>[0];
@@ -11,14 +12,17 @@ const mockPullRequest = jest.fn().mockReturnValue({ update: mockUpdate });
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(GitHubClient.prototype, 'repo')
-    .mockReturnValue({
-      pullRequest: mockPullRequest,
-    } as unknown as ReturnType<GitHubClient['repo']>);
+  jest.spyOn(GitHubClient.prototype, 'repo').mockReturnValue({
+    pullRequest: mockPullRequest,
+  } as unknown as ReturnType<GitHubClient['repo']>);
 });
 
-const mockPR = { id: 1, number: 42, title: 'Updated PR', state: 'open' } as unknown as GitHubPullRequest;
+const mockPR = {
+  id: 1,
+  number: 42,
+  title: 'Updated PR',
+  state: 'open',
+} as unknown as GitHubPullRequest;
 const updateData: UpdatePullRequestData = { title: 'Updated PR' };
 
 function wrapper({ children }: { children: React.ReactNode }) {
@@ -30,10 +34,7 @@ describe('useGhUpdatePullRequest', () => {
   it('returns updated PR on success', async () => {
     mockUpdate.mockResolvedValue(mockPR);
 
-    const { result } = renderHook(
-      () => useGhUpdatePullRequest('owner', 'repo', 42),
-      { wrapper }
-    );
+    const { result } = renderHook(() => useGhUpdatePullRequest('owner', 'repo', 42), { wrapper });
 
     act(() => {
       result.current.mutate(updateData);
@@ -48,10 +49,7 @@ describe('useGhUpdatePullRequest', () => {
   it('returns error on failure', async () => {
     mockUpdate.mockRejectedValue(new GitHubApiError(422, 'Unprocessable Entity'));
 
-    const { result } = renderHook(
-      () => useGhUpdatePullRequest('owner', 'repo', 42),
-      { wrapper }
-    );
+    const { result } = renderHook(() => useGhUpdatePullRequest('owner', 'repo', 42), { wrapper });
 
     act(() => {
       result.current.mutate(updateData);
@@ -63,10 +61,7 @@ describe('useGhUpdatePullRequest', () => {
   });
 
   it('is idle before mutate is called', () => {
-    const { result } = renderHook(
-      () => useGhUpdatePullRequest('owner', 'repo', 42),
-      { wrapper }
-    );
+    const { result } = renderHook(() => useGhUpdatePullRequest('owner', 'repo', 42), { wrapper });
 
     expect(result.current.isIdle).toBe(true);
   });

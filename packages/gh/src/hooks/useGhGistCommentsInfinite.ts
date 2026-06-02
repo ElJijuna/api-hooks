@@ -1,5 +1,9 @@
-import { useInfiniteQuery, type UseInfiniteQueryResult, type InfiniteData } from '@tanstack/react-query';
-import { type GitHubPagedResponse, type GistComment, type PaginationParams } from 'gh-api-client';
+import {
+  type InfiniteData,
+  type UseInfiniteQueryResult,
+  useInfiniteQuery,
+} from '@tanstack/react-query';
+import type { GistComment, GitHubPagedResponse, PaginationParams } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
@@ -19,7 +23,7 @@ export interface UseGhGistCommentsInfiniteOptions {
 export function useGhGistCommentsInfinite(
   gistId: string,
   params?: Omit<PaginationParams, 'page'>,
-  options: UseGhGistCommentsInfiniteOptions = {}
+  options: UseGhGistCommentsInfiniteOptions = {},
 ): UseInfiniteQueryResult<InfiniteData<GitHubPagedResponse<GistComment>, number>, Error> {
   const { enabled = true } = options;
 
@@ -30,8 +34,7 @@ export function useGhGistCommentsInfinite(
     queryFn: ({ pageParam, signal }) =>
       client.gist(gistId).comments({ ...params, page: pageParam }, signal),
     initialPageParam: 1,
-    getNextPageParam: (lastPage) =>
-      lastPage.hasNextPage ? lastPage.nextPage : undefined,
+    getNextPageParam: (lastPage) => (lastPage.hasNextPage ? lastPage.nextPage : undefined),
     enabled: enabled && gistId.length > 0,
   });
 }

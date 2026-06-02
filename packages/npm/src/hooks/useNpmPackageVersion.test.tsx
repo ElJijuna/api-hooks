@@ -1,18 +1,16 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { NpmClient, NpmApiError, type NpmPackageVersion } from 'npmjs-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import { NpmApiError, NpmClient, type NpmPackageVersion } from 'npmjs-api-client';
 import { useNpmPackageVersion } from './useNpmPackageVersion.js';
 
 const mockGet = jest.fn<() => Promise<NpmPackageVersion>>();
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(NpmClient.prototype, 'package')
-    .mockReturnValue({
-      version: () => ({ get: mockGet }),
-    } as ReturnType<NpmClient['package']>);
+  jest.spyOn(NpmClient.prototype, 'package').mockReturnValue({
+    version: () => ({ get: mockGet }),
+  } as ReturnType<NpmClient['package']>);
 });
 
 const mockVersion: NpmPackageVersion = {
@@ -44,10 +42,9 @@ describe('useNpmPackageVersion', () => {
   it('returns error on failure', async () => {
     mockGet.mockRejectedValue(new NpmApiError(404, 'Not Found'));
 
-    const { result } = renderHook(
-      () => useNpmPackageVersion('react', '0.0.0-nonexistent'),
-      { wrapper }
-    );
+    const { result } = renderHook(() => useNpmPackageVersion('react', '0.0.0-nonexistent'), {
+      wrapper,
+    });
 
     await waitFor(() => expect(result.current.isError).toBe(true));
 
@@ -72,7 +69,7 @@ describe('useNpmPackageVersion', () => {
   it('does not fetch when enabled is false', () => {
     const { result } = renderHook(
       () => useNpmPackageVersion('react', '18.2.0', { enabled: false }),
-      { wrapper }
+      { wrapper },
     );
 
     expect(result.current.isLoading).toBe(false);

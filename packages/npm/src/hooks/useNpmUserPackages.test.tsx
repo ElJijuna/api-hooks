@@ -1,18 +1,16 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { NpmClient, NpmApiError, type NpmUserPackages } from 'npmjs-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import { NpmApiError, NpmClient, type NpmUserPackages } from 'npmjs-api-client';
 import { useNpmUserPackages } from './useNpmUserPackages.js';
 
 const mockPackages = jest.fn<() => Promise<NpmUserPackages>>();
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(NpmClient.prototype, 'user')
-    .mockReturnValue({
-      packages: mockPackages,
-    } as ReturnType<NpmClient['user']>);
+  jest.spyOn(NpmClient.prototype, 'user').mockReturnValue({
+    packages: mockPackages,
+  } as ReturnType<NpmClient['user']>);
 });
 
 const mockData: NpmUserPackages = ['lodash', 'react', 'typescript'];
@@ -58,7 +56,7 @@ describe('useNpmUserPackages', () => {
   it('does not fetch when enabled is false', () => {
     const { result } = renderHook(
       () => useNpmUserPackages('pilmee', undefined, { enabled: false }),
-      { wrapper }
+      { wrapper },
     );
 
     expect(result.current.isLoading).toBe(false);

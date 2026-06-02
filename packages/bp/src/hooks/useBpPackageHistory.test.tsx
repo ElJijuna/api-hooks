@@ -1,18 +1,20 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { BundlephobiaClient, BundlephobiaApiError, type PackageHistory } from 'bundlephobia-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import {
+  BundlephobiaApiError,
+  BundlephobiaClient,
+  type PackageHistory,
+} from 'bundlephobia-api-client';
 import { useBpPackageHistory } from './useBpPackageHistory.js';
 
 const mockHistory = jest.fn<(signal?: AbortSignal) => Promise<PackageHistory>>();
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(BundlephobiaClient.prototype, 'package')
-    .mockReturnValue({
-      history: mockHistory,
-    } as unknown as ReturnType<BundlephobiaClient['package']>);
+  jest.spyOn(BundlephobiaClient.prototype, 'package').mockReturnValue({
+    history: mockHistory,
+  } as unknown as ReturnType<BundlephobiaClient['package']>);
 });
 
 const mockPackageHistory: PackageHistory = {
@@ -61,10 +63,9 @@ describe('useBpPackageHistory', () => {
   });
 
   it('does not fetch when enabled is false', () => {
-    const { result } = renderHook(
-      () => useBpPackageHistory('react', { enabled: false }),
-      { wrapper }
-    );
+    const { result } = renderHook(() => useBpPackageHistory('react', { enabled: false }), {
+      wrapper,
+    });
 
     expect(result.current.isLoading).toBe(false);
     expect(mockHistory).not.toHaveBeenCalled();

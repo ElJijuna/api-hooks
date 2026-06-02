@@ -1,21 +1,27 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GitHubClient, GitHubApiError, type PinnedItem } from 'gh-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import { GitHubApiError, GitHubClient, type PinnedItem } from 'gh-api-client';
 import { useGhUserPinnedItems } from './useGhUserPinnedItems.js';
 
 const mockPinnedItems = jest.fn<(signal?: AbortSignal) => Promise<PinnedItem[]>>();
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(GitHubClient.prototype, 'user')
-    .mockReturnValue({
-      pinnedItems: mockPinnedItems,
-    } as unknown as ReturnType<GitHubClient['user']>);
+  jest.spyOn(GitHubClient.prototype, 'user').mockReturnValue({
+    pinnedItems: mockPinnedItems,
+  } as unknown as ReturnType<GitHubClient['user']>);
 });
 
-const mockItems: PinnedItem[] = [{ nameWithOwner: 'octocat/Hello-World', description: 'My World', url: 'https://github.com/octocat/Hello-World', stargazerCount: 100, primaryLanguage: { name: 'JavaScript' } }];
+const mockItems: PinnedItem[] = [
+  {
+    nameWithOwner: 'octocat/Hello-World',
+    description: 'My World',
+    url: 'https://github.com/octocat/Hello-World',
+    stargazerCount: 100,
+    primaryLanguage: { name: 'JavaScript' },
+  },
+];
 
 function wrapper({ children }: { children: React.ReactNode }) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
@@ -45,7 +51,9 @@ describe('useGhUserPinnedItems', () => {
   });
 
   it('does not fetch when enabled is false', () => {
-    const { result } = renderHook(() => useGhUserPinnedItems('octocat', { enabled: false }), { wrapper });
+    const { result } = renderHook(() => useGhUserPinnedItems('octocat', { enabled: false }), {
+      wrapper,
+    });
     expect(result.current.isLoading).toBe(false);
     expect(mockPinnedItems).not.toHaveBeenCalled();
   });

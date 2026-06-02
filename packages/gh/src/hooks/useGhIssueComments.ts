@@ -1,5 +1,5 @@
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { type GitHubIssueComment, type GitHubPagedResponse, type PaginationParams } from 'gh-api-client';
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
+import type { GitHubIssueComment, GitHubPagedResponse, PaginationParams } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
@@ -23,7 +23,7 @@ export function useGhIssueComments(
   repo: string,
   issueNumber: number,
   params?: PaginationParams & { since?: string },
-  options: UseGhIssueCommentsOptions = {}
+  options: UseGhIssueCommentsOptions = {},
 ): UseQueryResult<GitHubPagedResponse<GitHubIssueComment>, Error> {
   const { enabled = true } = options;
 
@@ -31,8 +31,7 @@ export function useGhIssueComments(
 
   return useQuery<GitHubPagedResponse<GitHubIssueComment>, Error>({
     queryKey: ghQueryKeys.issueComments(owner, repo, issueNumber, params),
-    queryFn: ({ signal }) =>
-      client.repo(owner, repo).issue(issueNumber).comments(params, signal),
+    queryFn: ({ signal }) => client.repo(owner, repo).issue(issueNumber).comments(params, signal),
     enabled: enabled && owner.length > 0 && repo.length > 0 && issueNumber > 0,
   });
 }

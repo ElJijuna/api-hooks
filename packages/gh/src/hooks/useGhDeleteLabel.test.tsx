@@ -1,18 +1,16 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor, act } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GitHubClient, GitHubApiError } from 'gh-api-client';
+import { act, renderHook, waitFor } from '@testing-library/react';
+import { GitHubApiError, GitHubClient } from 'gh-api-client';
 import { useGhDeleteLabel } from './useGhDeleteLabel.js';
 
 const mockDeleteLabel = jest.fn<(name: string) => Promise<void>>();
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(GitHubClient.prototype, 'repo')
-    .mockReturnValue({
-      deleteLabel: mockDeleteLabel,
-    } as unknown as ReturnType<GitHubClient['repo']>);
+  jest.spyOn(GitHubClient.prototype, 'repo').mockReturnValue({
+    deleteLabel: mockDeleteLabel,
+  } as unknown as ReturnType<GitHubClient['repo']>);
 });
 
 function wrapper({ children }: { children: React.ReactNode }) {
@@ -26,7 +24,9 @@ describe('useGhDeleteLabel', () => {
 
     const { result } = renderHook(() => useGhDeleteLabel('owner', 'repo'), { wrapper });
 
-    act(() => { result.current.mutate('bug'); });
+    act(() => {
+      result.current.mutate('bug');
+    });
 
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
@@ -38,7 +38,9 @@ describe('useGhDeleteLabel', () => {
 
     const { result } = renderHook(() => useGhDeleteLabel('owner', 'repo'), { wrapper });
 
-    act(() => { result.current.mutate('bug'); });
+    act(() => {
+      result.current.mutate('bug');
+    });
 
     await waitFor(() => expect(result.current.isError).toBe(true));
 

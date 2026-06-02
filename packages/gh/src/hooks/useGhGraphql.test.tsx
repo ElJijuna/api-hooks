@@ -1,12 +1,13 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { renderHook, waitFor } from '@testing-library/react';
 import { GitHubClient } from 'gh-api-client';
 import { useGhGraphql } from './useGhGraphql.js';
 
-const mockGraphql = jest.fn<
-  <T>(query: string, variables?: Record<string, unknown>, signal?: AbortSignal) => Promise<T>
->();
+const mockGraphql =
+  jest.fn<
+    <T>(query: string, variables?: Record<string, unknown>, signal?: AbortSignal) => Promise<T>
+  >();
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -25,7 +26,7 @@ describe('useGhGraphql', () => {
 
     const { result } = renderHook(
       () => useGhGraphql<typeof data>('query Viewer { viewer { login } }', { first: 1 }),
-      { wrapper }
+      { wrapper },
     );
 
     await waitFor(() => expect(result.current.isLoading).toBe(false));
@@ -34,7 +35,7 @@ describe('useGhGraphql', () => {
     expect(mockGraphql).toHaveBeenCalledWith(
       'query Viewer { viewer { login } }',
       { first: 1 },
-      expect.anything()
+      expect.anything(),
     );
   });
 

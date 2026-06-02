@@ -1,5 +1,5 @@
-import { useMutation, type UseMutationResult } from '@tanstack/react-query';
-import { type CreateOrgRepoData, type GitHubRepository } from 'gh-api-client';
+import { type UseMutationResult, useMutation } from '@tanstack/react-query';
+import type { CreateOrgRepoData, GitHubRepository } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 
 /**
@@ -11,7 +11,7 @@ import { useGhClient } from '../GhClientContext.js';
  * @returns TanStack Mutation result with the created repository
  */
 export function useGhCreateOrgRepo(
-  orgName: string
+  orgName: string,
 ): UseMutationResult<GitHubRepository, Error, CreateOrgRepoData> {
   const client = useGhClient();
 

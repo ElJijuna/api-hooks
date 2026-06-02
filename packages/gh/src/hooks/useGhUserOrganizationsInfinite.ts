@@ -1,8 +1,12 @@
-import { useInfiniteQuery, type UseInfiniteQueryResult, type InfiniteData } from '@tanstack/react-query';
-import { type GitHubOrganization, type GitHubPagedResponse } from 'gh-api-client';
+import {
+  type InfiniteData,
+  type UseInfiniteQueryResult,
+  useInfiniteQuery,
+} from '@tanstack/react-query';
+import type { GitHubOrganization, GitHubPagedResponse } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
-import { type UserOrganizationsParams } from './useGhUserOrganizations.js';
+import type { UserOrganizationsParams } from './useGhUserOrganizations.js';
 
 export interface UseGhUserOrganizationsInfiniteOptions {
   /** Disable the query. Also disabled when `login` is empty. */
@@ -20,7 +24,7 @@ export interface UseGhUserOrganizationsInfiniteOptions {
 export function useGhUserOrganizationsInfinite(
   login: string,
   params?: Omit<UserOrganizationsParams, 'page'>,
-  options: UseGhUserOrganizationsInfiniteOptions = {}
+  options: UseGhUserOrganizationsInfiniteOptions = {},
 ): UseInfiniteQueryResult<InfiniteData<GitHubPagedResponse<GitHubOrganization>, number>, Error> {
   const { enabled = true } = options;
 
@@ -31,8 +35,7 @@ export function useGhUserOrganizationsInfinite(
     queryFn: ({ pageParam, signal }) =>
       client.user(login).organizations({ ...params, page: pageParam }, signal),
     initialPageParam: 1,
-    getNextPageParam: (lastPage) =>
-      lastPage.hasNextPage ? lastPage.nextPage : undefined,
+    getNextPageParam: (lastPage) => (lastPage.hasNextPage ? lastPage.nextPage : undefined),
     enabled: enabled && login.length > 0,
   });
 }

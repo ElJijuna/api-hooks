@@ -1,6 +1,5 @@
-
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { type NpmSearchResult, type NpmSearchParams } from 'npmjs-api-client';
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
+import type { NpmSearchParams, NpmSearchResult } from 'npmjs-api-client';
 import { npmQueryKeys } from '../keys/npmQueryKeys.js';
 import { useNpmClient } from '../NpmClientContext.js';
 
@@ -18,7 +17,7 @@ export interface UseNpmSearchOptions extends Omit<NpmSearchParams, 'text'> {
  */
 export function useNpmSearch(
   text: string,
-  options: UseNpmSearchOptions = {}
+  options: UseNpmSearchOptions = {},
 ): UseQueryResult<NpmSearchResult, Error> {
   const { enabled = true, ...rest } = options;
   const client = useNpmClient();

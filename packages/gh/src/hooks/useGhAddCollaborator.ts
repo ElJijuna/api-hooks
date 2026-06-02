@@ -1,5 +1,5 @@
-import { useMutation, type UseMutationResult } from '@tanstack/react-query';
-import { type AddCollaboratorData } from 'gh-api-client';
+import { type UseMutationResult, useMutation } from '@tanstack/react-query';
+import type { AddCollaboratorData } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 
 type AddCollaboratorVars = { username: string; data?: AddCollaboratorData };
@@ -15,9 +15,8 @@ type AddCollaboratorVars = { username: string; data?: AddCollaboratorData };
  */
 export function useGhAddCollaborator(
   owner: string,
-  repo: string
+  repo: string,
 ): UseMutationResult<void, Error, AddCollaboratorVars> {
-
   const client = useGhClient();
 
   return useMutation<void, Error, AddCollaboratorVars>({

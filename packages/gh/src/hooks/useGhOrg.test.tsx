@@ -1,14 +1,16 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GitHubClient, GitHubApiError, type GitHubOrganization } from 'gh-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import { GitHubApiError, GitHubClient, type GitHubOrganization } from 'gh-api-client';
 import { useGhOrg } from './useGhOrg.js';
 
 const mockGet = jest.fn<(signal?: AbortSignal) => Promise<GitHubOrganization>>();
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest.spyOn(GitHubClient.prototype, 'org').mockReturnValue({ get: mockGet } as unknown as ReturnType<GitHubClient['org']>);
+  jest
+    .spyOn(GitHubClient.prototype, 'org')
+    .mockReturnValue({ get: mockGet } as unknown as ReturnType<GitHubClient['org']>);
 });
 
 const mockOrg = { login: 'github', id: 1 } as unknown as GitHubOrganization;

@@ -1,5 +1,5 @@
-import { useMutation, type UseMutationResult } from '@tanstack/react-query';
-import { type GitHubGist, type UpdateGistData } from 'gh-api-client';
+import { type UseMutationResult, useMutation } from '@tanstack/react-query';
+import type { GitHubGist, UpdateGistData } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 
 /**
@@ -11,9 +11,8 @@ import { useGhClient } from '../GhClientContext.js';
  * @returns TanStack Mutation result with {@link GitHubGist}
  */
 export function useGhUpdateGist(
-  gistId: string
+  gistId: string,
 ): UseMutationResult<GitHubGist, Error, UpdateGistData> {
-
   const client = useGhClient();
 
   return useMutation<GitHubGist, Error, UpdateGistData>({

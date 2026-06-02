@@ -1,5 +1,5 @@
-import { useMutation, type UseMutationResult } from '@tanstack/react-query';
-import { PullRequestResource } from 'gh-api-client';
+import { type UseMutationResult, useMutation } from '@tanstack/react-query';
+import type { PullRequestResource } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 
 type MergeResult = Awaited<ReturnType<PullRequestResource['merge']>>;
@@ -18,9 +18,8 @@ type MergeData = Parameters<PullRequestResource['merge']>[0];
 export function useGhMergePullRequest(
   owner: string,
   repo: string,
-  pullNumber: number
+  pullNumber: number,
 ): UseMutationResult<MergeResult, Error, MergeData | undefined> {
-
   const client = useGhClient();
 
   return useMutation<MergeResult, Error, MergeData | undefined>({

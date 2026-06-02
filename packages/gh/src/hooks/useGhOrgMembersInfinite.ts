@@ -1,5 +1,9 @@
-import { useInfiniteQuery, type UseInfiniteQueryResult, type InfiniteData } from '@tanstack/react-query';
-import { type GitHubUser, type GitHubPagedResponse, type OrgMembersParams } from 'gh-api-client';
+import {
+  type InfiniteData,
+  type UseInfiniteQueryResult,
+  useInfiniteQuery,
+} from '@tanstack/react-query';
+import type { GitHubPagedResponse, GitHubUser, OrgMembersParams } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
@@ -19,7 +23,7 @@ export interface UseGhOrgMembersInfiniteOptions {
 export function useGhOrgMembersInfinite(
   orgName: string,
   params?: Omit<OrgMembersParams, 'page'>,
-  options: UseGhOrgMembersInfiniteOptions = {}
+  options: UseGhOrgMembersInfiniteOptions = {},
 ): UseInfiniteQueryResult<InfiniteData<GitHubPagedResponse<GitHubUser>, number>, Error> {
   const { enabled = true } = options;
 
@@ -30,8 +34,7 @@ export function useGhOrgMembersInfinite(
     queryFn: ({ pageParam, signal }) =>
       client.org(orgName).members({ ...params, page: pageParam }, signal),
     initialPageParam: 1,
-    getNextPageParam: (lastPage) =>
-      lastPage.hasNextPage ? lastPage.nextPage : undefined,
+    getNextPageParam: (lastPage) => (lastPage.hasNextPage ? lastPage.nextPage : undefined),
     enabled: enabled && orgName.length > 0,
   });
 }

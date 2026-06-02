@@ -1,10 +1,16 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GitHubClient, GitHubApiError, type GitHubPagedResponse, type GitHubUser } from 'gh-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import {
+  GitHubApiError,
+  GitHubClient,
+  type GitHubPagedResponse,
+  type GitHubUser,
+} from 'gh-api-client';
 import { useGhUserFollowersInfinite } from './useGhUserFollowersInfinite.js';
 
-const mockFollowers = jest.fn<(params?: object, signal?: AbortSignal) => Promise<GitHubPagedResponse<GitHubUser>>>();
+const mockFollowers =
+  jest.fn<(params?: object, signal?: AbortSignal) => Promise<GitHubPagedResponse<GitHubUser>>>();
 const mockUser = jest.fn().mockReturnValue({ followers: mockFollowers });
 
 beforeEach(() => {
@@ -84,7 +90,7 @@ describe('useGhUserFollowersInfinite', () => {
   it('does not fetch when enabled is false', () => {
     const { result } = renderHook(
       () => useGhUserFollowersInfinite('octocat', undefined, { enabled: false }),
-      { wrapper }
+      { wrapper },
     );
 
     expect(result.current.isLoading).toBe(false);

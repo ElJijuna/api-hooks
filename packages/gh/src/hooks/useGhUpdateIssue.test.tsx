@@ -1,7 +1,8 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor, act } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GitHubClient, GitHubApiError, IssueResource, type GitHubIssue } from 'gh-api-client';
+import { act, renderHook, waitFor } from '@testing-library/react';
+import type { IssueResource } from 'gh-api-client';
+import { GitHubApiError, GitHubClient, type GitHubIssue } from 'gh-api-client';
 import { useGhUpdateIssue } from './useGhUpdateIssue.js';
 
 type UpdateIssueData = Parameters<IssueResource['update']>[0];
@@ -11,14 +12,20 @@ const mockIssue = jest.fn().mockReturnValue({ update: mockUpdate });
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(GitHubClient.prototype, 'repo')
-    .mockReturnValue({
-      issue: mockIssue,
-    } as unknown as ReturnType<GitHubClient['repo']>);
+  jest.spyOn(GitHubClient.prototype, 'repo').mockReturnValue({
+    issue: mockIssue,
+  } as unknown as ReturnType<GitHubClient['repo']>);
 });
 
-const mockGhIssue = { id: 1, number: 42, title: 'Updated', state: 'closed', body: '', labels: [], html_url: '' } as unknown as GitHubIssue;
+const mockGhIssue = {
+  id: 1,
+  number: 42,
+  title: 'Updated',
+  state: 'closed',
+  body: '',
+  labels: [],
+  html_url: '',
+} as unknown as GitHubIssue;
 
 function wrapper({ children }: { children: React.ReactNode }) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
@@ -31,7 +38,9 @@ describe('useGhUpdateIssue', () => {
 
     const { result } = renderHook(() => useGhUpdateIssue('owner', 'repo', 42), { wrapper });
 
-    act(() => { result.current.mutate({ state: 'closed' }); });
+    act(() => {
+      result.current.mutate({ state: 'closed' });
+    });
 
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
@@ -45,7 +54,9 @@ describe('useGhUpdateIssue', () => {
 
     const { result } = renderHook(() => useGhUpdateIssue('owner', 'repo', 42), { wrapper });
 
-    act(() => { result.current.mutate({ title: 'New title' }); });
+    act(() => {
+      result.current.mutate({ title: 'New title' });
+    });
 
     await waitFor(() => expect(result.current.isError).toBe(true));
 

@@ -1,18 +1,33 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GitHubClient, GitHubApiError, type GitHubIssue, type GitHubPagedResponse } from 'gh-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import {
+  GitHubApiError,
+  GitHubClient,
+  type GitHubIssue,
+  type GitHubPagedResponse,
+} from 'gh-api-client';
 import { useGhSearchIssues } from './useGhSearchIssues.js';
 
-const mockSearchIssues = jest.fn<(params?: object, signal?: AbortSignal) => Promise<GitHubPagedResponse<GitHubIssue>>>();
+const mockSearchIssues =
+  jest.fn<(params?: object, signal?: AbortSignal) => Promise<GitHubPagedResponse<GitHubIssue>>>();
 
 beforeEach(() => {
   jest.clearAllMocks();
   jest.spyOn(GitHubClient.prototype, 'searchIssues').mockImplementation(mockSearchIssues);
 });
 
-const mockIssue = { id: 1, number: 42, title: 'Found a bug', state: 'open' } as unknown as GitHubIssue;
-const mockResponse: GitHubPagedResponse<GitHubIssue> = { values: [mockIssue], hasNextPage: false, totalCount: 1 };
+const mockIssue = {
+  id: 1,
+  number: 42,
+  title: 'Found a bug',
+  state: 'open',
+} as unknown as GitHubIssue;
+const mockResponse: GitHubPagedResponse<GitHubIssue> = {
+  values: [mockIssue],
+  hasNextPage: false,
+  totalCount: 1,
+};
 
 function wrapper({ children }: { children: React.ReactNode }) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
@@ -51,7 +66,9 @@ describe('useGhSearchIssues', () => {
   });
 
   it('does not fetch when enabled is false', () => {
-    const { result } = renderHook(() => useGhSearchIssues({ q: 'is:issue' }, { enabled: false }), { wrapper });
+    const { result } = renderHook(() => useGhSearchIssues({ q: 'is:issue' }, { enabled: false }), {
+      wrapper,
+    });
     expect(result.current.isLoading).toBe(false);
     expect(mockSearchIssues).not.toHaveBeenCalled();
   });

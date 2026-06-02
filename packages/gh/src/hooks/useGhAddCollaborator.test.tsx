@@ -1,18 +1,17 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor, act } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GitHubClient, GitHubApiError, type AddCollaboratorData } from 'gh-api-client';
+import { act, renderHook, waitFor } from '@testing-library/react';
+import { type AddCollaboratorData, GitHubApiError, GitHubClient } from 'gh-api-client';
 import { useGhAddCollaborator } from './useGhAddCollaborator.js';
 
-const mockAddCollaborator = jest.fn<(username: string, data?: AddCollaboratorData) => Promise<void>>();
+const mockAddCollaborator =
+  jest.fn<(username: string, data?: AddCollaboratorData) => Promise<void>>();
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(GitHubClient.prototype, 'repo')
-    .mockReturnValue({
-      addCollaborator: mockAddCollaborator,
-    } as unknown as ReturnType<GitHubClient['repo']>);
+  jest.spyOn(GitHubClient.prototype, 'repo').mockReturnValue({
+    addCollaborator: mockAddCollaborator,
+  } as unknown as ReturnType<GitHubClient['repo']>);
 });
 
 function wrapper({ children }: { children: React.ReactNode }) {
@@ -26,7 +25,9 @@ describe('useGhAddCollaborator', () => {
 
     const { result } = renderHook(() => useGhAddCollaborator('owner', 'repo'), { wrapper });
 
-    act(() => { result.current.mutate({ username: 'hubot', data: { permission: 'push' } }); });
+    act(() => {
+      result.current.mutate({ username: 'hubot', data: { permission: 'push' } });
+    });
 
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
@@ -38,7 +39,9 @@ describe('useGhAddCollaborator', () => {
 
     const { result } = renderHook(() => useGhAddCollaborator('owner', 'repo'), { wrapper });
 
-    act(() => { result.current.mutate({ username: 'hubot' }); });
+    act(() => {
+      result.current.mutate({ username: 'hubot' });
+    });
 
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
@@ -50,7 +53,9 @@ describe('useGhAddCollaborator', () => {
 
     const { result } = renderHook(() => useGhAddCollaborator('owner', 'repo'), { wrapper });
 
-    act(() => { result.current.mutate({ username: 'hubot' }); });
+    act(() => {
+      result.current.mutate({ username: 'hubot' });
+    });
 
     await waitFor(() => expect(result.current.isError).toBe(true));
 

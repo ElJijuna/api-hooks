@@ -1,5 +1,5 @@
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { type NpmOrgPackages } from 'npmjs-api-client';
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
+import type { NpmOrgPackages } from 'npmjs-api-client';
 import { npmQueryKeys } from '../keys/npmQueryKeys.js';
 import { useNpmClient } from '../NpmClientContext.js';
 
@@ -19,7 +19,7 @@ export interface UseNpmOrgPackagesOptions {
  */
 export function useNpmOrgPackages(
   org: string,
-  options: UseNpmOrgPackagesOptions = {}
+  options: UseNpmOrgPackagesOptions = {},
 ): UseQueryResult<NpmOrgPackages, Error> {
   const { enabled = true } = options;
   const client = useNpmClient();

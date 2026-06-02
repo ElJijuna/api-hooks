@@ -9,10 +9,14 @@ export interface GhClientProviderProps {
   options?: GitHubClientOptions;
 }
 
-export function GhClientProvider({ children, client: providedClient, options }: GhClientProviderProps) {
+export function GhClientProvider({
+  children,
+  client: providedClient,
+  options,
+}: GhClientProviderProps) {
   const client = useMemo(
     () => providedClient ?? new GitHubClient(options),
-    [providedClient, options]
+    [providedClient, options],
   );
 
   return <GhClientContext value={client}>{children}</GhClientContext>;

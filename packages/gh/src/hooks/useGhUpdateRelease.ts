@@ -1,5 +1,5 @@
-import { useMutation, type UseMutationResult } from '@tanstack/react-query';
-import { type GitHubRelease, type UpdateReleaseData } from 'gh-api-client';
+import { type UseMutationResult, useMutation } from '@tanstack/react-query';
+import type { GitHubRelease, UpdateReleaseData } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 
 type UpdateReleaseVars = { releaseId: number; data: UpdateReleaseData };
@@ -15,9 +15,8 @@ type UpdateReleaseVars = { releaseId: number; data: UpdateReleaseData };
  */
 export function useGhUpdateRelease(
   owner: string,
-  repo: string
+  repo: string,
 ): UseMutationResult<GitHubRelease, Error, UpdateReleaseVars> {
-
   const client = useGhClient();
 
   return useMutation<GitHubRelease, Error, UpdateReleaseVars>({

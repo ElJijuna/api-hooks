@@ -1,5 +1,5 @@
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { type GitHubOrganization } from 'gh-api-client';
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
+import type { GitHubOrganization } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
@@ -17,7 +17,7 @@ export interface UseGhOrgOptions {
  */
 export function useGhOrg(
   orgName: string,
-  options: UseGhOrgOptions = {}
+  options: UseGhOrgOptions = {},
 ): UseQueryResult<GitHubOrganization, Error> {
   const { enabled = true } = options;
 

@@ -1,5 +1,5 @@
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { type GitHubCheckRun, type GitHubPagedResponse, type CheckRunsParams } from 'gh-api-client';
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
+import type { CheckRunsParams, GitHubCheckRun, GitHubPagedResponse } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
@@ -23,7 +23,7 @@ export function useGhCommitCheckRuns(
   repo: string,
   ref: string,
   params?: CheckRunsParams,
-  options: UseGhCommitCheckRunsOptions = {}
+  options: UseGhCommitCheckRunsOptions = {},
 ): UseQueryResult<GitHubPagedResponse<GitHubCheckRun>, Error> {
   const { enabled = true } = options;
 

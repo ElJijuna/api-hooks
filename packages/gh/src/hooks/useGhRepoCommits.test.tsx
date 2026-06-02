@@ -1,18 +1,32 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GitHubClient, GitHubApiError, type GitHubCommit, type GitHubPagedResponse } from 'gh-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import {
+  GitHubApiError,
+  GitHubClient,
+  type GitHubCommit,
+  type GitHubPagedResponse,
+} from 'gh-api-client';
 import { useGhRepoCommits } from './useGhRepoCommits.js';
 
-const mockCommits = jest.fn<(params?: object, signal?: AbortSignal) => Promise<GitHubPagedResponse<GitHubCommit>>>();
+const mockCommits =
+  jest.fn<(params?: object, signal?: AbortSignal) => Promise<GitHubPagedResponse<GitHubCommit>>>();
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest.spyOn(GitHubClient.prototype, 'repo').mockReturnValue({ commits: mockCommits } as unknown as ReturnType<GitHubClient['repo']>);
+  jest
+    .spyOn(GitHubClient.prototype, 'repo')
+    .mockReturnValue({ commits: mockCommits } as unknown as ReturnType<GitHubClient['repo']>);
 });
 
-const mockCommit = { sha: 'abc123', commit: { message: 'Initial commit' } } as unknown as GitHubCommit;
-const mockResponse: GitHubPagedResponse<GitHubCommit> = { values: [mockCommit], hasNextPage: false };
+const mockCommit = {
+  sha: 'abc123',
+  commit: { message: 'Initial commit' },
+} as unknown as GitHubCommit;
+const mockResponse: GitHubPagedResponse<GitHubCommit> = {
+  values: [mockCommit],
+  hasNextPage: false,
+};
 
 function wrapper({ children }: { children: React.ReactNode }) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
@@ -32,7 +46,9 @@ describe('useGhRepoCommits', () => {
   it('passes params to the client', async () => {
     mockCommits.mockResolvedValue(mockResponse);
     const params = { per_page: 10, page: 2 };
-    const { result } = renderHook(() => useGhRepoCommits('octocat', 'Hello-World', params), { wrapper });
+    const { result } = renderHook(() => useGhRepoCommits('octocat', 'Hello-World', params), {
+      wrapper,
+    });
     await waitFor(() => expect(result.current.isLoading).toBe(false));
     expect(mockCommits).toHaveBeenCalledWith(params, expect.anything());
   });
@@ -57,7 +73,10 @@ describe('useGhRepoCommits', () => {
   });
 
   it('does not fetch when enabled is false', () => {
-    const { result } = renderHook(() => useGhRepoCommits('octocat', 'Hello-World', undefined, { enabled: false }), { wrapper });
+    const { result } = renderHook(
+      () => useGhRepoCommits('octocat', 'Hello-World', undefined, { enabled: false }),
+      { wrapper },
+    );
     expect(result.current.isLoading).toBe(false);
     expect(mockCommits).not.toHaveBeenCalled();
   });

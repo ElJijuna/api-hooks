@@ -1,18 +1,17 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { renderHook, waitFor } from '@testing-library/react';
 import { GitHubClient, type GitHubTree } from 'gh-api-client';
 import { useGhRepoGitTree } from './useGhRepoGitTree.js';
 
-const mockGitTree = jest.fn<(treeSha: string, params?: object, signal?: AbortSignal) => Promise<GitHubTree>>();
+const mockGitTree =
+  jest.fn<(treeSha: string, params?: object, signal?: AbortSignal) => Promise<GitHubTree>>();
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(GitHubClient.prototype, 'repo')
-    .mockReturnValue({
-      gitTree: mockGitTree,
-    } as unknown as ReturnType<GitHubClient['repo']>);
+  jest.spyOn(GitHubClient.prototype, 'repo').mockReturnValue({
+    gitTree: mockGitTree,
+  } as unknown as ReturnType<GitHubClient['repo']>);
 });
 
 const tree: GitHubTree = {
@@ -33,7 +32,7 @@ describe('useGhRepoGitTree', () => {
 
     const { result } = renderHook(
       () => useGhRepoGitTree('octocat', 'hello', 'abc123', { recursive: '1' }),
-      { wrapper }
+      { wrapper },
     );
 
     await waitFor(() => expect(result.current.isLoading).toBe(false));

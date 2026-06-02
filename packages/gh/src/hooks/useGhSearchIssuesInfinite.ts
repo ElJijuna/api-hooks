@@ -1,5 +1,9 @@
-import { useInfiniteQuery, type UseInfiniteQueryResult, type InfiniteData } from '@tanstack/react-query';
-import { type GitHubIssue, type GitHubPagedResponse, type SearchIssuesParams } from 'gh-api-client';
+import {
+  type InfiniteData,
+  type UseInfiniteQueryResult,
+  useInfiniteQuery,
+} from '@tanstack/react-query';
+import type { GitHubIssue, GitHubPagedResponse, SearchIssuesParams } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
@@ -17,7 +21,7 @@ export interface UseGhSearchIssuesInfiniteOptions {
  */
 export function useGhSearchIssuesInfinite(
   params: Omit<SearchIssuesParams, 'page'>,
-  options: UseGhSearchIssuesInfiniteOptions = {}
+  options: UseGhSearchIssuesInfiniteOptions = {},
 ): UseInfiniteQueryResult<InfiniteData<GitHubPagedResponse<GitHubIssue>, number>, Error> {
   const { enabled = true } = options;
 
@@ -25,11 +29,9 @@ export function useGhSearchIssuesInfinite(
 
   return useInfiniteQuery({
     queryKey: ghQueryKeys.searchIssuesInfinite(params),
-    queryFn: ({ pageParam, signal }) =>
-      client.searchIssues({ ...params, page: pageParam }, signal),
+    queryFn: ({ pageParam, signal }) => client.searchIssues({ ...params, page: pageParam }, signal),
     initialPageParam: 1,
-    getNextPageParam: (lastPage) =>
-      lastPage.hasNextPage ? lastPage.nextPage : undefined,
+    getNextPageParam: (lastPage) => (lastPage.hasNextPage ? lastPage.nextPage : undefined),
     enabled: enabled && params.q.length > 0,
   });
 }

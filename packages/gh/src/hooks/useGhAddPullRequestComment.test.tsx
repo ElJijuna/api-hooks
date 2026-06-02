@@ -1,7 +1,8 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor, act } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GitHubClient, GitHubApiError, PullRequestResource, type GitHubReviewComment } from 'gh-api-client';
+import { act, renderHook, waitFor } from '@testing-library/react';
+import type { PullRequestResource } from 'gh-api-client';
+import { GitHubApiError, GitHubClient, type GitHubReviewComment } from 'gh-api-client';
 import { useGhAddPullRequestComment } from './useGhAddPullRequestComment.js';
 
 type AddCommentData = Parameters<PullRequestResource['addComment']>[0];
@@ -11,11 +12,9 @@ const mockPullRequest = jest.fn().mockReturnValue({ addComment: mockAddComment }
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(GitHubClient.prototype, 'repo')
-    .mockReturnValue({
-      pullRequest: mockPullRequest,
-    } as unknown as ReturnType<GitHubClient['repo']>);
+  jest.spyOn(GitHubClient.prototype, 'repo').mockReturnValue({
+    pullRequest: mockPullRequest,
+  } as unknown as ReturnType<GitHubClient['repo']>);
 });
 
 const mockComment = {
@@ -45,10 +44,9 @@ describe('useGhAddPullRequestComment', () => {
   it('returns created comment on success', async () => {
     mockAddComment.mockResolvedValue(mockComment);
 
-    const { result } = renderHook(
-      () => useGhAddPullRequestComment('owner', 'repo', 42),
-      { wrapper }
-    );
+    const { result } = renderHook(() => useGhAddPullRequestComment('owner', 'repo', 42), {
+      wrapper,
+    });
 
     act(() => {
       result.current.mutate(commentData);
@@ -63,10 +61,9 @@ describe('useGhAddPullRequestComment', () => {
   it('returns error on failure', async () => {
     mockAddComment.mockRejectedValue(new GitHubApiError(422, 'Unprocessable Entity'));
 
-    const { result } = renderHook(
-      () => useGhAddPullRequestComment('owner', 'repo', 42),
-      { wrapper }
-    );
+    const { result } = renderHook(() => useGhAddPullRequestComment('owner', 'repo', 42), {
+      wrapper,
+    });
 
     act(() => {
       result.current.mutate(commentData);
@@ -78,10 +75,9 @@ describe('useGhAddPullRequestComment', () => {
   });
 
   it('is idle before mutate is called', () => {
-    const { result } = renderHook(
-      () => useGhAddPullRequestComment('owner', 'repo', 42),
-      { wrapper }
-    );
+    const { result } = renderHook(() => useGhAddPullRequestComment('owner', 'repo', 42), {
+      wrapper,
+    });
 
     expect(result.current.isIdle).toBe(true);
   });

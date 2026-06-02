@@ -1,10 +1,16 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GitHubClient, GitHubApiError, type GitHubPagedResponse, type GistComment } from 'gh-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import {
+  type GistComment,
+  GitHubApiError,
+  GitHubClient,
+  type GitHubPagedResponse,
+} from 'gh-api-client';
 import { useGhGistCommentsInfinite } from './useGhGistCommentsInfinite.js';
 
-const mockComments = jest.fn<(params?: object, signal?: AbortSignal) => Promise<GitHubPagedResponse<GistComment>>>();
+const mockComments =
+  jest.fn<(params?: object, signal?: AbortSignal) => Promise<GitHubPagedResponse<GistComment>>>();
 const mockGist = jest.fn().mockReturnValue({ comments: mockComments });
 
 beforeEach(() => {
@@ -13,7 +19,13 @@ beforeEach(() => {
   jest.spyOn(GitHubClient.prototype, 'gist').mockImplementation(mockGist);
 });
 
-const mockComment = { id: 1, body: 'A comment', user: null, created_at: '2024-01-01T00:00:00Z', updated_at: '2024-01-01T00:00:00Z' } as unknown as GistComment;
+const mockComment = {
+  id: 1,
+  body: 'A comment',
+  user: null,
+  created_at: '2024-01-01T00:00:00Z',
+  updated_at: '2024-01-01T00:00:00Z',
+} as unknown as GistComment;
 
 function makeResponse(hasNextPage: boolean, nextPage?: number): GitHubPagedResponse<GistComment> {
   return { values: [mockComment], hasNextPage, nextPage };
@@ -84,7 +96,7 @@ describe('useGhGistCommentsInfinite', () => {
   it('does not fetch when enabled is false', () => {
     const { result } = renderHook(
       () => useGhGistCommentsInfinite('abc123', undefined, { enabled: false }),
-      { wrapper }
+      { wrapper },
     );
 
     expect(result.current.isLoading).toBe(false);

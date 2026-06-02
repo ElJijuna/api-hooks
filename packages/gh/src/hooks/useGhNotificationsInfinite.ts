@@ -1,5 +1,9 @@
-import { useInfiniteQuery, type UseInfiniteQueryResult, type InfiniteData } from '@tanstack/react-query';
-import { type GitHubNotification, type GitHubPagedResponse, type NotificationsParams } from 'gh-api-client';
+import {
+  type InfiniteData,
+  type UseInfiniteQueryResult,
+  useInfiniteQuery,
+} from '@tanstack/react-query';
+import type { GitHubNotification, GitHubPagedResponse, NotificationsParams } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
@@ -17,7 +21,7 @@ export interface UseGhNotificationsInfiniteOptions {
  */
 export function useGhNotificationsInfinite(
   params?: Omit<NotificationsParams, 'page'>,
-  options: UseGhNotificationsInfiniteOptions = {}
+  options: UseGhNotificationsInfiniteOptions = {},
 ): UseInfiniteQueryResult<InfiniteData<GitHubPagedResponse<GitHubNotification>, number>, Error> {
   const { enabled = true } = options;
 
@@ -28,8 +32,7 @@ export function useGhNotificationsInfinite(
     queryFn: ({ pageParam, signal }) =>
       client.notifications({ ...params, page: pageParam }, signal),
     initialPageParam: 1,
-    getNextPageParam: (lastPage) =>
-      lastPage.hasNextPage ? lastPage.nextPage : undefined,
+    getNextPageParam: (lastPage) => (lastPage.hasNextPage ? lastPage.nextPage : undefined),
     enabled,
   });
 }

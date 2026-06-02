@@ -1,4 +1,4 @@
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 
@@ -16,7 +16,7 @@ export interface UseGhGistIsStarredOptions {
  */
 export function useGhGistIsStarred(
   gistId: string,
-  options: UseGhGistIsStarredOptions = {}
+  options: UseGhGistIsStarredOptions = {},
 ): UseQueryResult<boolean, Error> {
   const { enabled = true } = options;
 

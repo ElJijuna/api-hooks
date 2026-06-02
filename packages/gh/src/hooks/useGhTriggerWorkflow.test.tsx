@@ -1,18 +1,17 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor, act } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GitHubClient, GitHubApiError, type TriggerWorkflowData } from 'gh-api-client';
+import { act, renderHook, waitFor } from '@testing-library/react';
+import { GitHubApiError, GitHubClient, type TriggerWorkflowData } from 'gh-api-client';
 import { useGhTriggerWorkflow } from './useGhTriggerWorkflow.js';
 
-const mockTriggerWorkflow = jest.fn<(id: number | string, data: TriggerWorkflowData) => Promise<void>>();
+const mockTriggerWorkflow =
+  jest.fn<(id: number | string, data: TriggerWorkflowData) => Promise<void>>();
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(GitHubClient.prototype, 'repo')
-    .mockReturnValue({
-      triggerWorkflow: mockTriggerWorkflow,
-    } as unknown as ReturnType<GitHubClient['repo']>);
+  jest.spyOn(GitHubClient.prototype, 'repo').mockReturnValue({
+    triggerWorkflow: mockTriggerWorkflow,
+  } as unknown as ReturnType<GitHubClient['repo']>);
 });
 
 const triggerData: TriggerWorkflowData = { ref: 'main' };
@@ -28,7 +27,9 @@ describe('useGhTriggerWorkflow', () => {
 
     const { result } = renderHook(() => useGhTriggerWorkflow('owner', 'repo'), { wrapper });
 
-    act(() => { result.current.mutate({ workflowId: 1, data: triggerData }); });
+    act(() => {
+      result.current.mutate({ workflowId: 1, data: triggerData });
+    });
 
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
@@ -40,7 +41,9 @@ describe('useGhTriggerWorkflow', () => {
 
     const { result } = renderHook(() => useGhTriggerWorkflow('owner', 'repo'), { wrapper });
 
-    act(() => { result.current.mutate({ workflowId: 'ci.yml', data: triggerData }); });
+    act(() => {
+      result.current.mutate({ workflowId: 'ci.yml', data: triggerData });
+    });
 
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
@@ -52,7 +55,9 @@ describe('useGhTriggerWorkflow', () => {
 
     const { result } = renderHook(() => useGhTriggerWorkflow('owner', 'repo'), { wrapper });
 
-    act(() => { result.current.mutate({ workflowId: 1, data: triggerData }); });
+    act(() => {
+      result.current.mutate({ workflowId: 1, data: triggerData });
+    });
 
     await waitFor(() => expect(result.current.isError).toBe(true));
 

@@ -1,18 +1,16 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { NpmClient, NpmApiError, type JsdelivrStats } from 'npmjs-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import { type JsdelivrStats, NpmApiError, NpmClient } from 'npmjs-api-client';
 import { useNpmPackageCdnStats } from './useNpmPackageCdnStats.js';
 
 const mockCdnStats = jest.fn<() => Promise<JsdelivrStats>>();
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(NpmClient.prototype, 'package')
-    .mockReturnValue({
-      cdnStats: mockCdnStats,
-    } as ReturnType<NpmClient['package']>);
+  jest.spyOn(NpmClient.prototype, 'package').mockReturnValue({
+    cdnStats: mockCdnStats,
+  } as ReturnType<NpmClient['package']>);
 });
 
 const mockData: JsdelivrStats = {
@@ -46,7 +44,7 @@ describe('useNpmPackageCdnStats', () => {
 
     const { result } = renderHook(
       () => useNpmPackageCdnStats('react', { groupBy: 'date', period: 'year' }),
-      { wrapper }
+      { wrapper },
     );
 
     await waitFor(() => expect(result.current.isLoading).toBe(false));
@@ -72,7 +70,9 @@ describe('useNpmPackageCdnStats', () => {
   });
 
   it('does not fetch when enabled is false', () => {
-    const { result } = renderHook(() => useNpmPackageCdnStats('react', { enabled: false }), { wrapper });
+    const { result } = renderHook(() => useNpmPackageCdnStats('react', { enabled: false }), {
+      wrapper,
+    });
 
     expect(result.current.isLoading).toBe(false);
     expect(mockCdnStats).not.toHaveBeenCalled();

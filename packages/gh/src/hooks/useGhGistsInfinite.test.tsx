@@ -1,16 +1,20 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GitHubClient, GitHubApiError, type GitHubGist, type GitHubPagedResponse } from 'gh-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import {
+  GitHubApiError,
+  GitHubClient,
+  type GitHubGist,
+  type GitHubPagedResponse,
+} from 'gh-api-client';
 import { useGhGistsInfinite } from './useGhGistsInfinite.js';
 
-const mockListGists = jest.fn<(params?: object, signal?: AbortSignal) => Promise<GitHubPagedResponse<GitHubGist>>>();
+const mockListGists =
+  jest.fn<(params?: object, signal?: AbortSignal) => Promise<GitHubPagedResponse<GitHubGist>>>();
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(GitHubClient.prototype, 'listGists')
-    .mockImplementation(mockListGists);
+  jest.spyOn(GitHubClient.prototype, 'listGists').mockImplementation(mockListGists);
 });
 
 const mockGist: GitHubGist = {
@@ -95,14 +99,14 @@ describe('useGhGistsInfinite', () => {
 
     const { result } = renderHook(
       () => useGhGistsInfinite({ per_page: 10, since: '2024-01-01T00:00:00Z' }),
-      { wrapper }
+      { wrapper },
     );
 
     await waitFor(() => expect(result.current.isLoading).toBe(false));
 
     expect(mockListGists).toHaveBeenCalledWith(
       { per_page: 10, since: '2024-01-01T00:00:00Z', page: 1 },
-      expect.anything()
+      expect.anything(),
     );
   });
 
@@ -118,10 +122,9 @@ describe('useGhGistsInfinite', () => {
   });
 
   it('does not fetch when enabled is false', () => {
-    const { result } = renderHook(
-      () => useGhGistsInfinite(undefined, { enabled: false }),
-      { wrapper }
-    );
+    const { result } = renderHook(() => useGhGistsInfinite(undefined, { enabled: false }), {
+      wrapper,
+    });
 
     expect(result.current.isLoading).toBe(false);
     expect(mockListGists).not.toHaveBeenCalled();

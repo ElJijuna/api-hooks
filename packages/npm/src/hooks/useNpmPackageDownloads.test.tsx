@@ -1,18 +1,16 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { NpmClient, NpmApiError, type NpmDownloadPoint } from 'npmjs-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import { NpmApiError, NpmClient, type NpmDownloadPoint } from 'npmjs-api-client';
 import { useNpmPackageDownloads } from './useNpmPackageDownloads.js';
 
 const mockDownloads = jest.fn<() => Promise<NpmDownloadPoint>>();
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(NpmClient.prototype, 'package')
-    .mockReturnValue({
-      downloads: mockDownloads,
-    } as ReturnType<NpmClient['package']>);
+  jest.spyOn(NpmClient.prototype, 'package').mockReturnValue({
+    downloads: mockDownloads,
+  } as ReturnType<NpmClient['package']>);
 });
 
 const mockData: NpmDownloadPoint = {
@@ -46,10 +44,9 @@ describe('useNpmPackageDownloads', () => {
   it('passes custom period to the client', async () => {
     mockDownloads.mockResolvedValue({ ...mockData, start: '2024-03-25', end: '2024-03-31' });
 
-    const { result } = renderHook(
-      () => useNpmPackageDownloads('react', { period: 'last-week' }),
-      { wrapper }
-    );
+    const { result } = renderHook(() => useNpmPackageDownloads('react', { period: 'last-week' }), {
+      wrapper,
+    });
 
     await waitFor(() => expect(result.current.isLoading).toBe(false));
 
@@ -75,10 +72,9 @@ describe('useNpmPackageDownloads', () => {
   });
 
   it('does not fetch when enabled is false', () => {
-    const { result } = renderHook(
-      () => useNpmPackageDownloads('react', { enabled: false }),
-      { wrapper }
-    );
+    const { result } = renderHook(() => useNpmPackageDownloads('react', { enabled: false }), {
+      wrapper,
+    });
 
     expect(result.current.isLoading).toBe(false);
     expect(mockDownloads).not.toHaveBeenCalled();

@@ -1,6 +1,5 @@
-
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { type UnpkgFile } from 'npmjs-api-client';
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
+import type { UnpkgFile } from 'npmjs-api-client';
 import { npmQueryKeys } from '../keys/npmQueryKeys.js';
 import { useNpmClient } from '../NpmClientContext.js';
 
@@ -23,7 +22,7 @@ export interface UseNpmPackageVersionFilesOptions {
 export function useNpmPackageVersionFiles(
   name: string,
   version: string,
-  options: UseNpmPackageVersionFilesOptions = {}
+  options: UseNpmPackageVersionFilesOptions = {},
 ): UseQueryResult<UnpkgFile, Error> {
   const { enabled = true } = options;
   const client = useNpmClient();

@@ -1,17 +1,23 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GitHubClient, GitHubApiError, type GitHubRepository } from 'gh-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import { GitHubApiError, GitHubClient, type GitHubRepository } from 'gh-api-client';
 import { useGhRepo } from './useGhRepo.js';
 
 const mockGet = jest.fn<(signal?: AbortSignal) => Promise<GitHubRepository>>();
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest.spyOn(GitHubClient.prototype, 'repo').mockReturnValue({ get: mockGet } as unknown as ReturnType<GitHubClient['repo']>);
+  jest
+    .spyOn(GitHubClient.prototype, 'repo')
+    .mockReturnValue({ get: mockGet } as unknown as ReturnType<GitHubClient['repo']>);
 });
 
-const mockRepo = { id: 1, name: 'Hello-World', full_name: 'octocat/Hello-World' } as unknown as GitHubRepository;
+const mockRepo = {
+  id: 1,
+  name: 'Hello-World',
+  full_name: 'octocat/Hello-World',
+} as unknown as GitHubRepository;
 
 function wrapper({ children }: { children: React.ReactNode }) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
@@ -48,7 +54,9 @@ describe('useGhRepo', () => {
   });
 
   it('does not fetch when enabled is false', () => {
-    const { result } = renderHook(() => useGhRepo('octocat', 'Hello-World', { enabled: false }), { wrapper });
+    const { result } = renderHook(() => useGhRepo('octocat', 'Hello-World', { enabled: false }), {
+      wrapper,
+    });
     expect(result.current.isLoading).toBe(false);
     expect(mockGet).not.toHaveBeenCalled();
   });

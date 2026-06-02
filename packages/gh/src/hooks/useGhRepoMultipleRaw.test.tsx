@@ -1,20 +1,19 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GitHubClient, GitHubApiError } from 'gh-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import { GitHubApiError, GitHubClient } from 'gh-api-client';
 import { useGhRepoMultipleRaw } from './useGhRepoMultipleRaw.js';
 
-const mockMultipleRaw = jest.fn<
-  (filePaths: string[], params?: object, signal?: AbortSignal) => Promise<Record<string, string>>
->();
+const mockMultipleRaw =
+  jest.fn<
+    (filePaths: string[], params?: object, signal?: AbortSignal) => Promise<Record<string, string>>
+  >();
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(GitHubClient.prototype, 'repo')
-    .mockReturnValue({
-      multipleRaw: mockMultipleRaw,
-    } as unknown as ReturnType<GitHubClient['repo']>);
+  jest.spyOn(GitHubClient.prototype, 'repo').mockReturnValue({
+    multipleRaw: mockMultipleRaw,
+  } as unknown as ReturnType<GitHubClient['repo']>);
 });
 
 function wrapper({ children }: { children: React.ReactNode }) {
@@ -32,7 +31,7 @@ describe('useGhRepoMultipleRaw', () => {
 
     const { result } = renderHook(
       () => useGhRepoMultipleRaw('owner', 'repo', ['README.md', 'src/index.ts']),
-      { wrapper }
+      { wrapper },
     );
 
     await waitFor(() => expect(result.current.isLoading).toBe(false));
@@ -42,7 +41,7 @@ describe('useGhRepoMultipleRaw', () => {
     expect(mockMultipleRaw).toHaveBeenCalledWith(
       ['README.md', 'src/index.ts'],
       undefined,
-      expect.anything()
+      expect.anything(),
     );
   });
 
@@ -51,25 +50,20 @@ describe('useGhRepoMultipleRaw', () => {
 
     const { result } = renderHook(
       () => useGhRepoMultipleRaw('owner', 'repo', ['README.md'], { ref: 'main' }),
-      { wrapper }
+      { wrapper },
     );
 
     await waitFor(() => expect(result.current.isLoading).toBe(false));
 
-    expect(mockMultipleRaw).toHaveBeenCalledWith(
-      ['README.md'],
-      { ref: 'main' },
-      expect.anything()
-    );
+    expect(mockMultipleRaw).toHaveBeenCalledWith(['README.md'], { ref: 'main' }, expect.anything());
   });
 
   it('returns error on failure', async () => {
     mockMultipleRaw.mockRejectedValue(new GitHubApiError(404, 'Not Found'));
 
-    const { result } = renderHook(
-      () => useGhRepoMultipleRaw('owner', 'repo', ['missing.md']),
-      { wrapper }
-    );
+    const { result } = renderHook(() => useGhRepoMultipleRaw('owner', 'repo', ['missing.md']), {
+      wrapper,
+    });
 
     await waitFor(() => expect(result.current.isError).toBe(true));
 
@@ -84,10 +78,9 @@ describe('useGhRepoMultipleRaw', () => {
   });
 
   it('does not fetch when any file path is empty', () => {
-    const { result } = renderHook(
-      () => useGhRepoMultipleRaw('owner', 'repo', ['README.md', '']),
-      { wrapper }
-    );
+    const { result } = renderHook(() => useGhRepoMultipleRaw('owner', 'repo', ['README.md', '']), {
+      wrapper,
+    });
 
     expect(result.current.isLoading).toBe(false);
     expect(mockMultipleRaw).not.toHaveBeenCalled();
@@ -96,7 +89,7 @@ describe('useGhRepoMultipleRaw', () => {
   it('does not fetch when enabled is false', () => {
     const { result } = renderHook(
       () => useGhRepoMultipleRaw('owner', 'repo', ['README.md'], undefined, { enabled: false }),
-      { wrapper }
+      { wrapper },
     );
 
     expect(result.current.isLoading).toBe(false);

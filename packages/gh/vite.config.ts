@@ -1,5 +1,5 @@
-import { defineConfig } from 'vite';
 import { fileURLToPath } from 'node:url';
+import { defineConfig } from 'vite';
 import { generateEntries } from 'vite-magic-tree-shaking';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));

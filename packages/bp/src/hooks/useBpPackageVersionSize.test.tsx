@@ -1,18 +1,16 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { BundlephobiaClient, BundlephobiaApiError, type BundleSize } from 'bundlephobia-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import { BundlephobiaApiError, BundlephobiaClient, type BundleSize } from 'bundlephobia-api-client';
 import { useBpPackageVersionSize } from './useBpPackageVersionSize.js';
 
 const mockSize = jest.fn<(version?: string, signal?: AbortSignal) => Promise<BundleSize>>();
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(BundlephobiaClient.prototype, 'package')
-    .mockReturnValue({
-      size: mockSize,
-    } as unknown as ReturnType<BundlephobiaClient['package']>);
+  jest.spyOn(BundlephobiaClient.prototype, 'package').mockReturnValue({
+    size: mockSize,
+  } as unknown as ReturnType<BundlephobiaClient['package']>);
 });
 
 const mockBundleSize: BundleSize = {
@@ -58,10 +56,9 @@ describe('useBpPackageVersionSize', () => {
   it('returns error on failure', async () => {
     mockSize.mockRejectedValue(new BundlephobiaApiError(404, 'Not Found'));
 
-    const { result } = renderHook(
-      () => useBpPackageVersionSize('nonexistent-pkg-xyz', '1.0.0'),
-      { wrapper }
-    );
+    const { result } = renderHook(() => useBpPackageVersionSize('nonexistent-pkg-xyz', '1.0.0'), {
+      wrapper,
+    });
 
     await waitFor(() => expect(result.current.isError).toBe(true));
 
@@ -86,7 +83,7 @@ describe('useBpPackageVersionSize', () => {
   it('does not fetch when enabled is false', () => {
     const { result } = renderHook(
       () => useBpPackageVersionSize('react', '18.2.0', { enabled: false }),
-      { wrapper }
+      { wrapper },
     );
 
     expect(result.current.isLoading).toBe(false);

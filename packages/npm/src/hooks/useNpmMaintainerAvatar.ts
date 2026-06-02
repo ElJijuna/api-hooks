@@ -1,5 +1,4 @@
-
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import { npmQueryKeys } from '../keys/npmQueryKeys.js';
 import { useNpmClient } from '../NpmClientContext.js';
 
@@ -15,7 +14,7 @@ export interface UseNpmMaintainerAvatarOptions {
  */
 export function useNpmMaintainerAvatar(
   username: string,
-  options: UseNpmMaintainerAvatarOptions = {}
+  options: UseNpmMaintainerAvatarOptions = {},
 ): UseQueryResult<string | undefined, Error> {
   const { enabled = true } = options;
   const client = useNpmClient();

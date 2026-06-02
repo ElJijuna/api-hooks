@@ -1,7 +1,7 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor, act } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GitHubClient, GitHubApiError } from 'gh-api-client';
+import { act, renderHook, waitFor } from '@testing-library/react';
+import { GitHubApiError, GitHubClient } from 'gh-api-client';
 import { useGhMarkNotificationRead } from './useGhMarkNotificationRead.js';
 
 const mockMarkRead = jest.fn<(threadId: string) => Promise<void>>();
@@ -20,7 +20,9 @@ describe('useGhMarkNotificationRead', () => {
   it('succeeds on valid thread id', async () => {
     mockMarkRead.mockResolvedValue(undefined);
     const { result } = renderHook(() => useGhMarkNotificationRead(), { wrapper });
-    act(() => { result.current.mutate('123456789'); });
+    act(() => {
+      result.current.mutate('123456789');
+    });
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
     expect(mockMarkRead).toHaveBeenCalledWith('123456789');
   });
@@ -28,7 +30,9 @@ describe('useGhMarkNotificationRead', () => {
   it('returns error on failure', async () => {
     mockMarkRead.mockRejectedValue(new GitHubApiError(422, 'Unprocessable Entity'));
     const { result } = renderHook(() => useGhMarkNotificationRead(), { wrapper });
-    act(() => { result.current.mutate('123456789'); });
+    act(() => {
+      result.current.mutate('123456789');
+    });
     await waitFor(() => expect(result.current.isError).toBe(true));
     expect(result.current.error).toBeInstanceOf(GitHubApiError);
   });

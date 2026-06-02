@@ -1,18 +1,37 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GitHubClient, GitHubApiError, type GitHubCodeResult, type GitHubPagedResponse } from 'gh-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import {
+  GitHubApiError,
+  GitHubClient,
+  type GitHubCodeResult,
+  type GitHubPagedResponse,
+} from 'gh-api-client';
 import { useGhSearchCode } from './useGhSearchCode.js';
 
-const mockSearchCode = jest.fn<(params?: object, signal?: AbortSignal) => Promise<GitHubPagedResponse<GitHubCodeResult>>>();
+const mockSearchCode =
+  jest.fn<
+    (params?: object, signal?: AbortSignal) => Promise<GitHubPagedResponse<GitHubCodeResult>>
+  >();
 
 beforeEach(() => {
   jest.clearAllMocks();
   jest.spyOn(GitHubClient.prototype, 'searchCode').mockImplementation(mockSearchCode);
 });
 
-const mockResult = { name: 'index.ts', path: 'src/index.ts', sha: 'abc123', url: '', html_url: '', repository: {} } as unknown as GitHubCodeResult;
-const mockResponse: GitHubPagedResponse<GitHubCodeResult> = { values: [mockResult], hasNextPage: false, totalCount: 1 };
+const mockResult = {
+  name: 'index.ts',
+  path: 'src/index.ts',
+  sha: 'abc123',
+  url: '',
+  html_url: '',
+  repository: {},
+} as unknown as GitHubCodeResult;
+const mockResponse: GitHubPagedResponse<GitHubCodeResult> = {
+  values: [mockResult],
+  hasNextPage: false,
+  totalCount: 1,
+};
 
 function wrapper({ children }: { children: React.ReactNode }) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
@@ -42,7 +61,9 @@ describe('useGhSearchCode', () => {
   });
 
   it('does not fetch when enabled is false', () => {
-    const { result } = renderHook(() => useGhSearchCode({ q: 'addClass' }, { enabled: false }), { wrapper });
+    const { result } = renderHook(() => useGhSearchCode({ q: 'addClass' }, { enabled: false }), {
+      wrapper,
+    });
     expect(result.current.isLoading).toBe(false);
     expect(mockSearchCode).not.toHaveBeenCalled();
   });

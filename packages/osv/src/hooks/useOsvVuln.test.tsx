@@ -1,20 +1,18 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { OsvClient, OsvApiError, type OsvVulnerability } from 'osv-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import { OsvApiError, OsvClient, type OsvVulnerability } from 'osv-api-client';
 import { useOsvVuln } from './useOsvVuln.js';
 
 const mockGet = jest.fn<() => Promise<OsvVulnerability>>();
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(OsvClient.prototype, 'vuln')
-    .mockReturnValue({
-      get: mockGet,
-      then: (onfulfilled: unknown) =>
-        mockGet().then(onfulfilled as Parameters<Promise<OsvVulnerability>['then']>[0]),
-    } as unknown as ReturnType<OsvClient['vuln']>);
+  jest.spyOn(OsvClient.prototype, 'vuln').mockReturnValue({
+    get: mockGet,
+    then: (onfulfilled: unknown) =>
+      mockGet().then(onfulfilled as Parameters<Promise<OsvVulnerability>['then']>[0]),
+  } as unknown as ReturnType<OsvClient['vuln']>);
 });
 
 const mockVuln: OsvVulnerability = {
@@ -62,10 +60,9 @@ describe('useOsvVuln', () => {
   });
 
   it('does not fetch when enabled is false', () => {
-    const { result } = renderHook(
-      () => useOsvVuln('GHSA-jfh8-c2jp-hdp8', { enabled: false }),
-      { wrapper }
-    );
+    const { result } = renderHook(() => useOsvVuln('GHSA-jfh8-c2jp-hdp8', { enabled: false }), {
+      wrapper,
+    });
 
     expect(result.current.isLoading).toBe(false);
     expect(mockGet).not.toHaveBeenCalled();

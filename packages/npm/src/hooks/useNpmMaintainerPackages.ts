@@ -1,6 +1,5 @@
-
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { type NpmSearchResult, type MaintainerPackagesParams } from 'npmjs-api-client';
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
+import type { MaintainerPackagesParams, NpmSearchResult } from 'npmjs-api-client';
 import { npmQueryKeys } from '../keys/npmQueryKeys.js';
 import { useNpmClient } from '../NpmClientContext.js';
 
@@ -18,7 +17,7 @@ export interface UseNpmMaintainerPackagesOptions extends MaintainerPackagesParam
  */
 export function useNpmMaintainerPackages(
   username: string,
-  options: UseNpmMaintainerPackagesOptions = {}
+  options: UseNpmMaintainerPackagesOptions = {},
 ): UseQueryResult<NpmSearchResult, Error> {
   const { enabled = true, ...params } = options;
   const client = useNpmClient();

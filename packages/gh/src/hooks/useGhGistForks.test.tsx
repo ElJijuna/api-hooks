@@ -1,18 +1,23 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GitHubClient, GitHubApiError, type GitHubPagedResponse, type GistFork, type GitHubUser } from 'gh-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import {
+  type GistFork,
+  GitHubApiError,
+  GitHubClient,
+  type GitHubPagedResponse,
+  type GitHubUser,
+} from 'gh-api-client';
 import { useGhGistForks } from './useGhGistForks.js';
 
-const mockForks = jest.fn<(params?: object, signal?: AbortSignal) => Promise<GitHubPagedResponse<GistFork>>>();
+const mockForks =
+  jest.fn<(params?: object, signal?: AbortSignal) => Promise<GitHubPagedResponse<GistFork>>>();
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(GitHubClient.prototype, 'gist')
-    .mockReturnValue({
-      forks: mockForks,
-    } as unknown as ReturnType<GitHubClient['gist']>);
+  jest.spyOn(GitHubClient.prototype, 'gist').mockReturnValue({
+    forks: mockForks,
+  } as unknown as ReturnType<GitHubClient['gist']>);
 });
 
 const mockUser: GitHubUser = {
@@ -74,10 +79,9 @@ describe('useGhGistForks', () => {
   });
 
   it('does not fetch when enabled is false', () => {
-    const { result } = renderHook(
-      () => useGhGistForks('abc123', undefined, { enabled: false }),
-      { wrapper }
-    );
+    const { result } = renderHook(() => useGhGistForks('abc123', undefined, { enabled: false }), {
+      wrapper,
+    });
 
     expect(result.current.isLoading).toBe(false);
     expect(mockForks).not.toHaveBeenCalled();

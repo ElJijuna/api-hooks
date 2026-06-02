@@ -1,18 +1,16 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { NpmClient, NpmApiError, type NpmsScore } from 'npmjs-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import { NpmApiError, NpmClient, type NpmsScore } from 'npmjs-api-client';
 import { useNpmPackageScore } from './useNpmPackageScore.js';
 
 const mockScore = jest.fn<() => Promise<NpmsScore>>();
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(NpmClient.prototype, 'package')
-    .mockReturnValue({
-      score: mockScore,
-    } as ReturnType<NpmClient['package']>);
+  jest.spyOn(NpmClient.prototype, 'package').mockReturnValue({
+    score: mockScore,
+  } as ReturnType<NpmClient['package']>);
 });
 
 const mockData: NpmsScore = {
@@ -23,8 +21,18 @@ const mockData: NpmsScore = {
   },
   evaluation: {
     quality: { carefulness: 0.9, tests: 0.8, health: 1, branding: 0.7 },
-    popularity: { communityInterest: 100, downloadsCount: 1e7, downloadsAcceleration: 1000, dependentsCount: 5000 },
-    maintenance: { releasesFrequency: 0.9, commitsFrequency: 0.8, openIssues: 0.7, issuesDistribution: 0.8 },
+    popularity: {
+      communityInterest: 100,
+      downloadsCount: 1e7,
+      downloadsAcceleration: 1000,
+      dependentsCount: 5000,
+    },
+    maintenance: {
+      releasesFrequency: 0.9,
+      commitsFrequency: 0.8,
+      openIssues: 0.7,
+      issuesDistribution: 0.8,
+    },
   },
 };
 
@@ -67,7 +75,9 @@ describe('useNpmPackageScore', () => {
   });
 
   it('does not fetch when enabled is false', () => {
-    const { result } = renderHook(() => useNpmPackageScore('react', { enabled: false }), { wrapper });
+    const { result } = renderHook(() => useNpmPackageScore('react', { enabled: false }), {
+      wrapper,
+    });
 
     expect(result.current.isLoading).toBe(false);
     expect(mockScore).not.toHaveBeenCalled();

@@ -1,7 +1,7 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { NpmClient, NpmApiError } from 'npmjs-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import { NpmApiError, NpmClient } from 'npmjs-api-client';
 import { useNpmOrgTeamMembers } from './useNpmOrgTeamMembers.js';
 
 const mockTeamMembers = jest.fn<() => Promise<string[]>>();
@@ -58,7 +58,9 @@ describe('useNpmOrgTeamMembers', () => {
   });
 
   it('does not fetch when enabled is false', () => {
-    const { result } = renderHook(() => useNpmOrgTeamMembers('npmcli', 'cli', { enabled: false }), { wrapper });
+    const { result } = renderHook(() => useNpmOrgTeamMembers('npmcli', 'cli', { enabled: false }), {
+      wrapper,
+    });
 
     expect(result.current.isLoading).toBe(false);
     expect(mockTeamMembers).not.toHaveBeenCalled();

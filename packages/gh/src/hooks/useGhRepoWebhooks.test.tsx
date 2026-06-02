@@ -1,18 +1,22 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GitHubClient, GitHubApiError, type GitHubPagedResponse, type GitHubWebhook } from 'gh-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import {
+  GitHubApiError,
+  GitHubClient,
+  type GitHubPagedResponse,
+  type GitHubWebhook,
+} from 'gh-api-client';
 import { useGhRepoWebhooks } from './useGhRepoWebhooks.js';
 
-const mockWebhooks = jest.fn<(params?: object, signal?: AbortSignal) => Promise<GitHubPagedResponse<GitHubWebhook>>>();
+const mockWebhooks =
+  jest.fn<(params?: object, signal?: AbortSignal) => Promise<GitHubPagedResponse<GitHubWebhook>>>();
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(GitHubClient.prototype, 'repo')
-    .mockReturnValue({
-      webhooks: mockWebhooks,
-    } as unknown as ReturnType<GitHubClient['repo']>);
+  jest.spyOn(GitHubClient.prototype, 'repo').mockReturnValue({
+    webhooks: mockWebhooks,
+  } as unknown as ReturnType<GitHubClient['repo']>);
 });
 
 const mockResponse: GitHubPagedResponse<GitHubWebhook> = {
@@ -72,7 +76,7 @@ describe('useGhRepoWebhooks', () => {
   it('does not fetch when enabled is false', () => {
     const { result } = renderHook(
       () => useGhRepoWebhooks('owner', 'repo', undefined, { enabled: false }),
-      { wrapper }
+      { wrapper },
     );
 
     expect(result.current.isLoading).toBe(false);

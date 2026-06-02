@@ -1,5 +1,5 @@
-import { useMutation, type UseMutationResult } from '@tanstack/react-query';
-import { type GitHubRepositoryAdvisory, type UpdateAdvisoryData } from 'gh-api-client';
+import { type UseMutationResult, useMutation } from '@tanstack/react-query';
+import type { GitHubRepositoryAdvisory, UpdateAdvisoryData } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 
 export interface UpdateRepoAdvisoryVariables {
@@ -16,7 +16,7 @@ export interface UpdateRepoAdvisoryVariables {
  */
 export function useGhUpdateRepoAdvisory(
   owner: string,
-  repo: string
+  repo: string,
 ): UseMutationResult<GitHubRepositoryAdvisory, Error, UpdateRepoAdvisoryVariables> {
   const client = useGhClient();
 

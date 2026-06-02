@@ -1,18 +1,16 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { NpmClient, NpmApiError, type PackagephobiaSize } from 'npmjs-api-client';
+import { renderHook, waitFor } from '@testing-library/react';
+import { NpmApiError, NpmClient, type PackagephobiaSize } from 'npmjs-api-client';
 import { useNpmPackageVersionSize } from './useNpmPackageVersionSize.js';
 
 const mockSize = jest.fn<() => Promise<PackagephobiaSize>>();
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest
-    .spyOn(NpmClient.prototype, 'package')
-    .mockReturnValue({
-      version: () => ({ size: mockSize }),
-    } as ReturnType<NpmClient['package']>);
+  jest.spyOn(NpmClient.prototype, 'package').mockReturnValue({
+    version: () => ({ size: mockSize }),
+  } as ReturnType<NpmClient['package']>);
 });
 
 const mockData: PackagephobiaSize = {
@@ -42,7 +40,9 @@ describe('useNpmPackageVersionSize', () => {
   it('returns error on failure', async () => {
     mockSize.mockRejectedValue(new NpmApiError(404, 'Not Found'));
 
-    const { result } = renderHook(() => useNpmPackageVersionSize('react', '0.0.0-nonexistent'), { wrapper });
+    const { result } = renderHook(() => useNpmPackageVersionSize('react', '0.0.0-nonexistent'), {
+      wrapper,
+    });
 
     await waitFor(() => expect(result.current.isError).toBe(true));
 
@@ -66,7 +66,7 @@ describe('useNpmPackageVersionSize', () => {
   it('does not fetch when enabled is false', () => {
     const { result } = renderHook(
       () => useNpmPackageVersionSize('react', '18.2.0', { enabled: false }),
-      { wrapper }
+      { wrapper },
     );
 
     expect(result.current.isLoading).toBe(false);

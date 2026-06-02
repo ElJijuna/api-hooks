@@ -1,5 +1,5 @@
-import { useMutation, type UseMutationResult } from '@tanstack/react-query';
-import { type GitHubRepositoryAdvisory } from 'gh-api-client';
+import { type UseMutationResult, useMutation } from '@tanstack/react-query';
+import type { GitHubRepositoryAdvisory } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 
 export interface RequestRepoAdvisoryCveVariables {
@@ -15,7 +15,7 @@ export interface RequestRepoAdvisoryCveVariables {
  */
 export function useGhRequestRepoAdvisoryCve(
   owner: string,
-  repo: string
+  repo: string,
 ): UseMutationResult<GitHubRepositoryAdvisory, Error, RequestRepoAdvisoryCveVariables> {
   const client = useGhClient();
 
