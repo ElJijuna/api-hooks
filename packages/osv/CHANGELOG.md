@@ -1,3 +1,9 @@
+## [1.3.1](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/osv@1.3.0...@api-hooks/osv@1.3.1) (2026-06-02)
+
+### Bug Fixes
+
+* **@api-hooks/gh:** update gh-api-client dependency ([20d4f9d](https://github.com/ElJijuna/api-hooks/commit/20d4f9d9e07cd839836062a420e238dcbb9af229))
+
 ## [1.3.0](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/osv@1.2.0...@api-hooks/osv@1.3.0) (2026-05-26)
 
 ### Features
