@@ -1,3 +1,10 @@
+## [2.4.0](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/gh@2.3.1...@api-hooks/gh@2.4.0) (2026-06-07)
+
+### Features
+
+* **@api-hooks/dh:** add hooks for Docker Hub API integration ([c88c2b5](https://github.com/ElJijuna/api-hooks/commit/c88c2b5074a18ff08b25c6a69e67647e041a6d2d))
+* **@api-hooks/npm:** add useNpmWhoami hook to retrieve npm username associated with auth token ([02ce389](https://github.com/ElJijuna/api-hooks/commit/02ce3896fe4cf1bd31689b43ee3955b2ca746531))
+
 ## [2.3.1](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/gh@2.3.0...@api-hooks/gh@2.3.1) (2026-06-02)
 
 ### Bug Fixes
