@@ -1,0 +1,34 @@
+import { type UseQueryResult, useQuery } from '@tanstack/react-query';
+import type {
+  DockerHubPagedResponse,
+  DockerHubRepository,
+  DockerHubRepositoriesParams,
+} from 'dockerhub-api-client';
+import { useDhClient } from '../DhClientContext.js';
+import { dhQueryKeys } from '../keys/dhQueryKeys.js';
+
+export interface UseDockerHubUserRepositoriesOptions extends DockerHubRepositoriesParams {
+  /** Disable the query. Also disabled when `username` is empty. */
+  enabled?: boolean;
+}
+
+/**
+ * Lists public repositories owned by a Docker Hub user.
+ *
+ * @param username - Docker Hub username
+ * @param options - Optional filters: `page`, `page_size`, `ordering`
+ * @returns TanStack Query result with a paged response of {@link DockerHubRepository}
+ */
+export function useDockerHubUserRepositories(
+  username: string,
+  options: UseDockerHubUserRepositoriesOptions = {},
+): UseQueryResult<DockerHubPagedResponse<DockerHubRepository>, Error> {
+  const { enabled = true, ...params } = options;
+  const client = useDhClient();
+
+  return useQuery<DockerHubPagedResponse<DockerHubRepository>, Error>({
+    queryKey: dhQueryKeys.userRepositories(username, params),
+    queryFn: ({ signal }) => client.user(username).repositories(params, signal),
+    enabled: enabled && username.length > 0,
+  });
+}

@@ -58,6 +58,12 @@ jobs:
           name: dist-osv
           path: packages/osv/dist/
 
+      - name: Upload dh dist
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-dh
+          path: packages/dh/dist/
+
   # ── 2a. Release @api-hooks/npm ────────────────────────────────────────────
   release-npm:
     name: Release @api-hooks/npm
@@ -180,6 +186,38 @@ jobs:
 
       - name: Release
         working-directory: packages/osv
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npx semantic-release
+
+  # ── 2e. Release @api-hooks/dh ─────────────────────────────────────────────
+  release-dh:
+    name: Release @api-hooks/dh
+    needs: release-osv
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+          ref: main
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Download dh dist
+        uses: actions/download-artifact@v4
+        with:
+          name: dist-dh
+          path: packages/dh/dist/
+
+      - name: Release
+        working-directory: packages/dh
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
