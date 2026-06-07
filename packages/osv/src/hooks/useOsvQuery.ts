@@ -1,6 +1,6 @@
-import { useMemo } from 'react';
 import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import { OsvClient, type OsvQueryParams, type OsvQueryResult } from 'osv-api-client';
+import { useMemo } from 'react';
 import { osvQueryKeys } from '../keys/osvQueryKeys.js';
 
 export interface UseOsvQueryOptions {

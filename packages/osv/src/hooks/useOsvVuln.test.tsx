@@ -10,6 +10,7 @@ beforeEach(() => {
   jest.clearAllMocks();
   jest.spyOn(OsvClient.prototype, 'vuln').mockReturnValue({
     get: mockGet,
+    // biome-ignore lint/suspicious/noThenProperty: intentional thenable mock
     then: (onfulfilled: unknown) =>
       mockGet().then(onfulfilled as Parameters<Promise<OsvVulnerability>['then']>[0]),
   } as unknown as ReturnType<OsvClient['vuln']>);
