@@ -40,5 +40,6 @@ export * from './hooks/useNpmTopByScope.js';
 export * from './hooks/useNpmTopPackages.js';
 export * from './hooks/useNpmUser.js';
 export * from './hooks/useNpmUserPackages.js';
+export * from './hooks/useNpmWhoami.js';
 export * from './keys/npmQueryKeys.js';
 export * from './NpmClientContext.js';

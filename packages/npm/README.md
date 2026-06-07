@@ -112,6 +112,7 @@ Audit hooks (`useNpmAudit`, `useNpmAuditQuick`) return a [`UseMutationResult`](h
 | ---- | ----------- | ------- |
 | `useNpmUser(username)` | Authenticated user profile | `NpmAuthenticatedUser` |
 | `useNpmUserPackages(username, params?)` | Packages published by a user | `string[]` |
+| [`useNpmWhoami(options?)`](#usenpmwhoamioptions) | Username associated with the auth token | `NpmWhoami` |
 
 ### Search hooks
 
@@ -790,6 +791,32 @@ const { data } = useNpmOrgTeamMembers('npmcli', 'cli');
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disabled when `org` or `team` is empty |
+
+---
+
+### `useNpmWhoami(options?)`
+
+Returns the npm username associated with the configured auth token. Useful for validating a token without knowing the username in advance.
+
+Requires a registry auth token — throws `NpmApiError(401)` if no token is set or the token is invalid.
+
+```tsx
+const npm = new NpmClient({ token: 'npm_...' });
+
+// Pass the token via NpmClientProvider
+<NpmClientProvider options={{ token: 'npm_...' }}>
+  <App />
+</NpmClientProvider>
+
+// Then in your component:
+const { data } = useNpmWhoami();
+
+console.log(data?.username); // 'pilmee'
+```
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `enabled` | `boolean` | `true` | Disable the query |
 
 ---
 
