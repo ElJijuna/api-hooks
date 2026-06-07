@@ -1,5 +1,5 @@
-import { createContext, useContext, useMemo } from 'react';
 import { GitHubClient, type GitHubClientOptions } from 'gh-api-client';
+import { createContext, useContext, useMemo } from 'react';
 
 const GhClientContext = createContext<GitHubClient | null>(null);
 
@@ -9,18 +9,18 @@ export interface GhClientProviderProps {
   options?: GitHubClientOptions;
 }
 
-export function GhClientProvider({
+export const GhClientProvider = ({
   children,
   client: providedClient,
   options,
-}: GhClientProviderProps) {
+}: GhClientProviderProps) => {
   const client = useMemo(
     () => providedClient ?? new GitHubClient(options),
     [providedClient, options],
   );
 
   return <GhClientContext value={client}>{children}</GhClientContext>;
-}
+};
 
 export function useGhClient(): GitHubClient {
   const client = useContext(GhClientContext);
