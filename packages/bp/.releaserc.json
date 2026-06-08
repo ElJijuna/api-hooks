@@ -12,7 +12,11 @@
           { "type": "perf", "scope": "@api-hooks/bp", "release": "patch" },
           { "type": "refactor", "scope": "@api-hooks/bp", "release": "patch" },
           { "breaking": true, "scope": "@api-hooks/bp", "release": "major" },
-          { "release": false }
+          { "type": "feat", "scope": "!@api-hooks/bp", "release": false },
+          { "type": "fix", "scope": "!@api-hooks/bp", "release": false },
+          { "type": "perf", "scope": "!@api-hooks/bp", "release": false },
+          { "type": "refactor", "scope": "!@api-hooks/bp", "release": false },
+          { "breaking": true, "scope": "!@api-hooks/bp", "release": false }
         ]
       }
     ],

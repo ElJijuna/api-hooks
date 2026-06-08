@@ -12,7 +12,11 @@
           { "type": "perf", "scope": "@api-hooks/pypi", "release": "patch" },
           { "type": "refactor", "scope": "@api-hooks/pypi", "release": "patch" },
           { "breaking": true, "scope": "@api-hooks/pypi", "release": "major" },
-          { "release": false }
+          { "type": "feat", "scope": "!@api-hooks/pypi", "release": false },
+          { "type": "fix", "scope": "!@api-hooks/pypi", "release": false },
+          { "type": "perf", "scope": "!@api-hooks/pypi", "release": false },
+          { "type": "refactor", "scope": "!@api-hooks/pypi", "release": false },
+          { "breaking": true, "scope": "!@api-hooks/pypi", "release": false }
         ]
       }
     ],

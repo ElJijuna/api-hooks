@@ -12,7 +12,11 @@
           { "type": "perf", "scope": "@api-hooks/osv", "release": "patch" },
           { "type": "refactor", "scope": "@api-hooks/osv", "release": "patch" },
           { "breaking": true, "scope": "@api-hooks/osv", "release": "major" },
-          { "release": false }
+          { "type": "feat", "scope": "!@api-hooks/osv", "release": false },
+          { "type": "fix", "scope": "!@api-hooks/osv", "release": false },
+          { "type": "perf", "scope": "!@api-hooks/osv", "release": false },
+          { "type": "refactor", "scope": "!@api-hooks/osv", "release": false },
+          { "breaking": true, "scope": "!@api-hooks/osv", "release": false }
         ]
       }
     ],
