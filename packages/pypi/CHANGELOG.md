@@ -1,3 +1,13 @@
+## [1.0.1](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/pypi@1.0.0...@api-hooks/pypi@1.0.1) (2026-06-08)
+
+### Bug Fixes
+
+* clean up formatting in .releaserc.json and update type import in testUtils.tsx ([60e5c35](https://github.com/ElJijuna/api-hooks/commit/60e5c35eda49a8d935c122a57fcf6200c942aa61))
+
+### Documentation
+
+* add logo image to README for better visual appeal ([416a861](https://github.com/ElJijuna/api-hooks/commit/416a861a97c6be8c8a5ff491a9ebe0180d8cd235))
+
 ## 1.0.0 (2026-06-08)
 
 ### Features

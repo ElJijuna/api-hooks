@@ -1,6 +1,6 @@
 {
   "name": "@api-hooks/pypi",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "React hooks for the PyPI API, built on @tanstack/react-query",
   "keywords": [
     "react",
