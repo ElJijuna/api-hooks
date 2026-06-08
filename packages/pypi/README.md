@@ -1,5 +1,9 @@
 # @api-hooks/pypi
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/ElJijuna/api-hooks/main/public/assets/api-hooks.png" alt="api-hooks logo" width="240" />
+</p>
+
 React hooks for the PyPI API, built on [`pypi-api-client`](https://www.npmjs.com/package/pypi-api-client) and [`@tanstack/react-query`](https://tanstack.com/query).
 
 ## Installation
