@@ -12,6 +12,7 @@ import {
   type PyPIVersionInfo,
   type PyPIVulnerability,
 } from 'pypi-api-client';
+import type { ReactNode } from 'react';
 
 export const mockProjectGet = jest.fn<(signal?: AbortSignal) => Promise<PyPIProject>>();
 export const mockInfo = jest.fn<(signal?: AbortSignal) => Promise<PyPIProjectInfo>>();
@@ -129,7 +130,7 @@ export const dependencies: PyPIDepsDevDependencies = {
   edges: [],
 };
 
-export function wrapper({ children }: { children: React.ReactNode }) {
+export function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({
     defaultOptions: { queries: { retry: false } },
   });
