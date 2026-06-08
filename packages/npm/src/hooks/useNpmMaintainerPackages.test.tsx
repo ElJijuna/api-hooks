@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { renderHook, waitFor } from '@testing-library/react';
 import { NpmApiError, NpmClient, type NpmSearchResult } from 'npmjs-api-client';
+import type { ReactNode } from 'react';
 import { useNpmMaintainerPackages } from './useNpmMaintainerPackages.js';
 
 const mockPackages = jest.fn<() => Promise<NpmSearchResult>>();
@@ -30,7 +31,7 @@ const mockResult: NpmSearchResult = {
   time: '2024-01-01T00:00:00.000Z',
 };
 
-function wrapper({ children }: { children: React.ReactNode }) {
+function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({
     defaultOptions: { queries: { retry: false } },
   });

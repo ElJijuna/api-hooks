@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { renderHook, waitFor } from '@testing-library/react';
 import { NpmApiError, NpmClient, type NpmSearchResult } from 'npmjs-api-client';
+import type { ReactNode } from 'react';
 import { useNpmTopByPopularity } from './useNpmTopByPopularity.js';
 
 const mockTopByPopularity = jest.fn<() => Promise<NpmSearchResult>>();
@@ -25,7 +26,7 @@ beforeEach(() => {
     .mockImplementation(mockTopByPopularity as typeof NpmClient.prototype.topByPopularity);
 });
 
-function wrapper({ children }: { children: React.ReactNode }) {
+function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({
     defaultOptions: { queries: { retry: false } },
   });

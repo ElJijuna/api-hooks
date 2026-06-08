@@ -1,10 +1,10 @@
 import { NpmClient, type NpmClientOptions } from 'npmjs-api-client';
-import { createContext, useContext, useMemo } from 'react';
+import { createContext, type ReactNode, useContext, useMemo } from 'react';
 
 const NpmClientContext = createContext<NpmClient | null>(null);
 
 export interface NpmClientProviderProps {
-  children: React.ReactNode;
+  children: ReactNode;
   client?: NpmClient;
   options?: NpmClientOptions;
 }

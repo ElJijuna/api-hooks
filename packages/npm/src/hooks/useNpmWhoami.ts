@@ -17,9 +17,7 @@ export interface UseNpmWhoamiOptions {
  * @param options - Query options
  * @returns TanStack Query result with {@link NpmWhoami}
  */
-export function useNpmWhoami(
-  options: UseNpmWhoamiOptions = {},
-): UseQueryResult<NpmWhoami, Error> {
+export function useNpmWhoami(options: UseNpmWhoamiOptions = {}): UseQueryResult<NpmWhoami, Error> {
   const { enabled = true } = options;
   const client = useNpmClient();
 

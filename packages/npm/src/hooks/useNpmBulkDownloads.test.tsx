@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { renderHook, waitFor } from '@testing-library/react';
 import { NpmApiError, type NpmBulkDownloads, NpmClient } from 'npmjs-api-client';
+import type { ReactNode } from 'react';
 import { useNpmBulkDownloads } from './useNpmBulkDownloads.js';
 
 const mockBulkDownloads = jest.fn<() => Promise<NpmBulkDownloads>>();
@@ -18,7 +19,7 @@ const mockData: NpmBulkDownloads = {
   vue: { downloads: 4200000, start: '2024-03-01', end: '2024-03-31', package: 'vue' },
 };
 
-function wrapper({ children }: { children: React.ReactNode }) {
+function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({
     defaultOptions: { queries: { retry: false } },
   });

@@ -7,6 +7,7 @@ import {
   type NpmAuditQuickResult,
   NpmClient,
 } from 'npmjs-api-client';
+import type { ReactNode } from 'react';
 import { useNpmAuditQuick } from './useNpmAuditQuick.js';
 
 const mockAuditQuick = jest.fn<() => Promise<NpmAuditQuickResult>>();
@@ -38,7 +39,7 @@ const mockData: NpmAuditQuickResult = {
   },
 };
 
-function wrapper({ children }: { children: React.ReactNode }) {
+function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({
     defaultOptions: { queries: { retry: false } },
   });

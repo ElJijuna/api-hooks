@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { renderHook, waitFor } from '@testing-library/react';
 import { NpmApiError, NpmClient } from 'npmjs-api-client';
+import type { ReactNode } from 'react';
 import { useNpmOrgTeamMembers } from './useNpmOrgTeamMembers.js';
 
 const mockTeamMembers = jest.fn<() => Promise<string[]>>();
@@ -13,7 +14,7 @@ beforeEach(() => {
     .mockReturnValue({ teamMembers: mockTeamMembers } as ReturnType<NpmClient['org']>);
 });
 
-function wrapper({ children }: { children: React.ReactNode }) {
+function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({
     defaultOptions: { queries: { retry: false } },
   });

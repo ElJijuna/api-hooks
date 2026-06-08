@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { renderHook, waitFor } from '@testing-library/react';
 import { NpmApiError, NpmClient, type NpmOrgPackages } from 'npmjs-api-client';
+import type { ReactNode } from 'react';
 import { useNpmOrgPackages } from './useNpmOrgPackages.js';
 
 const mockPackages = jest.fn<() => Promise<NpmOrgPackages>>();
@@ -13,7 +14,7 @@ beforeEach(() => {
     .mockReturnValue({ packages: mockPackages } as ReturnType<NpmClient['org']>);
 });
 
-function wrapper({ children }: { children: React.ReactNode }) {
+function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({
     defaultOptions: { queries: { retry: false } },
   });

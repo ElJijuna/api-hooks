@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { renderHook, waitFor } from '@testing-library/react';
 import { NpmApiError, NpmClient, type NpmDownloadPoint } from 'npmjs-api-client';
+import type { ReactNode } from 'react';
 import { useNpmPackageDownloads } from './useNpmPackageDownloads.js';
 
 const mockDownloads = jest.fn<() => Promise<NpmDownloadPoint>>();
@@ -20,7 +21,7 @@ const mockData: NpmDownloadPoint = {
   package: 'react',
 };
 
-function wrapper({ children }: { children: React.ReactNode }) {
+function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({
     defaultOptions: { queries: { retry: false } },
   });

@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { renderHook, waitFor } from '@testing-library/react';
 import { NpmApiError, NpmClient, type NpmPerson } from 'npmjs-api-client';
+import type { ReactNode } from 'react';
 import { useNpmPackageMaintainers } from './useNpmPackageMaintainers.js';
 
 const mockMaintainers = jest.fn<() => Promise<NpmPerson[]>>();
@@ -18,7 +19,7 @@ const mockData: NpmPerson[] = [
   { name: 'acdlite', email: 'acd@example.com' },
 ];
 
-function wrapper({ children }: { children: React.ReactNode }) {
+function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({
     defaultOptions: { queries: { retry: false } },
   });

@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { renderHook, waitFor } from '@testing-library/react';
 import { NpmApiError, NpmClient, type NpmWhoami } from 'npmjs-api-client';
+import type { ReactNode } from 'react';
 import { useNpmWhoami } from './useNpmWhoami.js';
 
 const mockWhoami = jest.fn<() => Promise<NpmWhoami>>();
@@ -13,7 +14,7 @@ beforeEach(() => {
 
 const mockData: NpmWhoami = { username: 'pilmee' };
 
-function wrapper({ children }: { children: React.ReactNode }) {
+function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({
     defaultOptions: { queries: { retry: false } },
   });
