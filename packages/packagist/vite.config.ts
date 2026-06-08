@@ -4,7 +4,12 @@ import { generateEntries } from 'vite-magic-tree-shaking';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
-const external = ['react', 'react/jsx-runtime', '@tanstack/react-query', 'php-packagist-api-client'];
+const external = [
+  'react',
+  'react/jsx-runtime',
+  '@tanstack/react-query',
+  'php-packagist-api-client',
+];
 
 export default defineConfig({
   build: {

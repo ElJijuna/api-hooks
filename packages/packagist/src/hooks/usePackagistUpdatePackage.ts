@@ -9,7 +9,11 @@ import { usePackagistClient } from '../PackagistClientContext.js';
  *
  * @returns TanStack Mutation result with {@link PackageUpdateResponse}
  */
-export function usePackagistUpdatePackage(): UseMutationResult<PackageUpdateResponse, Error, string> {
+export function usePackagistUpdatePackage(): UseMutationResult<
+  PackageUpdateResponse,
+  Error,
+  string
+> {
   const client = usePackagistClient();
 
   return useMutation<PackageUpdateResponse, Error, string>({

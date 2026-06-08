@@ -1,7 +1,7 @@
 import { type UseQueryResult, useQuery } from '@tanstack/react-query';
-import { type StatisticsResponse } from 'php-packagist-api-client';
-import { usePackagistClient } from '../PackagistClientContext.js';
+import type { StatisticsResponse } from 'php-packagist-api-client';
 import { packagistQueryKeys } from '../keys/packagistQueryKeys.js';
+import { usePackagistClient } from '../PackagistClientContext.js';
 import type { UsePackagistQueryOptions } from './options.js';
 
 /**

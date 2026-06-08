@@ -13,6 +13,7 @@ import {
   type SecurityAdvisoriesResponse,
   type StatisticsResponse,
 } from 'php-packagist-api-client';
+import type { ReactNode } from 'react';
 
 export const mockListPackages = jest.fn<PackagistClient['listPackages']>();
 export const mockPopular = jest.fn<PackagistClient['popular']>();
@@ -112,7 +113,7 @@ export const statisticsResponse: StatisticsResponse = {
   totals: { downloads: 123_456 },
 };
 
-export function wrapper({ children }: { children: React.ReactNode }) {
+export function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({
     defaultOptions: { queries: { retry: false } },
   });

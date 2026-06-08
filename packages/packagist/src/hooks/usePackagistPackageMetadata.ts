@@ -1,11 +1,11 @@
 import { type UseQueryResult, useQuery } from '@tanstack/react-query';
-import {
-  type MetadataOptions,
-  type PackageMetadataResponse,
-  type PackageName,
+import type {
+  MetadataOptions,
+  PackageMetadataResponse,
+  PackageName,
 } from 'php-packagist-api-client';
-import { usePackagistClient } from '../PackagistClientContext.js';
 import { packagistQueryKeys } from '../keys/packagistQueryKeys.js';
+import { usePackagistClient } from '../PackagistClientContext.js';
 import type { UsePackagistQueryOptions } from './options.js';
 
 /**

@@ -1,12 +1,7 @@
 import { beforeEach, describe, expect, it } from '@jest/globals';
 import { renderHook, waitFor } from '@testing-library/react';
 import { PackagistApiError } from 'php-packagist-api-client';
-import {
-  mockSearch,
-  searchResponse,
-  setupPackagistMocks,
-  wrapper,
-} from '../../testUtils.js';
+import { mockSearch, searchResponse, setupPackagistMocks, wrapper } from '../../testUtils.js';
 import { usePackagistSearch } from './usePackagistSearch.js';
 
 beforeEach(setupPackagistMocks);

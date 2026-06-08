@@ -1,7 +1,7 @@
 import { type UseQueryResult, useQuery } from '@tanstack/react-query';
-import { type PackageName, type SecurityAdvisoriesResponse } from 'php-packagist-api-client';
-import { usePackagistClient } from '../PackagistClientContext.js';
+import type { PackageName, SecurityAdvisoriesResponse } from 'php-packagist-api-client';
 import { packagistQueryKeys } from '../keys/packagistQueryKeys.js';
+import { usePackagistClient } from '../PackagistClientContext.js';
 import type { UsePackagistQueryOptions } from './options.js';
 
 /**

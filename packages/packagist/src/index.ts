@@ -17,6 +17,6 @@ export * from './hooks/usePackagistSearch.js';
 export * from './hooks/usePackagistSecurityAdvisories.js';
 export * from './hooks/usePackagistStatistics.js';
 export * from './hooks/usePackagistUpdatePackage.js';
-export * from './PackagistClientContext.js';
 export * from './keys/packagistQueryKeys.js';
+export * from './PackagistClientContext.js';
 export * from './types.js';

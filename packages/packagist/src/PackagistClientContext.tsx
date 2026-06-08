@@ -1,10 +1,10 @@
 import { PackagistClient, type PackagistClientOptions } from 'php-packagist-api-client';
-import { createContext, useContext, useMemo } from 'react';
+import { createContext, type ReactNode, useContext, useMemo } from 'react';
 
 const PackagistClientContext = createContext<PackagistClient | null>(null);
 
 export interface PackagistClientProviderProps {
-  children: React.ReactNode;
+  children: ReactNode;
   client?: PackagistClient;
   options?: PackagistClientOptions;
 }

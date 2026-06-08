@@ -24,9 +24,12 @@ describe('usePackagistMetadataChanges', () => {
   });
 
   it('does not fetch when disabled', () => {
-    const { result } = renderHook(() => usePackagistMetadataChanges(undefined, { enabled: false }), {
-      wrapper,
-    });
+    const { result } = renderHook(
+      () => usePackagistMetadataChanges(undefined, { enabled: false }),
+      {
+        wrapper,
+      },
+    );
 
     expect(result.current.isLoading).toBe(false);
     expect(mockMetadataChanges).not.toHaveBeenCalled();

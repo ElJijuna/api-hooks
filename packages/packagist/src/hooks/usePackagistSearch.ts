@@ -1,11 +1,13 @@
 import { type UseQueryResult, useQuery } from '@tanstack/react-query';
-import { type SearchPackagesOptions, type SearchPackagesResponse } from 'php-packagist-api-client';
-import { usePackagistClient } from '../PackagistClientContext.js';
+import type { SearchPackagesOptions, SearchPackagesResponse } from 'php-packagist-api-client';
 import { packagistQueryKeys } from '../keys/packagistQueryKeys.js';
+import { usePackagistClient } from '../PackagistClientContext.js';
 import type { UsePackagistQueryOptions } from './options.js';
 
 function hasSearchFilter(params: SearchPackagesOptions) {
-  return Boolean(params.query || params.type || (Array.isArray(params.tags) ? params.tags.length : params.tags));
+  return Boolean(
+    params.query || params.type || (Array.isArray(params.tags) ? params.tags.length : params.tags),
+  );
 }
 
 /**

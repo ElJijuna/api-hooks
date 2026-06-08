@@ -1,10 +1,10 @@
 import { type UseQueryResult, useQuery } from '@tanstack/react-query';
-import {
-  type SecurityAdvisoriesOptions,
-  type SecurityAdvisoriesResponse,
+import type {
+  SecurityAdvisoriesOptions,
+  SecurityAdvisoriesResponse,
 } from 'php-packagist-api-client';
-import { usePackagistClient } from '../PackagistClientContext.js';
 import { packagistQueryKeys } from '../keys/packagistQueryKeys.js';
+import { usePackagistClient } from '../PackagistClientContext.js';
 import type { UsePackagistQueryOptions } from './options.js';
 
 function hasAdvisoryFilter(params: SecurityAdvisoriesOptions) {

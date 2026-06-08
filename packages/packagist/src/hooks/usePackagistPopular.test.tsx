@@ -1,11 +1,6 @@
 import { beforeEach, describe, expect, it } from '@jest/globals';
 import { renderHook, waitFor } from '@testing-library/react';
-import {
-  mockPopular,
-  popularResponse,
-  setupPackagistMocks,
-  wrapper,
-} from '../../testUtils.js';
+import { mockPopular, popularResponse, setupPackagistMocks, wrapper } from '../../testUtils.js';
 import { usePackagistPopular } from './usePackagistPopular.js';
 
 beforeEach(setupPackagistMocks);

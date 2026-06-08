@@ -1,10 +1,6 @@
 import { beforeEach, describe, expect, it } from '@jest/globals';
 import { renderHook, waitFor } from '@testing-library/react';
-import {
-  mockListPackages,
-  setupPackagistMocks,
-  wrapper,
-} from '../../testUtils.js';
+import { mockListPackages, setupPackagistMocks, wrapper } from '../../testUtils.js';
 import { usePackagistListPackages } from './usePackagistListPackages.js';
 
 beforeEach(setupPackagistMocks);

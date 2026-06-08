@@ -1,10 +1,6 @@
 import { beforeEach, describe, expect, it } from '@jest/globals';
 import { act, renderHook, waitFor } from '@testing-library/react';
-import {
-  mockUpdatePackage,
-  setupPackagistMocks,
-  wrapper,
-} from '../../testUtils.js';
+import { mockUpdatePackage, setupPackagistMocks, wrapper } from '../../testUtils.js';
 import { usePackagistUpdatePackage } from './usePackagistUpdatePackage.js';
 
 beforeEach(setupPackagistMocks);
@@ -22,9 +18,7 @@ describe('usePackagistUpdatePackage', () => {
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
     expect(result.current.data).toEqual({ status: 'ok', jobs: ['job-1'] });
-    expect(mockUpdatePackage).toHaveBeenCalledWith(
-      'https://packagist.org/packages/vendor/package',
-    );
+    expect(mockUpdatePackage).toHaveBeenCalledWith('https://packagist.org/packages/vendor/package');
   });
 
   it('is idle before mutate is called', () => {
