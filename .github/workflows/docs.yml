@@ -33,13 +33,14 @@ jobs:
 
       - name: Assemble site
         run: |
-          mkdir -p _site/npm _site/gh _site/bp _site/osv _site/dh _site/pypi
+          mkdir -p _site/npm _site/gh _site/bp _site/osv _site/dh _site/pypi _site/packagist
           cp -r packages/npm/docs/. _site/npm/
           cp -r packages/gh/docs/.  _site/gh/
           cp -r packages/bp/docs/.  _site/bp/
           cp -r packages/osv/docs/. _site/osv/
           cp -r packages/dh/docs/.  _site/dh/
           cp -r packages/pypi/docs/. _site/pypi/
+          cp -r packages/packagist/docs/. _site/packagist/
 
       - uses: actions/upload-pages-artifact@v3
         with:

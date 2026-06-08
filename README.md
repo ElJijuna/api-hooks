@@ -153,6 +153,31 @@ React hooks for the [OSV (Open Source Vulnerabilities) API](https://osv.dev).
 
 ---
 
+### [`@api-hooks/packagist`](packages/packagist#readme)
+
+React hooks for the [Packagist API](https://packagist.org/apidoc).
+
+[![npm](https://img.shields.io/npm/v/@api-hooks/packagist)](https://www.npmjs.com/package/@api-hooks/packagist)
+[![npm downloads](https://img.shields.io/npm/dm/@api-hooks/packagist)](https://www.npmjs.com/package/@api-hooks/packagist)
+
+| Hook | Returns |
+| ---- | ------- |
+| `usePackagistListPackages(params?, options?)` | `PackageListResponse` |
+| `usePackagistPopular(params?, options?)` | `PopularPackagesResponse` |
+| `usePackagistSearch(params, options?)` | `SearchPackagesResponse` |
+| `usePackagistPackage(name, options?)` | `PackageResponse` |
+| `usePackagistPackageMetadata(name, params?, options?)` | `PackageMetadataResponse` |
+| `usePackagistPackageStats(name, options?)` | `PackageStatsResponse` |
+| `usePackagistPackageSecurityAdvisories(name, options?)` | `SecurityAdvisoriesResponse` |
+| `usePackagistMetadataChanges(params?, options?)` | `MetadataChangesResponse` |
+| `usePackagistStatistics(options?)` | `StatisticsResponse` |
+| `usePackagistSecurityAdvisories(params, options?)` | `SecurityAdvisoriesResponse` |
+| `usePackagistCreatePackage()` | `PackageMutationResponse` |
+| `usePackagistEditPackage()` | `PackageMutationResponse` |
+| `usePackagistUpdatePackage()` | `PackageUpdateResponse` |
+
+---
+
 ## Requirements
 
 All packages require the following peer dependencies:

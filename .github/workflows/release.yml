@@ -70,6 +70,12 @@ jobs:
           name: dist-pypi
           path: packages/pypi/dist/
 
+      - name: Upload packagist dist
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-packagist
+          path: packages/packagist/dist/
+
   # ── 2a. Release @api-hooks/npm ────────────────────────────────────────────
   release-npm:
     name: Release @api-hooks/npm
@@ -256,6 +262,38 @@ jobs:
 
       - name: Release
         working-directory: packages/pypi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npx semantic-release
+
+  # ── 2g. Release @api-hooks/packagist ─────────────────────────────────────
+  release-packagist:
+    name: Release @api-hooks/packagist
+    needs: release-pypi
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+          ref: main
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Download packagist dist
+        uses: actions/download-artifact@v4
+        with:
+          name: dist-packagist
+          path: packages/packagist/dist/
+
+      - name: Release
+        working-directory: packages/packagist
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

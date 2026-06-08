@@ -1,0 +1,13 @@
+{
+  "extends": ["super-configs/typedoc"],
+  "entryPoints": ["src/index.ts"],
+  "out": "docs",
+  "name": "@api-hooks/packagist",
+  "readme": "README.md",
+  "tsconfig": "tsconfig.json",
+  "externalSymbolLinkMappings": {
+    "php-packagist-api-client": {
+      "PackagistClient": "https://eljijuna.github.io/php-packagist-api-client/classes/PackagistClient.html"
+    }
+  }
+}
