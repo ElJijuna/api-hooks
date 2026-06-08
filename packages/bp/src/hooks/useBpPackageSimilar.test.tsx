@@ -6,6 +6,7 @@ import {
   BundlephobiaClient,
   type SimilarPackages,
 } from 'bundlephobia-api-client';
+import type { ReactNode } from 'react';
 import { useBpPackageSimilar } from './useBpPackageSimilar.js';
 
 const mockSimilar = jest.fn<(signal?: AbortSignal) => Promise<SimilarPackages>>();
@@ -36,7 +37,7 @@ const mockSimilarPackages: SimilarPackages = {
   ],
 };
 
-function wrapper({ children }: { children: React.ReactNode }) {
+function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({
     defaultOptions: { queries: { retry: false } },
   });

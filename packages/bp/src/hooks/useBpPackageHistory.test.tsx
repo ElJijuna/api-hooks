@@ -6,6 +6,7 @@ import {
   BundlephobiaClient,
   type PackageHistory,
 } from 'bundlephobia-api-client';
+import type { ReactNode } from 'react';
 import { useBpPackageHistory } from './useBpPackageHistory.js';
 
 const mockHistory = jest.fn<(signal?: AbortSignal) => Promise<PackageHistory>>();
@@ -23,7 +24,7 @@ const mockPackageHistory: PackageHistory = {
   '18.2.0': { size: 6457, gzip: 2670 },
 };
 
-function wrapper({ children }: { children: React.ReactNode }) {
+function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({
     defaultOptions: { queries: { retry: false } },
   });
