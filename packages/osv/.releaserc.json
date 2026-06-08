@@ -11,7 +11,8 @@
           { "type": "fix", "scope": "@api-hooks/osv", "release": "patch" },
           { "type": "perf", "scope": "@api-hooks/osv", "release": "patch" },
           { "type": "refactor", "scope": "@api-hooks/osv", "release": "patch" },
-          { "breaking": true, "scope": "@api-hooks/osv", "release": "major" }
+          { "breaking": true, "scope": "@api-hooks/osv", "release": "major" },
+          { "release": false }
         ]
       }
     ],

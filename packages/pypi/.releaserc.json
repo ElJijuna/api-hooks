@@ -11,7 +11,8 @@
           { "type": "fix", "scope": "@api-hooks/pypi", "release": "patch" },
           { "type": "perf", "scope": "@api-hooks/pypi", "release": "patch" },
           { "type": "refactor", "scope": "@api-hooks/pypi", "release": "patch" },
-          { "breaking": true, "scope": "@api-hooks/pypi", "release": "major" }
+          { "breaking": true, "scope": "@api-hooks/pypi", "release": "major" },
+          { "release": false }
         ]
       }
     ],

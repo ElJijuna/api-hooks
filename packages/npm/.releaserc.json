@@ -11,7 +11,8 @@
           { "type": "fix", "scope": "@api-hooks/npm", "release": "patch" },
           { "type": "perf", "scope": "@api-hooks/npm", "release": "patch" },
           { "type": "refactor", "scope": "@api-hooks/npm", "release": "patch" },
-          { "breaking": true, "scope": "@api-hooks/npm", "release": "major" }
+          { "breaking": true, "scope": "@api-hooks/npm", "release": "major" },
+          { "release": false }
         ]
       }
     ],

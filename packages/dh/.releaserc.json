@@ -11,7 +11,8 @@
           { "type": "fix", "scope": "@api-hooks/dh", "release": "patch" },
           { "type": "perf", "scope": "@api-hooks/dh", "release": "patch" },
           { "type": "refactor", "scope": "@api-hooks/dh", "release": "patch" },
-          { "breaking": true, "scope": "@api-hooks/dh", "release": "major" }
+          { "breaking": true, "scope": "@api-hooks/dh", "release": "major" },
+          { "release": false }
         ]
       }
     ],
