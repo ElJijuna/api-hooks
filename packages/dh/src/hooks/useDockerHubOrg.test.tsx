@@ -1,7 +1,12 @@
 import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { renderHook, waitFor } from '@testing-library/react';
-import { DockerHubApiError, DockerHubClient, type DockerHubOrganization } from 'dockerhub-api-client';
+import {
+  DockerHubApiError,
+  DockerHubClient,
+  type DockerHubOrganization,
+} from 'dockerhub-api-client';
+import type { ReactNode } from 'react';
 import { useDockerHubOrg } from './useDockerHubOrg.js';
 
 const mockOrg = jest.fn<() => Promise<DockerHubOrganization>>();
@@ -25,7 +30,7 @@ const mockData: DockerHubOrganization = {
   type: 'Organization',
 };
 
-function wrapper({ children }: { children: React.ReactNode }) {
+function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({
     defaultOptions: { queries: { retry: false } },
   });

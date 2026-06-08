@@ -7,6 +7,7 @@ import {
   type DockerHubPagedResponse,
   type DockerHubRepository,
 } from 'dockerhub-api-client';
+import type { ReactNode } from 'react';
 import { useDockerHubUserRepositories } from './useDockerHubUserRepositories.js';
 
 const mockRepositories = jest.fn<() => Promise<DockerHubPagedResponse<DockerHubRepository>>>();
@@ -27,7 +28,7 @@ const mockResponse: DockerHubPagedResponse<DockerHubRepository> = {
   hasNextPage: false,
 };
 
-function wrapper({ children }: { children: React.ReactNode }) {
+function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({
     defaultOptions: { queries: { retry: false } },
   });

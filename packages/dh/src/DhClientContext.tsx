@@ -1,10 +1,10 @@
 import { DockerHubClient, type DockerHubClientOptions } from 'dockerhub-api-client';
-import { createContext, useContext, useMemo } from 'react';
+import { createContext, type ReactNode, useContext, useMemo } from 'react';
 
 const DhClientContext = createContext<DockerHubClient | null>(null);
 
 export interface DhClientProviderProps {
-  children: React.ReactNode;
+  children: ReactNode;
   client?: DockerHubClient;
   options?: DockerHubClientOptions;
 }

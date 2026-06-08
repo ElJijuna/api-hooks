@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { renderHook, waitFor } from '@testing-library/react';
 import { DockerHubApiError, DockerHubClient, type DockerHubRepository } from 'dockerhub-api-client';
+import type { ReactNode } from 'react';
 import { useDockerHubRepository } from './useDockerHubRepository.js';
 
 const mockGet = jest.fn<() => Promise<DockerHubRepository>>();
@@ -10,10 +11,8 @@ beforeEach(() => {
   jest.clearAllMocks();
   jest.spyOn(DockerHubClient.prototype, 'repository').mockReturnValue({
     get: mockGet,
-    then: (onfulfilled: unknown) =>
-      mockGet().then(onfulfilled as Parameters<Promise<DockerHubRepository>['then']>[0]),
     tags: jest.fn(),
-  } as ReturnType<DockerHubClient['repository']>);
+  } as unknown as ReturnType<DockerHubClient['repository']>);
 });
 
 const mockRepo: DockerHubRepository = {
@@ -41,7 +40,7 @@ const mockRepo: DockerHubRepository = {
   content_types: [],
 };
 
-function wrapper({ children }: { children: React.ReactNode }) {
+function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({
     defaultOptions: { queries: { retry: false } },
   });

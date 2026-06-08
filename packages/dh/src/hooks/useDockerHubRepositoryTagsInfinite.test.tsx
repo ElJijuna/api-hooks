@@ -6,6 +6,7 @@ import {
   type DockerHubPagedResponse,
   type DockerHubTag,
 } from 'dockerhub-api-client';
+import type { ReactNode } from 'react';
 import { useDockerHubRepositoryTagsInfinite } from './useDockerHubRepositoryTagsInfinite.js';
 
 const mockTags = jest.fn<() => Promise<DockerHubPagedResponse<DockerHubTag>>>();
@@ -33,7 +34,7 @@ const mockPage2: DockerHubPagedResponse<DockerHubTag> = {
   hasNextPage: false,
 };
 
-function wrapper({ children }: { children: React.ReactNode }) {
+function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({
     defaultOptions: { queries: { retry: false } },
   });
@@ -44,10 +45,9 @@ describe('useDockerHubRepositoryTagsInfinite', () => {
   it('fetches first page on mount', async () => {
     mockTags.mockResolvedValue(mockPage1);
 
-    const { result } = renderHook(
-      () => useDockerHubRepositoryTagsInfinite('library', 'nginx'),
-      { wrapper },
-    );
+    const { result } = renderHook(() => useDockerHubRepositoryTagsInfinite('library', 'nginx'), {
+      wrapper,
+    });
 
     await waitFor(() => expect(result.current.isLoading).toBe(false));
 
@@ -58,10 +58,9 @@ describe('useDockerHubRepositoryTagsInfinite', () => {
   it('fetches next page on fetchNextPage', async () => {
     mockTags.mockResolvedValueOnce(mockPage1).mockResolvedValueOnce(mockPage2);
 
-    const { result } = renderHook(
-      () => useDockerHubRepositoryTagsInfinite('library', 'nginx'),
-      { wrapper },
-    );
+    const { result } = renderHook(() => useDockerHubRepositoryTagsInfinite('library', 'nginx'), {
+      wrapper,
+    });
 
     await waitFor(() => expect(result.current.isLoading).toBe(false));
     result.current.fetchNextPage();
@@ -71,10 +70,9 @@ describe('useDockerHubRepositoryTagsInfinite', () => {
   });
 
   it('does not fetch when name is empty', () => {
-    const { result } = renderHook(
-      () => useDockerHubRepositoryTagsInfinite('library', ''),
-      { wrapper },
-    );
+    const { result } = renderHook(() => useDockerHubRepositoryTagsInfinite('library', ''), {
+      wrapper,
+    });
 
     expect(result.current.isLoading).toBe(false);
     expect(mockTags).not.toHaveBeenCalled();

@@ -5,8 +5,8 @@ import {
 } from '@tanstack/react-query';
 import type {
   DockerHubPagedResponse,
-  DockerHubRepository,
   DockerHubRepositoriesParams,
+  DockerHubRepository,
 } from 'dockerhub-api-client';
 import { useDhClient } from '../DhClientContext.js';
 import { dhQueryKeys } from '../keys/dhQueryKeys.js';
@@ -29,7 +29,10 @@ export interface UseDockerHubUserRepositoriesInfiniteOptions
 export function useDockerHubUserRepositoriesInfinite(
   username: string,
   options: UseDockerHubUserRepositoriesInfiniteOptions = {},
-): UseInfiniteQueryResult<InfiniteData<DockerHubPagedResponse<DockerHubRepository>, number>, Error> {
+): UseInfiniteQueryResult<
+  InfiniteData<DockerHubPagedResponse<DockerHubRepository>, number>,
+  Error
+> {
   const { enabled = true, ...params } = options;
   const client = useDhClient();
 

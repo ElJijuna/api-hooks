@@ -3,7 +3,11 @@ import {
   type UseInfiniteQueryResult,
   useInfiniteQuery,
 } from '@tanstack/react-query';
-import type { DockerHubPagedResponse, DockerHubTag, DockerHubTagsParams } from 'dockerhub-api-client';
+import type {
+  DockerHubPagedResponse,
+  DockerHubTag,
+  DockerHubTagsParams,
+} from 'dockerhub-api-client';
 import { useDhClient } from '../DhClientContext.js';
 import { dhQueryKeys } from '../keys/dhQueryKeys.js';
 

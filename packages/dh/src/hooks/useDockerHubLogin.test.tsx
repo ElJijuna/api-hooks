@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { act, renderHook, waitFor } from '@testing-library/react';
 import { DockerHubApiError, DockerHubClient } from 'dockerhub-api-client';
+import type { ReactNode } from 'react';
 import { useDockerHubLogin } from './useDockerHubLogin.js';
 
 const mockLogin = jest.fn<() => Promise<string>>();
@@ -11,7 +12,7 @@ beforeEach(() => {
   jest.spyOn(DockerHubClient.prototype, 'login').mockImplementation(mockLogin);
 });
 
-function wrapper({ children }: { children: React.ReactNode }) {
+function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({
     defaultOptions: { queries: { retry: false } },
   });

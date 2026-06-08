@@ -1,8 +1,8 @@
 import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import type {
   DockerHubPagedResponse,
-  DockerHubRepository,
   DockerHubRepositoriesParams,
+  DockerHubRepository,
 } from 'dockerhub-api-client';
 import { useDhClient } from '../DhClientContext.js';
 import { dhQueryKeys } from '../keys/dhQueryKeys.js';

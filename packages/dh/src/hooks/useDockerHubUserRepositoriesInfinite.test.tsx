@@ -6,6 +6,7 @@ import {
   type DockerHubPagedResponse,
   type DockerHubRepository,
 } from 'dockerhub-api-client';
+import type { ReactNode } from 'react';
 import { useDockerHubUserRepositoriesInfinite } from './useDockerHubUserRepositoriesInfinite.js';
 
 const mockRepositories = jest.fn<() => Promise<DockerHubPagedResponse<DockerHubRepository>>>();
@@ -33,7 +34,7 @@ const mockPage2: DockerHubPagedResponse<DockerHubRepository> = {
   hasNextPage: false,
 };
 
-function wrapper({ children }: { children: React.ReactNode }) {
+function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({
     defaultOptions: { queries: { retry: false } },
   });
@@ -44,10 +45,9 @@ describe('useDockerHubUserRepositoriesInfinite', () => {
   it('fetches first page on mount', async () => {
     mockRepositories.mockResolvedValue(mockPage1);
 
-    const { result } = renderHook(
-      () => useDockerHubUserRepositoriesInfinite('johndoe'),
-      { wrapper },
-    );
+    const { result } = renderHook(() => useDockerHubUserRepositoriesInfinite('johndoe'), {
+      wrapper,
+    });
 
     await waitFor(() => expect(result.current.isLoading).toBe(false));
 
@@ -58,10 +58,9 @@ describe('useDockerHubUserRepositoriesInfinite', () => {
   it('fetches next page on fetchNextPage', async () => {
     mockRepositories.mockResolvedValueOnce(mockPage1).mockResolvedValueOnce(mockPage2);
 
-    const { result } = renderHook(
-      () => useDockerHubUserRepositoriesInfinite('johndoe'),
-      { wrapper },
-    );
+    const { result } = renderHook(() => useDockerHubUserRepositoriesInfinite('johndoe'), {
+      wrapper,
+    });
 
     await waitFor(() => expect(result.current.isLoading).toBe(false));
     result.current.fetchNextPage();
@@ -71,10 +70,7 @@ describe('useDockerHubUserRepositoriesInfinite', () => {
   });
 
   it('does not fetch when username is empty', () => {
-    const { result } = renderHook(
-      () => useDockerHubUserRepositoriesInfinite(''),
-      { wrapper },
-    );
+    const { result } = renderHook(() => useDockerHubUserRepositoriesInfinite(''), { wrapper });
 
     expect(result.current.isLoading).toBe(false);
     expect(mockRepositories).not.toHaveBeenCalled();

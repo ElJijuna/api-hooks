@@ -7,6 +7,7 @@ import {
   type DockerHubPagedResponse,
   type DockerHubSearchResult,
 } from 'dockerhub-api-client';
+import type { ReactNode } from 'react';
 import { useDockerHubSearch } from './useDockerHubSearch.js';
 
 const mockSearch = jest.fn<() => Promise<DockerHubPagedResponse<DockerHubSearchResult>>>();
@@ -31,7 +32,7 @@ const mockResponse: DockerHubPagedResponse<DockerHubSearchResult> = {
   hasNextPage: false,
 };
 
-function wrapper({ children }: { children: React.ReactNode }) {
+function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({
     defaultOptions: { queries: { retry: false } },
   });

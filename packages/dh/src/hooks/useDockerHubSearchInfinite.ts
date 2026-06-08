@@ -11,7 +11,8 @@ import type {
 import { useDhClient } from '../DhClientContext.js';
 import { dhQueryKeys } from '../keys/dhQueryKeys.js';
 
-export interface UseDockerHubSearchInfiniteOptions extends Omit<DockerHubSearchParams, 'query' | 'page'> {
+export interface UseDockerHubSearchInfiniteOptions
+  extends Omit<DockerHubSearchParams, 'query' | 'page'> {
   /** Disable the query. Also disabled when `query` is empty. */
   enabled?: boolean;
 }
@@ -28,7 +29,10 @@ export interface UseDockerHubSearchInfiniteOptions extends Omit<DockerHubSearchP
 export function useDockerHubSearchInfinite(
   query: string,
   options: UseDockerHubSearchInfiniteOptions = {},
-): UseInfiniteQueryResult<InfiniteData<DockerHubPagedResponse<DockerHubSearchResult>, number>, Error> {
+): UseInfiniteQueryResult<
+  InfiniteData<DockerHubPagedResponse<DockerHubSearchResult>, number>,
+  Error
+> {
   const { enabled = true, ...params } = options;
   const client = useDhClient();
 
