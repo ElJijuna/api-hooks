@@ -1,5 +1,9 @@
 # @api-hooks/packagist
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/ElJijuna/api-hooks/main/public/assets/api-hooks.png" alt="api-hooks logo" width="240" />
+</p>
+
 React hooks for the Packagist API, built on [`php-packagist-api-client`](https://www.npmjs.com/package/php-packagist-api-client) and [`@tanstack/react-query`](https://tanstack.com/query).
 
 ## Installation
