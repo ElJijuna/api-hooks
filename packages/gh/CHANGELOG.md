@@ -1,3 +1,9 @@
+## [2.5.1](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/gh@2.5.0...@api-hooks/gh@2.5.1) (2026-06-08)
+
+### Refactoring
+
+* update ReactNode type imports in test hooks to improve consistency and clarity ([a77a513](https://github.com/ElJijuna/api-hooks/commit/a77a5135ab444dc35b7faf4b23871164d690d982))
+
 ## [2.3.1](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/gh@2.3.0...@api-hooks/gh@2.3.1) (2026-06-02)
 
 ### Bug Fixes
