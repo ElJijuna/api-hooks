@@ -4,5 +4,10 @@
   "out": "docs",
   "name": "@api-hooks/pypi",
   "readme": "README.md",
-  "tsconfig": "tsconfig.json"
+  "tsconfig": "tsconfig.json",
+  "externalSymbolLinkMappings": {
+    "pypi-api-client": {
+      "PyPIClient": "https://eljijuna.github.io/pypi-api-client/classes/PyPIClient.html"
+    }
+  }
 }

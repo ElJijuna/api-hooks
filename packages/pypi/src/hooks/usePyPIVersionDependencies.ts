@@ -4,6 +4,14 @@ import { useMemo } from 'react';
 import { pypiQueryKeys } from '../keys/pypiQueryKeys.js';
 import type { UsePyPIQueryOptions } from './options.js';
 
+/**
+ * Fetches the resolved deps.dev dependency graph for a specific PyPI project version.
+ *
+ * @param name - PyPI project name (e.g. `'requests'`)
+ * @param version - Version string (e.g. `'2.31.0'`)
+ * @param options - Query options
+ * @returns TanStack Query result with {@link PyPIDepsDevDependencies}
+ */
 export function usePyPIVersionDependencies(
   name: string,
   version: string,

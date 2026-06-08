@@ -4,6 +4,13 @@ import { useMemo } from 'react';
 import { pypiQueryKeys } from '../keys/pypiQueryKeys.js';
 import type { UsePyPIDownloadBreakdownOptions } from './downloadBreakdownOptions.js';
 
+/**
+ * Fetches per-day downloads broken down by Python minor version.
+ *
+ * @param name - PyPI project name (e.g. `'requests'`)
+ * @param options - Query options, including optional date filters
+ * @returns TanStack Query result with {@link PyPIBreakdownDownloads}
+ */
 export function usePyPIDownloadsByPythonMinor(
   name: string,
   options: UsePyPIDownloadBreakdownOptions = {},

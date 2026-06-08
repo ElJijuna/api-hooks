@@ -4,6 +4,13 @@ import { useMemo } from 'react';
 import { pypiQueryKeys } from '../keys/pypiQueryKeys.js';
 import type { UsePyPIQueryOptions } from './options.js';
 
+/**
+ * Fetches known vulnerabilities for the latest version of a PyPI project.
+ *
+ * @param name - PyPI project name (e.g. `'requests'`)
+ * @param options - Query options
+ * @returns TanStack Query result with {@link PyPIVulnerability} entries
+ */
 export function usePyPIPackageVulnerabilities(
   name: string,
   options: UsePyPIQueryOptions = {},

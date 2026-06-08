@@ -4,6 +4,15 @@ import { useMemo } from 'react';
 import { pypiQueryKeys } from '../keys/pypiQueryKeys.js';
 import type { UsePyPIQueryOptions } from './options.js';
 
+/**
+ * Fetches recent download totals for a PyPI project from pypistats.org.
+ *
+ * Includes last day, last week, and last month totals.
+ *
+ * @param name - PyPI project name (e.g. `'requests'`)
+ * @param options - Query options
+ * @returns TanStack Query result with {@link PyPIRecentDownloads}
+ */
 export function usePyPIDownloads(
   name: string,
   options: UsePyPIQueryOptions = {},

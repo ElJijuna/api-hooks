@@ -4,6 +4,13 @@ import { useMemo } from 'react';
 import { pypiQueryKeys } from '../keys/pypiQueryKeys.js';
 import type { UsePyPIQueryOptions } from './options.js';
 
+/**
+ * Fetches full PyPI project metadata, including latest info, releases, files, and vulnerabilities.
+ *
+ * @param name - PyPI project name (e.g. `'requests'`)
+ * @param options - Query options
+ * @returns TanStack Query result with {@link PyPIProject}
+ */
 export function usePyPIProject(
   name: string,
   options: UsePyPIQueryOptions = {},

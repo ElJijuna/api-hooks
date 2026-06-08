@@ -4,6 +4,15 @@ import { useMemo } from 'react';
 import { pypiQueryKeys } from '../keys/pypiQueryKeys.js';
 import type { UsePyPIQueryOptions } from './options.js';
 
+/**
+ * Fetches the full releases map for a PyPI project.
+ *
+ * The result maps each version string to its distribution files.
+ *
+ * @param name - PyPI project name (e.g. `'requests'`)
+ * @param options - Query options
+ * @returns TanStack Query result with a version-to-files map
+ */
 export function usePyPIReleases(
   name: string,
   options: UsePyPIQueryOptions = {},
