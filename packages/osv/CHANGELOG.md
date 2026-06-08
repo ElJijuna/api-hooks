@@ -1,3 +1,9 @@
+## [1.5.1](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/osv@1.5.0...@api-hooks/osv@1.5.1) (2026-06-08)
+
+### Refactoring
+
+* streamline ReactNode type imports in test files for consistency ([a3073c5](https://github.com/ElJijuna/api-hooks/commit/a3073c55483e9a290d40f54e8e26c28d3d61c8c3))
+
 ## [1.2.0](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/osv@1.1.0...@api-hooks/osv@1.2.0) (2026-05-24)
 
 ### Bug Fixes
