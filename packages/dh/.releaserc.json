@@ -1,22 +1,64 @@
 {
   "tagFormat": "@api-hooks/dh@${version}",
-  "branches": ["main"],
+  "branches": [
+    "main"
+  ],
   "plugins": [
     [
       "@semantic-release/commit-analyzer",
       {
         "preset": "conventionalcommits",
         "releaseRules": [
-          { "type": "feat", "scope": "@api-hooks/dh", "release": "minor" },
-          { "type": "fix", "scope": "@api-hooks/dh", "release": "patch" },
-          { "type": "perf", "scope": "@api-hooks/dh", "release": "patch" },
-          { "type": "refactor", "scope": "@api-hooks/dh", "release": "patch" },
-          { "breaking": true, "scope": "@api-hooks/dh", "release": "major" },
-          { "type": "feat", "scope": "!@api-hooks/dh", "release": false },
-          { "type": "fix", "scope": "!@api-hooks/dh", "release": false },
-          { "type": "perf", "scope": "!@api-hooks/dh", "release": false },
-          { "type": "refactor", "scope": "!@api-hooks/dh", "release": false },
-          { "breaking": true, "scope": "!@api-hooks/dh", "release": false }
+          {
+            "type": "feat",
+            "scope": "@api-hooks/dh",
+            "release": "minor"
+          },
+          {
+            "type": "fix",
+            "scope": "@api-hooks/dh",
+            "release": "patch"
+          },
+          {
+            "type": "perf",
+            "scope": "@api-hooks/dh",
+            "release": "patch"
+          },
+          {
+            "type": "refactor",
+            "scope": "@api-hooks/dh",
+            "release": "patch"
+          },
+          {
+            "breaking": true,
+            "scope": "@api-hooks/dh",
+            "release": "major"
+          },
+          {
+            "type": "feat",
+            "scope": "!@api-hooks/dh",
+            "release": false
+          },
+          {
+            "type": "fix",
+            "scope": "!@api-hooks/dh",
+            "release": false
+          },
+          {
+            "type": "perf",
+            "scope": "!@api-hooks/dh",
+            "release": false
+          },
+          {
+            "type": "refactor",
+            "scope": "!@api-hooks/dh",
+            "release": false
+          },
+          {
+            "breaking": true,
+            "scope": "!@api-hooks/dh",
+            "release": false
+          }
         ]
       }
     ],
@@ -26,29 +68,71 @@
         "preset": "conventionalcommits",
         "presetConfig": {
           "types": [
-            { "type": "feat", "section": "Features" },
-            { "type": "fix", "section": "Bug Fixes" },
-            { "type": "perf", "section": "Performance" },
-            { "type": "refactor", "section": "Refactoring" },
-            { "type": "docs", "section": "Documentation", "hidden": false },
-            { "type": "chore", "section": "Chores", "hidden": true }
+            {
+              "type": "feat",
+              "section": "Features"
+            },
+            {
+              "type": "fix",
+              "section": "Bug Fixes"
+            },
+            {
+              "type": "perf",
+              "section": "Performance"
+            },
+            {
+              "type": "refactor",
+              "section": "Refactoring"
+            },
+            {
+              "type": "docs",
+              "section": "Documentation",
+              "hidden": false
+            },
+            {
+              "type": "chore",
+              "section": "Chores",
+              "hidden": true
+            }
+          ]
+        },
+        "parserOpts": {
+          "headerPattern": "^(\\w+)\\(@api-hooks\\/dh\\)!?:\\s(.+)$",
+          "headerCorrespondence": [
+            "type",
+            "subject"
           ]
         }
       }
     ],
-    ["@semantic-release/changelog", { "changelogFile": "CHANGELOG.md" }],
-    ["@semantic-release/npm", { "pkgRoot": "." }],
+    [
+      "@semantic-release/changelog",
+      {
+        "changelogFile": "CHANGELOG.md"
+      }
+    ],
+    [
+      "@semantic-release/npm",
+      {
+        "pkgRoot": "."
+      }
+    ],
     [
       "@semantic-release/github",
       {
         "successComment": "🎉 This change is included in `@api-hooks/dh@${nextRelease.version}`.",
-        "releasedLabels": ["released"]
+        "releasedLabels": [
+          "released"
+        ]
       }
     ],
     [
       "@semantic-release/git",
       {
-        "assets": ["CHANGELOG.md", "package.json"],
+        "assets": [
+          "CHANGELOG.md",
+          "package.json"
+        ],
         "message": "chore(release): @api-hooks/dh@${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
       }
     ]
