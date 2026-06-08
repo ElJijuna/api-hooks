@@ -1,75 +1,18 @@
-## [2.5.0](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/npm@2.4.0...@api-hooks/npm@2.5.0) (2026-06-08)
-
-### Features
-
-* **@api-hooks/pypi:** add initial release with React hooks for PyPI API integration ([6a1a1b3](https://github.com/ElJijuna/api-hooks/commit/6a1a1b3f58449248a12fa9b68fe411cc1f85ccc0))
-* **@api-hooks/pypi:** add semantic release configuration and export new hook ([6a66c4d](https://github.com/ElJijuna/api-hooks/commit/6a66c4dcbc01b895373c57b28cca71f07af1bb84))
-* **@api-hooks/pypi:** add support for PyPI documentation and release process ([63686a8](https://github.com/ElJijuna/api-hooks/commit/63686a85ff67fac6a0803be44da854934378476b))
-* **@api-hooks/pypi:** enhance hooks with detailed JSDoc comments and add types export ([1bbf501](https://github.com/ElJijuna/api-hooks/commit/1bbf5010e6782d65f467ab8c864d8b959c9145fb))
-
 ## [2.4.0](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/npm@2.3.1...@api-hooks/npm@2.4.0) (2026-06-07)
 
 ### Features
 
-* **@api-hooks/dh:** add hooks for Docker Hub API integration ([c88c2b5](https://github.com/ElJijuna/api-hooks/commit/c88c2b5074a18ff08b25c6a69e67647e041a6d2d))
 * **@api-hooks/npm:** add useNpmWhoami hook to retrieve npm username associated with auth token ([02ce389](https://github.com/ElJijuna/api-hooks/commit/02ce3896fe4cf1bd31689b43ee3955b2ca746531))
-
-## [2.3.1](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/npm@2.3.0...@api-hooks/npm@2.3.1) (2026-06-02)
-
-### Bug Fixes
-
-* **@api-hooks/gh:** update gh-api-client dependency ([20d4f9d](https://github.com/ElJijuna/api-hooks/commit/20d4f9d9e07cd839836062a420e238dcbb9af229))
-
-## [2.3.0](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/npm@2.2.0...@api-hooks/npm@2.3.0) (2026-05-26)
-
-### Features
-
-* **@api-hooks/gh:** add new hooks keys ([9050cf7](https://github.com/ElJijuna/api-hooks/commit/9050cf73ea777c0e3a16dbadb33dad41a73e2636))
-* **@api-hooks/gh:** implement hooks for gh-api-client v1.16.0 ([c62838e](https://github.com/ElJijuna/api-hooks/commit/c62838e7fb8b2656452e94a84f0de2b08978a65a))
 
 ## [2.2.0](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/npm@2.1.0...@api-hooks/npm@2.2.0) (2026-05-24)
 
-### Features
-
-* **@api-hooks/gh:** add hooks for gh-api-client ([fd602b7](https://github.com/ElJijuna/api-hooks/commit/fd602b7c111dc587b56a2b18ac0eb055bc0071cd))
-
 ### Bug Fixes
 
-* **@api-hooks/bp:** update README ([56f99f7](https://github.com/ElJijuna/api-hooks/commit/56f99f79d2bc1ce5a0bbc8d5084969a23cfed44d))
 * **@api-hooks/npm:** update README ([d0c95b3](https://github.com/ElJijuna/api-hooks/commit/d0c95b38497e08a4347878a81af2b975988dd690))
-* **@api-hooks/osv:** update README ([7771b29](https://github.com/ElJijuna/api-hooks/commit/7771b291f70de0bb079bf3a0ff447d1e38585fc1))
-
-## [2.1.0](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/npm@2.0.0...@api-hooks/npm@2.1.0) (2026-05-23)
-
-### Features
-
-* **@api-hooks/gh:** add hook useGhRepoMultipleRaw ([e29f39c](https://github.com/ElJijuna/api-hooks/commit/e29f39cc41eb314247734de5119736363ca00a08))
-
-## [2.0.0](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/npm@1.14.0...@api-hooks/npm@2.0.0) (2026-05-20)
-
-### ⚠ BREAKING CHANGES
-
-* **@api-hooks/gh:** the `token` option has been removed from all hooks. Configure
-authentication once via GhClientProvider at the app root instead.
-
-- Add GhClientProvider and useGhClient() context following the NpmClientContext pattern
-- Refactor all 99 hooks to use useGhClient() instead of per-hook token+useMemo
-- Add useGhNotifications and useGhNotificationsInfinite
-- Add useGhMarkNotificationRead and useGhMarkAllNotificationsRead mutations
-- Add useGhIssues and useGhIssuesInfinite (cross-repository, GET /issues)
-- Add useGhSearchIssues and useGhSearchIssuesInfinite
-- Add useGhRepoWorkflowRuns and useGhRepoWorkflowRunsInfinite
-- Update README with GhClientProvider setup and new hook documentation
-
-### Features
-
-* **@api-hooks/gh:** add GhClientProvider context and hooks for notifications, issues, search, and workflow runs ([1682038](https://github.com/ElJijuna/api-hooks/commit/1682038e2cf5b5e394155d0c72bf73a39232f88a))
-
 ## [1.14.0](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/npm@1.13.0...@api-hooks/npm@1.14.0) (2026-05-13)
 
 ### Features
 
-* **@api-hooks/gh:** add hooks for gist, user, repo, PR and commit sub-operations ([c035814](https://github.com/ElJijuna/api-hooks/commit/c03581496acf430ffddb6dcaa9615dedfff0c3fa))
 * **@api-hooks/npm:** add useNpmUser and useNpmUserPackages hooks ([54a3e4e](https://github.com/ElJijuna/api-hooks/commit/54a3e4ea65612ab6d03875f99ea099eb4d1af6d1))
 
 ### Documentation
@@ -80,9 +23,6 @@ authentication once via GhClientProvider at the app root instead.
 
 ### Features
 
-* **@api-hooks/gh:** add global advisory hooks (advisories, advisory, advisoryByCve) ([9277173](https://github.com/ElJijuna/api-hooks/commit/9277173f75b5b325a0a391c1a0b0a57959054b1b))
-* **@api-hooks/gh:** add repo, issue, PR, commit, org and search hooks ([39e1774](https://github.com/ElJijuna/api-hooks/commit/39e1774c9bb9ef8cd8d4b1af79fb9ab8568d97ad))
-* **@api-hooks/gh:** add useGhGistsInfinite hook ([41072f2](https://github.com/ElJijuna/api-hooks/commit/41072f2a6092b27faa34a15eedb15a54997e4544))
 * **@api-hooks/npm:** add useNpmSearchInfinite and useNpmMaintainerPackagesInfinite hooks ([864bdf4](https://github.com/ElJijuna/api-hooks/commit/864bdf4315c9119edc5acc2140b106164964c1f9))
 
 ### Documentation
@@ -144,25 +84,7 @@ authentication once via GhClientProvider at the app root instead.
 
 * update main and exports in packages jsons from all packages. ([e7c3dc7](https://github.com/ElJijuna/api-hooks/commit/e7c3dc77cc979e958a6798c6216bf6ae8a36833a))
 
-## [1.7.0](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/npm@1.6.0...@api-hooks/npm@1.7.0) (2026-04-17)
-
-### Features
-
-* **@api-hooks/osv:** add osvQueryKeys factory (closes [#70](https://github.com/ElJijuna/api-hooks/issues/70)) ([0d7595f](https://github.com/ElJijuna/api-hooks/commit/0d7595fa349b534b7773896dc1ff55a3b8efa809))
-* **@api-hooks/osv:** add package skeleton (closes [#69](https://github.com/ElJijuna/api-hooks/issues/69)) ([8d52bca](https://github.com/ElJijuna/api-hooks/commit/8d52bca9fa679f80e5cca18a7cdc073db1cd84c6))
-* **@api-hooks/osv:** add types re-exports (closes [#74](https://github.com/ElJijuna/api-hooks/issues/74)) ([76f116b](https://github.com/ElJijuna/api-hooks/commit/76f116b4ef1cdd8c388d37556e6726a9be9484ac))
-* **@api-hooks/osv:** add useOsvQuery hook (closes [#72](https://github.com/ElJijuna/api-hooks/issues/72)) ([534a2c2](https://github.com/ElJijuna/api-hooks/commit/534a2c20c20fcf934e3f8d09e13a61593c8c5ab3))
-* **@api-hooks/osv:** add useOsvQueryBatch hook (closes [#73](https://github.com/ElJijuna/api-hooks/issues/73)) ([4849b88](https://github.com/ElJijuna/api-hooks/commit/4849b88f2e610a98593acc58a42b1d579f5354d5))
-* **@api-hooks/osv:** add useOsvVuln hook (closes [#71](https://github.com/ElJijuna/api-hooks/issues/71)) ([b55393b](https://github.com/ElJijuna/api-hooks/commit/b55393b0959d451d077bf6b925e48f74a878e01d))
-
 ## [1.6.0](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/npm@1.5.0...@api-hooks/npm@1.6.0) (2026-04-17)
-
-### Features
-
-* **@api-hooks/gh:** add useGhCreateGist mutation hook (closes [#62](https://github.com/ElJijuna/api-hooks/issues/62)) ([16b61b2](https://github.com/ElJijuna/api-hooks/commit/16b61b23572696348d767f9ac1b395734b6afa40))
-* **@api-hooks/gh:** add useGhDeleteGist mutation hook (closes [#64](https://github.com/ElJijuna/api-hooks/issues/64)) ([51462ef](https://github.com/ElJijuna/api-hooks/commit/51462ef3d7d36381a30faa7699b1e6f394fadc1d))
-* **@api-hooks/gh:** add useGhGist hook (closes [#57](https://github.com/ElJijuna/api-hooks/issues/57)) ([34c0421](https://github.com/ElJijuna/api-hooks/commit/34c042124c6ad9e1fb5703e72422ff6d6ce55f6f))
-* **@api-hooks/gh:** add useGhUpdateGist mutation hook closes [#63](https://github.com/ElJijuna/api-hooks/issues/63) ([4f22e79](https://github.com/ElJijuna/api-hooks/commit/4f22e79edf021c99a7bb4e74bcfba19b377291e4))
 
 ### Documentation
 
@@ -182,9 +104,6 @@ authentication once via GhClientProvider at the app root instead.
 
 ### Features
 
-* **bp:** implement useBpPackageHistory ([#50](https://github.com/ElJijuna/api-hooks/issues/50)) ([7b3ea2c](https://github.com/ElJijuna/api-hooks/commit/7b3ea2cd083b32fa40c0509652bdbacb39bc5cfa))
-* **bp:** implement useBpPackageSimilar ([#51](https://github.com/ElJijuna/api-hooks/issues/51)) ([33ea4ba](https://github.com/ElJijuna/api-hooks/commit/33ea4ba4dff96d79a0053ddac90b20fa9bdfcd25))
-* **bp:** scaffold @api-hooks/bp package and implement useBpPackageSize ([#48](https://github.com/ElJijuna/api-hooks/issues/48)) ([048bf75](https://github.com/ElJijuna/api-hooks/commit/048bf75044a6ddc5bc0f86fa45af338e749dea9b))
 * implement useBpPackageVersionSize ([#49](https://github.com/ElJijuna/api-hooks/issues/49)) ([9b56796](https://github.com/ElJijuna/api-hooks/commit/9b56796d793e9441dccf2932517a3c95a519ee93))
 
 ## [1.3.0](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/npm@1.2.0...@api-hooks/npm@1.3.0) (2026-04-16)
