@@ -8,6 +8,7 @@ import {
   type GitHubPagedResponse,
   type GitHubUser,
 } from 'gh-api-client';
+import type { ReactNode } from 'react';
 import { useGhGistForks } from './useGhGistForks.js';
 
 const mockForks =
@@ -44,7 +45,7 @@ const mockResponse: GitHubPagedResponse<GistFork> = {
   hasNextPage: false,
 };
 
-function wrapper({ children }: { children: React.ReactNode }) {
+function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
   return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 }

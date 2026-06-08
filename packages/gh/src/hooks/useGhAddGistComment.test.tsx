@@ -7,6 +7,7 @@ import {
   GitHubApiError,
   GitHubClient,
 } from 'gh-api-client';
+import type { ReactNode } from 'react';
 import { useGhAddGistComment } from './useGhAddGistComment.js';
 
 const mockAddComment =
@@ -29,7 +30,7 @@ const mockComment: GistComment = {
 
 const commentData: GistCommentData = { body: 'Great snippet!' };
 
-function wrapper({ children }: { children: React.ReactNode }) {
+function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
   return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 }

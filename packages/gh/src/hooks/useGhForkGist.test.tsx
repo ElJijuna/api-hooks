@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { act, renderHook, waitFor } from '@testing-library/react';
 import { GitHubApiError, GitHubClient, type GitHubGist } from 'gh-api-client';
+import type { ReactNode } from 'react';
 import { useGhForkGist } from './useGhForkGist.js';
 
 const mockFork = jest.fn<(signal?: AbortSignal) => Promise<GitHubGist>>();
@@ -30,7 +31,7 @@ const mockGist: GitHubGist = {
   node_id: 'G_fork123',
 };
 
-function wrapper({ children }: { children: React.ReactNode }) {
+function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
   return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 }

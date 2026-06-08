@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { renderHook, waitFor } from '@testing-library/react';
 import { GitHubApiError, GitHubClient, type GitHubPullRequest } from 'gh-api-client';
+import type { ReactNode } from 'react';
 import { useGhPullRequest } from './useGhPullRequest.js';
 
 const mockGet = jest.fn<(signal?: AbortSignal) => Promise<GitHubPullRequest>>();
@@ -24,7 +25,7 @@ const mockPullRequestData = {
   state: 'open',
 } as unknown as GitHubPullRequest;
 
-function wrapper({ children }: { children: React.ReactNode }) {
+function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
   return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 }

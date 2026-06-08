@@ -7,6 +7,7 @@ import {
   type GitHubPagedResponse,
   type GitHubUser,
 } from 'gh-api-client';
+import type { ReactNode } from 'react';
 import { useGhOrgMembers } from './useGhOrgMembers.js';
 
 const mockMembers =
@@ -22,7 +23,7 @@ beforeEach(() => {
 const mockUser = { login: 'octocat', id: 1 } as unknown as GitHubUser;
 const mockResponse: GitHubPagedResponse<GitHubUser> = { values: [mockUser], hasNextPage: false };
 
-function wrapper({ children }: { children: React.ReactNode }) {
+function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
   return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 }

@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { act, renderHook, waitFor } from '@testing-library/react';
 import { GitHubClient, type GitHubRepositoryAdvisory } from 'gh-api-client';
+import type { ReactNode } from 'react';
 import { useGhCreateRepoAdvisory } from './useGhCreateRepoAdvisory.js';
 
 const mockCreateAdvisory = jest.fn<(data: object) => Promise<GitHubRepositoryAdvisory>>();
@@ -13,7 +14,7 @@ beforeEach(() => {
   } as unknown as ReturnType<GitHubClient['repo']>);
 });
 
-function wrapper({ children }: { children: React.ReactNode }) {
+function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
   return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 }

@@ -7,6 +7,7 @@ import {
   type GitHubIssueComment,
   type GitHubPagedResponse,
 } from 'gh-api-client';
+import type { ReactNode } from 'react';
 import { useGhIssueCommentsInfinite } from './useGhIssueCommentsInfinite.js';
 
 const mockComments =
@@ -38,7 +39,7 @@ function makeResponse(
   return { values: [mockIssueComment], hasNextPage, nextPage };
 }
 
-function wrapper({ children }: { children: React.ReactNode }) {
+function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
   return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 }

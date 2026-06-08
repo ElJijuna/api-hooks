@@ -7,6 +7,7 @@ import {
   type GitHubPagedResponse,
   type GitHubRepository,
 } from 'gh-api-client';
+import type { ReactNode } from 'react';
 import { useGhSearchReposInfinite } from './useGhSearchReposInfinite.js';
 
 const mockSearchRepos =
@@ -32,7 +33,7 @@ function makeResponse(
   return { values: [mockRepo], hasNextPage, nextPage };
 }
 
-function wrapper({ children }: { children: React.ReactNode }) {
+function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
   return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 }

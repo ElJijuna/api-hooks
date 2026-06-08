@@ -7,6 +7,7 @@ import {
   GitHubClient,
   type GitHubRelease,
 } from 'gh-api-client';
+import type { ReactNode } from 'react';
 import { useGhCreateRelease } from './useGhCreateRelease.js';
 
 const mockCreateRelease = jest.fn<(data: CreateReleaseData) => Promise<GitHubRelease>>();
@@ -29,7 +30,7 @@ const mockRelease = {
 
 const releaseData: CreateReleaseData = { tag_name: 'v1.0.0', name: 'v1.0.0' };
 
-function wrapper({ children }: { children: React.ReactNode }) {
+function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
   return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 }

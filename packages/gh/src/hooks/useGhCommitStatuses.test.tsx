@@ -7,6 +7,7 @@ import {
   type GitHubCommitStatus,
   type GitHubPagedResponse,
 } from 'gh-api-client';
+import type { ReactNode } from 'react';
 import { useGhCommitStatuses } from './useGhCommitStatuses.js';
 
 const mockStatuses =
@@ -37,7 +38,7 @@ const mockResponse: GitHubPagedResponse<GitHubCommitStatus> = {
   hasNextPage: false,
 };
 
-function wrapper({ children }: { children: React.ReactNode }) {
+function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
   return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 }

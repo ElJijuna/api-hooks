@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { act, renderHook, waitFor } from '@testing-library/react';
 import type { CommitResource } from 'gh-api-client';
 import { GitHubApiError, GitHubClient, type GitHubCommitStatus } from 'gh-api-client';
+import type { ReactNode } from 'react';
 import { useGhCreateCommitStatus } from './useGhCreateCommitStatus.js';
 
 type CreateStatusData = Parameters<CommitResource['createStatus']>[0];
@@ -34,7 +35,7 @@ const statusData: CreateStatusData = {
   description: 'All checks passed',
 };
 
-function wrapper({ children }: { children: React.ReactNode }) {
+function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
   return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 }

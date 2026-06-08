@@ -7,6 +7,7 @@ import {
   type GitHubGist,
   type GitHubPagedResponse,
 } from 'gh-api-client';
+import type { ReactNode } from 'react';
 import { useGhGists } from './useGhGists.js';
 
 const mockListGists =
@@ -39,7 +40,7 @@ const mockResponse: GitHubPagedResponse<GitHubGist> = {
   hasNextPage: false,
 };
 
-function wrapper({ children }: { children: React.ReactNode }) {
+function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({
     defaultOptions: { queries: { retry: false } },
   });

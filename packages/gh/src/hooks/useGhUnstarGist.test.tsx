@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { act, renderHook, waitFor } from '@testing-library/react';
 import { GitHubApiError, GitHubClient } from 'gh-api-client';
+import type { ReactNode } from 'react';
 import { useGhUnstarGist } from './useGhUnstarGist.js';
 
 const mockUnstar = jest.fn<(signal?: AbortSignal) => Promise<void>>();
@@ -13,7 +14,7 @@ beforeEach(() => {
   } as unknown as ReturnType<GitHubClient['gist']>);
 });
 
-function wrapper({ children }: { children: React.ReactNode }) {
+function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
   return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 }

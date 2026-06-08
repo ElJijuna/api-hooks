@@ -7,6 +7,7 @@ import {
   type GitHubIssue,
   type GitHubPagedResponse,
 } from 'gh-api-client';
+import type { ReactNode } from 'react';
 import { useGhRepoIssuesInfinite } from './useGhRepoIssuesInfinite.js';
 
 const mockIssues =
@@ -30,7 +31,7 @@ function makeResponse(hasNextPage: boolean, nextPage?: number): GitHubPagedRespo
   return { values: [mockIssue], hasNextPage, nextPage };
 }
 
-function wrapper({ children }: { children: React.ReactNode }) {
+function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
   return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 }

@@ -7,6 +7,7 @@ import {
   GitHubClient,
   type GitHubIssue,
 } from 'gh-api-client';
+import type { ReactNode } from 'react';
 import { useGhCreateIssue } from './useGhCreateIssue.js';
 
 const mockCreateIssue = jest.fn<(data: CreateIssueData) => Promise<GitHubIssue>>();
@@ -32,7 +33,7 @@ const mockIssue = {
 
 const issueData: CreateIssueData = { title: 'Test issue', body: 'Issue body' };
 
-function wrapper({ children }: { children: React.ReactNode }) {
+function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
   return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 }

@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { renderHook, waitFor } from '@testing-library/react';
 import { GitHubClient, type GitHubTree } from 'gh-api-client';
+import type { ReactNode } from 'react';
 import { useGhRepoGitTree } from './useGhRepoGitTree.js';
 
 const mockGitTree =
@@ -21,7 +22,7 @@ const tree: GitHubTree = {
   tree: [{ path: 'README.md', mode: '100644', type: 'blob', sha: 'def456', url: 'url', size: 12 }],
 };
 
-function wrapper({ children }: { children: React.ReactNode }) {
+function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
   return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 }

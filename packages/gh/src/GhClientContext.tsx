@@ -1,10 +1,10 @@
 import { GitHubClient, type GitHubClientOptions } from 'gh-api-client';
-import { createContext, useContext, useMemo } from 'react';
+import { createContext, type ReactNode, useContext, useMemo } from 'react';
 
 const GhClientContext = createContext<GitHubClient | null>(null);
 
 export interface GhClientProviderProps {
-  children: React.ReactNode;
+  children: ReactNode;
   client?: GitHubClient;
   options?: GitHubClientOptions;
 }

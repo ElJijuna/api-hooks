@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { renderHook, waitFor } from '@testing-library/react';
 import { GitHubApiError, GitHubClient } from 'gh-api-client';
+import type { ReactNode } from 'react';
 import { type RepoLanguages, useGhRepoLanguages } from './useGhRepoLanguages.js';
 
 const mockLanguages = jest.fn<(signal?: AbortSignal) => Promise<RepoLanguages>>();
@@ -15,7 +16,7 @@ beforeEach(() => {
 
 const mockResponse: RepoLanguages = { TypeScript: 45231, CSS: 3210, HTML: 1200 };
 
-function wrapper({ children }: { children: React.ReactNode }) {
+function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
   return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 }

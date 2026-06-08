@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { renderHook, waitFor } from '@testing-library/react';
 import { GitHubApiError, GitHubClient, type GitHubWorkflowRunsResponse } from 'gh-api-client';
+import type { ReactNode } from 'react';
 import { useGhRepoWorkflowRunsInfinite } from './useGhRepoWorkflowRunsInfinite.js';
 
 const mockWorkflowRuns =
@@ -23,7 +24,7 @@ const mockRun = {
 } as unknown as GitHubWorkflowRunsResponse['workflow_runs'][0];
 const mockResponse: GitHubWorkflowRunsResponse = { total_count: 1, workflow_runs: [mockRun] };
 
-function wrapper({ children }: { children: React.ReactNode }) {
+function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
   return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 }

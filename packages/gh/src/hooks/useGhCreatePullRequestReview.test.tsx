@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { act, renderHook, waitFor } from '@testing-library/react';
 import type { PullRequestResource } from 'gh-api-client';
 import { GitHubApiError, GitHubClient, type GitHubReview } from 'gh-api-client';
+import type { ReactNode } from 'react';
 import { useGhCreatePullRequestReview } from './useGhCreatePullRequestReview.js';
 
 type CreateReviewData = Parameters<PullRequestResource['createReview']>[0];
@@ -28,7 +29,7 @@ const mockReview = {
 
 const reviewData: CreateReviewData = { event: 'APPROVE' };
 
-function wrapper({ children }: { children: React.ReactNode }) {
+function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
   return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 }

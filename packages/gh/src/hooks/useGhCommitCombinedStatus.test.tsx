@@ -7,6 +7,7 @@ import {
   type GitHubCombinedStatus,
   type GitHubRepository,
 } from 'gh-api-client';
+import type { ReactNode } from 'react';
 import { useGhCommitCombinedStatus } from './useGhCommitCombinedStatus.js';
 
 const mockCombinedStatus = jest.fn<(signal?: AbortSignal) => Promise<GitHubCombinedStatus>>();
@@ -33,7 +34,7 @@ const mockCombinedStatusData = {
   repository: mockRepo,
 } as unknown as GitHubCombinedStatus;
 
-function wrapper({ children }: { children: React.ReactNode }) {
+function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
   return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 }

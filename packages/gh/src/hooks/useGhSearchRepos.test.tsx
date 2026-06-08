@@ -7,6 +7,7 @@ import {
   type GitHubPagedResponse,
   type GitHubRepository,
 } from 'gh-api-client';
+import type { ReactNode } from 'react';
 import { useGhSearchRepos } from './useGhSearchRepos.js';
 
 const mockSearchRepos =
@@ -29,7 +30,7 @@ const mockResponse: GitHubPagedResponse<GitHubRepository> = {
   hasNextPage: false,
 };
 
-function wrapper({ children }: { children: React.ReactNode }) {
+function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
   return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 }

@@ -7,6 +7,7 @@ import {
   type GitHubPagedResponse,
   type GitHubRepositoryAdvisory,
 } from 'gh-api-client';
+import type { ReactNode } from 'react';
 import { useGhRepoAdvisoriesInfinite } from './useGhRepoAdvisoriesInfinite.js';
 
 const mockAdvisories =
@@ -37,7 +38,7 @@ function makeResponse(
   return { values: [mockAdvisory], hasNextPage, nextPage };
 }
 
-function wrapper({ children }: { children: React.ReactNode }) {
+function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
   return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 }

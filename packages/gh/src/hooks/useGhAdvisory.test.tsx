@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { renderHook, waitFor } from '@testing-library/react';
 import { type GitHubAdvisory, GitHubApiError, GitHubClient } from 'gh-api-client';
+import type { ReactNode } from 'react';
 import { useGhAdvisory } from './useGhAdvisory.js';
 
 const mockAdvisory = jest.fn<(ghsaId: string, signal?: AbortSignal) => Promise<GitHubAdvisory>>();
@@ -16,7 +17,7 @@ const mockData = {
   cve_id: 'CVE-2021-44228',
 } as unknown as GitHubAdvisory;
 
-function wrapper({ children }: { children: React.ReactNode }) {
+function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
   return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 }

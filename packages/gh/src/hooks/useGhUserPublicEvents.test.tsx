@@ -7,6 +7,7 @@ import {
   type GitHubEvent,
   type GitHubPagedResponse,
 } from 'gh-api-client';
+import type { ReactNode } from 'react';
 import { useGhUserPublicEvents } from './useGhUserPublicEvents.js';
 
 const mockPublicEvents =
@@ -41,7 +42,7 @@ const mockResponse: GitHubPagedResponse<GitHubEvent> = {
   hasNextPage: false,
 };
 
-function wrapper({ children }: { children: React.ReactNode }) {
+function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
   return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 }

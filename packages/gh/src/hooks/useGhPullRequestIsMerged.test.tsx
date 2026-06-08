@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { renderHook, waitFor } from '@testing-library/react';
 import { GitHubApiError, GitHubClient } from 'gh-api-client';
+import type { ReactNode } from 'react';
 import { useGhPullRequestIsMerged } from './useGhPullRequestIsMerged.js';
 
 const mockIsMerged = jest.fn<(signal?: AbortSignal) => Promise<boolean>>();
@@ -14,7 +15,7 @@ beforeEach(() => {
   } as unknown as ReturnType<GitHubClient['repo']>);
 });
 
-function wrapper({ children }: { children: React.ReactNode }) {
+function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
   return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 }

@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { act, renderHook, waitFor } from '@testing-library/react';
 import type { PullRequestResource } from 'gh-api-client';
 import { GitHubApiError, GitHubClient, type GitHubPullRequest } from 'gh-api-client';
+import type { ReactNode } from 'react';
 import { useGhUpdatePullRequest } from './useGhUpdatePullRequest.js';
 
 type UpdatePullRequestData = Parameters<PullRequestResource['update']>[0];
@@ -25,7 +26,7 @@ const mockPR = {
 } as unknown as GitHubPullRequest;
 const updateData: UpdatePullRequestData = { title: 'Updated PR' };
 
-function wrapper({ children }: { children: React.ReactNode }) {
+function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
   return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 }

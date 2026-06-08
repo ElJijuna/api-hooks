@@ -7,6 +7,7 @@ import {
   type GitHubPagedResponse,
   type GitHubPullRequest,
 } from 'gh-api-client';
+import type { ReactNode } from 'react';
 import { useGhRepoPullRequests } from './useGhRepoPullRequests.js';
 
 const mockPullRequests =
@@ -34,7 +35,7 @@ const mockResponse: GitHubPagedResponse<GitHubPullRequest> = {
   hasNextPage: false,
 };
 
-function wrapper({ children }: { children: React.ReactNode }) {
+function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
   return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 }

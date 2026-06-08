@@ -7,6 +7,7 @@ import {
   GitHubClient,
   type GitHubMilestone,
 } from 'gh-api-client';
+import type { ReactNode } from 'react';
 import { useGhCreateMilestone } from './useGhCreateMilestone.js';
 
 const mockCreateMilestone = jest.fn<(data: CreateMilestoneData) => Promise<GitHubMilestone>>();
@@ -31,7 +32,7 @@ const mockMilestone = {
 
 const milestoneData: CreateMilestoneData = { title: 'v1.0' };
 
-function wrapper({ children }: { children: React.ReactNode }) {
+function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
   return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 }

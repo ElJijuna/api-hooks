@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { renderHook, waitFor } from '@testing-library/react';
 import type { CommitResource } from 'gh-api-client';
 import { GitHubApiError, GitHubClient } from 'gh-api-client';
+import type { ReactNode } from 'react';
 import { useGhCommitComments } from './useGhCommitComments.js';
 
 type GitHubCommitComment = Awaited<ReturnType<CommitResource['addComment']>>;
@@ -30,7 +31,7 @@ const mockData = {
   nextPage: 2,
 };
 
-function wrapper({ children }: { children: React.ReactNode }) {
+function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
   return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 }

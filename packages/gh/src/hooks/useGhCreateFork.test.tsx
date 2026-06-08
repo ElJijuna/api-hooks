@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { act, renderHook, waitFor } from '@testing-library/react';
 import { GitHubApiError, GitHubClient, type GitHubRepository } from 'gh-api-client';
+import type { ReactNode } from 'react';
 import { useGhCreateFork } from './useGhCreateFork.js';
 
 const mockCreateFork = jest.fn<(data?: object) => Promise<GitHubRepository>>();
@@ -34,7 +35,7 @@ const mockRepo = {
   node_id: 'R_2',
 } as unknown as GitHubRepository;
 
-function wrapper({ children }: { children: React.ReactNode }) {
+function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
   return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 }

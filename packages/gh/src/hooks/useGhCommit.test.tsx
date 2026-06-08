@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { renderHook, waitFor } from '@testing-library/react';
 import { GitHubApiError, GitHubClient, type GitHubCommit } from 'gh-api-client';
+import type { ReactNode } from 'react';
 import { useGhCommit } from './useGhCommit.js';
 
 const mockGet = jest.fn<(signal?: AbortSignal) => Promise<GitHubCommit>>();
@@ -20,7 +21,7 @@ const mockCommitData = {
   commit: { message: 'Initial commit' },
 } as unknown as GitHubCommit;
 
-function wrapper({ children }: { children: React.ReactNode }) {
+function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
   return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 }

@@ -1,15 +1,16 @@
 import { describe, expect, it } from '@jest/globals';
 import { renderHook } from '@testing-library/react';
 import { GitHubClient } from 'gh-api-client';
+import type { ReactNode } from 'react';
 import { GhClientProvider, useGhClient } from './GhClientContext.js';
 
 const providerOptions = { token: 'ghp_test' };
 
-function wrapper({ children }: { children: React.ReactNode }) {
+function wrapper({ children }: { children: ReactNode }) {
   return <GhClientProvider options={providerOptions}>{children}</GhClientProvider>;
 }
 
-function wrapperWithClient({ children }: { children: React.ReactNode }) {
+function wrapperWithClient({ children }: { children: ReactNode }) {
   const client = new GitHubClient({ token: 'ghp_custom' });
   return <GhClientProvider client={client}>{children}</GhClientProvider>;
 }

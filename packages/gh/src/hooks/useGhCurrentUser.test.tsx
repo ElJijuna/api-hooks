@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { renderHook, waitFor } from '@testing-library/react';
 import { GitHubApiError, GitHubClient, type GitHubUser } from 'gh-api-client';
+import type { ReactNode } from 'react';
 import { useGhCurrentUser } from './useGhCurrentUser.js';
 
 const mockCurrentUser = jest.fn<(signal?: AbortSignal) => Promise<GitHubUser>>();
@@ -22,7 +23,7 @@ const mockUser: GitHubUser = {
   url: 'https://api.github.com/users/octocat',
 };
 
-function wrapper({ children }: { children: React.ReactNode }) {
+function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
   return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 }

@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { act, renderHook, waitFor } from '@testing-library/react';
 import { GitHubApiError, GitHubClient } from 'gh-api-client';
+import type { ReactNode } from 'react';
 import { useGhMarkNotificationRead } from './useGhMarkNotificationRead.js';
 
 const mockMarkRead = jest.fn<(threadId: string) => Promise<void>>();
@@ -11,7 +12,7 @@ beforeEach(() => {
   jest.spyOn(GitHubClient.prototype, 'markNotificationRead').mockImplementation(mockMarkRead);
 });
 
-function wrapper({ children }: { children: React.ReactNode }) {
+function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
   return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 }

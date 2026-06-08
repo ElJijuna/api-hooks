@@ -7,6 +7,7 @@ import {
   type GitHubGist,
   type GitHubPagedResponse,
 } from 'gh-api-client';
+import type { ReactNode } from 'react';
 import { useGhGistsInfinite } from './useGhGistsInfinite.js';
 
 const mockListGists =
@@ -38,7 +39,7 @@ function makeResponse(hasNextPage: boolean, nextPage?: number): GitHubPagedRespo
   return { values: [mockGist], hasNextPage, nextPage };
 }
 
-function wrapper({ children }: { children: React.ReactNode }) {
+function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({
     defaultOptions: { queries: { retry: false } },
   });

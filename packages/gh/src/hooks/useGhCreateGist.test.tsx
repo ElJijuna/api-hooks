@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { act, renderHook, waitFor } from '@testing-library/react';
 import { type CreateGistData, GitHubApiError, GitHubClient, type GitHubGist } from 'gh-api-client';
+import type { ReactNode } from 'react';
 import { useGhCreateGist } from './useGhCreateGist.js';
 
 const mockCreateGist =
@@ -45,7 +46,7 @@ const createData: CreateGistData = {
   public: true,
 };
 
-function wrapper({ children }: { children: React.ReactNode }) {
+function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({
     defaultOptions: { queries: { retry: false } },
   });

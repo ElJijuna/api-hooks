@@ -7,6 +7,7 @@ import {
   type GitHubPagedResponse,
   type GitHubTag,
 } from 'gh-api-client';
+import type { ReactNode } from 'react';
 import { useGhRepoTags } from './useGhRepoTags.js';
 
 const mockTags =
@@ -28,7 +29,7 @@ const mockTag = {
 } as unknown as GitHubTag;
 const mockResponse: GitHubPagedResponse<GitHubTag> = { values: [mockTag], hasNextPage: false };
 
-function wrapper({ children }: { children: React.ReactNode }) {
+function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
   return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 }

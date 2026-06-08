@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { act, renderHook, waitFor } from '@testing-library/react';
 import type { IssueResource } from 'gh-api-client';
 import { GitHubApiError, GitHubClient, type GitHubIssue } from 'gh-api-client';
+import type { ReactNode } from 'react';
 import { useGhUpdateIssue } from './useGhUpdateIssue.js';
 
 type UpdateIssueData = Parameters<IssueResource['update']>[0];
@@ -27,7 +28,7 @@ const mockGhIssue = {
   html_url: '',
 } as unknown as GitHubIssue;
 
-function wrapper({ children }: { children: React.ReactNode }) {
+function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
   return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 }
