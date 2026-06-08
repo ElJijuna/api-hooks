@@ -1,3 +1,9 @@
+## [2.5.1](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/bp@2.5.0...@api-hooks/bp@2.5.1) (2026-06-08)
+
+### Refactoring
+
+* replace React.ReactNode with ReactNode in wrapper function signatures across test files ([d238e94](https://github.com/ElJijuna/api-hooks/commit/d238e942ef13eb053947b17a960dd7fc94e76c00))
+
 ## [2.2.0](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/bp@2.1.0...@api-hooks/bp@2.2.0) (2026-05-24)
 
 ### Bug Fixes
