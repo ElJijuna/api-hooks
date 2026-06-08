@@ -3,6 +3,7 @@
 // - pypi-api-client (https://www.npmjs.com/package/pypi-api-client)
 // - @tanstack/react-query
 
+export * from './hooks/downloadBreakdownOptions.js';
 export * from './hooks/options.js';
 export * from './hooks/usePyPIDownloads.js';
 export * from './hooks/usePyPIDownloadsByMirrors.js';
