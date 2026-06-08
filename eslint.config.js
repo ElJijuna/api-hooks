@@ -16,11 +16,7 @@ export default [
   {
     files: ['**/*.{ts,tsx}'],
     rules: {
-      '@stylistic/brace-style': 'off',
-      '@stylistic/padding-line-between-statements': 'off',
       '@typescript-eslint/consistent-type-imports': 'warn',
-      'no-undef': 'off',
-      'no-restricted-syntax': 'off',
     },
   },
 ];
