@@ -1,8 +1,6 @@
 {
   "tagFormat": "@api-hooks/osv@${version}",
-  "branches": [
-    "main"
-  ],
+  "branches": ["main"],
   "plugins": [
     [
       "@semantic-release/commit-analyzer",
@@ -98,10 +96,7 @@
         },
         "parserOpts": {
           "headerPattern": "^(\\w+)\\(@api-hooks\\/osv\\)!?:\\s(.+)$",
-          "headerCorrespondence": [
-            "type",
-            "subject"
-          ]
+          "headerCorrespondence": ["type", "subject"]
         }
       }
     ],
@@ -121,18 +116,13 @@
       "@semantic-release/github",
       {
         "successComment": "🎉 This change is included in `@api-hooks/osv@${nextRelease.version}`.",
-        "releasedLabels": [
-          "released"
-        ]
+        "releasedLabels": ["released"]
       }
     ],
     [
       "@semantic-release/git",
       {
-        "assets": [
-          "CHANGELOG.md",
-          "package.json"
-        ],
+        "assets": ["CHANGELOG.md", "package.json"],
         "message": "chore(release): @api-hooks/osv@${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
       }
     ]

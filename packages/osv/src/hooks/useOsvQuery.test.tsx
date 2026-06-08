@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { renderHook, waitFor } from '@testing-library/react';
 import { OsvApiError, OsvClient, type OsvQueryParams, type OsvQueryResult } from 'osv-api-client';
+import type { ReactNode } from 'react';
 import { useOsvQuery } from './useOsvQuery.js';
 
 const mockQuery = jest.fn<() => Promise<OsvQueryResult>>();
@@ -26,7 +27,7 @@ const mockResult: OsvQueryResult = {
   ],
 };
 
-function wrapper({ children }: { children: React.ReactNode }) {
+function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({
     defaultOptions: { queries: { retry: false } },
   });

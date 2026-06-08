@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { renderHook, waitFor } from '@testing-library/react';
 import { OsvApiError, OsvClient, type OsvVulnerability } from 'osv-api-client';
+import type { ReactNode } from 'react';
 import { useOsvVuln } from './useOsvVuln.js';
 
 const mockGet = jest.fn<() => Promise<OsvVulnerability>>();
@@ -22,7 +23,7 @@ const mockVuln: OsvVulnerability = {
   modified: '2023-01-01T00:00:00Z',
 };
 
-function wrapper({ children }: { children: React.ReactNode }) {
+function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({
     defaultOptions: { queries: { retry: false } },
   });

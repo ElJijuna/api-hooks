@@ -7,6 +7,7 @@ import {
   type OsvBatchQueryResult,
   OsvClient,
 } from 'osv-api-client';
+import type { ReactNode } from 'react';
 import { useOsvQueryBatch } from './useOsvQueryBatch.js';
 
 const mockQueryBatch = jest.fn<() => Promise<OsvBatchQueryResult>>();
@@ -36,7 +37,7 @@ const mockResult: OsvBatchQueryResult = {
   ],
 };
 
-function wrapper({ children }: { children: React.ReactNode }) {
+function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({
     defaultOptions: { queries: { retry: false } },
   });
