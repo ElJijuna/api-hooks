@@ -84,4 +84,12 @@ describe('useGhCommitStatuses', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockStatuses).not.toHaveBeenCalled();
   });
+  it('accepts queryOptions', async () => {
+    mockStatuses.mockResolvedValue(mockResponse);
+    const { result } = renderHook(
+      () => useGhCommitStatuses('octocat', 'Hello-World', 'abc123', { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
