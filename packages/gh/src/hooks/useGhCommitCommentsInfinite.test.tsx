@@ -125,4 +125,16 @@ describe('useGhCommitCommentsInfinite', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockComments).not.toHaveBeenCalled();
   });
+
+  it('accepts queryOptions', async () => {
+    mockComments.mockResolvedValue(makeResponse(false));
+    const { result } = renderHook(
+      () =>
+        useGhCommitCommentsInfinite('octocat', 'Hello-World', 'abc123', undefined, {
+          queryOptions: { staleTime: 0 },
+        }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });

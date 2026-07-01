@@ -82,7 +82,10 @@ describe('useGhCommitCombinedStatus', () => {
   it('accepts queryOptions', async () => {
     mockCombinedStatus.mockResolvedValue(mockCombinedStatusData);
     const { result } = renderHook(
-      () => useGhCommitCombinedStatus('octocat', 'Hello-World', 'abc123', { queryOptions: { staleTime: 0 } }),
+      () =>
+        useGhCommitCombinedStatus('octocat', 'Hello-World', 'abc123', {
+          queryOptions: { staleTime: 0 },
+        }),
       { wrapper },
     );
     await waitFor(() => expect(result.current.isSuccess).toBe(true));

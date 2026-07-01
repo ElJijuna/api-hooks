@@ -93,10 +93,9 @@ describe('useGhCreateGist', () => {
   it('accepts mutationOptions', async () => {
     mockCreateGist.mockResolvedValue(mockGist);
     const onSuccess = jest.fn();
-    const { result } = renderHook(
-      () => useGhCreateGist({ mutationOptions: { onSuccess } }),
-      { wrapper },
-    );
+    const { result } = renderHook(() => useGhCreateGist({ mutationOptions: { onSuccess } }), {
+      wrapper,
+    });
     act(() => {
       result.current.mutate(createData);
     });

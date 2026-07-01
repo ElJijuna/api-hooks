@@ -91,10 +91,9 @@ describe('useGhGists', () => {
   });
   it('accepts queryOptions', async () => {
     mockListGists.mockResolvedValue(mockResponse);
-    const { result } = renderHook(
-      () => useGhGists({ queryOptions: { staleTime: 0 } }),
-      { wrapper },
-    );
+    const { result } = renderHook(() => useGhGists({ queryOptions: { staleTime: 0 } }), {
+      wrapper,
+    });
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
   });
 });

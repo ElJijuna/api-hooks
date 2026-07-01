@@ -77,7 +77,8 @@ describe('useGhCommitComments', () => {
   it('accepts queryOptions', async () => {
     mockComments.mockResolvedValue(mockData);
     const { result } = renderHook(
-      () => useGhCommitComments('octocat', 'Hello-World', 'abc123', { queryOptions: { staleTime: 0 } }),
+      () =>
+        useGhCommitComments('octocat', 'Hello-World', 'abc123', { queryOptions: { staleTime: 0 } }),
       { wrapper },
     );
     await waitFor(() => expect(result.current.isSuccess).toBe(true));

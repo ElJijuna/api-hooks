@@ -85,7 +85,8 @@ describe('useGhPullRequestReviews', () => {
   it('accepts queryOptions', async () => {
     mockReviews.mockResolvedValue(mockResponse);
     const { result } = renderHook(
-      () => useGhPullRequestReviews('octocat', 'Hello-World', 42, { queryOptions: { staleTime: 0 } }),
+      () =>
+        useGhPullRequestReviews('octocat', 'Hello-World', 42, { queryOptions: { staleTime: 0 } }),
       { wrapper },
     );
     await waitFor(() => expect(result.current.isSuccess).toBe(true));

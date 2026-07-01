@@ -87,7 +87,8 @@ describe('useGhCommitStatuses', () => {
   it('accepts queryOptions', async () => {
     mockStatuses.mockResolvedValue(mockResponse);
     const { result } = renderHook(
-      () => useGhCommitStatuses('octocat', 'Hello-World', 'abc123', { queryOptions: { staleTime: 0 } }),
+      () =>
+        useGhCommitStatuses('octocat', 'Hello-World', 'abc123', { queryOptions: { staleTime: 0 } }),
       { wrapper },
     );
     await waitFor(() => expect(result.current.isSuccess).toBe(true));

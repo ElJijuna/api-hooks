@@ -72,10 +72,9 @@ describe('useGhUser', () => {
   });
   it('accepts queryOptions', async () => {
     mockGet.mockResolvedValue(mockUser);
-    const { result } = renderHook(
-      () => useGhUser('octocat', { queryOptions: { staleTime: 0 } }),
-      { wrapper },
-    );
+    const { result } = renderHook(() => useGhUser('octocat', { queryOptions: { staleTime: 0 } }), {
+      wrapper,
+    });
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
   });
 });

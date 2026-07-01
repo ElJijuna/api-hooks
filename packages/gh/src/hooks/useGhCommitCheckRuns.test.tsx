@@ -88,7 +88,10 @@ describe('useGhCommitCheckRuns', () => {
   it('accepts queryOptions', async () => {
     mockCheckRuns.mockResolvedValue(mockResponse);
     const { result } = renderHook(
-      () => useGhCommitCheckRuns('octocat', 'Hello-World', 'abc123', { queryOptions: { staleTime: 0 } }),
+      () =>
+        useGhCommitCheckRuns('octocat', 'Hello-World', 'abc123', {
+          queryOptions: { staleTime: 0 },
+        }),
       { wrapper },
     );
     await waitFor(() => expect(result.current.isSuccess).toBe(true));

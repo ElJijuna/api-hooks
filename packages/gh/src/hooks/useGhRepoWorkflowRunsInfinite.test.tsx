@@ -85,7 +85,8 @@ describe('useGhRepoWorkflowRunsInfinite', () => {
   it('accepts queryOptions', async () => {
     mockWorkflowRuns.mockResolvedValue(mockResponse);
     const { result } = renderHook(
-      () => useGhRepoWorkflowRunsInfinite('octocat', 'Hello-World', { queryOptions: { staleTime: 0 } }),
+      () =>
+        useGhRepoWorkflowRunsInfinite('octocat', 'Hello-World', { queryOptions: { staleTime: 0 } }),
       { wrapper },
     );
     await waitFor(() => expect(result.current.isSuccess).toBe(true));

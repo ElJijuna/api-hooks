@@ -51,10 +51,9 @@ describe('useGhOrg', () => {
   });
   it('accepts queryOptions', async () => {
     mockGet.mockResolvedValue(mockOrg);
-    const { result } = renderHook(
-      () => useGhOrg('github', { queryOptions: { staleTime: 0 } }),
-      { wrapper },
-    );
+    const { result } = renderHook(() => useGhOrg('github', { queryOptions: { staleTime: 0 } }), {
+      wrapper,
+    });
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
   });
 });

@@ -82,7 +82,8 @@ describe('useGhPullRequestCommits', () => {
   it('accepts queryOptions', async () => {
     mockCommits.mockResolvedValue(mockResponse);
     const { result } = renderHook(
-      () => useGhPullRequestCommits('octocat', 'Hello-World', 42, { queryOptions: { staleTime: 0 } }),
+      () =>
+        useGhPullRequestCommits('octocat', 'Hello-World', 42, { queryOptions: { staleTime: 0 } }),
       { wrapper },
     );
     await waitFor(() => expect(result.current.isSuccess).toBe(true));

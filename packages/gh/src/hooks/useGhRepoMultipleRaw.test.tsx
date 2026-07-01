@@ -100,7 +100,10 @@ describe('useGhRepoMultipleRaw', () => {
     const files = { 'README.md': '# Hello World\n', 'src/index.ts': 'export {};' };
     mockMultipleRaw.mockResolvedValue(files);
     const { result } = renderHook(
-      () => useGhRepoMultipleRaw('owner', 'repo', ['README.md', 'src/index.ts'], { queryOptions: { staleTime: 0 } }),
+      () =>
+        useGhRepoMultipleRaw('owner', 'repo', ['README.md', 'src/index.ts'], {
+          queryOptions: { staleTime: 0 },
+        }),
       { wrapper },
     );
     await waitFor(() => expect(result.current.isSuccess).toBe(true));

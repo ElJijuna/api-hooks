@@ -72,7 +72,10 @@ describe('useGhRepoAdvisory', () => {
   it('accepts queryOptions', async () => {
     mockRepoAdvisory.mockResolvedValue(mockAdvisory);
     const { result } = renderHook(
-      () => useGhRepoAdvisory('owner', 'repo', 'GHSA-1234-5678-9abc', { queryOptions: { staleTime: 0 } }),
+      () =>
+        useGhRepoAdvisory('owner', 'repo', 'GHSA-1234-5678-9abc', {
+          queryOptions: { staleTime: 0 },
+        }),
       { wrapper },
     );
     await waitFor(() => expect(result.current.isSuccess).toBe(true));

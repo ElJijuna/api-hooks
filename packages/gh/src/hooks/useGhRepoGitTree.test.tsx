@@ -51,7 +51,14 @@ describe('useGhRepoGitTree', () => {
   it('accepts queryOptions', async () => {
     mockGitTree.mockResolvedValue(tree);
     const { result } = renderHook(
-      () => useGhRepoGitTree('octocat', 'hello', 'abc123', { recursive: '1' }, { queryOptions: { staleTime: 0 } }),
+      () =>
+        useGhRepoGitTree(
+          'octocat',
+          'hello',
+          'abc123',
+          { recursive: '1' },
+          { queryOptions: { staleTime: 0 } },
+        ),
       { wrapper },
     );
     await waitFor(() => expect(result.current.isSuccess).toBe(true));

@@ -12,13 +12,7 @@ export type QueryOverrides<TData> = Omit<
 >;
 
 export type InfiniteQueryOverrides<TData, TPageParam = number> = Omit<
-  UseInfiniteQueryOptions<
-    TData,
-    Error,
-    InfiniteData<TData, TPageParam>,
-    QueryKey,
-    TPageParam
-  >,
+  UseInfiniteQueryOptions<TData, Error, InfiniteData<TData, TPageParam>, QueryKey, TPageParam>,
   'queryKey' | 'queryFn' | 'enabled' | 'initialPageParam' | 'getNextPageParam'
 >;
 

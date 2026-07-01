@@ -73,7 +73,10 @@ describe('useGhRepoContents', () => {
   it('accepts queryOptions', async () => {
     mockContents.mockResolvedValue(mockContent);
     const { result } = renderHook(
-      () => useGhRepoContents('octocat', 'Hello-World', 'README.md', { queryOptions: { staleTime: 0 } }),
+      () =>
+        useGhRepoContents('octocat', 'Hello-World', 'README.md', {
+          queryOptions: { staleTime: 0 },
+        }),
       { wrapper },
     );
     await waitFor(() => expect(result.current.isSuccess).toBe(true));

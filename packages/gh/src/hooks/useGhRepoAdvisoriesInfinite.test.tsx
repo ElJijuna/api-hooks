@@ -116,4 +116,16 @@ describe('useGhRepoAdvisoriesInfinite', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockAdvisories).not.toHaveBeenCalled();
   });
+
+  it('accepts queryOptions', async () => {
+    mockAdvisories.mockResolvedValue(makeResponse(false));
+    const { result } = renderHook(
+      () =>
+        useGhRepoAdvisoriesInfinite('octocat', 'Hello-World', undefined, {
+          queryOptions: { staleTime: 0 },
+        }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });

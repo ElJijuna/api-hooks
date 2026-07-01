@@ -58,10 +58,9 @@ describe('useGhCurrentUser', () => {
   });
   it('accepts queryOptions', async () => {
     mockCurrentUser.mockResolvedValue(mockUser);
-    const { result } = renderHook(
-      () => useGhCurrentUser({}, { queryOptions: { staleTime: 0 } }),
-      { wrapper },
-    );
+    const { result } = renderHook(() => useGhCurrentUser({}, { queryOptions: { staleTime: 0 } }), {
+      wrapper,
+    });
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
   });
 });
