@@ -6,10 +6,12 @@ import type {
 } from 'dockerhub-api-client';
 import { useDhClient } from '../DhClientContext.js';
 import { dhQueryKeys } from '../keys/dhQueryKeys.js';
+import type { QueryOverrides } from '../types.js';
 
 export interface UseDockerHubUserRepositoriesOptions extends DockerHubRepositoriesParams {
   /** Disable the query. Also disabled when `username` is empty. */
   enabled?: boolean;
+  queryOptions?: QueryOverrides<DockerHubPagedResponse<DockerHubRepository>>;
 }
 
 /**
@@ -23,12 +25,13 @@ export function useDockerHubUserRepositories(
   username: string,
   options: UseDockerHubUserRepositoriesOptions = {},
 ): UseQueryResult<DockerHubPagedResponse<DockerHubRepository>, Error> {
-  const { enabled = true, ...params } = options;
+  const { enabled = true, queryOptions, ...params } = options;
   const client = useDhClient();
 
   return useQuery<DockerHubPagedResponse<DockerHubRepository>, Error>({
     queryKey: dhQueryKeys.userRepositories(username, params),
     queryFn: ({ signal }) => client.user(username).repositories(params, signal),
+    ...queryOptions,
     enabled: enabled && username.length > 0,
   });
 }
