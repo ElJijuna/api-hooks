@@ -6,10 +6,12 @@ import {
 import type { GistCommit, GitHubPagedResponse, PaginationParams } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
+import type { InfiniteQueryOverrides } from '../types.js';
 
 export interface UseGhGistCommitsInfiniteOptions {
   /** Disable the query. */
   enabled?: boolean;
+  queryOptions?: InfiniteQueryOverrides<GitHubPagedResponse<GistCommit>>;
 }
 
 /**
@@ -25,7 +27,7 @@ export function useGhGistCommitsInfinite(
   params?: Omit<PaginationParams, 'page'>,
   options: UseGhGistCommitsInfiniteOptions = {},
 ): UseInfiniteQueryResult<InfiniteData<GitHubPagedResponse<GistCommit>, number>, Error> {
-  const { enabled = true } = options;
+  const { enabled = true, queryOptions } = options;
 
   const client = useGhClient();
 
@@ -35,6 +37,7 @@ export function useGhGistCommitsInfinite(
       client.gist(gistId).commits({ ...params, page: pageParam }, signal),
     initialPageParam: 1,
     getNextPageParam: (lastPage) => (lastPage.hasNextPage ? lastPage.nextPage : undefined),
+    ...queryOptions,
     enabled: enabled && gistId.length > 0,
   });
 }

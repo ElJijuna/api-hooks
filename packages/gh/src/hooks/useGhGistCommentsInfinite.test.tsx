@@ -103,4 +103,13 @@ describe('useGhGistCommentsInfinite', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockComments).not.toHaveBeenCalled();
   });
+
+  it('accepts queryOptions', async () => {
+    mockComments.mockResolvedValue(makeResponse(false));
+    const { result } = renderHook(
+      () => useGhGistCommentsInfinite('abc123', undefined, { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
