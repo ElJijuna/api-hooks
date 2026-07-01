@@ -89,4 +89,12 @@ describe('useNpmPackageVersionCdnStats', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockCdnStats).not.toHaveBeenCalled();
   });
+  it('accepts queryOptions', async () => {
+    mockCdnStats.mockResolvedValue(mockData);
+    const { result } = renderHook(
+      () => useNpmPackageVersionCdnStats('react', '18.2.0', { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
