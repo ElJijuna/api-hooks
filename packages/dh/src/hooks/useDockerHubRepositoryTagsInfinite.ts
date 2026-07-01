@@ -10,11 +10,13 @@ import type {
 } from 'dockerhub-api-client';
 import { useDhClient } from '../DhClientContext.js';
 import { dhQueryKeys } from '../keys/dhQueryKeys.js';
+import type { InfiniteQueryOverrides } from '../types.js';
 
 export interface UseDockerHubRepositoryTagsInfiniteOptions
   extends Omit<DockerHubTagsParams, 'page'> {
   /** Disable the query. Also disabled when `namespace` or `name` is empty. */
   enabled?: boolean;
+  queryOptions?: InfiniteQueryOverrides<DockerHubPagedResponse<DockerHubTag>>;
 }
 
 /**
@@ -32,7 +34,7 @@ export function useDockerHubRepositoryTagsInfinite(
   name: string,
   options: UseDockerHubRepositoryTagsInfiniteOptions = {},
 ): UseInfiniteQueryResult<InfiniteData<DockerHubPagedResponse<DockerHubTag>, number>, Error> {
-  const { enabled = true, ...params } = options;
+  const { enabled = true, queryOptions, ...params } = options;
   const client = useDhClient();
 
   return useInfiniteQuery({
@@ -41,6 +43,7 @@ export function useDockerHubRepositoryTagsInfinite(
       client.repository(namespace, name).tags({ ...params, page: pageParam }, signal),
     initialPageParam: 1,
     getNextPageParam: (lastPage) => lastPage.nextPage,
+    ...queryOptions,
     enabled: enabled && namespace.length > 0 && name.length > 0,
   });
 }

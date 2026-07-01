@@ -77,4 +77,13 @@ describe('useDockerHubRepositoryTagsInfinite', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockTags).not.toHaveBeenCalled();
   });
+  it('accepts queryOptions', async () => {
+    mockTags.mockResolvedValue(mockPage1);
+    const { result } = renderHook(
+      () =>
+        useDockerHubRepositoryTagsInfinite('library', 'nginx', { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
