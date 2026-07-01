@@ -1,5 +1,28 @@
-// Re-export types from gh-api-client as needed
-// import type { ... } from 'gh-api-client';
+import type {
+  InfiniteData,
+  QueryKey,
+  UseInfiniteQueryOptions,
+  UseMutationOptions,
+  UseQueryOptions,
+} from '@tanstack/react-query';
 
-// TODO: define hook-specific option types here
-export type {};
+export type QueryOverrides<TData> = Omit<
+  UseQueryOptions<TData, Error>,
+  'queryKey' | 'queryFn' | 'enabled'
+>;
+
+export type InfiniteQueryOverrides<TData, TPageParam = number> = Omit<
+  UseInfiniteQueryOptions<
+    TData,
+    Error,
+    InfiniteData<TData, TPageParam>,
+    QueryKey,
+    TPageParam
+  >,
+  'queryKey' | 'queryFn' | 'enabled' | 'initialPageParam' | 'getNextPageParam'
+>;
+
+export type MutationOverrides<TData, TVariables, TContext = unknown> = Omit<
+  UseMutationOptions<TData, Error, TVariables, TContext>,
+  'mutationFn'
+>;
