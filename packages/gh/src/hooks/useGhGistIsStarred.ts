@@ -1,10 +1,12 @@
 import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
+import type { QueryOverrides } from '../types.js';
 
 export interface UseGhGistIsStarredOptions {
   /** Disable the query. Also disabled when `gistId` is empty. */
   enabled?: boolean;
+  queryOptions?: QueryOverrides<boolean>;
 }
 
 /**
@@ -18,13 +20,14 @@ export function useGhGistIsStarred(
   gistId: string,
   options: UseGhGistIsStarredOptions = {},
 ): UseQueryResult<boolean, Error> {
-  const { enabled = true } = options;
+  const { enabled = true, queryOptions } = options;
 
   const client = useGhClient();
 
   return useQuery<boolean, Error>({
     queryKey: ghQueryKeys.gistIsStarred(gistId),
     queryFn: ({ signal }) => client.gist(gistId).isStarred(signal),
+    ...queryOptions,
     enabled: enabled && gistId.length > 0,
   });
 }

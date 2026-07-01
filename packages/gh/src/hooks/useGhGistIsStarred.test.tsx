@@ -66,4 +66,13 @@ describe('useGhGistIsStarred', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockIsStarred).not.toHaveBeenCalled();
   });
+
+  it('accepts queryOptions', async () => {
+    mockIsStarred.mockResolvedValue(true);
+    const { result } = renderHook(
+      () => useGhGistIsStarred('abc123', { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
