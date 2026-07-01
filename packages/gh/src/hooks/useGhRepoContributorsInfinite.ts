@@ -6,11 +6,13 @@ import {
 import type { GitHubPagedResponse, PaginationParams } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
+import type { InfiniteQueryOverrides } from '../types.js';
 import type { GitHubContributor } from './useGhRepoContributors.js';
 
 export interface UseGhRepoContributorsInfiniteOptions {
   /** Disable the query. Also disabled when `owner` or `repo` is empty. */
   enabled?: boolean;
+  queryOptions?: InfiniteQueryOverrides<GitHubPagedResponse<GitHubContributor>>;
 }
 
 /**
@@ -28,7 +30,7 @@ export function useGhRepoContributorsInfinite(
   params?: Omit<PaginationParams & { anon?: boolean }, 'page'>,
   options: UseGhRepoContributorsInfiniteOptions = {},
 ): UseInfiniteQueryResult<InfiniteData<GitHubPagedResponse<GitHubContributor>, number>, Error> {
-  const { enabled = true } = options;
+  const { enabled = true, queryOptions } = options;
 
   const client = useGhClient();
 
@@ -38,6 +40,7 @@ export function useGhRepoContributorsInfinite(
       client.repo(owner, repo).contributors({ ...params, page: pageParam }, signal),
     initialPageParam: 1,
     getNextPageParam: (lastPage) => (lastPage.hasNextPage ? lastPage.nextPage : undefined),
+    ...queryOptions,
     enabled: enabled && owner.length > 0 && repo.length > 0,
   });
 }
