@@ -6,10 +6,12 @@ import {
 import type { GitHubIssueComment, GitHubPagedResponse, PaginationParams } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
+import type { InfiniteQueryOverrides } from '../types.js';
 
 export interface UseGhIssueCommentsInfiniteOptions {
   /** Disable the query. Also disabled when any required param is empty/zero. */
   enabled?: boolean;
+  queryOptions?: InfiniteQueryOverrides<GitHubPagedResponse<GitHubIssueComment>>;
 }
 
 /**
@@ -29,7 +31,7 @@ export function useGhIssueCommentsInfinite(
   params?: Omit<PaginationParams & { since?: string }, 'page'>,
   options: UseGhIssueCommentsInfiniteOptions = {},
 ): UseInfiniteQueryResult<InfiniteData<GitHubPagedResponse<GitHubIssueComment>, number>, Error> {
-  const { enabled = true } = options;
+  const { enabled = true, queryOptions } = options;
 
   const client = useGhClient();
 
@@ -42,6 +44,7 @@ export function useGhIssueCommentsInfinite(
         .comments({ ...params, page: pageParam }, signal),
     initialPageParam: 1,
     getNextPageParam: (lastPage) => (lastPage.hasNextPage ? lastPage.nextPage : undefined),
+    ...queryOptions,
     enabled: enabled && owner.length > 0 && repo.length > 0 && issueNumber > 0,
   });
 }
