@@ -60,4 +60,13 @@ describe('useNpmOrgPackages', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockPackages).not.toHaveBeenCalled();
   });
+
+  it('accepts queryOptions', async () => {
+    mockPackages.mockResolvedValue({ '@npmcli/arborist': 'read-write' } as NpmOrgPackages);
+    const { result } = renderHook(
+      () => useNpmOrgPackages('npmcli', { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });

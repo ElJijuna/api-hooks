@@ -2,10 +2,12 @@ import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import type { NpmOrgPackages } from 'npmjs-api-client';
 import { npmQueryKeys } from '../keys/npmQueryKeys.js';
 import { useNpmClient } from '../NpmClientContext.js';
+import type { QueryOverrides } from '../types.js';
 
 export interface UseNpmOrgPackagesOptions {
   /** Disable the query. Also disabled when `org` is empty. */
   enabled?: boolean;
+  queryOptions?: QueryOverrides<NpmOrgPackages>;
 }
 
 /**
@@ -21,12 +23,13 @@ export function useNpmOrgPackages(
   org: string,
   options: UseNpmOrgPackagesOptions = {},
 ): UseQueryResult<NpmOrgPackages, Error> {
-  const { enabled = true } = options;
+  const { enabled = true, queryOptions } = options;
   const client = useNpmClient();
 
   return useQuery<NpmOrgPackages, Error>({
     queryKey: npmQueryKeys.orgPackages(org),
     queryFn: ({ signal }) => client.org(org).packages(signal),
+    ...queryOptions,
     enabled: enabled && org.length > 0,
   });
 }
