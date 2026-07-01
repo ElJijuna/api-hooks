@@ -83,6 +83,7 @@ function BundleInfo({ name }: { name: string }) {
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query (also disabled when `name` is empty) |
+| `queryOptions` | `QueryOverrides<TData>` | `undefined` | Override TanStack Query options (`staleTime`, `retry`, `gcTime`, `select`, etc.) |
 
 ---
 
@@ -99,6 +100,7 @@ console.log(data?.gzip); // 2670
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disabled when `name` or `version` is empty |
+| `queryOptions` | `QueryOverrides<TData>` | `undefined` | Override TanStack Query options (`staleTime`, `retry`, `gcTime`, `select`, etc.) |
 
 ---
 
@@ -117,6 +119,7 @@ Object.entries(history ?? {}).forEach(([version, entry]) => {
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disabled when `name` is empty |
+| `queryOptions` | `QueryOverrides<TData>` | `undefined` | Override TanStack Query options (`staleTime`, `retry`, `gcTime`, `select`, etc.) |
 
 ---
 
@@ -135,6 +138,7 @@ data?.alternativePackages.forEach(p => {
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disabled when `name` is empty |
+| `queryOptions` | `QueryOverrides<TData>` | `undefined` | Override TanStack Query options (`staleTime`, `retry`, `gcTime`, `select`, etc.) |
 
 ---
 
