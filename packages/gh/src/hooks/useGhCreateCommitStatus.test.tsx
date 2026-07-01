@@ -81,4 +81,17 @@ describe('useGhCreateCommitStatus', () => {
 
     expect(result.current.isIdle).toBe(true);
   });
+  it('accepts mutationOptions', async () => {
+    mockCreateStatus.mockResolvedValue(mockStatus);
+    const onSuccess = jest.fn();
+    const { result } = renderHook(
+      () => useGhCreateCommitStatus('owner', 'repo', 'abc123', { mutationOptions: { onSuccess } }),
+      { wrapper },
+    );
+    act(() => {
+      result.current.mutate(statusData);
+    });
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    expect(onSuccess).toHaveBeenCalled();
+  });
 });
