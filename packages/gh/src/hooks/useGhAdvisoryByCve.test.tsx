@@ -72,4 +72,12 @@ describe('useGhAdvisoryByCve', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockAdvisoryByCve).not.toHaveBeenCalled();
   });
+  it('accepts queryOptions', async () => {
+    mockAdvisoryByCve.mockResolvedValue(mockData);
+    const { result } = renderHook(
+      () => useGhAdvisoryByCve('CVE-2021-44228', { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
