@@ -35,4 +35,18 @@ describe('useGhCreateOrgRepo', () => {
     expect(result.current.data).toEqual(repo);
     expect(mockCreateRepo).toHaveBeenCalledWith({ name: 'hello' });
   });
+  it('accepts mutationOptions', async () => {
+    const repo = { id: 1, name: 'hello' } as unknown as GitHubRepository;
+    mockCreateRepo.mockResolvedValue(repo);
+    const onSuccess = jest.fn();
+    const { result } = renderHook(
+      () => useGhCreateOrgRepo('octo-org', { mutationOptions: { onSuccess } }),
+      { wrapper },
+    );
+    act(() => {
+      result.current.mutate({ name: 'hello' });
+    });
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    expect(onSuccess).toHaveBeenCalled();
+  });
 });
