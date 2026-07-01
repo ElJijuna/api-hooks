@@ -2,10 +2,12 @@ import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import type { PackagephobiaSize } from 'npmjs-api-client';
 import { npmQueryKeys } from '../keys/npmQueryKeys.js';
 import { useNpmClient } from '../NpmClientContext.js';
+import type { QueryOverrides } from '../types.js';
 
 export interface UseNpmPackageSizeOptions {
   /** Disable the query. Also disabled when `name` is empty. */
   enabled?: boolean;
+  queryOptions?: QueryOverrides<PackagephobiaSize>;
 }
 
 /**
@@ -20,12 +22,13 @@ export function useNpmPackageSize(
   name: string,
   options: UseNpmPackageSizeOptions = {},
 ): UseQueryResult<PackagephobiaSize, Error> {
-  const { enabled = true } = options;
+  const { enabled = true, queryOptions } = options;
   const client = useNpmClient();
 
   return useQuery<PackagephobiaSize, Error>({
     queryKey: npmQueryKeys.packageSize(name),
     queryFn: ({ signal }) => client.package(name).size(signal),
+    ...queryOptions,
     enabled: enabled && name.length > 0,
   });
 }
