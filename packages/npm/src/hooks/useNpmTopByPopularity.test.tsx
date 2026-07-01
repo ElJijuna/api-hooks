@@ -71,4 +71,13 @@ describe('useNpmTopByPopularity', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockTopByPopularity).not.toHaveBeenCalled();
   });
+
+  it('accepts queryOptions', async () => {
+    mockTopByPopularity.mockResolvedValue(mockResult);
+    const { result } = renderHook(
+      () => useNpmTopByPopularity({ queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
