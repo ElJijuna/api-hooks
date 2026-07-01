@@ -86,4 +86,12 @@ describe('useNpmPackageDownloadRange', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockDownloadRange).not.toHaveBeenCalled();
   });
+  it('accepts queryOptions', async () => {
+    mockDownloadRange.mockResolvedValue(mockData);
+    const { result } = renderHook(
+      () => useNpmPackageDownloadRange('react', { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });

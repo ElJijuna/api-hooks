@@ -2,12 +2,14 @@ import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import type { NpmDownloadPeriod, NpmDownloadRange } from 'npmjs-api-client';
 import { npmQueryKeys } from '../keys/npmQueryKeys.js';
 import { useNpmClient } from '../NpmClientContext.js';
+import type { QueryOverrides } from '../types.js';
 
 export interface UseNpmPackageDownloadRangeOptions {
   /** Named period or date range (default: `'last-month'`). */
   period?: NpmDownloadPeriod;
   /** Disable the query. Also disabled when `name` is empty. */
   enabled?: boolean;
+  queryOptions?: QueryOverrides<NpmDownloadRange>;
 }
 
 /**
@@ -21,12 +23,13 @@ export function useNpmPackageDownloadRange(
   name: string,
   options: UseNpmPackageDownloadRangeOptions = {},
 ): UseQueryResult<NpmDownloadRange, Error> {
-  const { period = 'last-month', enabled = true } = options;
+  const { period = 'last-month', enabled = true, queryOptions } = options;
   const client = useNpmClient();
 
   return useQuery<NpmDownloadRange, Error>({
     queryKey: npmQueryKeys.packageDownloadRange(name, period),
     queryFn: ({ signal }) => client.package(name).downloadRange(period, signal),
+    ...queryOptions,
     enabled: enabled && name.length > 0,
   });
 }
