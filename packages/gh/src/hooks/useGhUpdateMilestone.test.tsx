@@ -66,4 +66,17 @@ describe('useGhUpdateMilestone', () => {
     const { result } = renderHook(() => useGhUpdateMilestone('owner', 'repo'), { wrapper });
     expect(result.current.isIdle).toBe(true);
   });
+  it('accepts mutationOptions', async () => {
+    mockUpdateMilestone.mockResolvedValue(mockMilestone);
+    const onSuccess = jest.fn();
+    const { result } = renderHook(
+      () => useGhUpdateMilestone('owner', 'repo', { mutationOptions: { onSuccess } }),
+      { wrapper },
+    );
+    act(() => {
+      result.current.mutate({ milestoneNumber: 1, data: { state: 'closed' } });
+    });
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    expect(onSuccess).toHaveBeenCalled();
+  });
 });

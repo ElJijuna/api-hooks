@@ -1,8 +1,13 @@
 import { type UseMutationResult, useMutation } from '@tanstack/react-query';
 import type { GitHubMilestone, UpdateMilestoneData } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
+import type { MutationOverrides } from '../types.js';
 
 type UpdateMilestoneVars = { milestoneNumber: number; data: UpdateMilestoneData };
+
+export interface UseGhUpdateMilestoneOptions {
+  mutationOptions?: MutationOverrides<GitHubMilestone, UpdateMilestoneVars>;
+}
 
 /**
  * Updates an existing milestone in a GitHub repository.
@@ -16,11 +21,14 @@ type UpdateMilestoneVars = { milestoneNumber: number; data: UpdateMilestoneData 
 export function useGhUpdateMilestone(
   owner: string,
   repo: string,
+  options: UseGhUpdateMilestoneOptions = {},
 ): UseMutationResult<GitHubMilestone, Error, UpdateMilestoneVars> {
+  const { mutationOptions } = options;
   const client = useGhClient();
 
   return useMutation<GitHubMilestone, Error, UpdateMilestoneVars>({
     mutationFn: ({ milestoneNumber, data }) =>
       client.repo(owner, repo).updateMilestone(milestoneNumber, data),
+    ...mutationOptions,
   });
 }
