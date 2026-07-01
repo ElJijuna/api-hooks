@@ -85,4 +85,12 @@ describe('useGhUserPublicEvents', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockPublicEvents).not.toHaveBeenCalled();
   });
+  it('accepts queryOptions', async () => {
+    mockPublicEvents.mockResolvedValue(mockResponse);
+    const { result } = renderHook(
+      () => useGhUserPublicEvents('octocat', { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
