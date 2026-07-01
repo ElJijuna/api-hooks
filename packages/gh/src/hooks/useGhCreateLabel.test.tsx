@@ -73,4 +73,17 @@ describe('useGhCreateLabel', () => {
     const { result } = renderHook(() => useGhCreateLabel('owner', 'repo'), { wrapper });
     expect(result.current.isIdle).toBe(true);
   });
+  it('accepts mutationOptions', async () => {
+    mockCreateLabel.mockResolvedValue(mockLabel);
+    const onSuccess = jest.fn();
+    const { result } = renderHook(
+      () => useGhCreateLabel('owner', 'repo', { mutationOptions: { onSuccess } }),
+      { wrapper },
+    );
+    act(() => {
+      result.current.mutate(labelData);
+    });
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    expect(onSuccess).toHaveBeenCalled();
+  });
 });

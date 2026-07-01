@@ -1,6 +1,11 @@
 import { type UseMutationResult, useMutation } from '@tanstack/react-query';
 import type { CreateLabelData, GitHubLabel } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
+import type { MutationOverrides } from '../types.js';
+
+export interface UseGhCreateLabelOptions {
+  mutationOptions?: MutationOverrides<GitHubLabel, CreateLabelData>;
+}
 
 /**
  * Creates a new label in a GitHub repository.
@@ -14,10 +19,13 @@ import { useGhClient } from '../GhClientContext.js';
 export function useGhCreateLabel(
   owner: string,
   repo: string,
+  options: UseGhCreateLabelOptions = {},
 ): UseMutationResult<GitHubLabel, Error, CreateLabelData> {
+  const { mutationOptions } = options;
   const client = useGhClient();
 
   return useMutation<GitHubLabel, Error, CreateLabelData>({
     mutationFn: (data) => client.repo(owner, repo).createLabel(data),
+    ...mutationOptions,
   });
 }
