@@ -67,4 +67,17 @@ describe('useGhUpdateLabel', () => {
     const { result } = renderHook(() => useGhUpdateLabel('owner', 'repo'), { wrapper });
     expect(result.current.isIdle).toBe(true);
   });
+  it('accepts mutationOptions', async () => {
+    mockUpdateLabel.mockResolvedValue(mockLabel);
+    const onSuccess = jest.fn();
+    const { result } = renderHook(
+      () => useGhUpdateLabel('owner', 'repo', { mutationOptions: { onSuccess } }),
+      { wrapper },
+    );
+    act(() => {
+      result.current.mutate({ name: 'bug', data: { description: 'Updated' } });
+    });
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    expect(onSuccess).toHaveBeenCalled();
+  });
 });

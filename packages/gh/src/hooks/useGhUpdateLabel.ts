@@ -1,8 +1,13 @@
 import { type UseMutationResult, useMutation } from '@tanstack/react-query';
 import type { GitHubLabel, UpdateLabelData } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
+import type { MutationOverrides } from '../types.js';
 
 type UpdateLabelVars = { name: string; data: UpdateLabelData };
+
+export interface UseGhUpdateLabelOptions {
+  mutationOptions?: MutationOverrides<GitHubLabel, UpdateLabelVars>;
+}
 
 /**
  * Updates an existing label in a GitHub repository.
@@ -16,10 +21,13 @@ type UpdateLabelVars = { name: string; data: UpdateLabelData };
 export function useGhUpdateLabel(
   owner: string,
   repo: string,
+  options: UseGhUpdateLabelOptions = {},
 ): UseMutationResult<GitHubLabel, Error, UpdateLabelVars> {
+  const { mutationOptions } = options;
   const client = useGhClient();
 
   return useMutation<GitHubLabel, Error, UpdateLabelVars>({
     mutationFn: ({ name, data }) => client.repo(owner, repo).updateLabel(name, data),
+    ...mutationOptions,
   });
 }
