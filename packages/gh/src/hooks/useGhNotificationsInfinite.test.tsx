@@ -66,4 +66,12 @@ describe('useGhNotificationsInfinite', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockNotifications).not.toHaveBeenCalled();
   });
+  it('accepts queryOptions', async () => {
+    mockNotifications.mockResolvedValue(mockResponse);
+    const { result } = renderHook(
+      () => useGhNotificationsInfinite({ queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
