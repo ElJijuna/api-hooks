@@ -71,4 +71,17 @@ describe('useGhForkGist', () => {
 
     expect(result.current.isIdle).toBe(true);
   });
+  it('accepts mutationOptions', async () => {
+    mockFork.mockResolvedValue(mockGist);
+    const onSuccess = jest.fn();
+    const { result } = renderHook(
+      () => useGhForkGist('abc123', { mutationOptions: { onSuccess } }),
+      { wrapper },
+    );
+    act(() => {
+      result.current.mutate();
+    });
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    expect(onSuccess).toHaveBeenCalled();
+  });
 });
