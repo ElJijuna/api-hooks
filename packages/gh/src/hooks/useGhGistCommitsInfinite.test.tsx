@@ -101,4 +101,13 @@ describe('useGhGistCommitsInfinite', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockCommits).not.toHaveBeenCalled();
   });
+
+  it('accepts queryOptions', async () => {
+    mockCommits.mockResolvedValue(makeResponse(false));
+    const { result } = renderHook(
+      () => useGhGistCommitsInfinite('abc123', undefined, { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
