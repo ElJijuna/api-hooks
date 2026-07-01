@@ -79,4 +79,12 @@ describe('useGhUserFollowing', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockFollowing).not.toHaveBeenCalled();
   });
+  it('accepts queryOptions', async () => {
+    mockFollowing.mockResolvedValue(mockResponse);
+    const { result } = renderHook(
+      () => useGhUserFollowing('octocat', { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
