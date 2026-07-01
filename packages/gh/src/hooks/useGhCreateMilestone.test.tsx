@@ -71,4 +71,17 @@ describe('useGhCreateMilestone', () => {
     const { result } = renderHook(() => useGhCreateMilestone('owner', 'repo'), { wrapper });
     expect(result.current.isIdle).toBe(true);
   });
+  it('accepts mutationOptions', async () => {
+    mockCreateMilestone.mockResolvedValue(mockMilestone);
+    const onSuccess = jest.fn();
+    const { result } = renderHook(
+      () => useGhCreateMilestone('owner', 'repo', { mutationOptions: { onSuccess } }),
+      { wrapper },
+    );
+    act(() => {
+      result.current.mutate(milestoneData);
+    });
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    expect(onSuccess).toHaveBeenCalled();
+  });
 });

@@ -1,6 +1,11 @@
 import { type UseMutationResult, useMutation } from '@tanstack/react-query';
 import type { CreateMilestoneData, GitHubMilestone } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
+import type { MutationOverrides } from '../types.js';
+
+export interface UseGhCreateMilestoneOptions {
+  mutationOptions?: MutationOverrides<GitHubMilestone, CreateMilestoneData>;
+}
 
 /**
  * Creates a new milestone in a GitHub repository.
@@ -14,10 +19,13 @@ import { useGhClient } from '../GhClientContext.js';
 export function useGhCreateMilestone(
   owner: string,
   repo: string,
+  options: UseGhCreateMilestoneOptions = {},
 ): UseMutationResult<GitHubMilestone, Error, CreateMilestoneData> {
+  const { mutationOptions } = options;
   const client = useGhClient();
 
   return useMutation<GitHubMilestone, Error, CreateMilestoneData>({
     mutationFn: (data) => client.repo(owner, repo).createMilestone(data),
+    ...mutationOptions,
   });
 }
