@@ -76,4 +76,12 @@ describe('useNpmPackageVersion', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockGet).not.toHaveBeenCalled();
   });
+  it('accepts queryOptions', async () => {
+    mockGet.mockResolvedValue(mockVersion);
+    const { result } = renderHook(
+      () => useNpmPackageVersion('react', '18.2.0', { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
