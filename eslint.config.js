@@ -13,10 +13,4 @@ export default [
   },
   ...eslintReactTsx,
   ...eslintJest,
-  {
-    files: ['**/*.{ts,tsx}'],
-    rules: {
-      '@typescript-eslint/consistent-type-imports': 'warn',
-    },
-  },
 ];
