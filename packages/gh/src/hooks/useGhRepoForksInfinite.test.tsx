@@ -90,4 +90,16 @@ describe('useGhRepoForksInfinite', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockForks).not.toHaveBeenCalled();
   });
+
+  it('accepts queryOptions', async () => {
+    mockForks.mockResolvedValue(makeResponse(false));
+    const { result } = renderHook(
+      () =>
+        useGhRepoForksInfinite('octocat', 'Hello-World', undefined, {
+          queryOptions: { staleTime: 0 },
+        }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
