@@ -6,10 +6,12 @@ import {
 import type { GitHubIssue, GitHubPagedResponse, IssuesParams } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
+import type { InfiniteQueryOverrides } from '../types.js';
 
 export interface UseGhRepoIssuesInfiniteOptions {
   /** Disable the query. Also disabled when `owner` or `repo` is empty. */
   enabled?: boolean;
+  queryOptions?: InfiniteQueryOverrides<GitHubPagedResponse<GitHubIssue>>;
 }
 
 /**
@@ -27,7 +29,7 @@ export function useGhRepoIssuesInfinite(
   params?: Omit<IssuesParams, 'page'>,
   options: UseGhRepoIssuesInfiniteOptions = {},
 ): UseInfiniteQueryResult<InfiniteData<GitHubPagedResponse<GitHubIssue>, number>, Error> {
-  const { enabled = true } = options;
+  const { enabled = true, queryOptions } = options;
 
   const client = useGhClient();
 
@@ -37,6 +39,7 @@ export function useGhRepoIssuesInfinite(
       client.repo(owner, repo).issues({ ...params, page: pageParam }, signal),
     initialPageParam: 1,
     getNextPageParam: (lastPage) => (lastPage.hasNextPage ? lastPage.nextPage : undefined),
+    ...queryOptions,
     enabled: enabled && owner.length > 0 && repo.length > 0,
   });
 }
