@@ -65,4 +65,12 @@ describe('useDockerHubOrg', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockOrg).not.toHaveBeenCalled();
   });
+  it('accepts queryOptions', async () => {
+    mockOrg.mockResolvedValue(mockData);
+    const { result } = renderHook(
+      () => useDockerHubOrg('docker', { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
