@@ -80,4 +80,13 @@ describe('useNpmTopByKeyword', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockTopByKeyword).not.toHaveBeenCalled();
   });
+
+  it('accepts queryOptions', async () => {
+    mockTopByKeyword.mockResolvedValue(mockResult);
+    const { result } = renderHook(
+      () => useNpmTopByKeyword('react', { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
