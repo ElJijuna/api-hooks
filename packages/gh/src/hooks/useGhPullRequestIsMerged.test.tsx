@@ -68,4 +68,13 @@ describe('useGhPullRequestIsMerged', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockIsMerged).not.toHaveBeenCalled();
   });
+
+  it('accepts queryOptions', async () => {
+    mockIsMerged.mockResolvedValue(true);
+    const { result } = renderHook(
+      () => useGhPullRequestIsMerged('owner', 'repo', 42, { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
