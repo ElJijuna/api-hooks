@@ -81,4 +81,12 @@ describe('useOsvQueryBatch', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockQueryBatch).not.toHaveBeenCalled();
   });
+  it('accepts queryOptions', async () => {
+    mockQueryBatch.mockResolvedValue(mockResult);
+    const { result } = renderHook(
+      () => useOsvQueryBatch(queries, { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
