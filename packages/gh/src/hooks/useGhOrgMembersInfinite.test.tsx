@@ -73,4 +73,13 @@ describe('useGhOrgMembersInfinite', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockMembers).not.toHaveBeenCalled();
   });
+
+  it('accepts queryOptions', async () => {
+    mockMembers.mockResolvedValue(makeResponse(false));
+    const { result } = renderHook(
+      () => useGhOrgMembersInfinite('github', undefined, { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });

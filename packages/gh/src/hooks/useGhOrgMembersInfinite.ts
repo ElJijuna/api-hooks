@@ -6,10 +6,12 @@ import {
 import type { GitHubPagedResponse, GitHubUser, OrgMembersParams } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
+import type { InfiniteQueryOverrides } from '../types.js';
 
 export interface UseGhOrgMembersInfiniteOptions {
   /** Disable the query. Also disabled when `orgName` is empty. */
   enabled?: boolean;
+  queryOptions?: InfiniteQueryOverrides<GitHubPagedResponse<GitHubUser>>;
 }
 
 /**
@@ -25,7 +27,7 @@ export function useGhOrgMembersInfinite(
   params?: Omit<OrgMembersParams, 'page'>,
   options: UseGhOrgMembersInfiniteOptions = {},
 ): UseInfiniteQueryResult<InfiniteData<GitHubPagedResponse<GitHubUser>, number>, Error> {
-  const { enabled = true } = options;
+  const { enabled = true, queryOptions } = options;
 
   const client = useGhClient();
 
@@ -35,6 +37,7 @@ export function useGhOrgMembersInfinite(
       client.org(orgName).members({ ...params, page: pageParam }, signal),
     initialPageParam: 1,
     getNextPageParam: (lastPage) => (lastPage.hasNextPage ? lastPage.nextPage : undefined),
+    ...queryOptions,
     enabled: enabled && orgName.length > 0,
   });
 }
