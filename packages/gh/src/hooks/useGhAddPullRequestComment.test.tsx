@@ -82,4 +82,17 @@ describe('useGhAddPullRequestComment', () => {
 
     expect(result.current.isIdle).toBe(true);
   });
+  it('accepts mutationOptions', async () => {
+    mockAddComment.mockResolvedValue(mockComment);
+    const onSuccess = jest.fn();
+    const { result } = renderHook(
+      () => useGhAddPullRequestComment('owner', 'repo', 42, { mutationOptions: { onSuccess } }),
+      { wrapper },
+    );
+    act(() => {
+      result.current.mutate(commentData);
+    });
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    expect(onSuccess).toHaveBeenCalled();
+  });
 });

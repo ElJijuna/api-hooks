@@ -1,8 +1,13 @@
 import { type UseMutationResult, useMutation } from '@tanstack/react-query';
 import type { GitHubReviewComment, PullRequestResource } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
+import type { MutationOverrides } from '../types.js';
 
 type AddCommentData = Parameters<PullRequestResource['addComment']>[0];
+
+export interface UseGhAddPullRequestCommentOptions {
+  mutationOptions?: MutationOverrides<GitHubReviewComment, AddCommentData>;
+}
 
 /**
  * Adds an inline diff comment to a GitHub pull request.
@@ -18,10 +23,13 @@ export function useGhAddPullRequestComment(
   owner: string,
   repo: string,
   pullNumber: number,
+  options: UseGhAddPullRequestCommentOptions = {},
 ): UseMutationResult<GitHubReviewComment, Error, AddCommentData> {
+  const { mutationOptions } = options;
   const client = useGhClient();
 
   return useMutation<GitHubReviewComment, Error, AddCommentData>({
     mutationFn: (data) => client.repo(owner, repo).pullRequest(pullNumber).addComment(data),
+    ...mutationOptions,
   });
 }
