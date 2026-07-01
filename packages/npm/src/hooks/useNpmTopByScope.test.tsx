@@ -80,4 +80,13 @@ describe('useNpmTopByScope', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockTopByScope).not.toHaveBeenCalled();
   });
+
+  it('accepts queryOptions', async () => {
+    mockTopByScope.mockResolvedValue(mockResult);
+    const { result } = renderHook(
+      () => useNpmTopByScope('@types', { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
