@@ -71,4 +71,12 @@ describe('useOsvVuln', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockGet).not.toHaveBeenCalled();
   });
+  it('accepts queryOptions', async () => {
+    mockGet.mockResolvedValue(mockVuln);
+    const { result } = renderHook(
+      () => useOsvVuln('GHSA-jfh8-c2jp-hdp8', { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
