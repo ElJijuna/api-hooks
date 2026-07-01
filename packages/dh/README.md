@@ -125,6 +125,7 @@ function RepoInfo() {
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disabled when `namespace` or `name` is empty |
+| `queryOptions` | `QueryOverrides<TData>` | `undefined` | Override TanStack Query options (`staleTime`, `retry`, `gcTime`, `select`, etc.) |
 
 ---
 
@@ -148,6 +149,7 @@ const { data: stable } = useDockerHubRepositoryTags('library', 'nginx', { name: 
 | `name` | `string` | — | Filter tags by name prefix |
 | `ordering` | `string` | — | Sort order |
 | `enabled` | `boolean` | `true` | Disabled when `namespace` or `name` is empty |
+| `queryOptions` | `QueryOverrides<TData>` | `undefined` | Override TanStack Query options (`staleTime`, `retry`, `gcTime`, `select`, etc.) |
 
 ---
 
@@ -197,6 +199,7 @@ console.log(data?.gravatar_url); // 'https://...'
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disabled when `username` is empty |
+| `queryOptions` | `QueryOverrides<TData>` | `undefined` | Override TanStack Query options (`staleTime`, `retry`, `gcTime`, `select`, etc.) |
 
 ---
 
@@ -216,6 +219,7 @@ data?.results.forEach(r => console.log(r.name, r.pull_count));
 | `page_size` | `number` | — | Results per page |
 | `ordering` | `string` | — | Sort order |
 | `enabled` | `boolean` | `true` | Disabled when `username` is empty |
+| `queryOptions` | `QueryOverrides<TData>` | `undefined` | Override TanStack Query options (`staleTime`, `retry`, `gcTime`, `select`, etc.) |
 
 ---
 
@@ -246,6 +250,7 @@ console.log(data?.type);      // 'Organization'
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disabled when `orgname` is empty |
+| `queryOptions` | `QueryOverrides<TData>` | `undefined` | Override TanStack Query options (`staleTime`, `retry`, `gcTime`, `select`, etc.) |
 
 ---
 
@@ -267,6 +272,7 @@ data?.results.forEach(r => {
 | `page_size` | `number` | — | Results per page |
 | `type` | `'image'` | — | Filter by content type |
 | `enabled` | `boolean` | `true` | Disabled when `query` is empty |
+| `queryOptions` | `QueryOverrides<TData>` | `undefined` | Override TanStack Query options (`staleTime`, `retry`, `gcTime`, `select`, etc.) |
 
 ---
 
