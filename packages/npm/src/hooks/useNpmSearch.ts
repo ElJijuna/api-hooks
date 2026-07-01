@@ -2,10 +2,12 @@ import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import type { NpmSearchParams, NpmSearchResult } from 'npmjs-api-client';
 import { npmQueryKeys } from '../keys/npmQueryKeys.js';
 import { useNpmClient } from '../NpmClientContext.js';
+import type { QueryOverrides } from '../types.js';
 
 export interface UseNpmSearchOptions extends Omit<NpmSearchParams, 'text'> {
   /** Disable the query. Also disabled when `text` is empty. */
   enabled?: boolean;
+  queryOptions?: QueryOverrides<NpmSearchResult>;
 }
 
 /**
@@ -19,7 +21,7 @@ export function useNpmSearch(
   text: string,
   options: UseNpmSearchOptions = {},
 ): UseQueryResult<NpmSearchResult, Error> {
-  const { enabled = true, ...rest } = options;
+  const { enabled = true, queryOptions, ...rest } = options;
   const client = useNpmClient();
 
   const params: NpmSearchParams = { text, ...rest };
@@ -27,6 +29,7 @@ export function useNpmSearch(
   return useQuery<NpmSearchResult, Error>({
     queryKey: npmQueryKeys.search(params),
     queryFn: ({ signal }) => client.search(params, signal),
+    ...queryOptions,
     enabled: enabled && text.length > 0,
   });
 }
