@@ -57,4 +57,17 @@ describe('useGhDeleteGist', () => {
     expect(result.current.isIdle).toBe(true);
     expect(mockDelete).not.toHaveBeenCalled();
   });
+  it('accepts mutationOptions', async () => {
+    mockDelete.mockResolvedValue(undefined);
+    const onSuccess = jest.fn();
+    const { result } = renderHook(
+      () => useGhDeleteGist('abc123', { mutationOptions: { onSuccess } }),
+      { wrapper },
+    );
+    act(() => {
+      result.current.mutate();
+    });
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    expect(onSuccess).toHaveBeenCalled();
+  });
 });
