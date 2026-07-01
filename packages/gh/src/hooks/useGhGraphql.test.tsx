@@ -46,4 +46,17 @@ describe('useGhGraphql', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockGraphql).not.toHaveBeenCalled();
   });
+
+  it('accepts queryOptions', async () => {
+    const data = { viewer: { login: 'octocat' } };
+    mockGraphql.mockResolvedValue(data);
+    const { result } = renderHook(
+      () =>
+        useGhGraphql('query Viewer { viewer { login } }', undefined, {
+          queryOptions: { staleTime: 0 },
+        }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
