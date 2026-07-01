@@ -75,4 +75,12 @@ describe('useDockerHubUserRepositoriesInfinite', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockRepositories).not.toHaveBeenCalled();
   });
+  it('accepts queryOptions', async () => {
+    mockRepositories.mockResolvedValue(mockPage1);
+    const { result } = renderHook(
+      () => useDockerHubUserRepositoriesInfinite('johndoe', { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
