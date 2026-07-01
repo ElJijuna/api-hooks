@@ -73,4 +73,17 @@ describe('useGhCreateIssue', () => {
 
     expect(result.current.isIdle).toBe(true);
   });
+  it('accepts mutationOptions', async () => {
+    mockCreateIssue.mockResolvedValue(mockIssue);
+    const onSuccess = jest.fn();
+    const { result } = renderHook(
+      () => useGhCreateIssue('owner', 'repo', { mutationOptions: { onSuccess } }),
+      { wrapper },
+    );
+    act(() => {
+      result.current.mutate(issueData);
+    });
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    expect(onSuccess).toHaveBeenCalled();
+  });
 });
