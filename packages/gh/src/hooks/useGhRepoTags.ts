@@ -2,10 +2,12 @@ import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import type { GitHubPagedResponse, GitHubTag, TagsParams } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
+import type { QueryOverrides } from '../types.js';
 
 export interface UseGhRepoTagsOptions {
   /** Disable the query. Also disabled when `owner` or `repo` is empty. */
   enabled?: boolean;
+  queryOptions?: QueryOverrides<GitHubPagedResponse<GitHubTag>>;
 }
 
 /**
@@ -23,13 +25,14 @@ export function useGhRepoTags(
   params?: TagsParams,
   options: UseGhRepoTagsOptions = {},
 ): UseQueryResult<GitHubPagedResponse<GitHubTag>, Error> {
-  const { enabled = true } = options;
+  const { enabled = true, queryOptions } = options;
 
   const client = useGhClient();
 
   return useQuery<GitHubPagedResponse<GitHubTag>, Error>({
     queryKey: ghQueryKeys.repoTags(owner, repo, params),
     queryFn: ({ signal }) => client.repo(owner, repo).tags(params, signal),
+    ...queryOptions,
     enabled: enabled && owner.length > 0 && repo.length > 0,
   });
 }
