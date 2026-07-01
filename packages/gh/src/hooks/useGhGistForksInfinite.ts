@@ -6,10 +6,12 @@ import {
 import type { GistFork, GitHubPagedResponse, PaginationParams } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
+import type { InfiniteQueryOverrides } from '../types.js';
 
 export interface UseGhGistForksInfiniteOptions {
   /** Disable the query. */
   enabled?: boolean;
+  queryOptions?: InfiniteQueryOverrides<GitHubPagedResponse<GistFork>>;
 }
 
 /**
@@ -25,7 +27,7 @@ export function useGhGistForksInfinite(
   params?: Omit<PaginationParams, 'page'>,
   options: UseGhGistForksInfiniteOptions = {},
 ): UseInfiniteQueryResult<InfiniteData<GitHubPagedResponse<GistFork>, number>, Error> {
-  const { enabled = true } = options;
+  const { enabled = true, queryOptions } = options;
 
   const client = useGhClient();
 
@@ -35,6 +37,7 @@ export function useGhGistForksInfinite(
       client.gist(gistId).forks({ ...params, page: pageParam }, signal),
     initialPageParam: 1,
     getNextPageParam: (lastPage) => (lastPage.hasNextPage ? lastPage.nextPage : undefined),
+    ...queryOptions,
     enabled: enabled && gistId.length > 0,
   });
 }
