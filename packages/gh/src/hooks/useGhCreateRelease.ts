@@ -1,6 +1,11 @@
 import { type UseMutationResult, useMutation } from '@tanstack/react-query';
 import type { CreateReleaseData, GitHubRelease } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
+import type { MutationOverrides } from '../types.js';
+
+export interface UseGhCreateReleaseOptions {
+  mutationOptions?: MutationOverrides<GitHubRelease, CreateReleaseData>;
+}
 
 /**
  * Creates a new release in a GitHub repository.
@@ -14,10 +19,13 @@ import { useGhClient } from '../GhClientContext.js';
 export function useGhCreateRelease(
   owner: string,
   repo: string,
+  options: UseGhCreateReleaseOptions = {},
 ): UseMutationResult<GitHubRelease, Error, CreateReleaseData> {
+  const { mutationOptions } = options;
   const client = useGhClient();
 
   return useMutation<GitHubRelease, Error, CreateReleaseData>({
     mutationFn: (data) => client.repo(owner, repo).createRelease(data),
+    ...mutationOptions,
   });
 }
