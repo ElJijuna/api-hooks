@@ -84,4 +84,12 @@ describe('useBpPackageSimilar', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockSimilar).not.toHaveBeenCalled();
   });
+  it('accepts queryOptions', async () => {
+    mockSimilar.mockResolvedValue(mockSimilarPackages);
+    const { result } = renderHook(
+      () => useBpPackageSimilar('react', { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });

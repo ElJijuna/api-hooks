@@ -2,10 +2,12 @@ import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import { BundlephobiaClient, type SimilarPackages } from 'bundlephobia-api-client';
 import { useMemo } from 'react';
 import { bpQueryKeys } from '../keys/bpQueryKeys.js';
+import type { QueryOverrides } from '../types.js';
 
 export interface UseBpPackageSimilarOptions {
   /** Disable the query. Also disabled when `name` is empty. */
   enabled?: boolean;
+  queryOptions?: QueryOverrides<SimilarPackages>;
 }
 
 /**
@@ -19,12 +21,13 @@ export function useBpPackageSimilar(
   name: string,
   options: UseBpPackageSimilarOptions = {},
 ): UseQueryResult<SimilarPackages, Error> {
-  const { enabled = true } = options;
+  const { enabled = true, queryOptions } = options;
   const client = useMemo(() => new BundlephobiaClient(), []);
 
   return useQuery<SimilarPackages, Error>({
     queryKey: bpQueryKeys.packageSimilar(name),
     queryFn: ({ signal }) => client.package(name).similar(signal),
+    ...queryOptions,
     enabled: enabled && name.length > 0,
   });
 }
