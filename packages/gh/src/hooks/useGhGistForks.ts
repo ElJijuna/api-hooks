@@ -2,10 +2,12 @@ import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import type { GistFork, GitHubPagedResponse, PaginationParams } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
+import type { QueryOverrides } from '../types.js';
 
 export interface UseGhGistForksOptions {
   /** Disable the query. Also disabled when `gistId` is empty. */
   enabled?: boolean;
+  queryOptions?: QueryOverrides<GitHubPagedResponse<GistFork>>;
 }
 
 /**
@@ -21,13 +23,14 @@ export function useGhGistForks(
   params?: PaginationParams,
   options: UseGhGistForksOptions = {},
 ): UseQueryResult<GitHubPagedResponse<GistFork>, Error> {
-  const { enabled = true } = options;
+  const { enabled = true, queryOptions } = options;
 
   const client = useGhClient();
 
   return useQuery<GitHubPagedResponse<GistFork>, Error>({
     queryKey: ghQueryKeys.gistForks(gistId, params),
     queryFn: ({ signal }) => client.gist(gistId).forks(params, signal),
+    ...queryOptions,
     enabled: enabled && gistId.length > 0,
   });
 }

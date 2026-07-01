@@ -87,4 +87,12 @@ describe('useGhGistForks', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockForks).not.toHaveBeenCalled();
   });
+  it('accepts queryOptions', async () => {
+    mockForks.mockResolvedValue(mockResponse);
+    const { result } = renderHook(
+      () => useGhGistForks('abc123', { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
