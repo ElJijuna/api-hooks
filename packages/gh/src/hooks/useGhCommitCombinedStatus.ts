@@ -2,10 +2,12 @@ import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import type { GitHubCombinedStatus } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
+import type { QueryOverrides } from '../types.js';
 
 export interface UseGhCommitCombinedStatusOptions {
   /** Disable the query. Also disabled when any required param is empty. */
   enabled?: boolean;
+  queryOptions?: QueryOverrides<GitHubCombinedStatus>;
 }
 
 /**
@@ -23,13 +25,14 @@ export function useGhCommitCombinedStatus(
   ref: string,
   options: UseGhCommitCombinedStatusOptions = {},
 ): UseQueryResult<GitHubCombinedStatus, Error> {
-  const { enabled = true } = options;
+  const { enabled = true, queryOptions } = options;
 
   const client = useGhClient();
 
   return useQuery<GitHubCombinedStatus, Error>({
     queryKey: ghQueryKeys.commitCombinedStatus(owner, repo, ref),
     queryFn: ({ signal }) => client.repo(owner, repo).commit(ref).combinedStatus(signal),
+    ...queryOptions,
     enabled: enabled && owner.length > 0 && repo.length > 0 && ref.length > 0,
   });
 }

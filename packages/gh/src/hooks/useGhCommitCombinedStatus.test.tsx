@@ -79,4 +79,12 @@ describe('useGhCommitCombinedStatus', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockCombinedStatus).not.toHaveBeenCalled();
   });
+  it('accepts queryOptions', async () => {
+    mockCombinedStatus.mockResolvedValue(mockCombinedStatusData);
+    const { result } = renderHook(
+      () => useGhCommitCombinedStatus('octocat', 'Hello-World', 'abc123', { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
