@@ -70,4 +70,12 @@ describe('useGhRepoContents', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockContents).not.toHaveBeenCalled();
   });
+  it('accepts queryOptions', async () => {
+    mockContents.mockResolvedValue(mockContent);
+    const { result } = renderHook(
+      () => useGhRepoContents('octocat', 'Hello-World', 'README.md', { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
