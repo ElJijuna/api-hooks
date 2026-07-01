@@ -2,10 +2,12 @@ import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import type { BranchesParams, GitHubBranch, GitHubPagedResponse } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
+import type { QueryOverrides } from '../types.js';
 
 export interface UseGhRepoBranchesOptions {
   /** Disable the query. Also disabled when `owner` or `repo` is empty. */
   enabled?: boolean;
+  queryOptions?: QueryOverrides<GitHubPagedResponse<GitHubBranch>>;
 }
 
 /**
@@ -23,13 +25,14 @@ export function useGhRepoBranches(
   params?: BranchesParams,
   options: UseGhRepoBranchesOptions = {},
 ): UseQueryResult<GitHubPagedResponse<GitHubBranch>, Error> {
-  const { enabled = true } = options;
+  const { enabled = true, queryOptions } = options;
 
   const client = useGhClient();
 
   return useQuery<GitHubPagedResponse<GitHubBranch>, Error>({
     queryKey: ghQueryKeys.repoBranches(owner, repo, params),
     queryFn: ({ signal }) => client.repo(owner, repo).branches(params, signal),
+    ...queryOptions,
     enabled: enabled && owner.length > 0 && repo.length > 0,
   });
 }

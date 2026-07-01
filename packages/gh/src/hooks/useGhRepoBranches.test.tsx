@@ -70,4 +70,12 @@ describe('useGhRepoBranches', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockBranches).not.toHaveBeenCalled();
   });
+  it('accepts queryOptions', async () => {
+    mockBranches.mockResolvedValue(mockResponse);
+    const { result } = renderHook(
+      () => useGhRepoBranches('octocat', 'Hello-World', { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
