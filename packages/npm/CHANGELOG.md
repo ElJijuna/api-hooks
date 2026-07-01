@@ -1,3 +1,51 @@
+## [2.6.0](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/npm@2.5.1...@api-hooks/npm@2.6.0) (2026-07-01)
+
+### Features
+
+* add mutationOptions support to useNpmAudit hook and its tests ([bbd4950](https://github.com/ElJijuna/api-hooks/commit/bbd49503d59a6bfc34cc29511e5a5b0b044f0ae5))
+* add mutationOptions support to useNpmAuditQuick hook and its tests ([a98caae](https://github.com/ElJijuna/api-hooks/commit/a98caaef67ebd9235b0c54562efd497ddebd1b25))
+* add queryOptions support to useNpmBulkDownloads hook and its tests ([32ebd94](https://github.com/ElJijuna/api-hooks/commit/32ebd9473c425ce074968d95009e905019351e6d))
+* add queryOptions support to useNpmMaintainer hook and its tests ([b683fe0](https://github.com/ElJijuna/api-hooks/commit/b683fe0e5dd0fdc9d708f8f5849ede8deeefe943))
+* add queryOptions support to useNpmMaintainerAvatar hook and its tests ([67f47a9](https://github.com/ElJijuna/api-hooks/commit/67f47a97e5bfb241eda412012aaf0f7ad884565c))
+* add queryOptions support to useNpmMaintainerPackages hook and its tests ([83e3c9d](https://github.com/ElJijuna/api-hooks/commit/83e3c9d8d9d12fe23c27fdef6d574f8e83d74654))
+* add queryOptions support to useNpmMaintainerPackagesInfinite hook and its tests ([40e1fa3](https://github.com/ElJijuna/api-hooks/commit/40e1fa31523e772dd6f45a552f82a1e5cc43bb7e))
+* add queryOptions support to useNpmOrgMembers hook and its tests ([154c679](https://github.com/ElJijuna/api-hooks/commit/154c6796abfc07c8df18a1e997c7e038a6d0dbf4))
+* add queryOptions support to useNpmOrgPackages hook and its tests ([f6106ea](https://github.com/ElJijuna/api-hooks/commit/f6106ea65a1c2f434e326c95aff6bf57f2c98d58))
+* add queryOptions support to useNpmOrgTeamMembers hook and its tests ([8eb60f1](https://github.com/ElJijuna/api-hooks/commit/8eb60f1f52b8fd15a1eadd8fe189a8f24486b4e5))
+* add queryOptions support to useNpmOrgTeams hook and its tests ([b5a620e](https://github.com/ElJijuna/api-hooks/commit/b5a620e8d42376bb0c77cbdd4cd4684b85b45253))
+* add queryOptions support to useNpmPackage hook and its tests ([dfffb02](https://github.com/ElJijuna/api-hooks/commit/dfffb02e022d5bf886efab7035ef12e11d04ea4a))
+* add queryOptions support to useNpmPackageCdnStats hook and its tests ([c07aba7](https://github.com/ElJijuna/api-hooks/commit/c07aba7257ceb6c8924986326daedfca2cce8ecb))
+* add queryOptions support to useNpmPackageDistTags hook and its tests ([91e67d6](https://github.com/ElJijuna/api-hooks/commit/91e67d6ce9e0838292338f72b0bca1bfeef8410f))
+* add queryOptions support to useNpmPackageDownloadRange hook and its tests ([a517464](https://github.com/ElJijuna/api-hooks/commit/a517464dac121ed8944f47272d46dab42b4626ba))
+* add queryOptions support to useNpmPackageDownloads hook and its tests ([0122ea1](https://github.com/ElJijuna/api-hooks/commit/0122ea179d07188aa716e9d09be2f971b73b6ec1))
+* add queryOptions support to useNpmPackageLatest hook and its tests ([f1a4994](https://github.com/ElJijuna/api-hooks/commit/f1a4994c5f8cc34b74ac40ac300da8169f56178a))
+* add queryOptions support to useNpmPackageMaintainers hook and its tests ([45b5b71](https://github.com/ElJijuna/api-hooks/commit/45b5b7144acd8b0fac0c0c0821b103f57acf0b5d))
+* add queryOptions support to useNpmPackageScore hook and its tests ([ef14a30](https://github.com/ElJijuna/api-hooks/commit/ef14a30ee753738581f7dc75c0ef505b47461203))
+* add queryOptions support to useNpmPackageSize hook and its tests ([aefcd09](https://github.com/ElJijuna/api-hooks/commit/aefcd09f067dca1f61f6b9d24b62016eaea87bc2))
+* add queryOptions support to useNpmPackageVersion hook and its tests ([4c6ceb7](https://github.com/ElJijuna/api-hooks/commit/4c6ceb7dd3898b3c312740e0f9673c03a28d5b6b))
+* add queryOptions support to useNpmPackageVersionCdnStats hook and its tests ([d82cb60](https://github.com/ElJijuna/api-hooks/commit/d82cb6045a49f654bab0b5a88123fb097cfa421e))
+* add queryOptions support to useNpmPackageVersionDependencies hook and its tests ([79db070](https://github.com/ElJijuna/api-hooks/commit/79db070ef16533925e5f24a27f4db7ec87938344))
+* add queryOptions support to useNpmPackageVersionDownloads hook and its tests ([822e860](https://github.com/ElJijuna/api-hooks/commit/822e860e0b66d5f806e0b777ed4235033046c7d7))
+* add queryOptions support to useNpmPackageVersionFiles hook and its tests ([3c3db89](https://github.com/ElJijuna/api-hooks/commit/3c3db898d904cfcc6870a57a1fb9239b63fcfa3f))
+* add queryOptions support to useNpmPackageVersions hook and its tests ([026e898](https://github.com/ElJijuna/api-hooks/commit/026e898839dfac6e8ca1bd88fc4da52e6409e7b8))
+* add queryOptions support to useNpmPackageVersionSize hook and its tests ([7f207e6](https://github.com/ElJijuna/api-hooks/commit/7f207e67f804772fc7742d1a5fcac28cf3703598))
+* add queryOptions support to useNpmSearch hook and its tests ([a125f9f](https://github.com/ElJijuna/api-hooks/commit/a125f9f5a07d873a33e1d2d77876e9ae996325cd))
+* add queryOptions support to useNpmSearchInfinite hook and its tests ([0c5b816](https://github.com/ElJijuna/api-hooks/commit/0c5b8169c31a14b50382ac36f5989c621000989b))
+* add queryOptions support to useNpmTopByKeyword hook and its tests ([22a39dc](https://github.com/ElJijuna/api-hooks/commit/22a39dc046a879f9fc7f4eb1c412fa604db36418))
+* add queryOptions support to useNpmTopByMaintenance hook and its tests ([51fa356](https://github.com/ElJijuna/api-hooks/commit/51fa35676b1a372e0aa46c6898ba9bf351206a2c))
+* add queryOptions support to useNpmTopByPopularity hook and its tests ([ec5a9e2](https://github.com/ElJijuna/api-hooks/commit/ec5a9e2f97b034465e4bfba2c5eb8369c700b223))
+* add queryOptions support to useNpmTopByQuality hook and its tests ([0d77bec](https://github.com/ElJijuna/api-hooks/commit/0d77bec7209a708328dcb8a06add75d9cb0512fb))
+* add queryOptions support to useNpmTopByScope hook and its tests ([c6d77ee](https://github.com/ElJijuna/api-hooks/commit/c6d77ee578bd7e73275810748b3d2df4143b440d))
+* add queryOptions support to useNpmTopPackages hook and its tests ([7b18463](https://github.com/ElJijuna/api-hooks/commit/7b18463b1899f228d8ed904020000dc773fe61cf))
+* add queryOptions support to useNpmUser hook and its tests ([47c5f0c](https://github.com/ElJijuna/api-hooks/commit/47c5f0c9dd6589c59d4f4c31e8f78ada950b1ad8))
+* add queryOptions support to useNpmUserPackages hook and its tests ([70fb0fb](https://github.com/ElJijuna/api-hooks/commit/70fb0fb328e6f942c7deab27f4af70d06f552313))
+* add queryOptions support to useNpmWhoami hook and its tests ([649a066](https://github.com/ElJijuna/api-hooks/commit/649a066b52a5338b60cc1ff71ee71a3965932277))
+* define hook-specific option types for query and mutation overrides ([bf8e298](https://github.com/ElJijuna/api-hooks/commit/bf8e298d409355e8129f19ff2f23da55d00f4f42))
+
+### Documentation
+
+* add queryOptions support to various hooks in README ([9d4db5d](https://github.com/ElJijuna/api-hooks/commit/9d4db5da64110c4ed9f35b3ec5e60bd4ecb2411b))
+
 ## [2.5.1](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/npm@2.5.0...@api-hooks/npm@2.5.1) (2026-06-08)
 
 ### Refactoring
