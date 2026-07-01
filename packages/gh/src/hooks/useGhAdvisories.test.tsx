@@ -76,4 +76,12 @@ describe('useGhAdvisories', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockAdvisories).not.toHaveBeenCalled();
   });
+  it('accepts queryOptions', async () => {
+    mockAdvisories.mockResolvedValue(mockResponse);
+    const { result } = renderHook(
+      () => useGhAdvisories({ queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });

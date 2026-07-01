@@ -2,10 +2,12 @@ import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import type { AdvisoriesParams, GitHubAdvisory, GitHubPagedResponse } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
+import type { QueryOverrides } from '../types.js';
 
 export interface UseGhAdvisoriesOptions {
   /** Disable the query. */
   enabled?: boolean;
+  queryOptions?: QueryOverrides<GitHubPagedResponse<GitHubAdvisory>>;
 }
 
 /**
@@ -19,13 +21,14 @@ export function useGhAdvisories(
   params?: AdvisoriesParams,
   options: UseGhAdvisoriesOptions = {},
 ): UseQueryResult<GitHubPagedResponse<GitHubAdvisory>, Error> {
-  const { enabled = true } = options;
+  const { enabled = true, queryOptions } = options;
 
   const client = useGhClient();
 
   return useQuery<GitHubPagedResponse<GitHubAdvisory>, Error>({
     queryKey: ghQueryKeys.advisories(params),
     queryFn: ({ signal }) => client.advisories(params, signal),
+    ...queryOptions,
     enabled,
   });
 }
