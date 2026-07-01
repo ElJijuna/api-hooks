@@ -1,6 +1,11 @@
 import { type UseMutationResult, useMutation } from '@tanstack/react-query';
 import type { GitHubIssueComment } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
+import type { MutationOverrides } from '../types.js';
+
+export interface UseGhAddIssueCommentOptions {
+  mutationOptions?: MutationOverrides<GitHubIssueComment, string>;
+}
 
 /**
  * Adds a comment to a GitHub issue.
@@ -16,10 +21,13 @@ export function useGhAddIssueComment(
   owner: string,
   repo: string,
   issueNumber: number,
+  options: UseGhAddIssueCommentOptions = {},
 ): UseMutationResult<GitHubIssueComment, Error, string> {
+  const { mutationOptions } = options;
   const client = useGhClient();
 
   return useMutation<GitHubIssueComment, Error, string>({
     mutationFn: (body) => client.repo(owner, repo).issue(issueNumber).addComment(body),
+    ...mutationOptions,
   });
 }

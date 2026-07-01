@@ -64,4 +64,17 @@ describe('useGhAddIssueComment', () => {
     const { result } = renderHook(() => useGhAddIssueComment('owner', 'repo', 42), { wrapper });
     expect(result.current.isIdle).toBe(true);
   });
+  it('accepts mutationOptions', async () => {
+    mockAddComment.mockResolvedValue(mockComment);
+    const onSuccess = jest.fn();
+    const { result } = renderHook(
+      () => useGhAddIssueComment('owner', 'repo', 42, { mutationOptions: { onSuccess } }),
+      { wrapper },
+    );
+    act(() => {
+      result.current.mutate('Looks good!');
+    });
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    expect(onSuccess).toHaveBeenCalled();
+  });
 });
