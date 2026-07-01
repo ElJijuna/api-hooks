@@ -1,6 +1,11 @@
 import { type UseMutationResult, useMutation } from '@tanstack/react-query';
 import type { GitHubGist, UpdateGistData } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
+import type { MutationOverrides } from '../types.js';
+
+export interface UseGhUpdateGistOptions {
+  mutationOptions?: MutationOverrides<GitHubGist, UpdateGistData>;
+}
 
 /**
  * Updates an existing GitHub Gist.
@@ -12,10 +17,13 @@ import { useGhClient } from '../GhClientContext.js';
  */
 export function useGhUpdateGist(
   gistId: string,
+  options: UseGhUpdateGistOptions = {},
 ): UseMutationResult<GitHubGist, Error, UpdateGistData> {
+  const { mutationOptions } = options;
   const client = useGhClient();
 
   return useMutation<GitHubGist, Error, UpdateGistData>({
     mutationFn: (data) => client.gist(gistId).update(data),
+    ...mutationOptions,
   });
 }
