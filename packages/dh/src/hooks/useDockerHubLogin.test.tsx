@@ -47,4 +47,16 @@ describe('useDockerHubLogin', () => {
 
     expect(result.current.error).toBeInstanceOf(DockerHubApiError);
   });
+  it('accepts mutationOptions', async () => {
+    mockLogin.mockResolvedValue('jwt-token-abc');
+    const onSuccess = jest.fn();
+    const { result } = renderHook(() => useDockerHubLogin({ mutationOptions: { onSuccess } }), {
+      wrapper,
+    });
+    act(() => {
+      result.current.mutate({ username: 'johndoe', password: 'secret' });
+    });
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    expect(onSuccess).toHaveBeenCalled();
+  });
 });
