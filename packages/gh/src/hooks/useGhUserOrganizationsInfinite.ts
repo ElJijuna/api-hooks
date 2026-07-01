@@ -6,8 +6,8 @@ import {
 import type { GitHubOrganization, GitHubPagedResponse } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
-import type { UserOrganizationsParams } from './useGhUserOrganizations.js';
 import type { InfiniteQueryOverrides } from '../types.js';
+import type { UserOrganizationsParams } from './useGhUserOrganizations.js';
 
 export interface UseGhUserOrganizationsInfiniteOptions {
   /** Disable the query. Also disabled when `login` is empty. */

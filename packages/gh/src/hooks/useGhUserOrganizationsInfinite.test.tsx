@@ -70,7 +70,12 @@ describe('useGhUserOrganizationsInfinite', () => {
   it('accepts queryOptions', async () => {
     mockOrganizations.mockResolvedValue(page);
     const { result } = renderHook(
-      () => useGhUserOrganizationsInfinite('octocat', { per_page: 10 }, { queryOptions: { staleTime: 0 } }),
+      () =>
+        useGhUserOrganizationsInfinite(
+          'octocat',
+          { per_page: 10 },
+          { queryOptions: { staleTime: 0 } },
+        ),
       { wrapper },
     );
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
