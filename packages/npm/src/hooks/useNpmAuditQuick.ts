@@ -1,6 +1,11 @@
 import { type UseMutationResult, useMutation } from '@tanstack/react-query';
 import type { NpmAuditPayload, NpmAuditQuickResult } from 'npmjs-api-client';
 import { useNpmClient } from '../NpmClientContext.js';
+import type { MutationOverrides } from '../types.js';
+
+export interface UseNpmAuditQuickOptions {
+  mutationOptions?: MutationOverrides<NpmAuditQuickResult, NpmAuditPayload>;
+}
 
 /**
  * Runs a quick security audit against the npm registry.
@@ -12,10 +17,14 @@ import { useNpmClient } from '../NpmClientContext.js';
  *
  * @returns TanStack Mutation result with {@link NpmAuditQuickResult}
  */
-export function useNpmAuditQuick(): UseMutationResult<NpmAuditQuickResult, Error, NpmAuditPayload> {
+export function useNpmAuditQuick(
+  options: UseNpmAuditQuickOptions = {},
+): UseMutationResult<NpmAuditQuickResult, Error, NpmAuditPayload> {
+  const { mutationOptions } = options;
   const client = useNpmClient();
 
   return useMutation<NpmAuditQuickResult, Error, NpmAuditPayload>({
     mutationFn: (payload) => client.auditQuick(payload),
+    ...mutationOptions,
   });
 }
