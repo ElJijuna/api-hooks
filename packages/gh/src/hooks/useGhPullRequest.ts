@@ -2,10 +2,12 @@ import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import type { GitHubPullRequest } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
+import type { QueryOverrides } from '../types.js';
 
 export interface UseGhPullRequestOptions {
   /** Disable the query. Also disabled when any required param is empty/zero. */
   enabled?: boolean;
+  queryOptions?: QueryOverrides<GitHubPullRequest>;
 }
 
 /**
@@ -23,13 +25,14 @@ export function useGhPullRequest(
   pullNumber: number,
   options: UseGhPullRequestOptions = {},
 ): UseQueryResult<GitHubPullRequest, Error> {
-  const { enabled = true } = options;
+  const { enabled = true, queryOptions } = options;
 
   const client = useGhClient();
 
   return useQuery<GitHubPullRequest, Error>({
     queryKey: ghQueryKeys.pullRequest(owner, repo, pullNumber),
     queryFn: ({ signal }) => client.repo(owner, repo).pullRequest(pullNumber).get(signal),
+    ...queryOptions,
     enabled: enabled && owner.length > 0 && repo.length > 0 && pullNumber > 0,
   });
 }
