@@ -70,4 +70,12 @@ describe('useGhSearchCodeInfinite', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockSearchCode).not.toHaveBeenCalled();
   });
+  it('accepts queryOptions', async () => {
+    mockSearchCode.mockResolvedValue(mockResponse);
+    const { result } = renderHook(
+      () => useGhSearchCodeInfinite({ q: 'addClass in:file' }, { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
