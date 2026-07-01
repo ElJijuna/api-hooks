@@ -63,4 +63,17 @@ describe('useGhMergePullRequest', () => {
 
     expect(result.current.isIdle).toBe(true);
   });
+  it('accepts mutationOptions', async () => {
+    mockMerge.mockResolvedValue(mockResult);
+    const onSuccess = jest.fn();
+    const { result } = renderHook(
+      () => useGhMergePullRequest('owner', 'repo', 42, { mutationOptions: { onSuccess } }),
+      { wrapper },
+    );
+    act(() => {
+      result.current.mutate(undefined);
+    });
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    expect(onSuccess).toHaveBeenCalled();
+  });
 });
