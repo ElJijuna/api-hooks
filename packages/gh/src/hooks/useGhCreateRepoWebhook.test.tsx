@@ -36,4 +36,19 @@ describe('useGhCreateRepoWebhook', () => {
     expect(result.current.data).toEqual(webhook);
     expect(mockCreateWebhook).toHaveBeenCalledWith(data);
   });
+  it('accepts mutationOptions', async () => {
+    const webhook = { id: 1 } as unknown as GitHubWebhook;
+    const data = { config: { url: 'https://example.com/webhook' } };
+    mockCreateWebhook.mockResolvedValue(webhook);
+    const onSuccess = jest.fn();
+    const { result } = renderHook(
+      () => useGhCreateRepoWebhook('owner', 'repo', { mutationOptions: { onSuccess } }),
+      { wrapper },
+    );
+    act(() => {
+      result.current.mutate(data);
+    });
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    expect(onSuccess).toHaveBeenCalled();
+  });
 });
