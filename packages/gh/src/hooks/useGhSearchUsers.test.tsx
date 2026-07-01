@@ -59,4 +59,12 @@ describe('useGhSearchUsers', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockSearchUsers).not.toHaveBeenCalled();
   });
+  it('accepts queryOptions', async () => {
+    mockSearchUsers.mockResolvedValue(mockResponse);
+    const { result } = renderHook(
+      () => useGhSearchUsers({ q: 'octocat' }, { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
