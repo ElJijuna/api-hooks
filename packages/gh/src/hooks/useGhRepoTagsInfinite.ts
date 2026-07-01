@@ -6,10 +6,12 @@ import {
 import type { GitHubPagedResponse, GitHubTag, TagsParams } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
+import type { InfiniteQueryOverrides } from '../types.js';
 
 export interface UseGhRepoTagsInfiniteOptions {
   /** Disable the query. Also disabled when `owner` or `repo` is empty. */
   enabled?: boolean;
+  queryOptions?: InfiniteQueryOverrides<GitHubPagedResponse<GitHubTag>>;
 }
 
 /**
@@ -27,7 +29,7 @@ export function useGhRepoTagsInfinite(
   params?: Omit<TagsParams, 'page'>,
   options: UseGhRepoTagsInfiniteOptions = {},
 ): UseInfiniteQueryResult<InfiniteData<GitHubPagedResponse<GitHubTag>, number>, Error> {
-  const { enabled = true } = options;
+  const { enabled = true, queryOptions } = options;
 
   const client = useGhClient();
 
@@ -37,6 +39,7 @@ export function useGhRepoTagsInfinite(
       client.repo(owner, repo).tags({ ...params, page: pageParam }, signal),
     initialPageParam: 1,
     getNextPageParam: (lastPage) => (lastPage.hasNextPage ? lastPage.nextPage : undefined),
+    ...queryOptions,
     enabled: enabled && owner.length > 0 && repo.length > 0,
   });
 }
