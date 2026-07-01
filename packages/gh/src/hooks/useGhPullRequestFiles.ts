@@ -6,10 +6,12 @@ import type {
 } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
+import type { QueryOverrides } from '../types.js';
 
 export interface UseGhPullRequestFilesOptions {
   /** Disable the query. Also disabled when any required param is empty/zero. */
   enabled?: boolean;
+  queryOptions?: QueryOverrides<GitHubPagedResponse<GitHubPullRequestFile>>;
 }
 
 /**
@@ -29,13 +31,14 @@ export function useGhPullRequestFiles(
   params?: PullRequestFilesParams,
   options: UseGhPullRequestFilesOptions = {},
 ): UseQueryResult<GitHubPagedResponse<GitHubPullRequestFile>, Error> {
-  const { enabled = true } = options;
+  const { enabled = true, queryOptions } = options;
 
   const client = useGhClient();
 
   return useQuery<GitHubPagedResponse<GitHubPullRequestFile>, Error>({
     queryKey: ghQueryKeys.pullRequestFiles(owner, repo, pullNumber, params),
     queryFn: ({ signal }) => client.repo(owner, repo).pullRequest(pullNumber).files(params, signal),
+    ...queryOptions,
     enabled: enabled && owner.length > 0 && repo.length > 0 && pullNumber > 0,
   });
 }

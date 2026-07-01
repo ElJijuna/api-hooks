@@ -89,4 +89,12 @@ describe('useGhPullRequestFiles', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockFiles).not.toHaveBeenCalled();
   });
+  it('accepts queryOptions', async () => {
+    mockFiles.mockResolvedValue(mockResponse);
+    const { result } = renderHook(
+      () => useGhPullRequestFiles('octocat', 'Hello-World', 42, { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
