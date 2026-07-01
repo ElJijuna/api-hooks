@@ -33,4 +33,17 @@ describe('useGhDeleteRepoWebhook', () => {
 
     expect(mockDeleteWebhook).toHaveBeenCalledWith(1);
   });
+  it('accepts mutationOptions', async () => {
+    mockDeleteWebhook.mockResolvedValue(undefined);
+    const onSuccess = jest.fn();
+    const { result } = renderHook(
+      () => useGhDeleteRepoWebhook('owner', 'repo', { mutationOptions: { onSuccess } }),
+      { wrapper },
+    );
+    act(() => {
+      result.current.mutate({ hookId: 1 });
+    });
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    expect(onSuccess).toHaveBeenCalled();
+  });
 });
