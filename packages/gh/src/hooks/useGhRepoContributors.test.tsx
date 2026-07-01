@@ -69,4 +69,12 @@ describe('useGhRepoContributors', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockContributors).not.toHaveBeenCalled();
   });
+  it('accepts queryOptions', async () => {
+    mockContributors.mockResolvedValue(mockResponse);
+    const { result } = renderHook(
+      () => useGhRepoContributors('octocat', 'Hello-World', { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });

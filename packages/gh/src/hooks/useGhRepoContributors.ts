@@ -2,6 +2,7 @@ import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import type { GitHubPagedResponse, PaginationParams } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
+import type { QueryOverrides } from '../types.js';
 
 export interface GitHubContributor {
   login?: string;
@@ -14,6 +15,7 @@ export interface GitHubContributor {
 export interface UseGhRepoContributorsOptions {
   /** Disable the query. Also disabled when `owner` or `repo` is empty. */
   enabled?: boolean;
+  queryOptions?: QueryOverrides<GitHubPagedResponse<GitHubContributor>>;
 }
 
 /**
@@ -31,13 +33,14 @@ export function useGhRepoContributors(
   params?: PaginationParams & { anon?: boolean },
   options: UseGhRepoContributorsOptions = {},
 ): UseQueryResult<GitHubPagedResponse<GitHubContributor>, Error> {
-  const { enabled = true } = options;
+  const { enabled = true, queryOptions } = options;
 
   const client = useGhClient();
 
   return useQuery<GitHubPagedResponse<GitHubContributor>, Error>({
     queryKey: ghQueryKeys.repoContributors(owner, repo, params),
     queryFn: ({ signal }) => client.repo(owner, repo).contributors(params, signal),
+    ...queryOptions,
     enabled: enabled && owner.length > 0 && repo.length > 0,
   });
 }
