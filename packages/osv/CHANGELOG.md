@@ -1,3 +1,20 @@
+## [1.6.0](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/osv@1.5.1...@api-hooks/osv@1.6.0) (2026-07-01)
+
+### Features
+
+* add query overrides types for useQuery, useInfiniteQuery, and useMutation ([231aa2c](https://github.com/ElJijuna/api-hooks/commit/231aa2ce1dffcfddf9aaf560888fdb1a377f1492))
+* add queryOptions support to useOsvQuery and its tests ([197200e](https://github.com/ElJijuna/api-hooks/commit/197200e895a8800db280ac48dfa76abbc0a23aac))
+* add queryOptions support to useOsvQueryBatch and its tests ([f2af1fd](https://github.com/ElJijuna/api-hooks/commit/f2af1fd4e693407cbc6b0659c61705b3903b3d9c))
+* add queryOptions support to useOsvVuln and its tests ([355b1d1](https://github.com/ElJijuna/api-hooks/commit/355b1d1cd0797cf5557cbff3dec2b130342f9392))
+
+### Refactoring
+
+* improve async handling in useOsvVuln tests ([839be47](https://github.com/ElJijuna/api-hooks/commit/839be4701845478bd23bd54710c505bc92928698))
+
+### Documentation
+
+* add queryOptions description to hooks in README ([7579dab](https://github.com/ElJijuna/api-hooks/commit/7579dabe8a7e051a7dc827e6223892da4bf58229))
+
 ## [1.5.1](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/osv@1.5.0...@api-hooks/osv@1.5.1) (2026-06-08)
 
 ### Refactoring

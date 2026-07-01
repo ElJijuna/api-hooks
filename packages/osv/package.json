@@ -1,6 +1,6 @@
 {
   "name": "@api-hooks/osv",
-  "version": "1.5.1",
+  "version": "1.6.0",
   "description": "React hooks for the OSV (Open Source Vulnerabilities) API, built on @tanstack/react-query",
   "keywords": [
     "react",
