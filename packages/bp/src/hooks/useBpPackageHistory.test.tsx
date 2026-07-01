@@ -71,4 +71,12 @@ describe('useBpPackageHistory', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockHistory).not.toHaveBeenCalled();
   });
+  it('accepts queryOptions', async () => {
+    mockHistory.mockResolvedValue(mockPackageHistory);
+    const { result } = renderHook(
+      () => useBpPackageHistory('react', { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
