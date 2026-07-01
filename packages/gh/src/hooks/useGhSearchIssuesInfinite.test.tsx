@@ -75,4 +75,12 @@ describe('useGhSearchIssuesInfinite', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockSearchIssues).not.toHaveBeenCalled();
   });
+  it('accepts queryOptions', async () => {
+    mockSearchIssues.mockResolvedValue(mockResponse);
+    const { result } = renderHook(
+      () => useGhSearchIssuesInfinite({ q: 'is:issue is:open' }, { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });

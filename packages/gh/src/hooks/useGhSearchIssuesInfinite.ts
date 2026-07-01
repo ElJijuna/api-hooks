@@ -6,10 +6,12 @@ import {
 import type { GitHubIssue, GitHubPagedResponse, SearchIssuesParams } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
+import type { InfiniteQueryOverrides } from '../types.js';
 
 export interface UseGhSearchIssuesInfiniteOptions {
   /** Disable the query. Also disabled when `params.q` is empty. */
   enabled?: boolean;
+  queryOptions?: InfiniteQueryOverrides<GitHubPagedResponse<GitHubIssue>>;
 }
 
 /**
@@ -23,7 +25,7 @@ export function useGhSearchIssuesInfinite(
   params: Omit<SearchIssuesParams, 'page'>,
   options: UseGhSearchIssuesInfiniteOptions = {},
 ): UseInfiniteQueryResult<InfiniteData<GitHubPagedResponse<GitHubIssue>, number>, Error> {
-  const { enabled = true } = options;
+  const { enabled = true, queryOptions } = options;
 
   const client = useGhClient();
 
@@ -32,6 +34,7 @@ export function useGhSearchIssuesInfinite(
     queryFn: ({ pageParam, signal }) => client.searchIssues({ ...params, page: pageParam }, signal),
     initialPageParam: 1,
     getNextPageParam: (lastPage) => (lastPage.hasNextPage ? lastPage.nextPage : undefined),
+    ...queryOptions,
     enabled: enabled && params.q.length > 0,
   });
 }
