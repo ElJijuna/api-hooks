@@ -52,4 +52,17 @@ describe('useGhCancelWorkflowRun', () => {
     const { result } = renderHook(() => useGhCancelWorkflowRun('owner', 'repo'), { wrapper });
     expect(result.current.isIdle).toBe(true);
   });
+  it('accepts mutationOptions', async () => {
+    mockCancelWorkflowRun.mockResolvedValue(undefined);
+    const onSuccess = jest.fn();
+    const { result } = renderHook(
+      () => useGhCancelWorkflowRun('owner', 'repo', { mutationOptions: { onSuccess } }),
+      { wrapper },
+    );
+    act(() => {
+      result.current.mutate(42);
+    });
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    expect(onSuccess).toHaveBeenCalled();
+  });
 });
