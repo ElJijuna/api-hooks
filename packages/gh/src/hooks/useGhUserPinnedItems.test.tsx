@@ -58,4 +58,12 @@ describe('useGhUserPinnedItems', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockPinnedItems).not.toHaveBeenCalled();
   });
+  it('accepts queryOptions', async () => {
+    mockPinnedItems.mockResolvedValue(mockItems);
+    const { result } = renderHook(
+      () => useGhUserPinnedItems('octocat', { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });

@@ -2,10 +2,12 @@ import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import type { PinnedItem } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
+import type { QueryOverrides } from '../types.js';
 
 export interface UseGhUserPinnedItemsOptions {
   /** Disable the query. Also disabled when `login` is empty. */
   enabled?: boolean;
+  queryOptions?: QueryOverrides<PinnedItem[]>;
 }
 
 /**
@@ -21,13 +23,14 @@ export function useGhUserPinnedItems(
   login: string,
   options: UseGhUserPinnedItemsOptions = {},
 ): UseQueryResult<PinnedItem[], Error> {
-  const { enabled = true } = options;
+  const { enabled = true, queryOptions } = options;
 
   const client = useGhClient();
 
   return useQuery<PinnedItem[], Error>({
     queryKey: ghQueryKeys.userPinnedItems(login),
     queryFn: ({ signal }) => client.user(login).pinnedItems(signal),
+    ...queryOptions,
     enabled: enabled && login.length > 0,
   });
 }
