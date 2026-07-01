@@ -1,8 +1,13 @@
 import { type UseMutationResult, useMutation } from '@tanstack/react-query';
 import type { GitHubReview, PullRequestResource } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
+import type { MutationOverrides } from '../types.js';
 
 type CreateReviewData = Parameters<PullRequestResource['createReview']>[0];
+
+export interface UseGhCreatePullRequestReviewOptions {
+  mutationOptions?: MutationOverrides<GitHubReview, CreateReviewData>;
+}
 
 /**
  * Submits a review on a GitHub pull request.
@@ -18,10 +23,13 @@ export function useGhCreatePullRequestReview(
   owner: string,
   repo: string,
   pullNumber: number,
+  options: UseGhCreatePullRequestReviewOptions = {},
 ): UseMutationResult<GitHubReview, Error, CreateReviewData> {
+  const { mutationOptions } = options;
   const client = useGhClient();
 
   return useMutation<GitHubReview, Error, CreateReviewData>({
     mutationFn: (data) => client.repo(owner, repo).pullRequest(pullNumber).createReview(data),
+    ...mutationOptions,
   });
 }

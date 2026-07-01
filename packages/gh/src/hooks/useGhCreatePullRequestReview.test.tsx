@@ -75,4 +75,17 @@ describe('useGhCreatePullRequestReview', () => {
 
     expect(result.current.isIdle).toBe(true);
   });
+  it('accepts mutationOptions', async () => {
+    mockCreateReview.mockResolvedValue(mockReview);
+    const onSuccess = jest.fn();
+    const { result } = renderHook(
+      () => useGhCreatePullRequestReview('owner', 'repo', 42, { mutationOptions: { onSuccess } }),
+      { wrapper },
+    );
+    act(() => {
+      result.current.mutate(reviewData);
+    });
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    expect(onSuccess).toHaveBeenCalled();
+  });
 });
