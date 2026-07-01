@@ -73,4 +73,12 @@ describe('useGhRepoLatestRelease', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockLatestRelease).not.toHaveBeenCalled();
   });
+  it('accepts queryOptions', async () => {
+    mockLatestRelease.mockResolvedValue(mockRelease);
+    const { result } = renderHook(
+      () => useGhRepoLatestRelease('owner', 'repo', { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
