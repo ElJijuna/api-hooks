@@ -35,4 +35,18 @@ describe('useGhUpdateRepoWebhook', () => {
     expect(result.current.data).toEqual(webhook);
     expect(mockUpdateWebhook).toHaveBeenCalledWith(1, { active: false });
   });
+  it('accepts mutationOptions', async () => {
+    const webhook = { id: 1, active: false } as unknown as GitHubWebhook;
+    mockUpdateWebhook.mockResolvedValue(webhook);
+    const onSuccess = jest.fn();
+    const { result } = renderHook(
+      () => useGhUpdateRepoWebhook('owner', 'repo', { mutationOptions: { onSuccess } }),
+      { wrapper },
+    );
+    act(() => {
+      result.current.mutate({ hookId: 1, data: { active: false } });
+    });
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    expect(onSuccess).toHaveBeenCalled();
+  });
 });
