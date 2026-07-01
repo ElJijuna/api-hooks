@@ -63,4 +63,12 @@ describe('useNpmUserPackages', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockPackages).not.toHaveBeenCalled();
   });
+  it('accepts queryOptions', async () => {
+    mockPackages.mockResolvedValue(mockData);
+    const { result } = renderHook(
+      () => useNpmUserPackages('pilmee', { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });

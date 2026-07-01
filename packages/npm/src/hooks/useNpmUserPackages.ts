@@ -2,10 +2,12 @@ import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import type { NpmUserPackages, NpmUserPackagesParams } from 'npmjs-api-client';
 import { npmQueryKeys } from '../keys/npmQueryKeys.js';
 import { useNpmClient } from '../NpmClientContext.js';
+import type { QueryOverrides } from '../types.js';
 
 export interface UseNpmUserPackagesOptions {
   /** Disable the query. Also disabled when `username` is empty. */
   enabled?: boolean;
+  queryOptions?: QueryOverrides<NpmUserPackages>;
 }
 
 /**
@@ -21,12 +23,13 @@ export function useNpmUserPackages(
   params?: NpmUserPackagesParams,
   options: UseNpmUserPackagesOptions = {},
 ): UseQueryResult<NpmUserPackages, Error> {
-  const { enabled = true } = options;
+  const { enabled = true, queryOptions } = options;
   const client = useNpmClient();
 
   return useQuery<NpmUserPackages, Error>({
     queryKey: npmQueryKeys.userPackages(username, params),
     queryFn: ({ signal }) => client.user(username).packages(params, signal),
+    ...queryOptions,
     enabled: enabled && username.length > 0,
   });
 }
