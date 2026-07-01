@@ -60,4 +60,12 @@ describe('useGhIssue', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockGet).not.toHaveBeenCalled();
   });
+  it('accepts queryOptions', async () => {
+    mockGet.mockResolvedValue(mockIssueData);
+    const { result } = renderHook(
+      () => useGhIssue('octocat', 'Hello-World', 1, { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
