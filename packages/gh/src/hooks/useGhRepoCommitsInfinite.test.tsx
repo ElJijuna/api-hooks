@@ -96,4 +96,16 @@ describe('useGhRepoCommitsInfinite', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockCommits).not.toHaveBeenCalled();
   });
+
+  it('accepts queryOptions', async () => {
+    mockCommits.mockResolvedValue(makeResponse(false));
+    const { result } = renderHook(
+      () =>
+        useGhRepoCommitsInfinite('octocat', 'Hello-World', undefined, {
+          queryOptions: { staleTime: 0 },
+        }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
