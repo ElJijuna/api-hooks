@@ -1,3 +1,17 @@
+## [2.6.0](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/bp@2.5.1...@api-hooks/bp@2.6.0) (2026-07-01)
+
+### Features
+
+* add queryOptions support to useBpPackageHistory hook and its tests ([4e51c38](https://github.com/ElJijuna/api-hooks/commit/4e51c3801977026632b847de28bdd8b762118882))
+* add queryOptions support to useBpPackageSimilar hook and its tests ([d1bcf63](https://github.com/ElJijuna/api-hooks/commit/d1bcf63a9e766f6dcf11ebdf035d84da9b987c02))
+* add queryOptions support to useBpPackageSize hook and its tests ([eea3bf7](https://github.com/ElJijuna/api-hooks/commit/eea3bf7c9890f90b4554565ea3408619c6498050))
+* add queryOptions support to useBpPackageVersionSize hook and its tests ([9647ed1](https://github.com/ElJijuna/api-hooks/commit/9647ed1bdb0cc0219e603cdc9581947658b40f72))
+* add type overrides for query, infinite query, and mutation options ([83f9ba6](https://github.com/ElJijuna/api-hooks/commit/83f9ba6bcb61a9b3dde87cd519e2b4f93692c60a))
+
+### Documentation
+
+* add queryOptions support to BundleInfo hook documentation ([e2fe1cc](https://github.com/ElJijuna/api-hooks/commit/e2fe1cc49249cfb9d8a16a94e2c6112af2312959))
+
 ## [2.5.1](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/bp@2.5.0...@api-hooks/bp@2.5.1) (2026-06-08)
 
 ### Refactoring
