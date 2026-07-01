@@ -91,4 +91,16 @@ describe('useGhRepoReleasesInfinite', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockReleases).not.toHaveBeenCalled();
   });
+
+  it('accepts queryOptions', async () => {
+    mockReleases.mockResolvedValue(makeResponse(false));
+    const { result } = renderHook(
+      () =>
+        useGhRepoReleasesInfinite('octocat', 'Hello-World', undefined, {
+          queryOptions: { staleTime: 0 },
+        }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
