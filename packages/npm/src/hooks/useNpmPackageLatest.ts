@@ -2,10 +2,12 @@ import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import type { NpmPackageVersion } from 'npmjs-api-client';
 import { npmQueryKeys } from '../keys/npmQueryKeys.js';
 import { useNpmClient } from '../NpmClientContext.js';
+import type { QueryOverrides } from '../types.js';
 
 export interface UseNpmPackageLatestOptions {
   /** Disable the query. Also disabled when `name` is empty. */
   enabled?: boolean;
+  queryOptions?: QueryOverrides<NpmPackageVersion>;
 }
 
 /**
@@ -19,12 +21,13 @@ export function useNpmPackageLatest(
   name: string,
   options: UseNpmPackageLatestOptions = {},
 ): UseQueryResult<NpmPackageVersion, Error> {
-  const { enabled = true } = options;
+  const { enabled = true, queryOptions } = options;
   const client = useNpmClient();
 
   return useQuery<NpmPackageVersion, Error>({
     queryKey: npmQueryKeys.packageVersion(name, 'latest'),
     queryFn: ({ signal }) => client.package(name).latest().get(signal),
+    ...queryOptions,
     enabled: enabled && name.length > 0,
   });
 }

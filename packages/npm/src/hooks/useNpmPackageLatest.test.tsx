@@ -66,4 +66,12 @@ describe('useNpmPackageLatest', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockGet).not.toHaveBeenCalled();
   });
+  it('accepts queryOptions', async () => {
+    mockGet.mockResolvedValue(mockVersion);
+    const { result } = renderHook(
+      () => useNpmPackageLatest('react', { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
