@@ -56,4 +56,12 @@ describe('useGhUserIssueContributionsByRepo', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockIssueContributionsByRepo).not.toHaveBeenCalled();
   });
+  it('accepts queryOptions', async () => {
+    mockIssueContributionsByRepo.mockResolvedValue(mockContributions);
+    const { result } = renderHook(
+      () => useGhUserIssueContributionsByRepo('octocat', { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
