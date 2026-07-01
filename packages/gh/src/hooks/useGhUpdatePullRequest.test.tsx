@@ -66,4 +66,17 @@ describe('useGhUpdatePullRequest', () => {
 
     expect(result.current.isIdle).toBe(true);
   });
+  it('accepts mutationOptions', async () => {
+    mockUpdate.mockResolvedValue(mockPR);
+    const onSuccess = jest.fn();
+    const { result } = renderHook(
+      () => useGhUpdatePullRequest('owner', 'repo', 42, { mutationOptions: { onSuccess } }),
+      { wrapper },
+    );
+    act(() => {
+      result.current.mutate(updateData);
+    });
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    expect(onSuccess).toHaveBeenCalled();
+  });
 });
