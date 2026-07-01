@@ -75,4 +75,12 @@ describe('useGhOrgRepos', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockRepos).not.toHaveBeenCalled();
   });
+  it('accepts queryOptions', async () => {
+    mockRepos.mockResolvedValue(mockResponse);
+    const { result } = renderHook(
+      () => useGhOrgRepos('github', { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
