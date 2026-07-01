@@ -10,11 +10,13 @@ import type {
 } from 'dockerhub-api-client';
 import { useDhClient } from '../DhClientContext.js';
 import { dhQueryKeys } from '../keys/dhQueryKeys.js';
+import type { InfiniteQueryOverrides } from '../types.js';
 
 export interface UseDockerHubSearchInfiniteOptions
   extends Omit<DockerHubSearchParams, 'query' | 'page'> {
   /** Disable the query. Also disabled when `query` is empty. */
   enabled?: boolean;
+  queryOptions?: InfiniteQueryOverrides<DockerHubPagedResponse<DockerHubSearchResult>>;
 }
 
 /**
@@ -33,7 +35,7 @@ export function useDockerHubSearchInfinite(
   InfiniteData<DockerHubPagedResponse<DockerHubSearchResult>, number>,
   Error
 > {
-  const { enabled = true, ...params } = options;
+  const { enabled = true, queryOptions, ...params } = options;
   const client = useDhClient();
 
   return useInfiniteQuery({
@@ -42,6 +44,7 @@ export function useDockerHubSearchInfinite(
       client.search({ query, ...params, page: pageParam }, signal),
     initialPageParam: 1,
     getNextPageParam: (lastPage) => lastPage.nextPage,
+    ...queryOptions,
     enabled: enabled && query.length > 0,
   });
 }
