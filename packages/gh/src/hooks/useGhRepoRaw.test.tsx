@@ -58,4 +58,12 @@ describe('useGhRepoRaw', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockRaw).not.toHaveBeenCalled();
   });
+  it('accepts queryOptions', async () => {
+    mockRaw.mockResolvedValue('# Hello World\n');
+    const { result } = renderHook(
+      () => useGhRepoRaw('owner', 'repo', 'README.md', { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
