@@ -1,10 +1,15 @@
 import { type UseMutationResult, useMutation } from '@tanstack/react-query';
 import type { GistComment, GistCommentData } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
+import type { MutationOverrides } from '../types.js';
 
 export interface UpdateGistCommentVariables {
   commentId: number;
   data: GistCommentData;
+}
+
+export interface UseGhUpdateGistCommentOptions {
+  mutationOptions?: MutationOverrides<GistComment, UpdateGistCommentVariables>;
 }
 
 /**
@@ -17,10 +22,13 @@ export interface UpdateGistCommentVariables {
  */
 export function useGhUpdateGistComment(
   gistId: string,
+  options: UseGhUpdateGistCommentOptions = {},
 ): UseMutationResult<GistComment, Error, UpdateGistCommentVariables> {
+  const { mutationOptions } = options;
   const client = useGhClient();
 
   return useMutation<GistComment, Error, UpdateGistCommentVariables>({
     mutationFn: ({ commentId, data }) => client.gist(gistId).updateComment(commentId, data),
+    ...mutationOptions,
   });
 }

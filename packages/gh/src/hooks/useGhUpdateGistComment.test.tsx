@@ -70,4 +70,17 @@ describe('useGhUpdateGistComment', () => {
 
     expect(result.current.isIdle).toBe(true);
   });
+  it('accepts mutationOptions', async () => {
+    mockUpdateComment.mockResolvedValue(mockComment);
+    const onSuccess = jest.fn();
+    const { result } = renderHook(
+      () => useGhUpdateGistComment('abc123', { mutationOptions: { onSuccess } }),
+      { wrapper },
+    );
+    act(() => {
+      result.current.mutate({ commentId: 1, data: { body: 'Updated comment' } });
+    });
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    expect(onSuccess).toHaveBeenCalled();
+  });
 });
