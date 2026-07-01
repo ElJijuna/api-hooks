@@ -62,4 +62,12 @@ describe('useGhRepoWorkflowRun', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockWorkflowRun).not.toHaveBeenCalled();
   });
+  it('accepts queryOptions', async () => {
+    mockWorkflowRun.mockResolvedValue(mockRun);
+    const { result } = renderHook(
+      () => useGhRepoWorkflowRun('owner', 'repo', 42, { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
