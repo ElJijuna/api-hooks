@@ -67,4 +67,12 @@ describe('useDockerHubSearch', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockSearch).not.toHaveBeenCalled();
   });
+  it('accepts queryOptions', async () => {
+    mockSearch.mockResolvedValue(mockResponse);
+    const { result } = renderHook(
+      () => useDockerHubSearch('nginx', { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
