@@ -1,9 +1,14 @@
 import { type UseMutationResult, useMutation } from '@tanstack/react-query';
 import type { GitHubRepositoryAdvisory } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
+import type { MutationOverrides } from '../types.js';
 
 export interface RequestRepoAdvisoryCveVariables {
   ghsaId: string;
+}
+
+export interface UseGhRequestRepoAdvisoryCveOptions {
+  mutationOptions?: MutationOverrides<GitHubRepositoryAdvisory, RequestRepoAdvisoryCveVariables>;
 }
 
 /**
@@ -16,10 +21,13 @@ export interface RequestRepoAdvisoryCveVariables {
 export function useGhRequestRepoAdvisoryCve(
   owner: string,
   repo: string,
+  options: UseGhRequestRepoAdvisoryCveOptions = {},
 ): UseMutationResult<GitHubRepositoryAdvisory, Error, RequestRepoAdvisoryCveVariables> {
+  const { mutationOptions } = options;
   const client = useGhClient();
 
   return useMutation<GitHubRepositoryAdvisory, Error, RequestRepoAdvisoryCveVariables>({
     mutationFn: ({ ghsaId }) => client.repo(owner, repo).requestCve(ghsaId),
+    ...mutationOptions,
   });
 }

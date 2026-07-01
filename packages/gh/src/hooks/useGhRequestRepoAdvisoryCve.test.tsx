@@ -35,4 +35,18 @@ describe('useGhRequestRepoAdvisoryCve', () => {
     expect(result.current.data).toEqual(advisory);
     expect(mockRequestCve).toHaveBeenCalledWith('GHSA-1234-5678-9abc');
   });
+  it('accepts mutationOptions', async () => {
+    const advisory = { ghsa_id: 'GHSA-1234-5678-9abc' } as unknown as GitHubRepositoryAdvisory;
+    mockRequestCve.mockResolvedValue(advisory);
+    const onSuccess = jest.fn();
+    const { result } = renderHook(
+      () => useGhRequestRepoAdvisoryCve('owner', 'repo', { mutationOptions: { onSuccess } }),
+      { wrapper },
+    );
+    act(() => {
+      result.current.mutate({ ghsaId: 'GHSA-1234-5678-9abc' });
+    });
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    expect(onSuccess).toHaveBeenCalled();
+  });
 });
