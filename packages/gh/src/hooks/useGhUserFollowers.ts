@@ -2,10 +2,12 @@ import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import type { GitHubPagedResponse, GitHubUser, PaginationParams } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
+import type { QueryOverrides } from '../types.js';
 
 export interface UseGhUserFollowersOptions {
   /** Disable the query. Also disabled when `login` is empty. */
   enabled?: boolean;
+  queryOptions?: QueryOverrides<GitHubPagedResponse<GitHubUser>>;
 }
 
 /**
@@ -21,13 +23,14 @@ export function useGhUserFollowers(
   params?: PaginationParams,
   options: UseGhUserFollowersOptions = {},
 ): UseQueryResult<GitHubPagedResponse<GitHubUser>, Error> {
-  const { enabled = true } = options;
+  const { enabled = true, queryOptions } = options;
 
   const client = useGhClient();
 
   return useQuery<GitHubPagedResponse<GitHubUser>, Error>({
     queryKey: ghQueryKeys.userFollowers(login, params),
     queryFn: ({ signal }) => client.user(login).followers(params, signal),
+    ...queryOptions,
     enabled: enabled && login.length > 0,
   });
 }
