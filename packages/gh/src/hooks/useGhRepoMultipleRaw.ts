@@ -2,10 +2,12 @@ import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import type { ContentParams } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
+import type { QueryOverrides } from '../types.js';
 
 export interface UseGhRepoMultipleRawOptions {
   /** Disable the query. Also disabled when required params are empty. */
   enabled?: boolean;
+  queryOptions?: QueryOverrides<Record<string, string>>;
 }
 
 /**
@@ -25,13 +27,14 @@ export function useGhRepoMultipleRaw(
   params?: ContentParams,
   options: UseGhRepoMultipleRawOptions = {},
 ): UseQueryResult<Record<string, string>, Error> {
-  const { enabled = true } = options;
+  const { enabled = true, queryOptions } = options;
 
   const client = useGhClient();
 
   return useQuery<Record<string, string>, Error>({
     queryKey: ghQueryKeys.repoMultipleRaw(owner, repo, filePaths, params),
     queryFn: ({ signal }) => client.repo(owner, repo).multipleRaw(filePaths, params, signal),
+    ...queryOptions,
     enabled:
       enabled &&
       owner.length > 0 &&
