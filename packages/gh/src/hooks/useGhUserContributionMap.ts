@@ -2,10 +2,12 @@ import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import type { ContributionCalendar, ContributionMapParams } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
+import type { QueryOverrides } from '../types.js';
 
 export interface UseGhUserContributionMapOptions {
   /** Disable the query. Also disabled when `login` is empty. */
   enabled?: boolean;
+  queryOptions?: QueryOverrides<ContributionCalendar>;
 }
 
 /**
@@ -24,13 +26,14 @@ export function useGhUserContributionMap(
   params?: ContributionMapParams,
   options: UseGhUserContributionMapOptions = {},
 ): UseQueryResult<ContributionCalendar, Error> {
-  const { enabled = true } = options;
+  const { enabled = true, queryOptions } = options;
 
   const client = useGhClient();
 
   return useQuery<ContributionCalendar, Error>({
     queryKey: ghQueryKeys.userContributionMap(login, params),
     queryFn: ({ signal }) => client.user(login).contributionMap(params, signal),
+    ...queryOptions,
     enabled: enabled && login.length > 0,
   });
 }

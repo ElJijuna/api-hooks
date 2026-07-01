@@ -71,4 +71,12 @@ describe('useGhUserContributionMap', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockContributionMap).not.toHaveBeenCalled();
   });
+  it('accepts queryOptions', async () => {
+    mockContributionMap.mockResolvedValue(mockCalendar);
+    const { result } = renderHook(
+      () => useGhUserContributionMap('octocat', undefined, {}, { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
