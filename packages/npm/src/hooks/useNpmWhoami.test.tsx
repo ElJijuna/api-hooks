@@ -51,4 +51,11 @@ describe('useNpmWhoami', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockWhoami).not.toHaveBeenCalled();
   });
+  it('accepts queryOptions', async () => {
+    mockWhoami.mockResolvedValue(mockData);
+    const { result } = renderHook(() => useNpmWhoami({ queryOptions: { staleTime: 0 } }), {
+      wrapper,
+    });
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });

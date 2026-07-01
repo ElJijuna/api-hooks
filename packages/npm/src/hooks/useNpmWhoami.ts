@@ -2,10 +2,12 @@ import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import type { NpmWhoami } from 'npmjs-api-client';
 import { npmQueryKeys } from '../keys/npmQueryKeys.js';
 import { useNpmClient } from '../NpmClientContext.js';
+import type { QueryOverrides } from '../types.js';
 
 export interface UseNpmWhoamiOptions {
   /** Disable the query. */
   enabled?: boolean;
+  queryOptions?: QueryOverrides<NpmWhoami>;
 }
 
 /**
@@ -18,12 +20,13 @@ export interface UseNpmWhoamiOptions {
  * @returns TanStack Query result with {@link NpmWhoami}
  */
 export function useNpmWhoami(options: UseNpmWhoamiOptions = {}): UseQueryResult<NpmWhoami, Error> {
-  const { enabled = true } = options;
+  const { enabled = true, queryOptions } = options;
   const client = useNpmClient();
 
   return useQuery<NpmWhoami, Error>({
     queryKey: npmQueryKeys.whoami(),
     queryFn: ({ signal }) => client.whoami(signal),
+    ...queryOptions,
     enabled,
   });
 }
