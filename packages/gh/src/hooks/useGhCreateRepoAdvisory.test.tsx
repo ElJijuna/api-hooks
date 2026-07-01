@@ -36,4 +36,19 @@ describe('useGhCreateRepoAdvisory', () => {
     expect(result.current.data).toEqual(advisory);
     expect(mockCreateAdvisory).toHaveBeenCalledWith(data);
   });
+  it('accepts mutationOptions', async () => {
+    const advisory = { ghsa_id: 'GHSA-1234-5678-9abc' } as unknown as GitHubRepositoryAdvisory;
+    const data = { summary: 'Issue', description: 'Description' };
+    mockCreateAdvisory.mockResolvedValue(advisory);
+    const onSuccess = jest.fn();
+    const { result } = renderHook(
+      () => useGhCreateRepoAdvisory('owner', 'repo', { mutationOptions: { onSuccess } }),
+      { wrapper },
+    );
+    act(() => {
+      result.current.mutate(data);
+    });
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    expect(onSuccess).toHaveBeenCalled();
+  });
 });

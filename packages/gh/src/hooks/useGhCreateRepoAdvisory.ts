@@ -1,6 +1,11 @@
 import { type UseMutationResult, useMutation } from '@tanstack/react-query';
 import type { CreateAdvisoryData, GitHubRepositoryAdvisory } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
+import type { MutationOverrides } from '../types.js';
+
+export interface UseGhCreateRepoAdvisoryOptions {
+  mutationOptions?: MutationOverrides<GitHubRepositoryAdvisory, CreateAdvisoryData>;
+}
 
 /**
  * Creates a draft security advisory in a GitHub repository.
@@ -12,10 +17,13 @@ import { useGhClient } from '../GhClientContext.js';
 export function useGhCreateRepoAdvisory(
   owner: string,
   repo: string,
+  options: UseGhCreateRepoAdvisoryOptions = {},
 ): UseMutationResult<GitHubRepositoryAdvisory, Error, CreateAdvisoryData> {
+  const { mutationOptions } = options;
   const client = useGhClient();
 
   return useMutation<GitHubRepositoryAdvisory, Error, CreateAdvisoryData>({
     mutationFn: (data) => client.repo(owner, repo).createAdvisory(data),
+    ...mutationOptions,
   });
 }
