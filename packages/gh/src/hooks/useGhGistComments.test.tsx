@@ -76,4 +76,12 @@ describe('useGhGistComments', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockComments).not.toHaveBeenCalled();
   });
+  it('accepts queryOptions', async () => {
+    mockComments.mockResolvedValue(mockResponse);
+    const { result } = renderHook(
+      () => useGhGistComments('abc123', { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
