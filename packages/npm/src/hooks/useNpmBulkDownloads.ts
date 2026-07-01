@@ -2,12 +2,14 @@ import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import type { NpmBulkDownloads, NpmDownloadPeriod } from 'npmjs-api-client';
 import { npmQueryKeys } from '../keys/npmQueryKeys.js';
 import { useNpmClient } from '../NpmClientContext.js';
+import type { QueryOverrides } from '../types.js';
 
 export interface UseNpmBulkDownloadsOptions {
   /** Named period or date range (default: `'last-month'`). */
   period?: NpmDownloadPeriod;
   /** Disable the query. Also disabled when `packages` is empty. */
   enabled?: boolean;
+  queryOptions?: QueryOverrides<NpmBulkDownloads>;
 }
 
 /**
@@ -21,12 +23,13 @@ export function useNpmBulkDownloads(
   packages: string[],
   options: UseNpmBulkDownloadsOptions = {},
 ): UseQueryResult<NpmBulkDownloads, Error> {
-  const { period = 'last-month', enabled = true } = options;
+  const { period = 'last-month', enabled = true, queryOptions } = options;
   const client = useNpmClient();
 
   return useQuery<NpmBulkDownloads, Error>({
     queryKey: npmQueryKeys.bulkDownloads(packages, period),
     queryFn: ({ signal }) => client.bulkDownloads(packages, period, signal),
+    ...queryOptions,
     enabled: enabled && packages.length > 0,
   });
 }

@@ -85,4 +85,12 @@ describe('useNpmBulkDownloads', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockBulkDownloads).not.toHaveBeenCalled();
   });
+  it('accepts queryOptions', async () => {
+    mockBulkDownloads.mockResolvedValue(mockData);
+    const { result } = renderHook(
+      () => useNpmBulkDownloads(['react', 'vue'], { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
