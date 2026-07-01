@@ -6,10 +6,12 @@ import {
 import type { GitHubPagedResponse, GitHubRepository, ReposParams } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
+import type { InfiniteQueryOverrides } from '../types.js';
 
 export interface UseGhUserReposInfiniteOptions {
   /** Disable the query. Also disabled when `login` is empty. */
   enabled?: boolean;
+  queryOptions?: InfiniteQueryOverrides<GitHubPagedResponse<GitHubRepository>>;
 }
 
 /**
@@ -25,7 +27,7 @@ export function useGhUserReposInfinite(
   params?: Omit<ReposParams, 'page'>,
   options: UseGhUserReposInfiniteOptions = {},
 ): UseInfiniteQueryResult<InfiniteData<GitHubPagedResponse<GitHubRepository>, number>, Error> {
-  const { enabled = true } = options;
+  const { enabled = true, queryOptions } = options;
 
   const client = useGhClient();
 
@@ -35,6 +37,7 @@ export function useGhUserReposInfinite(
       client.user(login).repos({ ...params, page: pageParam }, signal),
     initialPageParam: 1,
     getNextPageParam: (lastPage) => (lastPage.hasNextPage ? lastPage.nextPage : undefined),
+    ...queryOptions,
     enabled: enabled && login.length > 0,
   });
 }
