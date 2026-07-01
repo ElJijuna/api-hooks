@@ -2,10 +2,12 @@ import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import type { GitHubPagedResponse, GitHubReviewComment, ReviewCommentsParams } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
+import type { QueryOverrides } from '../types.js';
 
 export interface UseGhPullRequestReviewCommentsOptions {
   /** Disable the query. Also disabled when any required param is empty/zero. */
   enabled?: boolean;
+  queryOptions?: QueryOverrides<GitHubPagedResponse<GitHubReviewComment>>;
 }
 
 /**
@@ -25,7 +27,7 @@ export function useGhPullRequestReviewComments(
   params?: ReviewCommentsParams,
   options: UseGhPullRequestReviewCommentsOptions = {},
 ): UseQueryResult<GitHubPagedResponse<GitHubReviewComment>, Error> {
-  const { enabled = true } = options;
+  const { enabled = true, queryOptions } = options;
 
   const client = useGhClient();
 
@@ -33,6 +35,7 @@ export function useGhPullRequestReviewComments(
     queryKey: ghQueryKeys.pullRequestReviewComments(owner, repo, pullNumber, params),
     queryFn: ({ signal }) =>
       client.repo(owner, repo).pullRequest(pullNumber).reviewComments(params, signal),
+    ...queryOptions,
     enabled: enabled && owner.length > 0 && repo.length > 0 && pullNumber > 0,
   });
 }

@@ -86,4 +86,12 @@ describe('useGhPullRequestReviewComments', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockReviewComments).not.toHaveBeenCalled();
   });
+  it('accepts queryOptions', async () => {
+    mockReviewComments.mockResolvedValue(mockResponse);
+    const { result } = renderHook(
+      () => useGhPullRequestReviewComments('octocat', 'Hello-World', 42, { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
