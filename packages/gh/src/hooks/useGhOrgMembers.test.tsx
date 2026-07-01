@@ -60,4 +60,12 @@ describe('useGhOrgMembers', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockMembers).not.toHaveBeenCalled();
   });
+  it('accepts queryOptions', async () => {
+    mockMembers.mockResolvedValue(mockResponse);
+    const { result } = renderHook(
+      () => useGhOrgMembers('github', { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
