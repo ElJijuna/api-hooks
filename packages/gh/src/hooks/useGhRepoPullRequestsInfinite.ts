@@ -6,10 +6,12 @@ import {
 import type { GitHubPagedResponse, GitHubPullRequest, PullRequestsParams } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
+import type { InfiniteQueryOverrides } from '../types.js';
 
 export interface UseGhRepoPullRequestsInfiniteOptions {
   /** Disable the query. Also disabled when `owner` or `repo` is empty. */
   enabled?: boolean;
+  queryOptions?: InfiniteQueryOverrides<GitHubPagedResponse<GitHubPullRequest>>;
 }
 
 /**
@@ -27,7 +29,7 @@ export function useGhRepoPullRequestsInfinite(
   params?: Omit<PullRequestsParams, 'page'>,
   options: UseGhRepoPullRequestsInfiniteOptions = {},
 ): UseInfiniteQueryResult<InfiniteData<GitHubPagedResponse<GitHubPullRequest>, number>, Error> {
-  const { enabled = true } = options;
+  const { enabled = true, queryOptions } = options;
 
   const client = useGhClient();
 
@@ -37,6 +39,7 @@ export function useGhRepoPullRequestsInfinite(
       client.repo(owner, repo).pullRequests({ ...params, page: pageParam }, signal),
     initialPageParam: 1,
     getNextPageParam: (lastPage) => (lastPage.hasNextPage ? lastPage.nextPage : undefined),
+    ...queryOptions,
     enabled: enabled && owner.length > 0 && repo.length > 0,
   });
 }
