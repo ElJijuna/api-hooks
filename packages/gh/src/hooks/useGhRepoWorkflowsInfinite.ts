@@ -6,10 +6,12 @@ import {
 import type { GitHubWorkflowsResponse, WorkflowsParams } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
+import type { InfiniteQueryOverrides } from '../types.js';
 
 export interface UseGhRepoWorkflowsInfiniteOptions {
   /** Disable the query. Also disabled when `owner` or `repo` is empty. */
   enabled?: boolean;
+  queryOptions?: InfiniteQueryOverrides<GitHubWorkflowsResponse>;
 }
 
 /**
@@ -29,7 +31,7 @@ export function useGhRepoWorkflowsInfinite(
   params?: Omit<WorkflowsParams, 'page'>,
   options: UseGhRepoWorkflowsInfiniteOptions = {},
 ): UseInfiniteQueryResult<InfiniteData<GitHubWorkflowsResponse, number>, Error> {
-  const { enabled = true } = options;
+  const { enabled = true, queryOptions } = options;
 
   const client = useGhClient();
 
@@ -42,6 +44,7 @@ export function useGhRepoWorkflowsInfinite(
       const totalFetched = allPages.reduce((acc, p) => acc + p.workflows.length, 0);
       return totalFetched < lastPage.total_count ? allPages.length + 1 : undefined;
     },
+    ...queryOptions,
     enabled: enabled && owner.length > 0 && repo.length > 0,
   });
 }
