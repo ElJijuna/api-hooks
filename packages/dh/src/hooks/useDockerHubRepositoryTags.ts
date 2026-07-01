@@ -6,10 +6,12 @@ import type {
 } from 'dockerhub-api-client';
 import { useDhClient } from '../DhClientContext.js';
 import { dhQueryKeys } from '../keys/dhQueryKeys.js';
+import type { QueryOverrides } from '../types.js';
 
 export interface UseDockerHubRepositoryTagsOptions extends DockerHubTagsParams {
   /** Disable the query. Also disabled when `namespace` or `name` is empty. */
   enabled?: boolean;
+  queryOptions?: QueryOverrides<DockerHubPagedResponse<DockerHubTag>>;
 }
 
 /**
@@ -25,12 +27,13 @@ export function useDockerHubRepositoryTags(
   name: string,
   options: UseDockerHubRepositoryTagsOptions = {},
 ): UseQueryResult<DockerHubPagedResponse<DockerHubTag>, Error> {
-  const { enabled = true, ...params } = options;
+  const { enabled = true, queryOptions, ...params } = options;
   const client = useDhClient();
 
   return useQuery<DockerHubPagedResponse<DockerHubTag>, Error>({
     queryKey: dhQueryKeys.repositoryTags(namespace, name, params),
     queryFn: ({ signal }) => client.repository(namespace, name).tags(params, signal),
+    ...queryOptions,
     enabled: enabled && namespace.length > 0 && name.length > 0,
   });
 }
