@@ -2,10 +2,12 @@ import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import type { NpmsScore } from 'npmjs-api-client';
 import { npmQueryKeys } from '../keys/npmQueryKeys.js';
 import { useNpmClient } from '../NpmClientContext.js';
+import type { QueryOverrides } from '../types.js';
 
 export interface UseNpmPackageScoreOptions {
   /** Disable the query. Also disabled when `name` is empty. */
   enabled?: boolean;
+  queryOptions?: QueryOverrides<NpmsScore>;
 }
 
 /**
@@ -19,12 +21,13 @@ export function useNpmPackageScore(
   name: string,
   options: UseNpmPackageScoreOptions = {},
 ): UseQueryResult<NpmsScore, Error> {
-  const { enabled = true } = options;
+  const { enabled = true, queryOptions } = options;
   const client = useNpmClient();
 
   return useQuery<NpmsScore, Error>({
     queryKey: npmQueryKeys.packageScore(name),
     queryFn: ({ signal }) => client.package(name).score(signal),
+    ...queryOptions,
     enabled: enabled && name.length > 0,
   });
 }

@@ -83,4 +83,12 @@ describe('useNpmPackageScore', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockScore).not.toHaveBeenCalled();
   });
+  it('accepts queryOptions', async () => {
+    mockScore.mockResolvedValue(mockData);
+    const { result } = renderHook(
+      () => useNpmPackageScore('react', { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
