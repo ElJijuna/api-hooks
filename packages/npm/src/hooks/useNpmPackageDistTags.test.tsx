@@ -65,4 +65,12 @@ describe('useNpmPackageDistTags', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockDistTags).not.toHaveBeenCalled();
   });
+  it('accepts queryOptions', async () => {
+    mockDistTags.mockResolvedValue(mockData);
+    const { result } = renderHook(
+      () => useNpmPackageDistTags('react', { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
