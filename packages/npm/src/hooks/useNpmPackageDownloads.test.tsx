@@ -80,4 +80,12 @@ describe('useNpmPackageDownloads', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockDownloads).not.toHaveBeenCalled();
   });
+  it('accepts queryOptions', async () => {
+    mockDownloads.mockResolvedValue(mockData);
+    const { result } = renderHook(
+      () => useNpmPackageDownloads('react', { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
