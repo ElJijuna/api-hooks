@@ -74,4 +74,17 @@ describe('useGhCreateFork', () => {
 
     expect(result.current.isIdle).toBe(true);
   });
+  it('accepts mutationOptions', async () => {
+    mockCreateFork.mockResolvedValue(mockRepo);
+    const onSuccess = jest.fn();
+    const { result } = renderHook(
+      () => useGhCreateFork('owner', 'repo', { mutationOptions: { onSuccess } }),
+      { wrapper },
+    );
+    act(() => {
+      result.current.mutate(undefined);
+    });
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    expect(onSuccess).toHaveBeenCalled();
+  });
 });
