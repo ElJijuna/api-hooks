@@ -52,4 +52,17 @@ describe('useGhDeleteRelease', () => {
     const { result } = renderHook(() => useGhDeleteRelease('owner', 'repo'), { wrapper });
     expect(result.current.isIdle).toBe(true);
   });
+  it('accepts mutationOptions', async () => {
+    mockDeleteRelease.mockResolvedValue(undefined);
+    const onSuccess = jest.fn();
+    const { result } = renderHook(
+      () => useGhDeleteRelease('owner', 'repo', { mutationOptions: { onSuccess } }),
+      { wrapper },
+    );
+    act(() => {
+      result.current.mutate(1);
+    });
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    expect(onSuccess).toHaveBeenCalled();
+  });
 });
