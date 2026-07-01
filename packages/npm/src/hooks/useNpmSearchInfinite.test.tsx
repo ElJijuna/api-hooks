@@ -122,4 +122,13 @@ describe('useNpmSearchInfinite', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockSearch).not.toHaveBeenCalled();
   });
+
+  it('accepts queryOptions', async () => {
+    mockSearch.mockResolvedValue(makeResult(0, 20, 45));
+    const { result } = renderHook(
+      () => useNpmSearchInfinite('react', { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
