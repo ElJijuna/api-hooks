@@ -90,4 +90,12 @@ describe('useGhUserOrganizations', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockOrganizations).not.toHaveBeenCalled();
   });
+  it('accepts queryOptions', async () => {
+    mockOrganizations.mockResolvedValue(response);
+    const { result } = renderHook(
+      () => useGhUserOrganizations('octocat', { per_page: 10 }, { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
