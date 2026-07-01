@@ -2,6 +2,7 @@ import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import type { CommitResource, GitHubPagedResponse } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
+import type { QueryOverrides } from '../types.js';
 
 type GitHubCommitComment = Awaited<ReturnType<CommitResource['addComment']>>;
 type CommitCommentsParams = Parameters<CommitResource['comments']>[0];
@@ -9,6 +10,7 @@ type CommitCommentsParams = Parameters<CommitResource['comments']>[0];
 export interface UseGhCommitCommentsOptions {
   /** Disable the query. Also disabled when any required param is empty. */
   enabled?: boolean;
+  queryOptions?: QueryOverrides<GitHubPagedResponse<GitHubCommitComment>>;
 }
 
 /**
@@ -28,13 +30,14 @@ export function useGhCommitComments(
   params?: CommitCommentsParams,
   options: UseGhCommitCommentsOptions = {},
 ): UseQueryResult<GitHubPagedResponse<GitHubCommitComment>, Error> {
-  const { enabled = true } = options;
+  const { enabled = true, queryOptions } = options;
 
   const client = useGhClient();
 
   return useQuery<GitHubPagedResponse<GitHubCommitComment>, Error>({
     queryKey: ghQueryKeys.commitComments(owner, repo, ref, params),
     queryFn: ({ signal }) => client.repo(owner, repo).commit(ref).comments(params, signal),
+    ...queryOptions,
     enabled: enabled && owner.length > 0 && repo.length > 0 && ref.length > 0,
   });
 }
