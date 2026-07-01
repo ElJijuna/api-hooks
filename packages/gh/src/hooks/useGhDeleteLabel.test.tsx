@@ -52,4 +52,17 @@ describe('useGhDeleteLabel', () => {
     const { result } = renderHook(() => useGhDeleteLabel('owner', 'repo'), { wrapper });
     expect(result.current.isIdle).toBe(true);
   });
+  it('accepts mutationOptions', async () => {
+    mockDeleteLabel.mockResolvedValue(undefined);
+    const onSuccess = jest.fn();
+    const { result } = renderHook(
+      () => useGhDeleteLabel('owner', 'repo', { mutationOptions: { onSuccess } }),
+      { wrapper },
+    );
+    act(() => {
+      result.current.mutate('bug');
+    });
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    expect(onSuccess).toHaveBeenCalled();
+  });
 });
