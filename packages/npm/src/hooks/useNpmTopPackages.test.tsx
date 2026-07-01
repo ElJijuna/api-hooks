@@ -77,4 +77,13 @@ describe('useNpmTopPackages', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockTopPackages).not.toHaveBeenCalled();
   });
+
+  it('accepts queryOptions', async () => {
+    mockTopPackages.mockResolvedValue(mockResult);
+    const { result } = renderHook(
+      () => useNpmTopPackages({ queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
