@@ -57,4 +57,13 @@ describe('useNpmOrgTeams', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockTeams).not.toHaveBeenCalled();
   });
+
+  it('accepts queryOptions', async () => {
+    mockTeams.mockResolvedValue(['npmcli:cli']);
+    const { result } = renderHook(
+      () => useNpmOrgTeams('npmcli', { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
