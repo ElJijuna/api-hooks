@@ -2,10 +2,12 @@ import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import type { GitHubIssueComment, GitHubPagedResponse, PaginationParams } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
+import type { QueryOverrides } from '../types.js';
 
 export interface UseGhIssueCommentsOptions {
   /** Disable the query. Also disabled when any required param is empty/zero. */
   enabled?: boolean;
+  queryOptions?: QueryOverrides<GitHubPagedResponse<GitHubIssueComment>>;
 }
 
 /**
@@ -25,13 +27,14 @@ export function useGhIssueComments(
   params?: PaginationParams & { since?: string },
   options: UseGhIssueCommentsOptions = {},
 ): UseQueryResult<GitHubPagedResponse<GitHubIssueComment>, Error> {
-  const { enabled = true } = options;
+  const { enabled = true, queryOptions } = options;
 
   const client = useGhClient();
 
   return useQuery<GitHubPagedResponse<GitHubIssueComment>, Error>({
     queryKey: ghQueryKeys.issueComments(owner, repo, issueNumber, params),
     queryFn: ({ signal }) => client.repo(owner, repo).issue(issueNumber).comments(params, signal),
+    ...queryOptions,
     enabled: enabled && owner.length > 0 && repo.length > 0 && issueNumber > 0,
   });
 }
