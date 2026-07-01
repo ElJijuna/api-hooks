@@ -2,10 +2,12 @@ import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import type { CommitsParams, GitHubCommit, GitHubPagedResponse } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
+import type { QueryOverrides } from '../types.js';
 
 export interface UseGhRepoCommitsOptions {
   /** Disable the query. Also disabled when `owner` or `repo` is empty. */
   enabled?: boolean;
+  queryOptions?: QueryOverrides<GitHubPagedResponse<GitHubCommit>>;
 }
 
 /**
@@ -23,13 +25,14 @@ export function useGhRepoCommits(
   params?: CommitsParams,
   options: UseGhRepoCommitsOptions = {},
 ): UseQueryResult<GitHubPagedResponse<GitHubCommit>, Error> {
-  const { enabled = true } = options;
+  const { enabled = true, queryOptions } = options;
 
   const client = useGhClient();
 
   return useQuery<GitHubPagedResponse<GitHubCommit>, Error>({
     queryKey: ghQueryKeys.repoCommits(owner, repo, params),
     queryFn: ({ signal }) => client.repo(owner, repo).commits(params, signal),
+    ...queryOptions,
     enabled: enabled && owner.length > 0 && repo.length > 0,
   });
 }
