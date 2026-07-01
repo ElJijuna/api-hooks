@@ -82,4 +82,12 @@ describe('useGhRepoWorkflowRunsInfinite', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockWorkflowRuns).not.toHaveBeenCalled();
   });
+  it('accepts queryOptions', async () => {
+    mockWorkflowRuns.mockResolvedValue(mockResponse);
+    const { result } = renderHook(
+      () => useGhRepoWorkflowRunsInfinite('octocat', 'Hello-World', { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
