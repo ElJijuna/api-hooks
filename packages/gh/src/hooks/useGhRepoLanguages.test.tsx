@@ -56,4 +56,12 @@ describe('useGhRepoLanguages', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockLanguages).not.toHaveBeenCalled();
   });
+  it('accepts queryOptions', async () => {
+    mockLanguages.mockResolvedValue(mockResponse);
+    const { result } = renderHook(
+      () => useGhRepoLanguages('owner', 'repo', { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });

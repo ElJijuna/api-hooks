@@ -1,6 +1,7 @@
 import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
+import type { QueryOverrides } from '../types.js';
 
 /** Maps language names to byte counts, as returned by the GitHub API. */
 export type RepoLanguages = Record<string, number>;
@@ -8,6 +9,7 @@ export type RepoLanguages = Record<string, number>;
 export interface UseGhRepoLanguagesOptions {
   /** Disable the query. Also disabled when `owner` or `repo` is empty. */
   enabled?: boolean;
+  queryOptions?: QueryOverrides<RepoLanguages>;
 }
 
 /**
@@ -25,13 +27,14 @@ export function useGhRepoLanguages(
   repo: string,
   options: UseGhRepoLanguagesOptions = {},
 ): UseQueryResult<RepoLanguages, Error> {
-  const { enabled = true } = options;
+  const { enabled = true, queryOptions } = options;
 
   const client = useGhClient();
 
   return useQuery<RepoLanguages, Error>({
     queryKey: ghQueryKeys.repoLanguages(owner, repo),
     queryFn: ({ signal }) => client.repo(owner, repo).languages(signal),
+    ...queryOptions,
     enabled: enabled && owner.length > 0 && repo.length > 0,
   });
 }
