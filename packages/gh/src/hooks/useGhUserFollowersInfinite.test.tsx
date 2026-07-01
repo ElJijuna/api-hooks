@@ -97,4 +97,13 @@ describe('useGhUserFollowersInfinite', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockFollowers).not.toHaveBeenCalled();
   });
+
+  it('accepts queryOptions', async () => {
+    mockFollowers.mockResolvedValue(makeResponse(false));
+    const { result } = renderHook(
+      () => useGhUserFollowersInfinite('octocat', undefined, { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });

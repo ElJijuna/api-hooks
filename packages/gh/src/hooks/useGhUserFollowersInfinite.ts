@@ -6,10 +6,12 @@ import {
 import type { GitHubPagedResponse, GitHubUser, PaginationParams } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
+import type { InfiniteQueryOverrides } from '../types.js';
 
 export interface UseGhUserFollowersInfiniteOptions {
   /** Disable the query. */
   enabled?: boolean;
+  queryOptions?: InfiniteQueryOverrides<GitHubPagedResponse<GitHubUser>>;
 }
 
 /**
@@ -25,7 +27,7 @@ export function useGhUserFollowersInfinite(
   params?: Omit<PaginationParams, 'page'>,
   options: UseGhUserFollowersInfiniteOptions = {},
 ): UseInfiniteQueryResult<InfiniteData<GitHubPagedResponse<GitHubUser>, number>, Error> {
-  const { enabled = true } = options;
+  const { enabled = true, queryOptions } = options;
 
   const client = useGhClient();
 
@@ -35,6 +37,7 @@ export function useGhUserFollowersInfinite(
       client.user(login).followers({ ...params, page: pageParam }, signal),
     initialPageParam: 1,
     getNextPageParam: (lastPage) => (lastPage.hasNextPage ? lastPage.nextPage : undefined),
+    ...queryOptions,
     enabled: enabled && login.length > 0,
   });
 }
