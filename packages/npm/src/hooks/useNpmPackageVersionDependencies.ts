@@ -2,10 +2,12 @@ import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import type { DepsDevDependencies } from 'npmjs-api-client';
 import { npmQueryKeys } from '../keys/npmQueryKeys.js';
 import { useNpmClient } from '../NpmClientContext.js';
+import type { QueryOverrides } from '../types.js';
 
 export interface UseNpmPackageVersionDependenciesOptions {
   /** Disable the query. Also disabled when `name` or `version` is empty. */
   enabled?: boolean;
+  queryOptions?: QueryOverrides<DepsDevDependencies>;
 }
 
 /**
@@ -24,12 +26,13 @@ export function useNpmPackageVersionDependencies(
   version: string,
   options: UseNpmPackageVersionDependenciesOptions = {},
 ): UseQueryResult<DepsDevDependencies, Error> {
-  const { enabled = true } = options;
+  const { enabled = true, queryOptions } = options;
   const client = useNpmClient();
 
   return useQuery<DepsDevDependencies, Error>({
     queryKey: npmQueryKeys.packageVersionDependencies(name, version),
     queryFn: ({ signal }) => client.package(name).version(version).dependencies(signal),
+    ...queryOptions,
     enabled: enabled && name.length > 0 && version.length > 0,
   });
 }
