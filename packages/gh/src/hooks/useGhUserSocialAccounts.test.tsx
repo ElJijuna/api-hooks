@@ -38,4 +38,13 @@ describe('useGhUserSocialAccounts', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockSocialAccounts).not.toHaveBeenCalled();
   });
+  it('accepts queryOptions', async () => {
+    const accounts = [{ provider: 'npm', url: 'https://www.npmjs.com/~octocat' }];
+    mockSocialAccounts.mockResolvedValue(accounts);
+    const { result } = renderHook(
+      () => useGhUserSocialAccounts('octocat', { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
