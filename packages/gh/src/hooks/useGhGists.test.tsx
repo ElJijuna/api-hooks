@@ -89,4 +89,12 @@ describe('useGhGists', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockListGists).not.toHaveBeenCalled();
   });
+  it('accepts queryOptions', async () => {
+    mockListGists.mockResolvedValue(mockResponse);
+    const { result } = renderHook(
+      () => useGhGists({ queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
