@@ -69,4 +69,17 @@ describe('useGhTriggerWorkflow', () => {
     const { result } = renderHook(() => useGhTriggerWorkflow('owner', 'repo'), { wrapper });
     expect(result.current.isIdle).toBe(true);
   });
+  it('accepts mutationOptions', async () => {
+    mockTriggerWorkflow.mockResolvedValue(undefined);
+    const onSuccess = jest.fn();
+    const { result } = renderHook(
+      () => useGhTriggerWorkflow('owner', 'repo', { mutationOptions: { onSuccess } }),
+      { wrapper },
+    );
+    act(() => {
+      result.current.mutate({ workflowId: 1, data: triggerData });
+    });
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    expect(onSuccess).toHaveBeenCalled();
+  });
 });
