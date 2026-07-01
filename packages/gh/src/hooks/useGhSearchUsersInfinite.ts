@@ -6,10 +6,12 @@ import {
 import type { GitHubPagedResponse, GitHubUser, SearchUsersParams } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
+import type { InfiniteQueryOverrides } from '../types.js';
 
 export interface UseGhSearchUsersInfiniteOptions {
   /** Disable the query. Also disabled when `params.q` is empty. */
   enabled?: boolean;
+  queryOptions?: InfiniteQueryOverrides<GitHubPagedResponse<GitHubUser>>;
 }
 
 /**
@@ -23,7 +25,7 @@ export function useGhSearchUsersInfinite(
   params: Omit<SearchUsersParams, 'page'>,
   options: UseGhSearchUsersInfiniteOptions = {},
 ): UseInfiniteQueryResult<InfiniteData<GitHubPagedResponse<GitHubUser>, number>, Error> {
-  const { enabled = true } = options;
+  const { enabled = true, queryOptions } = options;
 
   const client = useGhClient();
 
@@ -32,6 +34,7 @@ export function useGhSearchUsersInfinite(
     queryFn: ({ pageParam, signal }) => client.searchUsers({ ...params, page: pageParam }, signal),
     initialPageParam: 1,
     getNextPageParam: (lastPage) => (lastPage.hasNextPage ? lastPage.nextPage : undefined),
+    ...queryOptions,
     enabled: enabled && params.q.length > 0,
   });
 }
