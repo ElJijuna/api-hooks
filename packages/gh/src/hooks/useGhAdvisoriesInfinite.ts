@@ -6,10 +6,12 @@ import {
 import type { AdvisoriesParams, GitHubAdvisory, GitHubPagedResponse } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
+import type { InfiniteQueryOverrides } from '../types.js';
 
 export interface UseGhAdvisoriesInfiniteOptions {
   /** Disable the query. */
   enabled?: boolean;
+  queryOptions?: InfiniteQueryOverrides<GitHubPagedResponse<GitHubAdvisory>>;
 }
 
 /**
@@ -23,7 +25,7 @@ export function useGhAdvisoriesInfinite(
   params?: Omit<AdvisoriesParams, 'page'>,
   options: UseGhAdvisoriesInfiniteOptions = {},
 ): UseInfiniteQueryResult<InfiniteData<GitHubPagedResponse<GitHubAdvisory>, number>, Error> {
-  const { enabled = true } = options;
+  const { enabled = true, queryOptions } = options;
 
   const client = useGhClient();
 
@@ -32,6 +34,7 @@ export function useGhAdvisoriesInfinite(
     queryFn: ({ pageParam, signal }) => client.advisories({ ...params, page: pageParam }, signal),
     initialPageParam: 1,
     getNextPageParam: (lastPage) => (lastPage.hasNextPage ? lastPage.nextPage : undefined),
+    ...queryOptions,
     enabled,
   });
 }

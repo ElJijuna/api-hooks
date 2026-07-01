@@ -60,4 +60,12 @@ describe('useGhAdvisory', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockAdvisory).not.toHaveBeenCalled();
   });
+  it('accepts queryOptions', async () => {
+    mockAdvisory.mockResolvedValue(mockData);
+    const { result } = renderHook(
+      () => useGhAdvisory('GHSA-1234-5678-9abc', { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
