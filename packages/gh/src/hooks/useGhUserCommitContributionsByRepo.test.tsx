@@ -57,4 +57,12 @@ describe('useGhUserCommitContributionsByRepo', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockCommitContributionsByRepo).not.toHaveBeenCalled();
   });
+  it('accepts queryOptions', async () => {
+    mockCommitContributionsByRepo.mockResolvedValue(mockContributions);
+    const { result } = renderHook(
+      () => useGhUserCommitContributionsByRepo('octocat', { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
