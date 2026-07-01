@@ -88,4 +88,13 @@ describe('useGhOrgReposInfinite', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockRepos).not.toHaveBeenCalled();
   });
+
+  it('accepts queryOptions', async () => {
+    mockRepos.mockResolvedValue(makeResponse(false));
+    const { result } = renderHook(
+      () => useGhOrgReposInfinite('github', undefined, { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
