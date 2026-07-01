@@ -76,4 +76,12 @@ describe('useGhRepoReleases', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockReleases).not.toHaveBeenCalled();
   });
+  it('accepts queryOptions', async () => {
+    mockReleases.mockResolvedValue(mockResponse);
+    const { result } = renderHook(
+      () => useGhRepoReleases('octocat', 'Hello-World', { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
