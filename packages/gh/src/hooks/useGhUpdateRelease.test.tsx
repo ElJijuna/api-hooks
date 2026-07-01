@@ -67,4 +67,17 @@ describe('useGhUpdateRelease', () => {
     const { result } = renderHook(() => useGhUpdateRelease('owner', 'repo'), { wrapper });
     expect(result.current.isIdle).toBe(true);
   });
+  it('accepts mutationOptions', async () => {
+    mockUpdateRelease.mockResolvedValue(mockRelease);
+    const onSuccess = jest.fn();
+    const { result } = renderHook(
+      () => useGhUpdateRelease('owner', 'repo', { mutationOptions: { onSuccess } }),
+      { wrapper },
+    );
+    act(() => {
+      result.current.mutate({ releaseId: 1, data: { name: 'Release 1.0' } });
+    });
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    expect(onSuccess).toHaveBeenCalled();
+  });
 });
