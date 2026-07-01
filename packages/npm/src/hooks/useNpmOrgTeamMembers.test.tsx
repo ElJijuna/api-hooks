@@ -66,4 +66,13 @@ describe('useNpmOrgTeamMembers', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockTeamMembers).not.toHaveBeenCalled();
   });
+
+  it('accepts queryOptions', async () => {
+    mockTeamMembers.mockResolvedValue(['pilmee']);
+    const { result } = renderHook(
+      () => useNpmOrgTeamMembers('npmcli', 'cli', { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
