@@ -2,10 +2,12 @@ import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import { OsvClient, type OsvQueryParams, type OsvQueryResult } from 'osv-api-client';
 import { useMemo } from 'react';
 import { osvQueryKeys } from '../keys/osvQueryKeys.js';
+import type { QueryOverrides } from '../types.js';
 
 export interface UseOsvQueryOptions {
   /** Disable the query. */
   enabled?: boolean;
+  queryOptions?: QueryOverrides<OsvQueryResult>;
 }
 
 /**
@@ -21,12 +23,13 @@ export function useOsvQuery(
   params: OsvQueryParams,
   options: UseOsvQueryOptions = {},
 ): UseQueryResult<OsvQueryResult, Error> {
-  const { enabled = true } = options;
+  const { enabled = true, queryOptions } = options;
   const client = useMemo(() => new OsvClient(), []);
 
   return useQuery<OsvQueryResult, Error>({
     queryKey: osvQueryKeys.query(params),
     queryFn: () => client.query(params),
+    ...queryOptions,
     enabled,
   });
 }
