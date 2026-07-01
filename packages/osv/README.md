@@ -83,6 +83,7 @@ function VulnDetail({ id }: { id: string }) {
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query (also disabled when `id` is empty) |
+| `queryOptions` | `QueryOverrides<TData>` | `undefined` | Override TanStack Query options (`staleTime`, `retry`, `gcTime`, `select`, etc.) |
 
 ---
 
@@ -118,6 +119,7 @@ The `params` object is an `OsvQueryParams` from `osv-api-client`. You can query 
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query |
+| `queryOptions` | `QueryOverrides<TData>` | `undefined` | Override TanStack Query options (`staleTime`, `retry`, `gcTime`, `select`, etc.) |
 
 ---
 
@@ -153,6 +155,7 @@ The query is automatically disabled when `queries` is an empty array.
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query (also disabled when `queries` is empty) |
+| `queryOptions` | `QueryOverrides<TData>` | `undefined` | Override TanStack Query options (`staleTime`, `retry`, `gcTime`, `select`, etc.) |
 
 ---
 
