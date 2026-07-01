@@ -2,10 +2,12 @@ import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import type { GitHubTree, GitTreeParams } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
+import type { QueryOverrides } from '../types.js';
 
 export interface UseGhRepoGitTreeOptions {
   /** Disable the query. Also disabled when required params are empty. */
   enabled?: boolean;
+  queryOptions?: QueryOverrides<GitHubTree>;
 }
 
 /**
@@ -25,13 +27,14 @@ export function useGhRepoGitTree(
   params?: GitTreeParams,
   options: UseGhRepoGitTreeOptions = {},
 ): UseQueryResult<GitHubTree, Error> {
-  const { enabled = true } = options;
+  const { enabled = true, queryOptions } = options;
 
   const client = useGhClient();
 
   return useQuery<GitHubTree, Error>({
     queryKey: ghQueryKeys.repoGitTree(owner, repo, treeSha, params),
     queryFn: ({ signal }) => client.repo(owner, repo).gitTree(treeSha, params, signal),
+    ...queryOptions,
     enabled: enabled && owner.length > 0 && repo.length > 0 && treeSha.length > 0,
   });
 }
