@@ -65,4 +65,12 @@ describe('useNpmMaintainer', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockInfo).not.toHaveBeenCalled();
   });
+  it('accepts queryOptions', async () => {
+    mockInfo.mockResolvedValue(mockUser);
+    const { result } = renderHook(
+      () => useNpmMaintainer('pilmee', { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
