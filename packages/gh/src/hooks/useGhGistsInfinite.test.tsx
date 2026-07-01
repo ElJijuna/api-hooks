@@ -130,4 +130,13 @@ describe('useGhGistsInfinite', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockListGists).not.toHaveBeenCalled();
   });
+
+  it('accepts queryOptions', async () => {
+    mockListGists.mockResolvedValue(makeResponse(false));
+    const { result } = renderHook(
+      () => useGhGistsInfinite(undefined, { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
