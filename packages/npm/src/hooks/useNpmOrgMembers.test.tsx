@@ -60,4 +60,13 @@ describe('useNpmOrgMembers', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockMembers).not.toHaveBeenCalled();
   });
+
+  it('accepts queryOptions', async () => {
+    mockMembers.mockResolvedValue({ pilmee: 'owner' } as NpmOrgMembers);
+    const { result } = renderHook(
+      () => useNpmOrgMembers('npmcli', { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
