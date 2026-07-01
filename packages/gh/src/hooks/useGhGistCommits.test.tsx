@@ -75,4 +75,12 @@ describe('useGhGistCommits', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockCommits).not.toHaveBeenCalled();
   });
+  it('accepts queryOptions', async () => {
+    mockCommits.mockResolvedValue(mockResponse);
+    const { result } = renderHook(
+      () => useGhGistCommits('abc123', { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
