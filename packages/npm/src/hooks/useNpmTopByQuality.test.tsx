@@ -74,10 +74,9 @@ describe('useNpmTopByQuality', () => {
 
   it('accepts queryOptions', async () => {
     mockTopByQuality.mockResolvedValue(mockResult);
-    const { result } = renderHook(
-      () => useNpmTopByQuality({ queryOptions: { staleTime: 0 } }),
-      { wrapper },
-    );
+    const { result } = renderHook(() => useNpmTopByQuality({ queryOptions: { staleTime: 0 } }), {
+      wrapper,
+    });
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
   });
 });
