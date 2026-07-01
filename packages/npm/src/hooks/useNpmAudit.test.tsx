@@ -86,4 +86,16 @@ describe('useNpmAudit', () => {
     expect(result.current.isError).toBe(false);
     expect(mockAudit).not.toHaveBeenCalled();
   });
+  it('accepts mutationOptions', async () => {
+    mockAudit.mockResolvedValue(mockData);
+    const onSuccess = jest.fn();
+    const { result } = renderHook(() => useNpmAudit({ mutationOptions: { onSuccess } }), {
+      wrapper,
+    });
+    act(() => {
+      result.current.mutate(payload);
+    });
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    expect(onSuccess).toHaveBeenCalled();
+  });
 });
