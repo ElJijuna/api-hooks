@@ -83,4 +83,12 @@ describe('useGhRepoWebhooks', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockWebhooks).not.toHaveBeenCalled();
   });
+  it('accepts queryOptions', async () => {
+    mockWebhooks.mockResolvedValue(mockResponse);
+    const { result } = renderHook(
+      () => useGhRepoWebhooks('owner', 'repo', { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
