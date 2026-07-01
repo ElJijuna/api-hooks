@@ -71,4 +71,13 @@ describe('useNpmTopByQuality', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockTopByQuality).not.toHaveBeenCalled();
   });
+
+  it('accepts queryOptions', async () => {
+    mockTopByQuality.mockResolvedValue(mockResult);
+    const { result } = renderHook(
+      () => useNpmTopByQuality({ queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
