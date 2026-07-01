@@ -44,4 +44,17 @@ describe('useGhMarkAllNotificationsRead', () => {
     const { result } = renderHook(() => useGhMarkAllNotificationsRead(), { wrapper });
     expect(result.current.isIdle).toBe(true);
   });
+  it('accepts mutationOptions', async () => {
+    mockMarkAllRead.mockResolvedValue(undefined);
+    const onSuccess = jest.fn();
+    const { result } = renderHook(
+      () => useGhMarkAllNotificationsRead({ mutationOptions: { onSuccess } }),
+      { wrapper },
+    );
+    act(() => {
+      result.current.mutate();
+    });
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    expect(onSuccess).toHaveBeenCalled();
+  });
 });
