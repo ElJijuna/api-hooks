@@ -68,4 +68,17 @@ describe('useGhUpdateIssue', () => {
     const { result } = renderHook(() => useGhUpdateIssue('owner', 'repo', 42), { wrapper });
     expect(result.current.isIdle).toBe(true);
   });
+  it('accepts mutationOptions', async () => {
+    mockUpdate.mockResolvedValue(mockGhIssue);
+    const onSuccess = jest.fn();
+    const { result } = renderHook(
+      () => useGhUpdateIssue('owner', 'repo', 42, { mutationOptions: { onSuccess } }),
+      { wrapper },
+    );
+    act(() => {
+      result.current.mutate({ state: 'closed' });
+    });
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    expect(onSuccess).toHaveBeenCalled();
+  });
 });

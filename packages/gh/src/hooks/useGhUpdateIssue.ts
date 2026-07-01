@@ -1,8 +1,13 @@
 import { type UseMutationResult, useMutation } from '@tanstack/react-query';
 import type { GitHubIssue, IssueResource } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
+import type { MutationOverrides } from '../types.js';
 
 type UpdateIssueData = Parameters<IssueResource['update']>[0];
+
+export interface UseGhUpdateIssueOptions {
+  mutationOptions?: MutationOverrides<GitHubIssue, UpdateIssueData>;
+}
 
 /**
  * Updates a GitHub issue (title, body, state, labels, assignees, milestone).
@@ -18,10 +23,13 @@ export function useGhUpdateIssue(
   owner: string,
   repo: string,
   issueNumber: number,
+  options: UseGhUpdateIssueOptions = {},
 ): UseMutationResult<GitHubIssue, Error, UpdateIssueData> {
+  const { mutationOptions } = options;
   const client = useGhClient();
 
   return useMutation<GitHubIssue, Error, UpdateIssueData>({
     mutationFn: (data) => client.repo(owner, repo).issue(issueNumber).update(data),
+    ...mutationOptions,
   });
 }
