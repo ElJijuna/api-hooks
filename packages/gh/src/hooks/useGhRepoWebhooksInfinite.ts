@@ -6,10 +6,12 @@ import {
 import type { GitHubPagedResponse, GitHubWebhook, WebhooksParams } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
+import type { InfiniteQueryOverrides } from '../types.js';
 
 export interface UseGhRepoWebhooksInfiniteOptions {
   /** Disable the query. */
   enabled?: boolean;
+  queryOptions?: InfiniteQueryOverrides<GitHubPagedResponse<GitHubWebhook>>;
 }
 
 /**
@@ -27,7 +29,7 @@ export function useGhRepoWebhooksInfinite(
   params?: Omit<WebhooksParams, 'page'>,
   options: UseGhRepoWebhooksInfiniteOptions = {},
 ): UseInfiniteQueryResult<InfiniteData<GitHubPagedResponse<GitHubWebhook>, number>, Error> {
-  const { enabled = true } = options;
+  const { enabled = true, queryOptions } = options;
 
   const client = useGhClient();
 
@@ -37,6 +39,7 @@ export function useGhRepoWebhooksInfinite(
       client.repo(owner, repo).webhooks({ ...params, page: pageParam }, signal),
     initialPageParam: 1,
     getNextPageParam: (lastPage) => (lastPage.hasNextPage ? lastPage.nextPage : undefined),
+    ...queryOptions,
     enabled: enabled && owner.length > 0 && repo.length > 0,
   });
 }

@@ -109,4 +109,16 @@ describe('useGhRepoWebhooksInfinite', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockWebhooks).not.toHaveBeenCalled();
   });
+
+  it('accepts queryOptions', async () => {
+    mockWebhooks.mockResolvedValue(makeResponse(false));
+    const { result } = renderHook(
+      () =>
+        useGhRepoWebhooksInfinite('octocat', 'Hello-World', undefined, {
+          queryOptions: { staleTime: 0 },
+        }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
