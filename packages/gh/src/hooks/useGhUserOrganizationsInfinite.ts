@@ -7,10 +7,12 @@ import type { GitHubOrganization, GitHubPagedResponse } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
 import type { UserOrganizationsParams } from './useGhUserOrganizations.js';
+import type { InfiniteQueryOverrides } from '../types.js';
 
 export interface UseGhUserOrganizationsInfiniteOptions {
   /** Disable the query. Also disabled when `login` is empty. */
   enabled?: boolean;
+  queryOptions?: InfiniteQueryOverrides<GitHubPagedResponse<GitHubOrganization>>;
 }
 
 /**
@@ -26,7 +28,7 @@ export function useGhUserOrganizationsInfinite(
   params?: Omit<UserOrganizationsParams, 'page'>,
   options: UseGhUserOrganizationsInfiniteOptions = {},
 ): UseInfiniteQueryResult<InfiniteData<GitHubPagedResponse<GitHubOrganization>, number>, Error> {
-  const { enabled = true } = options;
+  const { enabled = true, queryOptions } = options;
 
   const client = useGhClient();
 
@@ -36,6 +38,7 @@ export function useGhUserOrganizationsInfinite(
       client.user(login).organizations({ ...params, page: pageParam }, signal),
     initialPageParam: 1,
     getNextPageParam: (lastPage) => (lastPage.hasNextPage ? lastPage.nextPage : undefined),
+    ...queryOptions,
     enabled: enabled && login.length > 0,
   });
 }
