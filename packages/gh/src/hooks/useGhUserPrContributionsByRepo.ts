@@ -2,10 +2,12 @@ import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import type { RepoContribution } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
 import { ghQueryKeys } from '../keys/ghQueryKeys.js';
+import type { QueryOverrides } from '../types.js';
 
 export interface UseGhUserPrContributionsByRepoOptions {
   /** Disable the query. Also disabled when `login` is empty. */
   enabled?: boolean;
+  queryOptions?: QueryOverrides<RepoContribution[]>;
 }
 
 /**
@@ -19,13 +21,14 @@ export function useGhUserPrContributionsByRepo(
   login: string,
   options: UseGhUserPrContributionsByRepoOptions = {},
 ): UseQueryResult<RepoContribution[], Error> {
-  const { enabled = true } = options;
+  const { enabled = true, queryOptions } = options;
 
   const client = useGhClient();
 
   return useQuery<RepoContribution[], Error>({
     queryKey: ghQueryKeys.userPrContributionsByRepo(login),
     queryFn: ({ signal }) => client.user(login).pullRequestContributionsByRepo(signal),
+    ...queryOptions,
     enabled: enabled && login.length > 0,
   });
 }
