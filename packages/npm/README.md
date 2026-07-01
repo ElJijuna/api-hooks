@@ -172,6 +172,7 @@ function PackageInfo() {
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query (also disabled when `name` is empty) |
+| `queryOptions` | `QueryOverrides<TData>` | `undefined` | Override TanStack Query options (`staleTime`, `retry`, `gcTime`, `select`, etc.) |
 
 ---
 
@@ -188,6 +189,7 @@ console.log(data?.dist.tarball);
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disabled when `name` or `version` is empty |
+| `queryOptions` | `QueryOverrides<TData>` | `undefined` | Override TanStack Query options (`staleTime`, `retry`, `gcTime`, `select`, etc.) |
 
 ---
 
@@ -252,6 +254,7 @@ console.log(data?.downloads); // e.g. 12345678
 | ------ | ---- | ------- | ----------- |
 | `period` | `NpmDownloadPeriod` | `'last-month'` | `'last-day'`, `'last-week'`, `'last-month'`, `'last-year'`, or `'YYYY-MM-DD:YYYY-MM-DD'` |
 | `enabled` | `boolean` | `true` | Disabled when `name` is empty |
+| `queryOptions` | `QueryOverrides<TData>` | `undefined` | Override TanStack Query options (`staleTime`, `retry`, `gcTime`, `select`, etc.) |
 
 ---
 
@@ -269,6 +272,7 @@ console.log(data?.downloads); // e.g. 123456
 | ------ | ---- | ------- | ----------- |
 | `period` | `NpmVersionDownloadPeriod` | `'last-week'` | npm currently supports only `'last-week'` for version downloads |
 | `enabled` | `boolean` | `true` | Disabled when `name` or `version` is empty |
+| `queryOptions` | `QueryOverrides<TData>` | `undefined` | Override TanStack Query options (`staleTime`, `retry`, `gcTime`, `select`, etc.) |
 
 ---
 
@@ -286,6 +290,7 @@ data?.downloads.forEach(d => console.log(d.day, d.downloads));
 | ------ | ---- | ------- | ----------- |
 | `period` | `NpmDownloadPeriod` | `'last-month'` | Same as `useNpmPackageDownloads` |
 | `enabled` | `boolean` | `true` | Disabled when `name` is empty |
+| `queryOptions` | `QueryOverrides<TData>` | `undefined` | Override TanStack Query options (`staleTime`, `retry`, `gcTime`, `select`, etc.) |
 
 ---
 
@@ -303,6 +308,7 @@ console.log(data?.evaluation.popularity.dependentsCount); // 15000
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disabled when `name` is empty |
+| `queryOptions` | `QueryOverrides<TData>` | `undefined` | Override TanStack Query options (`staleTime`, `retry`, `gcTime`, `select`, etc.) |
 
 ---
 
@@ -320,6 +326,7 @@ console.log(data?.install.bytes);  // 307200
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disabled when `name` is empty |
+| `queryOptions` | `QueryOverrides<TData>` | `undefined` | Override TanStack Query options (`staleTime`, `retry`, `gcTime`, `select`, etc.) |
 
 ---
 
@@ -339,6 +346,7 @@ console.log(data?.total); // 1234567890
 | `groupBy` | `'version' \| 'date'` | `'version'` | How to group results |
 | `period` | `'day' \| 'week' \| 'month' \| 'year'` | `'month'` | Time window |
 | `enabled` | `boolean` | `true` | Disabled when `name` is empty |
+| `queryOptions` | `QueryOverrides<TData>` | `undefined` | Override TanStack Query options (`staleTime`, `retry`, `gcTime`, `select`, etc.) |
 
 ---
 
@@ -356,6 +364,7 @@ console.log(data?.downloads); // 500000
 | ------ | ---- | ------- | ----------- |
 | `period` | `'last-week'` | `'last-week'` | Only period supported by npm |
 | `enabled` | `boolean` | `true` | Disabled when `name` or `version` is empty |
+| `queryOptions` | `QueryOverrides<TData>` | `undefined` | Override TanStack Query options (`staleTime`, `retry`, `gcTime`, `select`, etc.) |
 
 ---
 
@@ -372,6 +381,7 @@ console.log(data?.install.pretty); // '300 kB'
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disabled when `name` or `version` is empty |
+| `queryOptions` | `QueryOverrides<TData>` | `undefined` | Override TanStack Query options (`staleTime`, `retry`, `gcTime`, `select`, etc.) |
 
 ---
 
@@ -388,6 +398,7 @@ data?.files?.forEach(f => console.log(f.path, f.size));
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disabled when `name` or `version` is empty |
+| `queryOptions` | `QueryOverrides<TData>` | `undefined` | Override TanStack Query options (`staleTime`, `retry`, `gcTime`, `select`, etc.) |
 
 ---
 
@@ -406,6 +417,7 @@ console.log(data?.total); // 1000000
 | `groupBy` | `'file' \| 'date'` | `'file'` | How to group results |
 | `period` | `'day' \| 'week' \| 'month' \| 'year'` | `'month'` | Time window |
 | `enabled` | `boolean` | `true` | Disabled when `name` or `version` is empty |
+| `queryOptions` | `QueryOverrides<TData>` | `undefined` | Override TanStack Query options (`staleTime`, `retry`, `gcTime`, `select`, etc.) |
 
 ---
 
@@ -423,6 +435,7 @@ direct.forEach(n => console.log(`${n.versionKey.name}@${n.versionKey.version}`))
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disabled when `name` or `version` is empty |
+| `queryOptions` | `QueryOverrides<TData>` | `undefined` | Override TanStack Query options (`staleTime`, `retry`, `gcTime`, `select`, etc.) |
 
 ---
 
@@ -441,6 +454,7 @@ console.log(data?.['vue'].downloads);   // 4200000
 | ------ | ---- | ------- | ----------- |
 | `period` | `NpmDownloadPeriod` | `'last-month'` | Same periods as `useNpmPackageDownloads` |
 | `enabled` | `boolean` | `true` | Disabled when `packages` is empty |
+| `queryOptions` | `QueryOverrides<TData>` | `undefined` | Override TanStack Query options (`staleTime`, `retry`, `gcTime`, `select`, etc.) |
 
 ---
 
@@ -500,6 +514,7 @@ return avatarUrl ? <img src={avatarUrl} alt="sindresorhus" /> : null;
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disabled when `username` is empty |
+| `queryOptions` | `QueryOverrides<TData>` | `undefined` | Override TanStack Query options (`staleTime`, `retry`, `gcTime`, `select`, etc.) |
 
 ---
 
@@ -518,6 +533,7 @@ console.log(user?.name, user?.email);
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disabled when `username` is empty |
+| `queryOptions` | `QueryOverrides<TData>` | `undefined` | Override TanStack Query options (`staleTime`, `retry`, `gcTime`, `select`, etc.) |
 
 ---
 
@@ -540,6 +556,7 @@ data?.objects.forEach(o => console.log(o.package.name, o.package.version));
 | `popularity` | `number` | — | Scoring weight 0–1 |
 | `maintenance` | `number` | — | Scoring weight 0–1 |
 | `enabled` | `boolean` | `true` | Disabled when `username` is empty |
+| `queryOptions` | `QueryOverrides<TData>` | `undefined` | Override TanStack Query options (`staleTime`, `retry`, `gcTime`, `select`, etc.) |
 
 ---
 
@@ -580,6 +597,7 @@ function MaintainerPackageList({ username }: { username: string }) {
 | `popularity` | `number` | — | Scoring weight 0–1 |
 | `maintenance` | `number` | — | Scoring weight 0–1 |
 | `enabled` | `boolean` | `true` | Disabled when `username` is empty |
+| `queryOptions` | `QueryOverrides<TData>` | `undefined` | Override TanStack Query options (`staleTime`, `retry`, `gcTime`, `select`, etc.) |
 
 ---
 
@@ -603,6 +621,7 @@ data?.objects.forEach(o => {
 | `popularity` | `number` | — | Scoring weight 0–1 |
 | `maintenance` | `number` | — | Scoring weight 0–1 |
 | `enabled` | `boolean` | `true` | Disabled when `text` is empty |
+| `queryOptions` | `QueryOverrides<TData>` | `undefined` | Override TanStack Query options (`staleTime`, `retry`, `gcTime`, `select`, etc.) |
 
 ---
 
@@ -643,6 +662,7 @@ function InfiniteSearch() {
 | `popularity` | `number` | — | Scoring weight 0–1 |
 | `maintenance` | `number` | — | Scoring weight 0–1 |
 | `enabled` | `boolean` | `true` | Disabled when `text` is empty |
+| `queryOptions` | `QueryOverrides<TData>` | `undefined` | Override TanStack Query options (`staleTime`, `retry`, `gcTime`, `select`, etc.) |
 
 ---
 
@@ -660,6 +680,7 @@ data?.objects.forEach(o => console.log(o.package.name, o.score.final));
 | ------ | ---- | ------- | ----------- |
 | `n` | `number` | `20` | Number of packages to return (max 250) |
 | `enabled` | `boolean` | `true` | Disable the query |
+| `queryOptions` | `QueryOverrides<TData>` | `undefined` | Override TanStack Query options (`staleTime`, `retry`, `gcTime`, `select`, etc.) |
 
 ---
 
@@ -675,6 +696,7 @@ const { data } = useNpmTopByPopularity({ n: 10 });
 | ------ | ---- | ------- | ----------- |
 | `n` | `number` | `20` | Number of packages to return (max 250) |
 | `enabled` | `boolean` | `true` | Disable the query |
+| `queryOptions` | `QueryOverrides<TData>` | `undefined` | Override TanStack Query options (`staleTime`, `retry`, `gcTime`, `select`, etc.) |
 
 ---
 
@@ -690,6 +712,7 @@ const { data } = useNpmTopByQuality({ n: 10 });
 | ------ | ---- | ------- | ----------- |
 | `n` | `number` | `20` | Number of packages to return (max 250) |
 | `enabled` | `boolean` | `true` | Disable the query |
+| `queryOptions` | `QueryOverrides<TData>` | `undefined` | Override TanStack Query options (`staleTime`, `retry`, `gcTime`, `select`, etc.) |
 
 ---
 
@@ -705,6 +728,7 @@ const { data } = useNpmTopByMaintenance({ n: 10 });
 | ------ | ---- | ------- | ----------- |
 | `n` | `number` | `20` | Number of packages to return (max 250) |
 | `enabled` | `boolean` | `true` | Disable the query |
+| `queryOptions` | `QueryOverrides<TData>` | `undefined` | Override TanStack Query options (`staleTime`, `retry`, `gcTime`, `select`, etc.) |
 
 ---
 
@@ -720,6 +744,7 @@ const { data } = useNpmTopByKeyword('react', { n: 10 });
 | ------ | ---- | ------- | ----------- |
 | `n` | `number` | `20` | Number of packages to return (max 250) |
 | `enabled` | `boolean` | `true` | Disabled when `keyword` is empty |
+| `queryOptions` | `QueryOverrides<TData>` | `undefined` | Override TanStack Query options (`staleTime`, `retry`, `gcTime`, `select`, etc.) |
 
 ---
 
@@ -735,6 +760,7 @@ const { data } = useNpmTopByScope('@types', { n: 10 });
 | ------ | ---- | ------- | ----------- |
 | `n` | `number` | `20` | Number of packages to return (max 250) |
 | `enabled` | `boolean` | `true` | Disabled when `scope` is empty |
+| `queryOptions` | `QueryOverrides<TData>` | `undefined` | Override TanStack Query options (`staleTime`, `retry`, `gcTime`, `select`, etc.) |
 
 ---
 
@@ -749,6 +775,7 @@ const { data } = useNpmOrgPackages('npmcli');
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disabled when `org` is empty |
+| `queryOptions` | `QueryOverrides<TData>` | `undefined` | Override TanStack Query options (`staleTime`, `retry`, `gcTime`, `select`, etc.) |
 
 ---
 
@@ -763,6 +790,7 @@ const { data } = useNpmOrgTeams('npmcli');
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disabled when `org` is empty |
+| `queryOptions` | `QueryOverrides<TData>` | `undefined` | Override TanStack Query options (`staleTime`, `retry`, `gcTime`, `select`, etc.) |
 
 ---
 
@@ -777,6 +805,7 @@ const { data } = useNpmOrgMembers('npmcli');
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disabled when `org` is empty |
+| `queryOptions` | `QueryOverrides<TData>` | `undefined` | Override TanStack Query options (`staleTime`, `retry`, `gcTime`, `select`, etc.) |
 
 ---
 
@@ -791,6 +820,7 @@ const { data } = useNpmOrgTeamMembers('npmcli', 'cli');
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disabled when `org` or `team` is empty |
+| `queryOptions` | `QueryOverrides<TData>` | `undefined` | Override TanStack Query options (`staleTime`, `retry`, `gcTime`, `select`, etc.) |
 
 ---
 
@@ -817,6 +847,7 @@ console.log(data?.username); // 'pilmee'
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disable the query |
+| `queryOptions` | `QueryOverrides<TData>` | `undefined` | Override TanStack Query options (`staleTime`, `retry`, `gcTime`, `select`, etc.) |
 
 ---
 
@@ -833,6 +864,7 @@ console.log(data?.name, data?.email);
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disabled when `username` is empty |
+| `queryOptions` | `QueryOverrides<TData>` | `undefined` | Override TanStack Query options (`staleTime`, `retry`, `gcTime`, `select`, etc.) |
 
 ---
 
@@ -849,6 +881,7 @@ packages?.forEach(name => console.log(name));
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `enabled` | `boolean` | `true` | Disabled when `username` is empty |
+| `queryOptions` | `QueryOverrides<TData>` | `undefined` | Override TanStack Query options (`staleTime`, `retry`, `gcTime`, `select`, etc.) |
 
 ---
 
