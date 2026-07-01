@@ -73,4 +73,12 @@ describe('useGhSearchRepos', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockSearchRepos).not.toHaveBeenCalled();
   });
+  it('accepts queryOptions', async () => {
+    mockSearchRepos.mockResolvedValue(mockResponse);
+    const { result } = renderHook(
+      () => useGhSearchRepos({ q: 'typescript' }, { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
