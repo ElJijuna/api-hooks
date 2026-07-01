@@ -60,4 +60,13 @@ describe('useNpmMaintainerAvatar', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockAvatar).not.toHaveBeenCalled();
   });
+
+  it('accepts queryOptions', async () => {
+    mockAvatar.mockResolvedValue('https://www.gravatar.com/avatar/hash');
+    const { result } = renderHook(
+      () => useNpmMaintainerAvatar('sindresorhus', { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });

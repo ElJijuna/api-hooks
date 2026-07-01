@@ -1,9 +1,11 @@
 import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import { npmQueryKeys } from '../keys/npmQueryKeys.js';
 import { useNpmClient } from '../NpmClientContext.js';
+import type { QueryOverrides } from '../types.js';
 
 export interface UseNpmMaintainerAvatarOptions {
   enabled?: boolean;
+  queryOptions?: QueryOverrides<string | undefined>;
 }
 
 /**
@@ -16,12 +18,13 @@ export function useNpmMaintainerAvatar(
   username: string,
   options: UseNpmMaintainerAvatarOptions = {},
 ): UseQueryResult<string | undefined, Error> {
-  const { enabled = true } = options;
+  const { enabled = true, queryOptions } = options;
   const client = useNpmClient();
 
   return useQuery<string | undefined, Error>({
     queryKey: npmQueryKeys.maintainerAvatar(username),
     queryFn: ({ signal }) => client.maintainer(username).avatar(signal),
+    ...queryOptions,
     enabled: enabled && username.length > 0,
   });
 }
