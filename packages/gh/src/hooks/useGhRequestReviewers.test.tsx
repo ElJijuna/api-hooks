@@ -66,4 +66,17 @@ describe('useGhRequestReviewers', () => {
 
     expect(result.current.isIdle).toBe(true);
   });
+  it('accepts mutationOptions', async () => {
+    mockRequestReviewers.mockResolvedValue(mockPR);
+    const onSuccess = jest.fn();
+    const { result } = renderHook(
+      () => useGhRequestReviewers('owner', 'repo', 42, { mutationOptions: { onSuccess } }),
+      { wrapper },
+    );
+    act(() => {
+      result.current.mutate(reviewersData);
+    });
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    expect(onSuccess).toHaveBeenCalled();
+  });
 });

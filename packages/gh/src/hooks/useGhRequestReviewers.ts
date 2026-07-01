@@ -1,8 +1,13 @@
 import { type UseMutationResult, useMutation } from '@tanstack/react-query';
 import type { GitHubPullRequest, PullRequestResource } from 'gh-api-client';
 import { useGhClient } from '../GhClientContext.js';
+import type { MutationOverrides } from '../types.js';
 
 type RequestReviewersData = Parameters<PullRequestResource['requestReviewers']>[0];
+
+export interface UseGhRequestReviewersOptions {
+  mutationOptions?: MutationOverrides<GitHubPullRequest, RequestReviewersData>;
+}
 
 /**
  * Requests reviewers for a GitHub pull request.
@@ -18,10 +23,13 @@ export function useGhRequestReviewers(
   owner: string,
   repo: string,
   pullNumber: number,
+  options: UseGhRequestReviewersOptions = {},
 ): UseMutationResult<GitHubPullRequest, Error, RequestReviewersData> {
+  const { mutationOptions } = options;
   const client = useGhClient();
 
   return useMutation<GitHubPullRequest, Error, RequestReviewersData>({
     mutationFn: (data) => client.repo(owner, repo).pullRequest(pullNumber).requestReviewers(data),
+    ...mutationOptions,
   });
 }
