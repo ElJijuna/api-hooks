@@ -6,11 +6,13 @@ import {
 import type { MaintainerPackagesParams, NpmSearchResult } from 'npmjs-api-client';
 import { npmQueryKeys } from '../keys/npmQueryKeys.js';
 import { useNpmClient } from '../NpmClientContext.js';
+import type { InfiniteQueryOverrides } from '../types.js';
 
 export interface UseNpmMaintainerPackagesInfiniteOptions
   extends Omit<MaintainerPackagesParams, 'from'> {
   /** Disable the query. Also disabled when `username` is empty. */
   enabled?: boolean;
+  queryOptions?: InfiniteQueryOverrides<NpmSearchResult>;
 }
 
 /**
@@ -27,7 +29,7 @@ export function useNpmMaintainerPackagesInfinite(
   username: string,
   options: UseNpmMaintainerPackagesInfiniteOptions = {},
 ): UseInfiniteQueryResult<InfiniteData<NpmSearchResult, number>, Error> {
-  const { enabled = true, ...rest } = options;
+  const { enabled = true, queryOptions, ...rest } = options;
   const size = rest.size ?? 20;
   const client = useNpmClient();
 
@@ -42,6 +44,7 @@ export function useNpmMaintainerPackagesInfinite(
       const nextFrom = lastPageParam + size;
       return nextFrom < lastPage.total ? nextFrom : undefined;
     },
+    ...queryOptions,
     enabled: enabled && username.length > 0,
   });
 }
