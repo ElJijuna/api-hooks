@@ -35,4 +35,13 @@ describe('usePackagistCreatePackage', () => {
 
     expect(result.current.error).toBeInstanceOf(PackagistApiError);
   });
+
+  it('accepts mutationOptions', async () => {
+    mockCreatePackage.mockResolvedValue({ status: 'ok' });
+    const { result } = renderHook(
+      () => usePackagistCreatePackage({ mutationOptions: { retry: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isIdle).toBe(true));
+  });
 });
