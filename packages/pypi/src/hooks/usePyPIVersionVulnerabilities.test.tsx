@@ -20,4 +20,13 @@ describe('usePyPIVersionVulnerabilities', () => {
 
     await waitFor(() => expect(result.current.data).toEqual([vulnerability]));
   });
+
+  it('accepts queryOptions', async () => {
+    mockVersionVulnerabilities.mockResolvedValue([vulnerability]);
+    const { result } = renderHook(
+      () => usePyPIVersionVulnerabilities('requests', '2.31.0', { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
