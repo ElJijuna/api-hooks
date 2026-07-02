@@ -88,6 +88,12 @@ jobs:
           name: dist-nuget
           path: packages/nuget/dist/
 
+      - name: Upload crates dist
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-crates
+          path: packages/crates/dist/
+
   # ── 2a. Release @api-hooks/npm ────────────────────────────────────────────
   release-npm:
     name: Release @api-hooks/npm
@@ -370,6 +376,38 @@ jobs:
 
       - name: Release
         working-directory: packages/nuget
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npx semantic-release
+
+  # ── 2j. Release @api-hooks/crates ─────────────────────────────────────────
+  release-crates:
+    name: Release @api-hooks/crates
+    needs: release-nuget
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+          ref: main
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Download crates dist
+        uses: actions/download-artifact@v4
+        with:
+          name: dist-crates
+          path: packages/crates/dist/
+
+      - name: Release
+        working-directory: packages/crates
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

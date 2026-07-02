@@ -1,0 +1,130 @@
+{
+  "tagFormat": "@api-hooks/crates@${version}",
+  "branches": ["main"],
+  "plugins": [
+    [
+      "@semantic-release/commit-analyzer",
+      {
+        "preset": "conventionalcommits",
+        "releaseRules": [
+          {
+            "type": "feat",
+            "scope": "@api-hooks/crates",
+            "release": "minor"
+          },
+          {
+            "type": "fix",
+            "scope": "@api-hooks/crates",
+            "release": "patch"
+          },
+          {
+            "type": "perf",
+            "scope": "@api-hooks/crates",
+            "release": "patch"
+          },
+          {
+            "type": "refactor",
+            "scope": "@api-hooks/crates",
+            "release": "patch"
+          },
+          {
+            "breaking": true,
+            "scope": "@api-hooks/crates",
+            "release": "major"
+          },
+          {
+            "type": "feat",
+            "scope": "!@api-hooks/crates",
+            "release": false
+          },
+          {
+            "type": "fix",
+            "scope": "!@api-hooks/crates",
+            "release": false
+          },
+          {
+            "type": "perf",
+            "scope": "!@api-hooks/crates",
+            "release": false
+          },
+          {
+            "type": "refactor",
+            "scope": "!@api-hooks/crates",
+            "release": false
+          },
+          {
+            "breaking": true,
+            "scope": "!@api-hooks/crates",
+            "release": false
+          }
+        ]
+      }
+    ],
+    [
+      "@semantic-release/release-notes-generator",
+      {
+        "preset": "conventionalcommits",
+        "presetConfig": {
+          "types": [
+            {
+              "type": "feat",
+              "section": "Features"
+            },
+            {
+              "type": "fix",
+              "section": "Bug Fixes"
+            },
+            {
+              "type": "perf",
+              "section": "Performance"
+            },
+            {
+              "type": "refactor",
+              "section": "Refactoring"
+            },
+            {
+              "type": "docs",
+              "section": "Documentation",
+              "hidden": false
+            },
+            {
+              "type": "chore",
+              "section": "Chores",
+              "hidden": true
+            }
+          ]
+        },
+        "parserOpts": {
+          "headerPattern": "^(\\w+)\\(@api-hooks\\/crates\\)!?:\\s(.+)$",
+          "headerCorrespondence": ["type", "subject"]
+        }
+      }
+    ],
+    [
+      "@semantic-release/changelog",
+      {
+        "changelogFile": "CHANGELOG.md"
+      }
+    ],
+    [
+      "@semantic-release/npm",
+      {
+        "pkgRoot": "."
+      }
+    ],
+    [
+      "@semantic-release/github",
+      {
+        "successComment": "🎉 This change is included in `@api-hooks/crates@${nextRelease.version}`.",
+        "releasedLabels": ["released"]
+      }
+    ],
+    [
+      "@semantic-release/git",
+      {
+        "assets": ["CHANGELOG.md", "package.json"],
+        "message": "chore(release): @api-hooks/crates@${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+      }
+    ]
+  ]
+}

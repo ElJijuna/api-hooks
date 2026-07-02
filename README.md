@@ -23,6 +23,7 @@ A collection of React hooks for popular APIs, built on [`@tanstack/react-query`]
 | [`@api-hooks/packagist`](packages/packagist#readme) | React hooks for Packagist package search, lists, metadata, stats, advisories, global statistics, and authenticated package mutations. | [README](packages/packagist#readme) · [Changelog](packages/packagist/CHANGELOG.md) |
 | [`@api-hooks/maven`](packages/maven#readme) | React hooks for Maven Central artifact search, suggestions, and version metadata, with infinite pagination. | [README](packages/maven#readme) · [Changelog](packages/maven/CHANGELOG.md) |
 | [`@api-hooks/nuget`](packages/nuget#readme) | React hooks for NuGet package search, autocomplete, and version metadata, with infinite pagination. | [README](packages/nuget#readme) · [Changelog](packages/nuget/CHANGELOG.md) |
+| [`@api-hooks/crates`](packages/crates#readme) | React hooks for crates.io search, crate metadata, and version listings, with infinite pagination. | [README](packages/crates#readme) · [Changelog](packages/crates/CHANGELOG.md) |
 
 ## Requirements
 
