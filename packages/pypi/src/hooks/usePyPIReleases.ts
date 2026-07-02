@@ -17,12 +17,13 @@ export function usePyPIReleases(
   name: string,
   options: UsePyPIQueryOptions = {},
 ): UseQueryResult<Record<string, PyPIFile[]>, Error> {
-  const { enabled = true } = options;
+  const { enabled = true, queryOptions } = options;
   const client = useMemo(() => new PyPIClient(), []);
 
   return useQuery<Record<string, PyPIFile[]>, Error>({
     queryKey: pypiQueryKeys.releases(name),
     queryFn: ({ signal }) => client.package(name).releases(signal),
+    ...queryOptions,
     enabled: enabled && name.length > 0,
   });
 }
