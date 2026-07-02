@@ -37,4 +37,13 @@ describe('usePackagistPackageMetadata', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockPackage).not.toHaveBeenCalled();
   });
+
+  it('accepts queryOptions', async () => {
+    mockPackageMetadata.mockResolvedValue(metadataResponse);
+    const { result } = renderHook(
+      () => usePackagistPackageMetadata(packageName, undefined, { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });

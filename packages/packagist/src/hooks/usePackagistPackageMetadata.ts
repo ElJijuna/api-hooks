@@ -21,12 +21,13 @@ export function usePackagistPackageMetadata(
   params?: MetadataOptions,
   options: UsePackagistQueryOptions = {},
 ): UseQueryResult<PackageMetadataResponse, Error> {
-  const { enabled = true } = options;
+  const { enabled = true, queryOptions } = options;
   const client = usePackagistClient();
 
   return useQuery<PackageMetadataResponse, Error>({
     queryKey: packagistQueryKeys.packageMetadata(name, params),
     queryFn: ({ signal }) => client.package(name as PackageName).metadata(params, signal),
+    ...queryOptions,
     enabled: enabled && name.length > 0,
   });
 }
