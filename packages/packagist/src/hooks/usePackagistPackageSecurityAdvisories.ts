@@ -15,12 +15,13 @@ export function usePackagistPackageSecurityAdvisories(
   name: PackageName | string,
   options: UsePackagistQueryOptions = {},
 ): UseQueryResult<SecurityAdvisoriesResponse, Error> {
-  const { enabled = true } = options;
+  const { enabled = true, queryOptions } = options;
   const client = usePackagistClient();
 
   return useQuery<SecurityAdvisoriesResponse, Error>({
     queryKey: packagistQueryKeys.packageSecurityAdvisories(name),
     queryFn: ({ signal }) => client.package(name as PackageName).securityAdvisories(signal),
+    ...queryOptions,
     enabled: enabled && name.length > 0,
   });
 }

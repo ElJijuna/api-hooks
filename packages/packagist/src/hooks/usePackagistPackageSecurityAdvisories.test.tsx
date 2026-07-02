@@ -34,4 +34,13 @@ describe('usePackagistPackageSecurityAdvisories', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockPackageSecurityAdvisories).not.toHaveBeenCalled();
   });
+
+  it('accepts queryOptions', async () => {
+    mockPackageSecurityAdvisories.mockResolvedValue(securityAdvisoriesResponse);
+    const { result } = renderHook(
+      () => usePackagistPackageSecurityAdvisories(packageName, { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
