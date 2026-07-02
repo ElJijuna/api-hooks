@@ -27,4 +27,13 @@ describe('usePackagistListPackages', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockListPackages).not.toHaveBeenCalled();
   });
+
+  it('accepts queryOptions', async () => {
+    mockListPackages.mockResolvedValue({ packageNames: ['monolog/monolog'] });
+    const { result } = renderHook(
+      () => usePackagistListPackages({ vendor: 'monolog' }, { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });

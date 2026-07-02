@@ -15,12 +15,13 @@ export function usePackagistListPackages(
   params?: PackageListOptions,
   options: UsePackagistQueryOptions = {},
 ): UseQueryResult<PackageListResponse, Error> {
-  const { enabled = true } = options;
+  const { enabled = true, queryOptions } = options;
   const client = usePackagistClient();
 
   return useQuery<PackageListResponse, Error>({
     queryKey: packagistQueryKeys.listPackages(params),
     queryFn: ({ signal }) => client.listPackages(params, signal),
+    ...queryOptions,
     enabled,
   });
 }
