@@ -13,12 +13,13 @@ import type { UsePackagistQueryOptions } from './options.js';
 export function usePackagistStatistics(
   options: UsePackagistQueryOptions = {},
 ): UseQueryResult<StatisticsResponse, Error> {
-  const { enabled = true } = options;
+  const { enabled = true, queryOptions } = options;
   const client = usePackagistClient();
 
   return useQuery<StatisticsResponse, Error>({
     queryKey: packagistQueryKeys.statistics(),
     queryFn: ({ signal }) => client.statistics(signal),
+    ...queryOptions,
     enabled,
   });
 }

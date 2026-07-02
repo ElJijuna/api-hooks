@@ -28,4 +28,13 @@ describe('usePackagistStatistics', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockStatistics).not.toHaveBeenCalled();
   });
+
+  it('accepts queryOptions', async () => {
+    mockStatistics.mockResolvedValue(statisticsResponse);
+    const { result } = renderHook(
+      () => usePackagistStatistics({ queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
