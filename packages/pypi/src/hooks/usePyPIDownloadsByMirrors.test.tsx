@@ -17,4 +17,13 @@ describe('usePyPIDownloadsByMirrors', () => {
     await waitFor(() => expect(result.current.data).toEqual(breakdown));
     expect(mockDownloadsByMirrors).toHaveBeenCalledWith(params, expect.anything());
   });
+
+  it('accepts queryOptions', async () => {
+    mockDownloadsByMirrors.mockResolvedValue(breakdown);
+    const { result } = renderHook(
+      () => usePyPIDownloadsByMirrors('requests', { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });

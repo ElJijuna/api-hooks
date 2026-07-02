@@ -15,12 +15,13 @@ export function usePyPIDownloadsByMirrors(
   name: string,
   options: UsePyPIDownloadBreakdownOptions = {},
 ): UseQueryResult<PyPIBreakdownDownloads, Error> {
-  const { enabled = true, params } = options;
+  const { enabled = true, params, queryOptions } = options;
   const client = useMemo(() => new PyPIClient(), []);
 
   return useQuery<PyPIBreakdownDownloads, Error>({
     queryKey: pypiQueryKeys.downloadsByMirrors(name, params),
     queryFn: ({ signal }) => client.package(name).downloadsByMirrors(params, signal),
+    ...queryOptions,
     enabled: enabled && name.length > 0,
   });
 }
