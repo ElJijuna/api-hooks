@@ -1,6 +1,6 @@
 {
   "name": "@api-hooks/maven",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "React hooks for the Maven Central REST API, built on @tanstack/react-query",
   "keywords": [
     "react",
