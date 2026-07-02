@@ -20,4 +20,13 @@ describe('usePyPILatestVersion', () => {
     await waitFor(() => expect(result.current.data).toEqual(versionInfo));
     expect(mockLatest).toHaveBeenCalled();
   });
+
+  it('accepts queryOptions', async () => {
+    mockLatestGet.mockResolvedValue(versionInfo);
+    const { result } = renderHook(
+      () => usePyPILatestVersion('requests', { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });

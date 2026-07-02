@@ -15,12 +15,13 @@ export function usePyPILatestVersion(
   name: string,
   options: UsePyPIQueryOptions = {},
 ): UseQueryResult<PyPIVersionInfo, Error> {
-  const { enabled = true } = options;
+  const { enabled = true, queryOptions } = options;
   const client = useMemo(() => new PyPIClient(), []);
 
   return useQuery<PyPIVersionInfo, Error>({
     queryKey: pypiQueryKeys.latestVersion(name),
     queryFn: ({ signal }) => client.package(name).latest().get(signal),
+    ...queryOptions,
     enabled: enabled && name.length > 0,
   });
 }
