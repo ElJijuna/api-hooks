@@ -34,4 +34,13 @@ describe('usePackagistMetadataChanges', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockMetadataChanges).not.toHaveBeenCalled();
   });
+
+  it('accepts queryOptions', async () => {
+    mockMetadataChanges.mockResolvedValue(metadataChangesResponse);
+    const { result } = renderHook(
+      () => usePackagistMetadataChanges(undefined, { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });

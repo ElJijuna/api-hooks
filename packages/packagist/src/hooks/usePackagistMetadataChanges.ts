@@ -15,12 +15,13 @@ export function usePackagistMetadataChanges(
   params?: MetadataChangesOptions,
   options: UsePackagistQueryOptions = {},
 ): UseQueryResult<MetadataChangesResponse, Error> {
-  const { enabled = true } = options;
+  const { enabled = true, queryOptions } = options;
   const client = usePackagistClient();
 
   return useQuery<MetadataChangesResponse, Error>({
     queryKey: packagistQueryKeys.metadataChanges(params),
     queryFn: ({ signal }) => client.metadataChanges(params, signal),
+    ...queryOptions,
     enabled,
   });
 }
