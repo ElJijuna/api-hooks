@@ -15,12 +15,13 @@ export function usePackagistPopular(
   params?: PopularPackagesOptions,
   options: UsePackagistQueryOptions = {},
 ): UseQueryResult<PopularPackagesResponse, Error> {
-  const { enabled = true } = options;
+  const { enabled = true, queryOptions } = options;
   const client = usePackagistClient();
 
   return useQuery<PopularPackagesResponse, Error>({
     queryKey: packagistQueryKeys.popular(params),
     queryFn: ({ signal }) => client.popular(params, signal),
+    ...queryOptions,
     enabled,
   });
 }

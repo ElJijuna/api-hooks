@@ -26,4 +26,13 @@ describe('usePackagistPopular', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockPopular).not.toHaveBeenCalled();
   });
+
+  it('accepts queryOptions', async () => {
+    mockPopular.mockResolvedValue(popularResponse);
+    const { result } = renderHook(
+      () => usePackagistPopular(undefined, { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
