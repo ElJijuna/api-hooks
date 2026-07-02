@@ -32,4 +32,13 @@ describe('usePackagistEditPackage', () => {
 
     expect(result.current.isIdle).toBe(true);
   });
+
+  it('accepts mutationOptions', async () => {
+    mockEditPackage.mockResolvedValue({ status: 'ok' });
+    const { result } = renderHook(
+      () => usePackagistEditPackage({ mutationOptions: { retry: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isIdle).toBe(true));
+  });
 });
