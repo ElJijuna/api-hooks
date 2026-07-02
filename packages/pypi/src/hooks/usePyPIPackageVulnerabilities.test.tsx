@@ -18,4 +18,13 @@ describe('usePyPIPackageVulnerabilities', () => {
 
     await waitFor(() => expect(result.current.data).toEqual([vulnerability]));
   });
+
+  it('accepts queryOptions', async () => {
+    mockPackageVulnerabilities.mockResolvedValue([vulnerability]);
+    const { result } = renderHook(
+      () => usePyPIPackageVulnerabilities('requests', { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });

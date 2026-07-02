@@ -15,12 +15,13 @@ export function usePyPIPackageVulnerabilities(
   name: string,
   options: UsePyPIQueryOptions = {},
 ): UseQueryResult<PyPIVulnerability[], Error> {
-  const { enabled = true } = options;
+  const { enabled = true, queryOptions } = options;
   const client = useMemo(() => new PyPIClient(), []);
 
   return useQuery<PyPIVulnerability[], Error>({
     queryKey: pypiQueryKeys.packageVulnerabilities(name),
     queryFn: ({ signal }) => client.package(name).vulnerabilities(signal),
+    ...queryOptions,
     enabled: enabled && name.length > 0,
   });
 }
