@@ -17,4 +17,13 @@ describe('usePyPIDownloadsByPythonMajor', () => {
     await waitFor(() => expect(result.current.data).toEqual(breakdown));
     expect(mockDownloadsByPythonMajor).toHaveBeenCalledWith(params, expect.anything());
   });
+
+  it('accepts queryOptions', async () => {
+    mockDownloadsByPythonMajor.mockResolvedValue(breakdown);
+    const { result } = renderHook(
+      () => usePyPIDownloadsByPythonMajor('requests', { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });

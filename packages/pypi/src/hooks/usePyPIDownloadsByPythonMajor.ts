@@ -15,12 +15,13 @@ export function usePyPIDownloadsByPythonMajor(
   name: string,
   options: UsePyPIDownloadBreakdownOptions = {},
 ): UseQueryResult<PyPIBreakdownDownloads, Error> {
-  const { enabled = true, params } = options;
+  const { enabled = true, params, queryOptions } = options;
   const client = useMemo(() => new PyPIClient(), []);
 
   return useQuery<PyPIBreakdownDownloads, Error>({
     queryKey: pypiQueryKeys.downloadsByPythonMajor(name, params),
     queryFn: ({ signal }) => client.package(name).downloadsByPythonMajor(params, signal),
+    ...queryOptions,
     enabled: enabled && name.length > 0,
   });
 }
