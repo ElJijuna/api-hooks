@@ -15,4 +15,13 @@ describe('usePyPIVersionDependencies', () => {
 
     await waitFor(() => expect(result.current.data).toEqual(dependencies));
   });
+
+  it('accepts queryOptions', async () => {
+    mockVersionDependencies.mockResolvedValue(dependencies);
+    const { result } = renderHook(
+      () => usePyPIVersionDependencies('requests', '2.31.0', { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
