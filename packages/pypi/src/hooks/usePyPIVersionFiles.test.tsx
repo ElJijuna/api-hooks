@@ -13,4 +13,13 @@ describe('usePyPIVersionFiles', () => {
 
     await waitFor(() => expect(result.current.data).toEqual([file]));
   });
+
+  it('accepts queryOptions', async () => {
+    mockVersionFiles.mockResolvedValue([file]);
+    const { result } = renderHook(
+      () => usePyPIVersionFiles('requests', '2.31.0', { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
