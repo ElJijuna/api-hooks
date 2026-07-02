@@ -13,4 +13,13 @@ describe('usePyPIPackageVersions', () => {
 
     await waitFor(() => expect(result.current.data).toEqual(['2.30.0', '2.31.0']));
   });
+
+  it('accepts queryOptions', async () => {
+    mockVersions.mockResolvedValue(['2.30.0', '2.31.0']);
+    const { result } = renderHook(
+      () => usePyPIPackageVersions('requests', { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });

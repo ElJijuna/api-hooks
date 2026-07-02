@@ -15,12 +15,13 @@ export function usePyPIPackageVersions(
   name: string,
   options: UsePyPIQueryOptions = {},
 ): UseQueryResult<string[], Error> {
-  const { enabled = true } = options;
+  const { enabled = true, queryOptions } = options;
   const client = useMemo(() => new PyPIClient(), []);
 
   return useQuery<string[], Error>({
     queryKey: pypiQueryKeys.versions(name),
     queryFn: ({ signal }) => client.package(name).versions(signal),
+    ...queryOptions,
     enabled: enabled && name.length > 0,
   });
 }
