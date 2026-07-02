@@ -26,4 +26,13 @@ describe('usePackagistUpdatePackage', () => {
 
     expect(result.current.isIdle).toBe(true);
   });
+
+  it('accepts mutationOptions', async () => {
+    mockUpdatePackage.mockResolvedValue({ status: 'ok', jobs: ['job-1'] });
+    const { result } = renderHook(
+      () => usePackagistUpdatePackage({ mutationOptions: { retry: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isIdle).toBe(true));
+  });
 });
