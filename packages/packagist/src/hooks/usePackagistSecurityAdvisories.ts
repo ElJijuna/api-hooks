@@ -22,12 +22,13 @@ export function usePackagistSecurityAdvisories(
   params: SecurityAdvisoriesOptions,
   options: UsePackagistQueryOptions = {},
 ): UseQueryResult<SecurityAdvisoriesResponse, Error> {
-  const { enabled = true } = options;
+  const { enabled = true, queryOptions } = options;
   const client = usePackagistClient();
 
   return useQuery<SecurityAdvisoriesResponse, Error>({
     queryKey: packagistQueryKeys.securityAdvisories(params),
     queryFn: ({ signal }) => client.securityAdvisories(params, signal),
+    ...queryOptions,
     enabled: enabled && hasAdvisoryFilter(params),
   });
 }

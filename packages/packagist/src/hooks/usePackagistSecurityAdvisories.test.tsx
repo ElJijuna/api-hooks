@@ -30,4 +30,17 @@ describe('usePackagistSecurityAdvisories', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockSecurityAdvisories).not.toHaveBeenCalled();
   });
+
+  it('accepts queryOptions', async () => {
+    mockSecurityAdvisories.mockResolvedValue(securityAdvisoriesResponse);
+    const { result } = renderHook(
+      () =>
+        usePackagistSecurityAdvisories(
+          { packages: [packageName] },
+          { queryOptions: { staleTime: 0 } },
+        ),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
