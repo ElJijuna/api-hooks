@@ -21,12 +21,13 @@ export function usePackagistSearch(
   params: SearchPackagesOptions,
   options: UsePackagistQueryOptions = {},
 ): UseQueryResult<SearchPackagesResponse, Error> {
-  const { enabled = true } = options;
+  const { enabled = true, queryOptions } = options;
   const client = usePackagistClient();
 
   return useQuery<SearchPackagesResponse, Error>({
     queryKey: packagistQueryKeys.search(params),
     queryFn: ({ signal }) => client.search(params, signal),
+    ...queryOptions,
     enabled: enabled && hasSearchFilter(params),
   });
 }

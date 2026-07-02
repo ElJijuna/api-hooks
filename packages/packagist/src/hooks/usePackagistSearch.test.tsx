@@ -46,4 +46,13 @@ describe('usePackagistSearch', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockSearch).not.toHaveBeenCalled();
   });
+
+  it('accepts queryOptions', async () => {
+    mockSearch.mockResolvedValue(searchResponse);
+    const { result } = renderHook(
+      () => usePackagistSearch({ query: 'monolog' }, { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
