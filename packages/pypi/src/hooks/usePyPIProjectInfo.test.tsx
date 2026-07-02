@@ -13,4 +13,13 @@ describe('usePyPIProjectInfo', () => {
 
     await waitFor(() => expect(result.current.data).toEqual(info));
   });
+
+  it('accepts queryOptions', async () => {
+    mockInfo.mockResolvedValue(info);
+    const { result } = renderHook(
+      () => usePyPIProjectInfo('requests', { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
