@@ -13,4 +13,13 @@ describe('usePyPIDownloads', () => {
 
     await waitFor(() => expect(result.current.data).toEqual(recentDownloads));
   });
+
+  it('accepts queryOptions', async () => {
+    mockDownloads.mockResolvedValue(recentDownloads);
+    const { result } = renderHook(
+      () => usePyPIDownloads('requests', { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });

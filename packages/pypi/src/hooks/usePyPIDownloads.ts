@@ -17,12 +17,13 @@ export function usePyPIDownloads(
   name: string,
   options: UsePyPIQueryOptions = {},
 ): UseQueryResult<PyPIRecentDownloads, Error> {
-  const { enabled = true } = options;
+  const { enabled = true, queryOptions } = options;
   const client = useMemo(() => new PyPIClient(), []);
 
   return useQuery<PyPIRecentDownloads, Error>({
     queryKey: pypiQueryKeys.downloads(name),
     queryFn: ({ signal }) => client.package(name).downloads(signal),
+    ...queryOptions,
     enabled: enabled && name.length > 0,
   });
 }
