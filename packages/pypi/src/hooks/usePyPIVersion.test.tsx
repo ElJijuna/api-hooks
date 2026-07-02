@@ -28,4 +28,13 @@ describe('usePyPIVersion', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockPackage).not.toHaveBeenCalled();
   });
+
+  it('accepts queryOptions', async () => {
+    mockVersionGet.mockResolvedValue(versionInfo);
+    const { result } = renderHook(
+      () => usePyPIVersion('requests', '2.31.0', { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
