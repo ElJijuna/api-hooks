@@ -45,4 +45,13 @@ describe('usePyPIProject', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockPackage).not.toHaveBeenCalled();
   });
+
+  it('accepts queryOptions', async () => {
+    mockProjectGet.mockResolvedValue(project);
+    const { result } = renderHook(
+      () => usePyPIProject('requests', { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
