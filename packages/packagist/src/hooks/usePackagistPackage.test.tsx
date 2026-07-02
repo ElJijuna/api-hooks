@@ -42,4 +42,13 @@ describe('usePackagistPackage', () => {
     expect(result.current.isLoading).toBe(false);
     expect(mockPackage).not.toHaveBeenCalled();
   });
+
+  it('accepts queryOptions', async () => {
+    mockPackageGet.mockResolvedValue(packageResponse);
+    const { result } = renderHook(
+      () => usePackagistPackage(packageName, { queryOptions: { staleTime: 0 } }),
+      { wrapper },
+    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
 });
