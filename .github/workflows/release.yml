@@ -76,6 +76,12 @@ jobs:
           name: dist-packagist
           path: packages/packagist/dist/
 
+      - name: Upload maven dist
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-maven
+          path: packages/maven/dist/
+
   # ── 2a. Release @api-hooks/npm ────────────────────────────────────────────
   release-npm:
     name: Release @api-hooks/npm
@@ -294,6 +300,38 @@ jobs:
 
       - name: Release
         working-directory: packages/packagist
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npx semantic-release
+
+  # ── 2h. Release @api-hooks/maven ──────────────────────────────────────────
+  release-maven:
+    name: Release @api-hooks/maven
+    needs: release-packagist
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+          ref: main
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Download maven dist
+        uses: actions/download-artifact@v4
+        with:
+          name: dist-maven
+          path: packages/maven/dist/
+
+      - name: Release
+        working-directory: packages/maven
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

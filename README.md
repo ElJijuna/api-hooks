@@ -21,6 +21,7 @@ A collection of React hooks for popular APIs, built on [`@tanstack/react-query`]
 | [`@api-hooks/dh`](packages/dh#readme) | React hooks for Docker Hub repositories, tags, users, organizations, search, infinite pagination, and login. | [README](packages/dh#readme) · [Changelog](packages/dh/CHANGELOG.md) |
 | [`@api-hooks/pypi`](packages/pypi#readme) | React hooks for PyPI project metadata, releases, versions, files, vulnerabilities, downloads, and dependency graphs. | [README](packages/pypi#readme) · [Changelog](packages/pypi/CHANGELOG.md) |
 | [`@api-hooks/packagist`](packages/packagist#readme) | React hooks for Packagist package search, lists, metadata, stats, advisories, global statistics, and authenticated package mutations. | [README](packages/packagist#readme) · [Changelog](packages/packagist/CHANGELOG.md) |
+| [`@api-hooks/maven`](packages/maven#readme) | React hooks for Maven Central artifact search, suggestions, and version metadata, with infinite pagination. | [README](packages/maven#readme) · [Changelog](packages/maven/CHANGELOG.md) |
 
 ## Requirements
 
