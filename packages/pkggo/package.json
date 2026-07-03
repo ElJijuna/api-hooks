@@ -1,6 +1,6 @@
 {
   "name": "@api-hooks/pkggo",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "React hooks for the Go module proxy and pkg.go.dev, built on @tanstack/react-query",
   "keywords": [
     "react",
