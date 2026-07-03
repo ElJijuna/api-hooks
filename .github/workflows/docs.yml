@@ -33,7 +33,7 @@ jobs:
 
       - name: Assemble site
         run: |
-          mkdir -p _site/npm _site/gh _site/bp _site/osv _site/dh _site/pypi _site/packagist _site/maven _site/nuget _site/crates _site/pkggo _site/pub _site/hex
+          mkdir -p _site/npm _site/gh _site/bp _site/osv _site/dh _site/pypi _site/packagist _site/maven _site/nuget _site/crates _site/pkggo _site/pub _site/hex _site/swiftpm
           cp -r packages/npm/docs/. _site/npm/
           cp -r packages/gh/docs/.  _site/gh/
           cp -r packages/bp/docs/.  _site/bp/
@@ -47,6 +47,7 @@ jobs:
           cp -r packages/pkggo/docs/. _site/pkggo/
           cp -r packages/pub/docs/. _site/pub/
           cp -r packages/hex/docs/. _site/hex/
+          cp -r packages/swiftpm/docs/. _site/swiftpm/
 
       - uses: actions/upload-pages-artifact@v3
         with:

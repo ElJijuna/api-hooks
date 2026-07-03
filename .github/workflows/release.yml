@@ -112,6 +112,12 @@ jobs:
           name: dist-hex
           path: packages/hex/dist/
 
+      - name: Upload swiftpm dist
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-swiftpm
+          path: packages/swiftpm/dist/
+
   # ── 2a. Release @api-hooks/npm ────────────────────────────────────────────
   release-npm:
     name: Release @api-hooks/npm
@@ -522,6 +528,38 @@ jobs:
 
       - name: Release
         working-directory: packages/hex
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npx semantic-release
+
+  # ── 2n. Release @api-hooks/swiftpm ────────────────────────────────────────
+  release-swiftpm:
+    name: Release @api-hooks/swiftpm
+    needs: release-hex
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+          ref: main
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Download swiftpm dist
+        uses: actions/download-artifact@v4
+        with:
+          name: dist-swiftpm
+          path: packages/swiftpm/dist/
+
+      - name: Release
+        working-directory: packages/swiftpm
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

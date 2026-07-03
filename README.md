@@ -27,6 +27,7 @@ A collection of React hooks for popular APIs, built on [`@tanstack/react-query`]
 | [`@api-hooks/pkggo`](packages/pkggo#readme) | React hooks for the Go module proxy and pkg.go.dev: latest info, version listings, go.mod, and zip downloads. | [README](packages/pkggo#readme) · [Changelog](packages/pkggo/CHANGELOG.md) |
 | [`@api-hooks/pub`](packages/pub#readme) | React hooks for pub.dev package info, versions, scores, and search, with infinite pagination. | [README](packages/pub#readme) · [Changelog](packages/pub/CHANGELOG.md) |
 | [`@api-hooks/hex`](packages/hex#readme) | React hooks for Hex.pm package metadata, releases, and listing/search, with infinite pagination. | [README](packages/hex#readme) · [Changelog](packages/hex/CHANGELOG.md) |
+| [`@api-hooks/swiftpm`](packages/swiftpm#readme) | React hooks for the Swift Package Registry and Swift Package Index: releases, manifests, and search, with infinite pagination. | [README](packages/swiftpm#readme) · [Changelog](packages/swiftpm/CHANGELOG.md) |
 
 ## Requirements
 
