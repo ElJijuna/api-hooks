@@ -1,6 +1,6 @@
 {
   "name": "@api-hooks/hex",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "React hooks for the Hex.pm REST API, built on @tanstack/react-query",
   "keywords": [
     "react",
