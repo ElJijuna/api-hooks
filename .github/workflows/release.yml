@@ -100,6 +100,12 @@ jobs:
           name: dist-pkggo
           path: packages/pkggo/dist/
 
+      - name: Upload pub dist
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-pub
+          path: packages/pub/dist/
+
   # ── 2a. Release @api-hooks/npm ────────────────────────────────────────────
   release-npm:
     name: Release @api-hooks/npm
@@ -446,6 +452,38 @@ jobs:
 
       - name: Release
         working-directory: packages/pkggo
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npx semantic-release
+
+  # ── 2l. Release @api-hooks/pub ────────────────────────────────────────────
+  release-pub:
+    name: Release @api-hooks/pub
+    needs: release-pkggo
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+          ref: main
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Download pub dist
+        uses: actions/download-artifact@v4
+        with:
+          name: dist-pub
+          path: packages/pub/dist/
+
+      - name: Release
+        working-directory: packages/pub
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
