@@ -94,6 +94,12 @@ jobs:
           name: dist-crates
           path: packages/crates/dist/
 
+      - name: Upload pkggo dist
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-pkggo
+          path: packages/pkggo/dist/
+
   # ── 2a. Release @api-hooks/npm ────────────────────────────────────────────
   release-npm:
     name: Release @api-hooks/npm
@@ -408,6 +414,38 @@ jobs:
 
       - name: Release
         working-directory: packages/crates
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npx semantic-release
+
+  # ── 2k. Release @api-hooks/pkggo ──────────────────────────────────────────
+  release-pkggo:
+    name: Release @api-hooks/pkggo
+    needs: release-crates
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+          ref: main
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Download pkggo dist
+        uses: actions/download-artifact@v4
+        with:
+          name: dist-pkggo
+          path: packages/pkggo/dist/
+
+      - name: Release
+        working-directory: packages/pkggo
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

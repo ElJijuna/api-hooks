@@ -24,6 +24,7 @@ A collection of React hooks for popular APIs, built on [`@tanstack/react-query`]
 | [`@api-hooks/maven`](packages/maven#readme) | React hooks for Maven Central artifact search, suggestions, and version metadata, with infinite pagination. | [README](packages/maven#readme) · [Changelog](packages/maven/CHANGELOG.md) |
 | [`@api-hooks/nuget`](packages/nuget#readme) | React hooks for NuGet package search, autocomplete, and version metadata, with infinite pagination. | [README](packages/nuget#readme) · [Changelog](packages/nuget/CHANGELOG.md) |
 | [`@api-hooks/crates`](packages/crates#readme) | React hooks for crates.io search, crate metadata, and version listings, with infinite pagination. | [README](packages/crates#readme) · [Changelog](packages/crates/CHANGELOG.md) |
+| [`@api-hooks/pkggo`](packages/pkggo#readme) | React hooks for the Go module proxy and pkg.go.dev: latest info, version listings, go.mod, and zip downloads. | [README](packages/pkggo#readme) · [Changelog](packages/pkggo/CHANGELOG.md) |
 
 ## Requirements
 
