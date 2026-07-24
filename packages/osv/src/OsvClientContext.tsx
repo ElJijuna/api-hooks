@@ -14,10 +14,7 @@ export const OsvClientProvider = ({
   client: providedClient,
   options,
 }: OsvClientProviderProps) => {
-  const client = useMemo(
-    () => providedClient ?? new OsvClient(options),
-    [providedClient, options],
-  );
+  const client = useMemo(() => providedClient ?? new OsvClient(options), [providedClient, options]);
 
   return <OsvClientContext value={client}>{children}</OsvClientContext>;
 };

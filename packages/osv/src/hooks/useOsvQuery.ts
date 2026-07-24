@@ -1,7 +1,7 @@
 import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import type { OsvQueryParams, OsvQueryResult } from 'osv-api-client';
-import { useOsvClient } from '../OsvClientContext.js';
 import { osvQueryKeys } from '../keys/osvQueryKeys.js';
+import { useOsvClient } from '../OsvClientContext.js';
 import type { QueryOverrides } from '../types.js';
 
 export interface UseOsvQueryOptions {
