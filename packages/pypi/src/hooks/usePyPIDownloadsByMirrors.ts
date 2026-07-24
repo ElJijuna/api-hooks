@@ -1,7 +1,7 @@
 import { type UseQueryResult, useQuery } from '@tanstack/react-query';
-import { type PyPIBreakdownDownloads, PyPIClient } from 'pypi-api-client';
-import { useMemo } from 'react';
+import type { PyPIBreakdownDownloads } from 'pypi-api-client';
 import { pypiQueryKeys } from '../keys/pypiQueryKeys.js';
+import { usePyPIClient } from '../PyPIClientContext.js';
 import type { UsePyPIDownloadBreakdownOptions } from './downloadBreakdownOptions.js';
 
 /**
@@ -16,7 +16,7 @@ export function usePyPIDownloadsByMirrors(
   options: UsePyPIDownloadBreakdownOptions = {},
 ): UseQueryResult<PyPIBreakdownDownloads, Error> {
   const { enabled = true, params, queryOptions } = options;
-  const client = useMemo(() => new PyPIClient(), []);
+  const client = usePyPIClient();
 
   return useQuery<PyPIBreakdownDownloads, Error>({
     queryKey: pypiQueryKeys.downloadsByMirrors(name, params),

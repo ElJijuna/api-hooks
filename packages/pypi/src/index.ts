@@ -21,4 +21,5 @@ export * from './hooks/usePyPIVersionDependencies.js';
 export * from './hooks/usePyPIVersionFiles.js';
 export * from './hooks/usePyPIVersionVulnerabilities.js';
 export * from './keys/pypiQueryKeys.js';
+export * from './PyPIClientContext.js';
 export * from './types.js';

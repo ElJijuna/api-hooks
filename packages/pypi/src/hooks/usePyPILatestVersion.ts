@@ -1,7 +1,7 @@
 import { type UseQueryResult, useQuery } from '@tanstack/react-query';
-import { PyPIClient, type PyPIVersionInfo } from 'pypi-api-client';
-import { useMemo } from 'react';
+import type { PyPIVersionInfo } from 'pypi-api-client';
 import { pypiQueryKeys } from '../keys/pypiQueryKeys.js';
+import { usePyPIClient } from '../PyPIClientContext.js';
 import type { UsePyPIQueryOptions } from './options.js';
 
 /**
@@ -16,7 +16,7 @@ export function usePyPILatestVersion(
   options: UsePyPIQueryOptions = {},
 ): UseQueryResult<PyPIVersionInfo, Error> {
   const { enabled = true, queryOptions } = options;
-  const client = useMemo(() => new PyPIClient(), []);
+  const client = usePyPIClient();
 
   return useQuery<PyPIVersionInfo, Error>({
     queryKey: pypiQueryKeys.latestVersion(name),
