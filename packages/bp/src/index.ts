@@ -8,3 +8,4 @@ export * from './hooks/useBpPackageSimilar.js';
 export * from './hooks/useBpPackageSize.js';
 export * from './hooks/useBpPackageVersionSize.js';
 export * from './keys/bpQueryKeys.js';
+export * from './BpClientContext.js';
