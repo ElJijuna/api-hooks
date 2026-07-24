@@ -1,6 +1,6 @@
 import { type UseQueryResult, useQuery } from '@tanstack/react-query';
-import { OsvClient, type OsvQueryParams, type OsvQueryResult } from 'osv-api-client';
-import { useMemo } from 'react';
+import type { OsvQueryParams, OsvQueryResult } from 'osv-api-client';
+import { useOsvClient } from '../OsvClientContext.js';
 import { osvQueryKeys } from '../keys/osvQueryKeys.js';
 import type { QueryOverrides } from '../types.js';
 
@@ -24,7 +24,7 @@ export function useOsvQuery(
   options: UseOsvQueryOptions = {},
 ): UseQueryResult<OsvQueryResult, Error> {
   const { enabled = true, queryOptions } = options;
-  const client = useMemo(() => new OsvClient(), []);
+  const client = useOsvClient();
 
   return useQuery<OsvQueryResult, Error>({
     queryKey: osvQueryKeys.query(params),

@@ -1,6 +1,6 @@
 import { type UseQueryResult, useQuery } from '@tanstack/react-query';
-import { type OsvBatchQuery, type OsvBatchQueryResult, OsvClient } from 'osv-api-client';
-import { useMemo } from 'react';
+import type { OsvBatchQuery, OsvBatchQueryResult } from 'osv-api-client';
+import { useOsvClient } from '../OsvClientContext.js';
 import { osvQueryKeys } from '../keys/osvQueryKeys.js';
 import type { QueryOverrides } from '../types.js';
 
@@ -24,7 +24,7 @@ export function useOsvQueryBatch(
   options: UseOsvQueryBatchOptions = {},
 ): UseQueryResult<OsvBatchQueryResult, Error> {
   const { enabled = true, queryOptions } = options;
-  const client = useMemo(() => new OsvClient(), []);
+  const client = useOsvClient();
 
   return useQuery<OsvBatchQueryResult, Error>({
     queryKey: osvQueryKeys.queryBatch(queries),
