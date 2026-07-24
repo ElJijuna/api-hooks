@@ -1,3 +1,11 @@
+## [1.7.0](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/osv@1.6.0...@api-hooks/osv@1.7.0) (2026-07-24)
+
+### Features
+
+* add OsvClientContext and provider for managing OsvClient instances ([68aabea](https://github.com/ElJijuna/api-hooks/commit/68aabeacf3290123cb7357e20b3ada09e51c7822))
+* refactor hooks to use OsvClient from context instead of instantiating directly ([4db009d](https://github.com/ElJijuna/api-hooks/commit/4db009d7923f5abba16cc5a2f2df4590eba1bad7))
+* streamline imports of useOsvClient in hooks ([c2b5c03](https://github.com/ElJijuna/api-hooks/commit/c2b5c03fd6763f47d4695375e8c9867b6946846b))
+
 ## [1.6.0](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/osv@1.5.1...@api-hooks/osv@1.6.0) (2026-07-01)
 
 ### Features
