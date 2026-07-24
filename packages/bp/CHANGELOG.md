@@ -1,3 +1,11 @@
+## [2.7.0](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/bp@2.6.0...@api-hooks/bp@2.7.0) (2026-07-24)
+
+### Features
+
+* add BpClientContext and provider for managing BundlephobiaClient instances ([93db7df](https://github.com/ElJijuna/api-hooks/commit/93db7df187c7c2008ba68845a404936b15ea51cb))
+* refactor hooks to use BpClient from context instead of instantiating directly ([14e78ff](https://github.com/ElJijuna/api-hooks/commit/14e78ff213700dca0e1407dfaae603defed2590b))
+* remove duplicate export of BpClientContext in index file ([9451229](https://github.com/ElJijuna/api-hooks/commit/9451229caa01ba9d2537d3f305c1d1b1709c4a9c))
+
 ## [2.6.0](https://github.com/ElJijuna/api-hooks/compare/@api-hooks/bp@2.5.1...@api-hooks/bp@2.6.0) (2026-07-01)
 
 ### Features
